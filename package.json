@@ -1,0 +1,69 @@
+{
+  "name": "restful-api",
+  "version": "1.0.0",
+  "description": "This is the server-side code of my blog.",
+  "main": "bin/app.js",
+  "scripts": {
+    "start": "node bin/app.js",
+    "server:dev": "nodemon bin/app.js",
+    "server:prod": "node bin/app.js",
+    "dev": "npm run build & npm run server:dev",
+    "build": "webpack",
+    "tsc": "tsc",
+    "test": "jest --watchAll=false --maxWorkers=10",
+    "test-lint": "npm run lint & nm run test",
+    "test-watch": "jest --watch",
+    "test-coverage": "jest --coverage",
+    "lint": "eslint '*/**/*.{js,ts}' ",
+    "pre-commit": "npm run build && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhmedElgaidi/blog-backend.git"
+  },
+  "author": "Ahmed Elgaidi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AhmedElgaidi/blog-backend/issues"
+  },
+  "homepage": "https://github.com/AhmedElgaidi/blog-backend#readme",
+  "dependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "dotenv": "^6.0.0",
+    "eslint": "7.4.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-jest": "^27.1.7",
+    "eslint-plugin-prettier": "3.1.4",
+    "express": "^4.18.2",
+    "prettier": "2.0.5",
+    "ts-jest": "^29.0.3",
+    "ts-loader": "6.2.1",
+    "ts-node": "8.3.0",
+    "typescript": "3.8.3",
+    "webpack": "4.29.6"
+  },
+  "devDependencies": {
+    "@types/debug": "0.0.31",
+    "@types/dotenv": "6.1.0",
+    "@types/express": "^4.17.13",
+    "@types/node": "^14.0.14",
+    "@typescript-eslint/eslint-plugin": "3.6.0",
+    "@typescript-eslint/parser": "3.6.0",
+    "eslint": "7.4.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "fork-ts-checker-webpack-plugin": "^5.0.7",
+    "nodemon": "^2.0.20",
+    "prettier": "2.0.5",
+    "ts-loader": "6.2.1",
+    "ts-node": "8.3.0",
+    "typescript": "3.8.3",
+    "webpack": "4.29.6",
+    "webpack-cli": "^3.3.12",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "overrides": {
+    "chokidar": "3.5.3",
+    "glob-parent": "6.0.2"
+  }
+}
