@@ -1,7 +1,7 @@
-const dotenv = require('dotenv');
-const path = require('path');
-const nodeExternals = require('webpack-node-externals');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+import dotenv from 'dotenv';
+import path from 'path';
+import nodeExternals from 'webpack-node-externals';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 dotenv.config();

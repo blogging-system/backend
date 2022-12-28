@@ -1,16 +1,29 @@
+// {
+//   "compilerOptions": {
+//     // "target": "es6",
+//     // "module": "commonjs",
+//     // "lib": ["es6", "dom", "esnext.asynciterable"],
+//     "allowJs": true,
+//     // "outDir": "bin",
+//     "removeComments": true,
+//     "strict": false,
+//     "noFallthroughCasesInSwitch": true,
+//     "esModuleInterop": true,
+//     "experimentalDecorators": true,
+//     "emitDecoratorMetadata": true
+//   },
+//   "exclude": ["node_modules"]
+// }
+
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "rootDirs": ["src"],
+    "outDir": "dist",
+    "lib": ["es2020"],
+    "target": "es2020",
     "module": "commonjs",
-    "lib": ["es6", "dom", "esnext.asynciterable"],
-    "allowJs": true,
-    "outDir": "bin",
-    "removeComments": true,
-    "strict": false,
-    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-  },
-  "exclude": ["node_modules"]
+    "types": ["webrtc"]
+  }
 }
