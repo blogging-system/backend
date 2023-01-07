@@ -4,3 +4,6 @@
 - [graphql security]('https://blog.logrocket.com/security-and-performance-tips-and-tricks-for-your-graphql-servers/')
 
 - [Server is busy]('[https://www.linkedin.com/posts/amr-elmohamady_nodejs-nodejsdeveloper-backend-activity-7013467487660847105-FsZr?utm_source=share&utm_medium=member_desktop')
+- [Text editor]('https://www.npmjs.com/package/react-draft-wysiwyg')
+
+- [use dompurify + mongo sanitizeer (Use them as middlewares)]('https://github.com/cure53/DOMPurify')
