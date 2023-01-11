@@ -11,7 +11,8 @@ export const getPostBySlug_service = async (data) => {
 		slug: data.slug,
 	});
 
-	const { views, createdAt, authorId, ...filteredData } = post;
+	if (!post) return;
+	const { createdAt, authorId, ...filteredData } = post;
 
 	console.log(filteredData);
 
