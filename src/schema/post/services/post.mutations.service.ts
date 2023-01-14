@@ -41,7 +41,7 @@ export const deletePost_service = async ({ postId }) => {
 	const { deletedCount } = await Post.deleteOne({ _id: postId });
 
 	// (2) If it's already deleted
-	if (deletedCount == 0) throw new Error("Already deleted.........hi");
+	if (deletedCount == 0) throw new Error("Already deleted.........shityyyyyy");
 	return {
 		success: false,
 		message: "The post is already deleted.",

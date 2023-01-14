@@ -5,7 +5,7 @@
 	"main": "bin/app.js",
 	"scripts": {
 		"start": "node bin/app.js",
-		"server:dev": "NODE_ENV=development nodemon bin/app.js --watch \"./bin\"",
+		"server:dev": "NODE_ENV=development nodemon bin/app.js --watch",
 		"server:prod": "NODE_ENV=production node bin/app.js",
 		"dev": "npm-run-all --parallel build:dev server:dev",
 		"prod": "npm run build:prod && npm run server:prod",
