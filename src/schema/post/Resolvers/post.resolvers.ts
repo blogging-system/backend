@@ -2,11 +2,11 @@ import {
 	getPostBySlug_service,
 	getPostById_service,
 	getAllPosts_service,
-} from "./post.queries.service";
+} from "./../services/post.queries.service";
 import {
 	createPost_service,
 	updatePost_service,
-} from "./post.mutations.service";
+} from "./../services/post.mutations.service";
 
 export default {
 	Query: {

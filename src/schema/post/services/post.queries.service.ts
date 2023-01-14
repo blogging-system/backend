@@ -1,4 +1,4 @@
-import Post from "./post.model";
+import Post from "./Model/post.model";
 
 // (1) Return Post by given ID
 export const getPostById_service = async (data) => {

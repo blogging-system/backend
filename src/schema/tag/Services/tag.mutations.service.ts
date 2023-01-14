@@ -1,4 +1,4 @@
-import Tag from "./tag.model";
+import Tag from "../Model/tag.model";
 
 export const insertTags_service = async ({ postTags }) => {
 	// (1) Insert Tags

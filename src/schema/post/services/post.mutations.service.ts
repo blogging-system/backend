@@ -1,4 +1,4 @@
-import Post from "./post.model";
+import Post from "./Model/post.model";
 import { insertTags_service } from "../tag/tag.mutations.service";
 
 export const createPost_service = async (data) => {
