@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import {
 	getPostBySlug_service,
 	getPostById_service,
@@ -34,7 +35,11 @@ export default {
 		},
 
 		deletePost: async (parent, { data }) => {
-			return await deletePost_service(data);
+			try {
+				return await deletePost_service(data);
+			} catch (error) {
+				throw new GraphQLError(error.message);
+			}
 		},
 	},
 };

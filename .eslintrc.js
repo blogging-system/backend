@@ -6,7 +6,8 @@ module.exports = {
 	rules: {
 		"no-console": "off",
 		"no-unused-vars": "off",
-		'@typescript-eslint/no-unused-vars': 'off',
+		"no-mixed-spaces-and-tabs": "off",
+		"@typescript-eslint/no-unused-vars": "off",
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"@typescript-eslint/no-explicit-any": "off",
