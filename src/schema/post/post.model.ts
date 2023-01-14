@@ -33,11 +33,7 @@ const PostSchema = new Schema(
 			trim: true,
 		},
 
-		tags: [
-			{
-				type: String,
-			},
-		],
+		tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
 		keywords: [
 			{
 				type: String,
@@ -65,8 +61,8 @@ const PostSchema = new Schema(
 );
 
 PostSchema.pre("save", function (next) {
-	console.log("hi form mogoose middleware....");
+	// console.log("hi form mogoose middleware....");
 	next();
 });
 
-export const Post = mongoose.model("Post", PostSchema);
+export default mongoose.model("Post", PostSchema);

@@ -1,4 +1,4 @@
-import { Post } from "./post.model";
+import Post from "./post.model";
 
 // (1) Return Post by given ID
 export const getPostById_service = async (data) => {
@@ -7,16 +7,19 @@ export const getPostById_service = async (data) => {
 
 // (2) Return Post by given slug
 export const getPostBySlug_service = async (data) => {
-	const post = await Post.collection.findOne({
+	return await Post.findOne({
 		slug: data.slug,
+	}).populate({
+		path: "tags",
+		options: { lean: true },
 	});
 
-	if (!post) return;
-	const { createdAt, authorId, ...filteredData } = post;
+	// if (!post) return;
+	// const { createdAt, authorId, ...filteredData } = post;
 
-	console.log(filteredData);
+	// console.log(filteredData);
 
-	return filteredData;
+	// return filteredData;
 };
 
 // (3) Return All posts

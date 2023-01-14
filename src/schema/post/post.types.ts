@@ -1,4 +1,11 @@
 export default `#graphql
+  type Tag {
+    _id: ID
+    name: String
+    createdAt: Date
+    updatedAt: Date
+  }
+
   type Post {
     _id: ID
     seriesId: ID
@@ -7,7 +14,7 @@ export default `#graphql
     slug: String
     description: String
     content: String
-    tags: [String]
+    tags: [Tag]
     keywords: [String]
     views: Int
     imageUrl: String

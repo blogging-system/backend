@@ -1,16 +1,20 @@
-import { Post } from "./post.model";
+import Post from "./post.model";
+import { insertTags_service } from "../tag/tag.mutations.service";
 
 export const createPost_service = async (data) => {
-	// (1) Create post object (with our modifications)
-	const post = new Post({
-		...data,
+	// (1) Insert and return Tags
+	const postTags = await insertTags_service({
+		postTags: data.tags,
 	});
 
-	// (2) Save it into DB
-	await post.save();
+	// (2) Create Post document
+	const post = new Post({
+		...data,
+		tags: postTags,
+	});
 
-	// (3) Return created post
-	return post;
+	// (3) Save it into DB
+	return await post.save();
 };
 
 // (2) Update Post
@@ -23,7 +27,6 @@ export const updatePost_service = async (data) => {
 
 	// (3) Update Payload
 	const updatedPost = Object.assign(post, { ...restData });
-
 
 	// (4) Save updated psot
 	await updatedPost.save();
