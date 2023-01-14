@@ -9,7 +9,7 @@ export const insertTags_service = async ({ postTags }) => {
 			const found = await Tag.findOne({ name: tag });
 			if (found) return;
 			const newTag = new Tag({ name: tag });
-			
+
 			await newTag.save();
 		});
 
