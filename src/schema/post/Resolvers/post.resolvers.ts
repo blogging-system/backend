@@ -6,6 +6,7 @@ import {
 import {
 	createPost_service,
 	updatePost_service,
+	deletePost_service,
 } from "./../services/post.mutations.service";
 
 export default {
@@ -30,6 +31,10 @@ export default {
 
 		updatePost: async (parent, { data }) => {
 			return await updatePost_service(data);
+		},
+
+		deletePost: async (parent, { data }) => {
+			return await deletePost_service(data);
 		},
 	},
 };

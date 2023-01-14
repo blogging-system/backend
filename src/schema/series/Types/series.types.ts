@@ -13,8 +13,8 @@ export default `#graphql
     is_published: Boolean
   }
 
-  extend type Query {}
+  # extend type Query {}
 
-  extend type Mutation {}
+  # extend type Mutation {}
 
 `;

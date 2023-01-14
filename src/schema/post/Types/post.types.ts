@@ -9,7 +9,6 @@ export default `#graphql
   type Post {
     _id: ID
     seriesId: ID
-    authorId: ID
     title: String
     slug: String
     description: String
@@ -40,7 +39,6 @@ export default `#graphql
     tags: [String]!
     keywords: [String!]!
     imageUrl: String!
-    authorId: ID
   }
 
   input UpdatePostInput {
@@ -52,7 +50,10 @@ export default `#graphql
     tags: [String]
     keywords: [String]
     imageUrl: String
-    authorId: ID
+  }
+
+  input DeletePostInput {
+    postId: ID
   }
 
   extend type Query {
@@ -64,5 +65,6 @@ export default `#graphql
   extend type Mutation {
     createPost(data: CreatePostInput): Post!
     updatePost(data: UpdatePostInput): Post!
+    deletePost(data:DeletePostInput): Success
   }
 `;

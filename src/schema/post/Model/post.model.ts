@@ -1,16 +1,16 @@
 import slugify from "slugify";
-import { ObjectId } from "bson";
+// import { ObjectId } from "bson";
 import mongoose, { Schema } from "mongoose";
 
 const PostSchema = new Schema(
 	{
-		seriesId: { type: Schema.Types.ObjectId },
-		authorId: {
-			type: Schema.Types.ObjectId,
-			default: function () {
-				return new ObjectId("63b9199463e4ca3f54005305");
-			},
-		},
+		seriesId: { type: Schema.Types.ObjectId, ref: "Series" },
+		// authorId: {
+		// 	type: Schema.Types.ObjectId,
+		// 	default: function () {
+		// 		return new ObjectId("63b9199463e4ca3f54005305");
+		// 	},
+		// },
 		title: {
 			type: String,
 			trim: true,
