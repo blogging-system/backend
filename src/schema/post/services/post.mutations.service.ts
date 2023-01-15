@@ -2,7 +2,7 @@ import Post from "./../Model/post.model";
 import { insertTags_service } from "./../../tag/Services/tag.mutations.service";
 
 export const createPost_service = async (data) => {
-	// (1) Insert and return array of tags
+	// (1) Insert and return array of tags documents
 	const postTags = await insertTags_service({
 		postTags: data.tags,
 	});
@@ -13,7 +13,7 @@ export const createPost_service = async (data) => {
 		tags: postTags,
 	});
 
-	// (3) Save it into DB
+	// (3) Save it into DB and return it
 	return await post.save();
 };
 
@@ -37,19 +37,26 @@ export const updatePost_service = async (data) => {
 
 // (3) Delete Post
 export const deletePost_service = async ({ postId }) => {
-	// (1) Delete post document
+	// USe joi to validate ipnput !!!!!!!!!!!
+
+	// (1) Get post from DB
+	const post = await Post.findOne({ _id: postId });
+
+	// Not found
+	if (!post) {
+		return {
+			success: false,
+			message: "The post is not found (May be already deleted).",
+		};
+	}
+
+	// (2) Delete post document
 	const { deletedCount } = await Post.deleteOne({ _id: postId });
 
-	// (2) If it's already deleted
-	if (deletedCount == 0) throw new Error("Already deleted.........shityyyyyy");
-	return {
-		success: false,
-		message: "The post is already deleted.",
-	};
-
 	// (3) Return success message
-	return {
-		success: true,
-		message: "The post is deleted successfully.",
-	};
+	if (deletedCount == 1)
+		return {
+			success: true,
+			message: "The post is deleted successfully.",
+		};
 };

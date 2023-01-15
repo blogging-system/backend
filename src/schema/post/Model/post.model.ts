@@ -13,8 +13,6 @@ const PostSchema = new Schema(
 		// },
 		title: {
 			type: String,
-			trim: true,
-			required: true,
 			unique: true,
 		},
 		slug: {
@@ -26,11 +24,9 @@ const PostSchema = new Schema(
 		},
 		description: {
 			type: String,
-			trim: true,
 		},
 		content: {
 			type: String,
-			trim: true,
 		},
 
 		tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
@@ -45,7 +41,6 @@ const PostSchema = new Schema(
 		},
 		imageUrl: {
 			type: String,
-			trim: true,
 		},
 		publishedAt: Date,
 		is_published: {

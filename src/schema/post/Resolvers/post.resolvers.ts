@@ -1,4 +1,8 @@
-import { GraphQLError } from "graphql";
+import validate from "../../../helpers/validate";
+import postValidators from "../Validators/post.validators";
+
+import failure from "./../../../helpers/handleFailure";
+
 import {
 	getPostBySlug_service,
 	getPostById_service,
@@ -27,7 +31,15 @@ export default {
 
 	Mutation: {
 		createPost: async (parent, { data }) => {
-			return await createPost_service(data);
+			try {
+				// (1) Validate comming Data
+				const validatedData = await validate(postValidators.create, data);
+
+				// (2) Create Post and then return it
+				return await createPost_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
 		},
 
 		updatePost: async (parent, { data }) => {
@@ -35,11 +47,7 @@ export default {
 		},
 
 		deletePost: async (parent, { data }) => {
-			try {
-				return await deletePost_service(data);
-			} catch (error) {
-				throw new GraphQLError(error.message);
-			}
+			return await deletePost_service(data);
 		},
 	},
 };

@@ -13,13 +13,6 @@ export const getPostBySlug_service = async (data) => {
 		path: "tags",
 		options: { lean: true },
 	});
-
-	// if (!post) return;
-	// const { createdAt, authorId, ...filteredData } = post;
-
-	// console.log(filteredData);
-
-	// return filteredData;
 };
 
 // (3) Return All posts

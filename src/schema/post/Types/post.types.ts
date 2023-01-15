@@ -33,12 +33,12 @@ export default `#graphql
 
   input CreatePostInput {
     seriesId: ID
-    title: String!
-    description: String!
-    content: String!
-    tags: [String]!
-    keywords: [String!]!
-    imageUrl: String!
+    title: String
+    description: String
+    content: String
+    tags: String
+    keywords: [String!]
+    imageUrl: String
   }
 
   input UpdatePostInput {

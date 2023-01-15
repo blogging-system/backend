@@ -6,11 +6,13 @@ export const insertTags_service = async ({ postTags }) => {
 		.toString()
 		.split("-")
 		.forEach(async (tag) => {
+			// If tag is already created
 			const found = await Tag.findOne({ name: tag });
 			if (found) return;
-			const newTag = new Tag({ name: tag });
 
-			await newTag.save();
+			// IF not found, then create new tag and save it
+			const newTag = new Tag({ name: tag });
+			return await newTag.save();
 		});
 
 	// (2) Get all tags
@@ -18,5 +20,5 @@ export const insertTags_service = async ({ postTags }) => {
 		name: {
 			$in: postTags.toString().split("-"),
 		},
-	}).select({ _id: 1 });
+	});
 };
