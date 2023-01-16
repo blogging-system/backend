@@ -41,3 +41,11 @@ export const getPopularTags_service = async (data) => {
 		.sort((current: any, next: any) => next.count - current.count) // sort ascending
 		.slice(0, data.limit);
 };
+
+export const getLatestTags_service = async () => {
+	return await Tag.find({})
+		.sort({ createdAt: -1 })
+		.select("_id name")
+		.limit(5)
+		.lean();
+};

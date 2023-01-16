@@ -6,6 +6,7 @@ import failure from "../../../helpers/handleFailure";
 import {
 	getAllTags_service,
 	getPopularTags_service,
+	getLatestTags_service,
 } from "../Services/tag.queries.service";
 
 import { deleteTag_service } from "../Services/tag.mutations.service";
@@ -30,6 +31,14 @@ export default {
 
 				// (2) Find popular posts and return them
 				return await getPopularTags_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		getLatestTags: async (parent, { data }) => {
+			try {
+				return await getLatestTags_service();
 			} catch (error) {
 				return failure(error);
 			}

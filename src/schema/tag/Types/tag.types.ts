@@ -19,6 +19,7 @@ export default `#graphql
   extend type Query {
     getAllTags: [Tag]!
     getPopularTags(data: PopularTagsInput): [PopularTags]!
+    getLatestTags: [Tag]!
   }
 
   extend type Mutation {
