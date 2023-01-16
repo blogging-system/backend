@@ -18,7 +18,15 @@ import { valid } from "joi";
 export default {
 	Query: {
 		getPostBySlug: async (parent, { data }) => {
-			return await getPostBySlug_service(data);
+			try {
+				// (1) Validate comming Data
+				const validatedData = await validate(postValidators.slug, data);
+
+				// (2) Find and return post
+				return await getPostBySlug_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
 		},
 
 		getPostById: async (parent, { data }) => {

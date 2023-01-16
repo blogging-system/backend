@@ -1,6 +1,12 @@
 import Joi from "joi";
 
 export default {
+	// Queries
+	slug: Joi.object({
+		slug: Joi.string().required(),
+	}),
+
+	// Mutations
 	create: Joi.object({
 		seriesId: Joi.string().hex().length(24).message("Sorry, Invalid seriesId"),
 		title: Joi.string().required(),
