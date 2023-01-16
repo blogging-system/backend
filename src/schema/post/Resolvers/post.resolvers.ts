@@ -13,6 +13,7 @@ import {
 	updatePost_service,
 	deletePost_service,
 } from "./../services/post.mutations.service";
+import { valid } from "joi";
 
 export default {
 	Query: {
@@ -55,7 +56,15 @@ export default {
 		},
 
 		deletePost: async (parent, { data }) => {
-			return await deletePost_service(data);
+			try {
+				// (1) Validate comming Data
+				const validatedData = await validate(postValidators.delete, data);
+
+				// (2) Delete post and return message.
+				return await deletePost_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
 		},
 	},
 };

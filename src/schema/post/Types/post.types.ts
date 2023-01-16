@@ -65,6 +65,6 @@ export default `#graphql
   extend type Mutation {
     createPost(data: CreatePostInput): Post!
     updatePost(data: UpdatePostInput): Post!
-    deletePost(data:DeletePostInput): Success!
+    deletePost(data:DeletePostInput): Success
   }
 `;

@@ -1,5 +1,9 @@
 import Post from "./../Model/post.model";
-import { insertTags_service } from "./../../tag/Services/tag.mutations.service";
+
+import {
+	insertTags_service,
+	deleteTags_service,
+} from "./../../tag/Services/tag.mutations.service";
 import { GraphQLError } from "graphql";
 
 export const createPost_service = async (data) => {
@@ -28,7 +32,7 @@ export const updatePost_service = async (data) => {
 
 	// If post not found
 	if (!post) {
-		return new GraphQLError("Post is not found", {
+		return new GraphQLError("Post Not Found", {
 			extensions: { http: { status: 404 } },
 		});
 	}
@@ -47,28 +51,28 @@ export const updatePost_service = async (data) => {
 
 // (3) Delete Post
 export const deletePost_service = async ({ postId }) => {
-	// USe joi to validate ipnput !!!!!!!!!!!
-
-	// (1) Get post from DB
+	// (1) Get the post from DB
 	const post = await Post.findOne({ _id: postId });
 
-	// Not found
+	// If not found
 	if (!post) {
-		return {
-			name: "",
-			status: 2,
-			message: "The post is not found (May be already deleted).",
-		};
+		return new GraphQLError("Post Not Found (May be it's already deleted).", {
+			extensions: { http: { status: 404 } },
+		});
 	}
 
-	// (2) Delete post document
-	const { deletedCount } = await Post.deleteOne({ _id: postId });
+	// TODO:
+	// (2) Check series
 
-	// (3) Return success message
-	if (deletedCount == 1)
-		return {
-			name: "",
-			status: 2,
-			message: "The post is deleted successfully.",
-		};
+	// (3) Delete tags if only found in this current post
+	await deleteTags_service({ tags: post.tags });
+
+	// (4) Delete post document
+	await Post.deleteOne({ _id: post._id });
+
+	// (5) Return success message
+	return {
+		success: true,
+		message: "The post is deleted successfully.",
+	};
 };

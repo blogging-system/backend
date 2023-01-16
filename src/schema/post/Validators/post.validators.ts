@@ -21,4 +21,8 @@ export default {
 		keywords: Joi.array().items(Joi.string().required()),
 		imageUrl: Joi.string(),
 	}),
+
+	delete: Joi.object({
+		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+	}),
 };
