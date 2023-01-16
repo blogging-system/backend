@@ -2,8 +2,8 @@ import Joi from "joi";
 
 export default {
 	// Queries
-	getPopularTags: Joi.object({
-		limit: Joi.number().positive().min(1).max(10).required(),
+	getAllTags: Joi.object({
+		limit: Joi.number().positive().min(1).max(10).default(5),
 	}),
 
 	// Mutations

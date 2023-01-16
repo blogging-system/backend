@@ -5,7 +5,6 @@ import failure from "../../../helpers/handleFailure";
 
 import {
 	getAllTags_service,
-	getPopularTags_service,
 	getLatestTags_service,
 } from "../Services/tag.queries.service";
 
@@ -13,30 +12,19 @@ import { deleteTag_service } from "../Services/tag.mutations.service";
 
 export default {
 	Query: {
-		getAllTags: async () => {
+		getAllTags: async (parent, { data }) => {
 			try {
-				return await getAllTags_service();
+				// (1) Validate comming data
+				const validatedData = await validate(tagValidators.getAllTags, data);
+
+				//(2) Return tags with provided limit
+				return await getAllTags_service(validatedData);
 			} catch (error) {
 				return failure(error);
 			}
 		},
 
-		getPopularTags: async (parent, { data }) => {
-			try {
-				// (1) Validatte commin data
-				const validatedData = await validate(
-					tagValidators.getPopularTags,
-					data
-				);
-
-				// (2) Find popular posts and return them
-				return await getPopularTags_service(validatedData);
-			} catch (error) {
-				return failure(error);
-			}
-		},
-
-		getLatestTags: async (parent, { data }) => {
+		getLatestTags: async () => {
 			try {
 				return await getLatestTags_service();
 			} catch (error) {

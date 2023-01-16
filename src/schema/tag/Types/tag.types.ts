@@ -3,13 +3,14 @@ export default `#graphql
     name: String
   }
 
-  type PopularTags {
+  type TagsWithCount {
+    tagId: ID
     name: String
     count: Int
   }
 
-  input PopularTagsInput {
-    limit: Int!
+  input GetAllTagsInput {
+    limit: Int
   }
 
  input DeleteTagInput {
@@ -17,8 +18,7 @@ export default `#graphql
  }
 
   extend type Query {
-    getAllTags: [Tag]!
-    getPopularTags(data: PopularTagsInput): [PopularTags]!
+    getAllTags(data: GetAllTagsInput): [TagsWithCount]!
     getLatestTags: [Tag]!
   }
 
