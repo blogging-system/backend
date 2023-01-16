@@ -76,3 +76,31 @@ export const deletePost_service = async ({ postId }) => {
 		message: "The post is deleted successfully.",
 	};
 };
+
+export const publishPost_service = async ({ postId }) => {
+	// (1) Get post
+	const post = await Post.findOne({ _id: postId });
+
+	// If not found
+	if (!post) {
+		return new GraphQLError("Post Not Found", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	// (2) Update post document
+	const updatedPost = Object.assign(post, {
+		...post,
+		is_published: true,
+		publishedAt: Date.now(),
+	});
+
+	// (3) Save updated post
+	await post.save();
+
+	// (4) Return succcess message
+	return {
+		success: true,
+		message: "Post is published successfully.",
+	};
+};

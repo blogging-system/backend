@@ -41,4 +41,8 @@ export default {
 	delete: Joi.object({
 		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
 	}),
+
+	publish: Joi.object({
+		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+	}),
 };

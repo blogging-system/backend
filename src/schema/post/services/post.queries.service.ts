@@ -1,6 +1,8 @@
 import { GraphQLError } from "graphql";
 import Post from "./../Model/post.model";
 
+// TODO: Only return posts if is_published == true!!!!!
+
 // (1) Return Post by given ID
 export const getPostById_service = async (data) => {
 	// (1) Find Post

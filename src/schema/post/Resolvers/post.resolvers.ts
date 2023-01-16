@@ -12,6 +12,7 @@ import {
 	createPost_service,
 	updatePost_service,
 	deletePost_service,
+	publishPost_service,
 } from "./../services/post.mutations.service";
 import { valid } from "joi";
 
@@ -91,6 +92,18 @@ export default {
 
 				// (2) Delete post and return message.
 				return await deletePost_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		publishPost: async (parent, { data }) => {
+			try {
+				// (1) Validate comming Data
+				const validatedData = await validate(postValidators.publish, data);
+
+				// (2) Publish post and return success message
+				return await publishPost_service(validatedData);
 			} catch (error) {
 				return failure(error);
 			}
