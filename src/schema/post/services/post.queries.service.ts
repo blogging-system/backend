@@ -71,3 +71,33 @@ export const getAllPosts_service = async (data) => {
 	// (2) Return found posts in DB
 	return posts;
 };
+
+export const getRelatedPosts_service = async (data) => {
+	// (1) Find post
+	const post = await Post.findOne({ _id: data.postId }).lean();
+
+	// If not found
+	if (!post) {
+		return new GraphQLError("Post Not Found", {
+			extensions: {
+				http: { status: 404 },
+			},
+		});
+	}
+
+	// (2) Get related Posts
+	const foundPosts = await Post.find({ tags: { $all: post.tags } })
+		.limit(3)
+		.populate({ path: "tags" })
+		.lean();
+
+	// If no related posts
+	if (foundPosts.length <= 1) {
+		return new GraphQLError("No Related Posts Found", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+	
+	// (3) Filter out the current post and return the rest found posts
+	return foundPosts.filter((post) => post._id != data.postId);
+};

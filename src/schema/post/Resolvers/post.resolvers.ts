@@ -7,6 +7,7 @@ import {
 	getPostBySlug_service,
 	getPostById_service,
 	getAllPosts_service,
+	getRelatedPosts_service,
 } from "./../services/post.queries.service";
 import {
 	createPost_service,
@@ -52,8 +53,23 @@ export default {
 					? await validate(postValidators.getAllPosts, data)
 					: data;
 
-				// (2) Find and return post
+				// (2) Find and return posts
 				return await getAllPosts_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		getRelatedPosts: async (parent, { data }) => {
+			try {
+				// (1) Valiadte comming data
+				const validatedData = await validate(
+					postValidators.getRelatedPosts,
+					data
+				);
+
+				// (2) Find and return posts
+				return await getRelatedPosts_service(validatedData);
 			} catch (error) {
 				return failure(error);
 			}

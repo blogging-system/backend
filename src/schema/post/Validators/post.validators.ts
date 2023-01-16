@@ -16,6 +16,10 @@ export default {
 		limit: Joi.number().positive().max(10).default(5),
 	}),
 
+	getRelatedPosts: Joi.object({
+		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+	}),
+
 	// Mutations
 	create: Joi.object({
 		seriesId: Joi.string().hex().length(24).message("Sorry, Invalid seriesId"),

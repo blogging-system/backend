@@ -36,6 +36,10 @@ export default `#graphql
     limit: Int
   }
 
+  input GetRelatedPostsInput {
+    postId: ID!
+  }
+
   input CreatePostInput {
     seriesId: ID
     title: String
@@ -69,6 +73,7 @@ export default `#graphql
     getPostBySlug(data: GetPostBySlugInput): Post
     getPostById(data: GetPostByIdInput): Post
     getAllPosts(data: GetAllPostsInput): [Post]
+    getRelatedPosts(data: GetRelatedPostsInput): [Post]
   }
 
   extend type Mutation {
