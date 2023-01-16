@@ -18,30 +18,26 @@ export const getAllTags_service = async () => {
 };
 
 export const getPopularTags_service = async (data) => {
-	const tags = await Tag.find({}).select("_id name").limit(data.limit).lean();
+	// (1) Get all tags in DB
+	const tags = await Tag.find({}).select("_id name").lean();
 
-	// const popularTags = await tags.map(async (tag: any) => {
-	// 	const postsCount = await Post.find({
-	// 		tags: tag._id,
-	// 	})
-	// 		.select("_id name")
-	// 		.lean();
-
-	// 	return await (tag = { name: tag.name, count: postsCount.length });
-	// });
-
-	const popularTags = await Promise.all([
-		await tags.map(async (tag: any) => {
+	// (2) Loop through tags array and get all posts having this tag
+	const popularTags = await Promise.all(
+		tags.map(async (tag: any) => {
+			// (1) Get all posts having this current tag
 			const postsCount = await Post.find({
 				tags: tag._id,
 			})
-				.select("_id name")
+				.select("_id")
 				.lean();
 
+			// (2) Return result
 			return await (tag = { name: tag.name, count: postsCount.length });
-		}),
-	]);
+		})
+	);
 
-	await console.log(popularTags);
-	return popularTags;
+	// (3) Return popular tags according to the provided limit
+	return popularTags
+		.sort((current: any, next: any) => next.count - current.count)
+		.slice(0, data.limit);
 };
