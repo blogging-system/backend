@@ -20,7 +20,10 @@ export default {
 		getPostBySlug: async (parent, { data }) => {
 			try {
 				// (1) Validate comming Data
-				const validatedData = await validate(postValidators.slug, data);
+				const validatedData = await validate(
+					postValidators.getPostBySlug,
+					data
+				);
 
 				// (2) Find and return post
 				return await getPostBySlug_service(validatedData);
@@ -30,11 +33,29 @@ export default {
 		},
 
 		getPostById: async (parent, { data }) => {
-			return await getPostById_service(data);
+			try {
+				// (1) Validate comming Data
+				const validatedData = await validate(postValidators.getPostById, data);
+
+				// (2) Find and return post
+				return await getPostById_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
 		},
 
-		getAllPosts: async () => {
-			return await getAllPosts_service();
+		getAllPosts: async (parent, { data }) => {
+			try {
+				// (1) Validate comming Data
+				const validatedData = data
+					? await validate(postValidators.getAllPosts, data)
+					: data;
+
+				// (2) Find and return post
+				return await getAllPosts_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
 		},
 	},
 

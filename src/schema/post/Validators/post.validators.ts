@@ -2,8 +2,18 @@ import Joi from "joi";
 
 export default {
 	// Queries
-	slug: Joi.object({
+	getPostBySlug: Joi.object({
 		slug: Joi.string().required(),
+	}),
+	getPostById: Joi.object({
+		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+	}),
+	getAllPosts: Joi.object({
+		lastPostId: Joi.string()
+			.hex()
+			.length(24)
+			.message("Sorry, Invalid lastPostId"),
+		limit: Joi.number().positive().max(10).default(5),
 	}),
 
 	// Mutations

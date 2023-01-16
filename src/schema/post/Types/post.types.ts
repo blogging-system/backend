@@ -28,7 +28,12 @@ export default `#graphql
   }
 
   input GetPostByIdInput {
-    _id: ID!
+    postId: ID!
+  }
+
+  input GetAllPostsInput {
+    lastPostId: ID
+    limit: Int
   }
 
   input CreatePostInput {
@@ -59,7 +64,7 @@ export default `#graphql
   extend type Query {
     getPostBySlug(data: GetPostBySlugInput): Post
     getPostById(data: GetPostByIdInput): Post
-    getAllPosts: [Post]
+    getAllPosts(data: GetAllPostsInput): [Post]
   }
 
   extend type Mutation {
