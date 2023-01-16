@@ -47,7 +47,7 @@ export default `#graphql
     title: String
     description: String
     content: String
-    tags: [String]
+    tags: String
     keywords: [String]
     imageUrl: String
   }
@@ -65,6 +65,6 @@ export default `#graphql
   extend type Mutation {
     createPost(data: CreatePostInput): Post!
     updatePost(data: UpdatePostInput): Post!
-    deletePost(data:DeletePostInput): Success
+    deletePost(data:DeletePostInput): Success!
   }
 `;

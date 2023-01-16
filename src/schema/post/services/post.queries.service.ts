@@ -9,10 +9,11 @@ export const getPostById_service = async (data) => {
 export const getPostBySlug_service = async (data) => {
 	return await Post.findOne({
 		slug: data.slug,
-	}).populate({
-		path: "tags",
-		options: { lean: true },
-	});
+	})
+		.populate({
+			path: "tags",
+		})
+		.lean();
 };
 
 // (3) Return All posts

@@ -43,7 +43,15 @@ export default {
 		},
 
 		updatePost: async (parent, { data }) => {
-			return await updatePost_service(data);
+			try {
+				// (1) Validate comming Data
+				const validatedData = await validate(postValidators.update, data);
+
+				// (2) Update Post and then return it
+				return await updatePost_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
 		},
 
 		deletePost: async (parent, { data }) => {

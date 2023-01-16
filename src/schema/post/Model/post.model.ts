@@ -1,16 +1,10 @@
 import slugify from "slugify";
-// import { ObjectId } from "bson";
 import mongoose, { Schema } from "mongoose";
+import { printSchema } from "graphql";
 
 const PostSchema = new Schema(
 	{
 		seriesId: { type: Schema.Types.ObjectId, ref: "Series" },
-		// authorId: {
-		// 	type: Schema.Types.ObjectId,
-		// 	default: function () {
-		// 		return new ObjectId("63b9199463e4ca3f54005305");
-		// 	},
-		// },
 		title: {
 			type: String,
 			unique: true,
@@ -52,11 +46,16 @@ const PostSchema = new Schema(
 	{
 		timestamps: true,
 		versionKey: false,
+		autoCreate: true,
 	}
 );
 
-PostSchema.pre("save", function (next) {
-	// console.log("hi form mogoose middleware....");
+// Our mongoose hooks/ middlewares
+PostSchema.pre("save", async function (next) {
+	// If title is not modified, then move forward!
+	if (!this.isModified("title")) return next();
+
+	this.slug = slugify(this.title);
 	next();
 });
 

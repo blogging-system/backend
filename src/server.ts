@@ -18,7 +18,6 @@ import mongoose from "mongoose";
 import resolvers from "./resolvers";
 import typeDefs from "./typeDefs";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-
 // import { createContext } from "./context";
 
 const schema = makeExecutableSchema({
@@ -36,7 +35,7 @@ const yoga = createYoga({
 	maskedErrors: {
 		maskError(error: GraphQLError) {
 			return {
-				name: "Error Message",
+				name: "Error",
 				status: error.extensions.http.status,
 				message: error.message,
 			};
@@ -49,7 +48,7 @@ const server = createServer(yoga);
 
 // Start the server and you're done!
 mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MONGODB_URI).then(() => {
+mongoose.connect(process.env.MONGODB_URI).then(async () => {
 	server.listen(process.env.PORT, () => {
 		console.info(
 			`Server is running on ${process.env.HOST}:${process.env.PORT} in ${process.env.NODE_ENV} environment`

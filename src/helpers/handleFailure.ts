@@ -3,6 +3,10 @@ import { GraphQLError } from "graphql";
 export default (error) => {
 	// (1) Validation Errors
 	if (error.name == "ValidationError") {
+		console.log('-------------------------')
+		console.log({error})
+		console.log('-------------------------')
+
 		const errors = error.details.map((error) => error.message);
 		return new GraphQLError(errors, { extensions: { http: { status: 422 } } });
 	}
