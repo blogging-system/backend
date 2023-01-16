@@ -88,6 +88,13 @@ export const publishPost_service = async ({ postId }) => {
 		});
 	}
 
+	// If it's already published
+	if (post.is_published) {
+		return new GraphQLError("Already Published", {
+			extensions: { http: { status: 400 } },
+		});
+	}
+
 	// (2) Update post document
 	const updatedPost = Object.assign(post, {
 		...post,

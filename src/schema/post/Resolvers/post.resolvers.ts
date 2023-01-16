@@ -8,6 +8,7 @@ import {
 	getPostById_service,
 	getAllPosts_service,
 	getRelatedPosts_service,
+	getLatestPosts_service,
 } from "./../services/post.queries.service";
 import {
 	createPost_service,
@@ -15,7 +16,6 @@ import {
 	deletePost_service,
 	publishPost_service,
 } from "./../services/post.mutations.service";
-import { valid } from "joi";
 
 export default {
 	Query: {
@@ -70,6 +70,14 @@ export default {
 
 				// (2) Find and return posts
 				return await getRelatedPosts_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		getLatestPosts: async (parent, { data }) => {
+			try {
+				return await getLatestPosts_service();
 			} catch (error) {
 				return failure(error);
 			}
