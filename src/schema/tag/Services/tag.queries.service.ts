@@ -38,6 +38,6 @@ export const getPopularTags_service = async (data) => {
 
 	// (3) Return popular tags according to the provided limit
 	return popularTags
-		.sort((current: any, next: any) => next.count - current.count)
+		.sort((current: any, next: any) => next.count - current.count) // sort ascending
 		.slice(0, data.limit);
 };

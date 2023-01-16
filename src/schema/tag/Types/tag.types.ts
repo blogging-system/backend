@@ -12,8 +12,16 @@ export default `#graphql
     limit: Int!
   }
 
+ input DeleteTagInput {
+  tagId: ID
+ }
+
   extend type Query {
     getAllTags: [Tag]!
     getPopularTags(data: PopularTagsInput): [PopularTags]!
+  }
+
+  extend type Mutation {
+    deleteTag(data: DeleteTagInput): Success
   }
 `;

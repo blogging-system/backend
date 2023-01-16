@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import Tag from "../Model/tag.model";
 import Post from "./../../post/Model/post.model";
 
@@ -41,4 +42,32 @@ export const deleteTags_service = async ({ tags }) => {
 			console.log("deleted", tagId);
 		}
 	});
+};
+
+export const deleteTag_service = async (data) => {
+	// (1) Get tag from DB
+	const tag = await Tag.findOne({ _id: data.tagId }).select("_id").lean();
+
+	// If not found
+	if (!tag) {
+		return new GraphQLError("Tag Not Found (May be already deleted)", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	// (2) Get all posts have this tag
+	const posts = await Post.find({ tags: data.tagId }).select("tags");
+
+	// (3) Loop through them and delete the tag from them
+	posts.map(async (post) => {
+		post.tags = post.tags.filter((tagId) => tagId != data.tagId);
+		return await post.save();
+	});
+
+	// (4) TODO: Do the same with series collection
+
+	// (5) Delete the tag document itself now
+	await Tag.deleteOne({ _id: data.tagId });
+
+	return { success: true, message: "Tag is deleted successfully." };
 };

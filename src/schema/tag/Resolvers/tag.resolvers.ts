@@ -8,6 +8,8 @@ import {
 	getPopularTags_service,
 } from "../Services/tag.queries.service";
 
+import { deleteTag_service } from "../Services/tag.mutations.service";
+
 export default {
 	Query: {
 		getAllTags: async () => {
@@ -34,5 +36,17 @@ export default {
 		},
 	},
 
-	Mutation: {},
+	Mutation: {
+		deleteTag: async (parent, { data }) => {
+			try {
+				// (1) Validate comming data
+				const validatedData = await validate(tagValidators.deleteTag, data);
+
+				// (2) Delete Tag and return message
+				return await deleteTag_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+	},
 };
