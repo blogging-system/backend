@@ -75,6 +75,7 @@ export default `#graphql
     getAllPosts(data: GetAllPostsInput): [Post]
     getRelatedPosts(data: GetRelatedPostsInput): [Post]
     getLatestPosts: [Post]
+    getPopularPosts: [Post]
   }
 
   extend type Mutation {

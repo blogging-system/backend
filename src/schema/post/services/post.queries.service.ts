@@ -106,3 +106,7 @@ export const getRelatedPosts_service = async (data) => {
 export const getLatestPosts_service = async () => {
 	return await Post.find({}).sort({ publishedAt: -1 }).limit(3).lean();
 };
+
+export const getPopularPosts_service = async () => {
+	return await Post.find({}).sort({ views: -1 }).limit(3).lean();
+};

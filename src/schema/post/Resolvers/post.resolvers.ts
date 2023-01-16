@@ -9,6 +9,7 @@ import {
 	getAllPosts_service,
 	getRelatedPosts_service,
 	getLatestPosts_service,
+	getPopularPosts_service
 } from "./../services/post.queries.service";
 import {
 	createPost_service,
@@ -75,9 +76,17 @@ export default {
 			}
 		},
 
-		getLatestPosts: async (parent, { data }) => {
+		getLatestPosts: async () => {
 			try {
 				return await getLatestPosts_service();
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		getPopularPosts: async () => {
+			try {
+				return await getPopularPosts_service();
 			} catch (error) {
 				return failure(error);
 			}
