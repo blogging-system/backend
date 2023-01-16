@@ -13,7 +13,7 @@ export default {
 			.hex()
 			.length(24)
 			.message("Sorry, Invalid lastPostId"),
-		limit: Joi.number().positive().max(10).default(5),
+		limit: Joi.number().positive().min(1).max(10).default(5),
 	}),
 
 	getRelatedPosts: Joi.object({

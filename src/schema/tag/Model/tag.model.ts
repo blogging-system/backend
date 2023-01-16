@@ -6,6 +6,7 @@ const TagSchema = new Schema(
 			type: String,
 			trim: true,
 			unique: true,
+			index: true,
 			required: true,
 		},
 	},
