@@ -21,10 +21,16 @@ export default `#graphql
     keywords: [String]
   }
 
+
+  input DeleteSeriesInput {
+    seriesId: ID
+  }
+
   # extend type Query {}
 
   extend type Mutation {
     createSeries(data: CreateSeriesInput): Series!
+    deleteSeries(data: DeleteSeriesInput): Success!
   }
 
 `;
