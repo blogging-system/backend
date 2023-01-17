@@ -28,7 +28,7 @@ export default {
 		content: Joi.string().required(),
 		tags: Joi.string().required(),
 		keywords: Joi.array().items(Joi.string().required()).required(),
-		imageUrl: Joi.string().required(),
+		imageUrl: Joi.string().uri().required(),
 	}),
 
 	update: Joi.object({
@@ -39,7 +39,7 @@ export default {
 		content: Joi.string(),
 		tags: Joi.string(),
 		keywords: Joi.array().items(Joi.string().required()),
-		imageUrl: Joi.string(),
+		imageUrl: Joi.string().uri(),
 	}),
 
 	delete: Joi.object({

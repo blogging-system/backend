@@ -1,0 +1,13 @@
+import Joi from "joi";
+
+export default {
+	// Queries
+
+	// Mutations
+	createSeries: Joi.object({
+		title: Joi.string().required(),
+		description: Joi.string().required(),
+		imageUrl: Joi.string().uri().required(),
+		keywords: Joi.array().items(Joi.string().required()).required(),
+	}),
+};

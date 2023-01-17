@@ -13,8 +13,18 @@ export default `#graphql
     is_published: Boolean
   }
 
+
+  input CreateSeriesInput {
+    title: String
+    description: String
+    imageUrl: String
+    keywords: [String]
+  }
+
   # extend type Query {}
 
-  # extend type Mutation {}
+  extend type Mutation {
+    createSeries(data: CreateSeriesInput): Series!
+  }
 
 `;
