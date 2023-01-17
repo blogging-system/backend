@@ -22,8 +22,7 @@ export default {
 
 	// Mutations
 	create: Joi.object({
-		seriesId: Joi.string().hex().length(24).message("Sorry, Invalid seriesId"),
-		title: Joi.string().required(),
+	title: Joi.string().required(),
 		description: Joi.string().required(),
 		content: Joi.string().required(),
 		tags: Joi.string().required(),
@@ -33,7 +32,6 @@ export default {
 
 	update: Joi.object({
 		_id: Joi.string().hex().length(24).message("Sorry, Invalid _id"),
-		seriesId: Joi.string().hex().length(24).message("Sorry, Invalid seriesId"),
 		title: Joi.string(),
 		description: Joi.string(),
 		content: Joi.string(),

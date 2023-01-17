@@ -6,8 +6,8 @@ import failure from "../../../helpers/handleFailure";
 import {
 	createSeries_service,
 	deleteSeries_service,
+	addPostToSeries_service,
 } from "../Services/series.mutations.service";
-import { valid } from "joi";
 
 export default {
 	Query: {},
@@ -38,6 +38,21 @@ export default {
 
 				// (2) Delete the series and return messge
 				return await deleteSeries_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		addPostToSeries: async (parent, { data }) => {
+			try {
+				// (1) Validate comming data
+				const validatedData = await validate(
+					seriesValidators.addPostToSeries,
+					data
+				);
+
+				// (2) Add post and return message
+				return await addPostToSeries_service(validatedData);
 			} catch (error) {
 				return failure(error);
 			}

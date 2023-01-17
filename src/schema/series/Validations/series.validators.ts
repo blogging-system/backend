@@ -12,6 +12,11 @@ export default {
 	}),
 
 	deleteSeries: Joi.object({
-		seriesId: Joi.string().hex().length(24).message("Sorry, Invalid seriesId"),
+		seriesId: Joi.string().hex().length(24).message("Sorry, Invalid seriesId").required(),
+	}),
+
+	addPostToSeries: Joi.object({
+		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId").required(),
+		seriesId: Joi.string().hex().length(24).message("Sorry, Invalid seriesId").required(),
 	}),
 };

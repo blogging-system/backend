@@ -26,11 +26,17 @@ export default `#graphql
     seriesId: ID
   }
 
+  input AddPostToSeriesInput {
+    postId: ID
+    seriesId: ID
+  }
+
   # extend type Query {}
 
   extend type Mutation {
     createSeries(data: CreateSeriesInput): Series!
     deleteSeries(data: DeleteSeriesInput): Success!
+    addPostToSeries(data: AddPostToSeriesInput): Success!
   }
 
 `;

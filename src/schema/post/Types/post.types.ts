@@ -8,7 +8,6 @@ export default `#graphql
 
   type Post {
     _id: ID
-    seriesId: ID
     title: String
     slug: String
     description: String
@@ -41,7 +40,6 @@ export default `#graphql
   }
 
   input CreatePostInput {
-    seriesId: ID
     title: String
     description: String
     content: String
@@ -52,7 +50,6 @@ export default `#graphql
 
   input UpdatePostInput {
     _id: ID
-    seriesId: ID
     title: String
     description: String
     content: String

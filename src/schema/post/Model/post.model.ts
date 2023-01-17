@@ -1,10 +1,8 @@
 import slugify from "slugify";
 import mongoose, { Schema } from "mongoose";
-import { printSchema } from "graphql";
 
 const PostSchema = new Schema(
 	{
-		seriesId: { type: Schema.Types.ObjectId, ref: "Series" },
 		title: {
 			type: String,
 			unique: true,
