@@ -1,7 +1,7 @@
 import { GraphQLError } from "graphql";
 import Post from "./../Model/post.model";
 
-// TODO: Only return posts if is_published == true!!!!!
+// TODO: Only return posts if is_published == true!!!!! for all services!!!!
 
 // (1) Return Post by given ID
 export const getPostById_service = async (data) => {
@@ -109,4 +109,19 @@ export const getLatestPosts_service = async () => {
 
 export const getPopularPosts_service = async () => {
 	return await Post.find({}).sort({ views: -1 }).limit(3).lean();
+};
+
+export const getAllPostsByTag_service = async (data) => {
+	// (1) Get posts from DB
+	const posts = await Post.find({ tags: data.tagId });
+
+	// If not posts
+	if (posts.length == 0) {
+		return new GraphQLError("No Posts with this tag", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	// (2) Return found posts
+	return posts;
 };

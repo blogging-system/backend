@@ -39,6 +39,10 @@ export default `#graphql
     postId: ID!
   }
 
+  input GetAllPostsByTagInput {
+    tagId: ID
+  }
+
   input CreatePostInput {
     title: String
     description: String
@@ -73,6 +77,7 @@ export default `#graphql
     getRelatedPosts(data: GetRelatedPostsInput): [Post]
     getLatestPosts: [Post]
     getPopularPosts: [Post]
+    getAllPostsByTag(data: GetAllPostsByTagInput): [Post]!
   }
 
   extend type Mutation {

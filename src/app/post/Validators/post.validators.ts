@@ -20,6 +20,11 @@ export default {
 		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
 	}),
 
+	getPostByTag: Joi.object({
+		tagId: Joi.string().hex().length(24).message("Sorry, Invalid tagId"),
+
+	}),
+
 	// Mutations
 	create: Joi.object({
 	title: Joi.string().required(),

@@ -9,7 +9,8 @@ import {
 	getAllPosts_service,
 	getRelatedPosts_service,
 	getLatestPosts_service,
-	getPopularPosts_service
+	getPopularPosts_service,
+	getAllPostsByTag_service,
 } from "./../services/post.queries.service";
 import {
 	createPost_service,
@@ -87,6 +88,18 @@ export default {
 		getPopularPosts: async () => {
 			try {
 				return await getPopularPosts_service();
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		getAllPostsByTag: async (parent, { data }) => {
+			try {
+				// (1) Validate coming data
+				const validatedData = await validate(postValidators.getPostByTag, data);
+
+				// (2) Get posts
+				return await getAllPostsByTag_service(validatedData);
 			} catch (error) {
 				return failure(error);
 			}
