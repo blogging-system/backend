@@ -15,7 +15,7 @@ export default {
 		seriesId: Joi.string().hex().length(24).message("Sorry, Invalid seriesId").required(),
 	}),
 
-	addPostToSeries: Joi.object({
+	addOrRemovePostFromSeries: Joi.object({
 		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId").required(),
 		seriesId: Joi.string().hex().length(24).message("Sorry, Invalid seriesId").required(),
 	}),

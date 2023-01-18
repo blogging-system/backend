@@ -81,6 +81,7 @@ export const addPostToSeries_service = async (data) => {
 	// (3) update series posts
 	await series.posts.push(post._id);
 
+	// TODO: duplicates !!!!!!!!
 	// (4) Update series tags
 	await post.tags.forEach((tagId) => {
 		if (!series.tags.includes(tagId)) {
@@ -93,4 +94,71 @@ export const addPostToSeries_service = async (data) => {
 
 	// (6) Return success message
 	return { success: true, message: "Post is added successfully" };
+};
+
+export const removePostFromSeries_service = async (data) => {
+	// (1) Get post and series from DB
+	const [post, series] = await Promise.all([
+		Post.findOne({ _id: data.postId }).select("tags").populate("tags").lean(),
+		Series.findOne({ _id: data.seriesId }).select("posts"),
+	]);
+
+	// If post not found
+	if (!post) {
+		return new GraphQLError("Post Not Found", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	// If series not found
+	if (!series) {
+		return new GraphQLError("Series Not Found", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	// If postId is not found among series posts IDs
+	if (!series.posts.includes(post._id)) {
+		return new GraphQLError("Post Not Found (Maybe already removed)", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	// (2) Remove post from series posts
+	series.posts = await series.posts.filter(
+		(postId) => postId.toString() != post._id.toString()
+	);
+
+	const [...allPostsTags] = await Promise.all(
+		series.posts.map(async (postId) => {
+			const post = await Post.findOne({ _id: postId })
+				.select("tags")
+				.populate("tags")
+				.lean();
+			return post.tags;
+		})
+	);
+
+	const allPostsTagsFlat = [
+		...new Set(
+			Array(allPostsTags)
+				.flat(Infinity)
+				.map((el: any) => (el = el._id.toString()))
+		),
+	];
+
+	series.tags = await post.tags.filter((tagId: any) => {
+		if (!allPostsTagsFlat.includes(tagId._id.toString())) {
+			return (tagId = undefined);
+		}
+		return tagId;
+	});
+
+	await series.save();
+
+	// (5) Return succes message
+	return {
+		success: true,
+		message: "Post is removed successfully",
+	};
 };

@@ -26,9 +26,9 @@ export default `#graphql
     seriesId: ID
   }
 
-  input AddPostToSeriesInput {
-    postId: ID
-    seriesId: ID
+  input AddOrRemovePostFromSeriesInput {
+    postId: ID!
+    seriesId: ID!
   }
 
   # extend type Query {}
@@ -36,7 +36,8 @@ export default `#graphql
   extend type Mutation {
     createSeries(data: CreateSeriesInput): Series!
     deleteSeries(data: DeleteSeriesInput): Success!
-    addPostToSeries(data: AddPostToSeriesInput): Success!
+    addPostToSeries(data: AddOrRemovePostFromSeriesInput): Success!
+    removePostFromSeries(data:AddOrRemovePostFromSeriesInput): Success!
   }
 
 `;
