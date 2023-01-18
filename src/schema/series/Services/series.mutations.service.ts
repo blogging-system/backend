@@ -48,9 +48,7 @@ export const deleteSeries_service = async (data) => {
 
 export const addPostToSeries_service = async (data) => {
 	// (1) Get post from DB
-	const post = await Post.findOne({ _id: data.postId })
-		.select("_id tags")
-		.lean();
+	const post = await Post.findOne({ _id: data.postId }).select("tags").lean();
 
 	// If post not found
 	if (!post) {
@@ -61,7 +59,7 @@ export const addPostToSeries_service = async (data) => {
 
 	// (2) Get series from DB
 	const series = await Series.findOne({ _id: data.seriesId }).select(
-		"_id posts tags"
+		"posts tags"
 	);
 
 	// If series is not found
@@ -81,7 +79,6 @@ export const addPostToSeries_service = async (data) => {
 	// (3) update series posts
 	await series.posts.push(post._id);
 
-	// TODO: duplicates !!!!!!!!
 	// (4) Update series tags
 	await post.tags.forEach((tagId) => {
 		if (!series.tags.includes(tagId)) {
@@ -129,6 +126,8 @@ export const removePostFromSeries_service = async (data) => {
 		(postId) => postId.toString() != post._id.toString()
 	);
 
+	// (3) Prepare tags payload and update
+	//  - step 1: Get all tags of all posts attached to this series
 	const [...allPostsTags] = await Promise.all(
 		series.posts.map(async (postId) => {
 			const post = await Post.findOne({ _id: postId })
@@ -139,6 +138,7 @@ export const removePostFromSeries_service = async (data) => {
 		})
 	);
 
+	// - step 2: Make it flat
 	const allPostsTagsFlat = [
 		...new Set(
 			Array(allPostsTags)
@@ -147,6 +147,7 @@ export const removePostFromSeries_service = async (data) => {
 		),
 	];
 
+	// step 3: Update series tags
 	series.tags = await post.tags.filter((tagId: any) => {
 		if (!allPostsTagsFlat.includes(tagId._id.toString())) {
 			return (tagId = undefined);
@@ -154,6 +155,7 @@ export const removePostFromSeries_service = async (data) => {
 		return tagId;
 	});
 
+	// (4) Save series document
 	await series.save();
 
 	// (5) Return succes message
