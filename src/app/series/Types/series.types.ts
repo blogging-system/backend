@@ -4,15 +4,19 @@ export default `#graphql
     title: String
     slug: String
     description: String
-    posts: [ID]
+    posts: [Post]
     imageUrl: String
     views: Int
-    tags: [ID]
+    tags: [Tag]
     keywords: [String]
     publishedAt: Date
     is_published: Boolean
   }
 
+  input GetAllSeriesInput  {
+    limit: Int
+    lastSeriesId: ID
+  }
 
   input CreateSeriesInput {
     title: String
@@ -31,7 +35,9 @@ export default `#graphql
     seriesId: ID!
   }
 
-  # extend type Query {}
+  extend type Query {
+    getAllSeries(data: GetAllSeriesInput): [Series]!
+  }
 
   extend type Mutation {
     createSeries(data: CreateSeriesInput): Series!

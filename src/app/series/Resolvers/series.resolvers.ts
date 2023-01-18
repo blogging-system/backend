@@ -10,14 +10,30 @@ import {
 	removePostFromSeries_service,
 	publishSeries_service,
 } from "../Services/series.mutations.service";
+import { getAllSeries_service } from "../Services/series.queries.service";
 
 export default {
-	Query: {},
+	Query: {
+		getAllSeries: async (parent, { data }) => {
+			try {
+				// (1) Validate coming data
+				const validatedData = await validate(
+					seriesValidators.getAllSeries,
+					data
+				);
+
+				// (2) Get all series and return them
+				return await getAllSeries_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+	},
 
 	Mutation: {
 		createSeries: async (parent, { data }) => {
 			try {
-				// (1) Validate comming data
+				// (1) Validate coming data
 				const validatedData = await validate(
 					seriesValidators.createSeries,
 					data
@@ -32,7 +48,7 @@ export default {
 
 		deleteSeries: async (parent, { data }) => {
 			try {
-				// (1) validate comming data
+				// (1) validate coming data
 				const validatedData = await validate(
 					seriesValidators.deleteOrPublishSeries,
 					data
@@ -47,7 +63,7 @@ export default {
 
 		addPostToSeries: async (parent, { data }) => {
 			try {
-				// (1) Validate comming data
+				// (1) Validate coming data
 				const validatedData = await validate(
 					seriesValidators.addOrRemovePostFromSeries,
 					data
@@ -62,7 +78,7 @@ export default {
 
 		removePostFromSeries: async (parent, { data }) => {
 			try {
-				// (1) Validate comming data
+				// (1) Validate coming data
 				const validatedData = await validate(
 					seriesValidators.addOrRemovePostFromSeries,
 					data
@@ -77,7 +93,7 @@ export default {
 
 		publishSeries: async (parent, { data }) => {
 			try {
-				// (1) Validate comming data
+				// (1) Validate coming data
 				const validatedData = await validate(
 					seriesValidators.deleteOrPublishSeries,
 					data
