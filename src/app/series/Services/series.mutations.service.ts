@@ -164,3 +164,38 @@ export const removePostFromSeries_service = async (data) => {
 		message: "Post is removed successfully",
 	};
 };
+
+export const publishSeries_service = async (data) => {
+	// (1) Get series
+	const series = await Series.findOne({ _id: data.seriesId }).select(
+		"is_published"
+	);
+
+	// If not found
+	if (!series) {
+		return new GraphQLError("Series Not Found", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	// If already published
+
+	if (series.is_published) {
+		return new GraphQLError("Series is already published", {
+			extensions: { http: { status: 400 } },
+		});
+	}
+
+	// (2) Update series
+	series.is_published = true;
+	series.publishedAt = new Date();
+
+	// (3) Save series
+	await series.save();
+
+	// (4) Return success message
+	return {
+		success: true,
+		message: "Series is published successfully",
+	};
+};

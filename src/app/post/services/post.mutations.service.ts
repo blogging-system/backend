@@ -99,7 +99,7 @@ export const publishPost_service = async ({ postId }) => {
 	const updatedPost = Object.assign(post, {
 		...post,
 		is_published: true,
-		publishedAt: Date.now(),
+		publishedAt: new Date(),
 	});
 
 	// (3) Save updated post

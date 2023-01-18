@@ -8,6 +8,7 @@ import {
 	deleteSeries_service,
 	addPostToSeries_service,
 	removePostFromSeries_service,
+	publishSeries_service,
 } from "../Services/series.mutations.service";
 
 export default {
@@ -33,7 +34,7 @@ export default {
 			try {
 				// (1) validate comming data
 				const validatedData = await validate(
-					seriesValidators.deleteSeries,
+					seriesValidators.deleteOrPublishSeries,
 					data
 				);
 
@@ -69,6 +70,21 @@ export default {
 
 				// (2) Remove post and return message
 				return await removePostFromSeries_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		publishSeries: async (parent, { data }) => {
+			try {
+				// (1) Validate comming data
+				const validatedData = await validate(
+					seriesValidators.deleteOrPublishSeries,
+					data
+				);
+
+				// (2) Remove post and return message
+				return await publishSeries_service(validatedData);
 			} catch (error) {
 				return failure(error);
 			}

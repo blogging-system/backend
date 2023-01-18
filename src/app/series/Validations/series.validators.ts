@@ -11,7 +11,7 @@ export default {
 		keywords: Joi.array().items(Joi.string().required()).required(),
 	}),
 
-	deleteSeries: Joi.object({
+	deleteOrPublishSeries: Joi.object({
 		seriesId: Joi.string().hex().length(24).message("Sorry, Invalid seriesId").required(),
 	}),
 

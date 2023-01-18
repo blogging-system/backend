@@ -1,6 +1,6 @@
-import post from "./schema/post/Types/post.types";
-import tag from "./schema/tag/Types/tag.types";
-import series from "./schema/series/Types/series.types";
+import post from "./app/post/Types/post.types";
+import tag from "./app/tag/Types/tag.types";
+import series from "./app/series/Types/series.types";
 
 const root = `#graphql
   scalar Date
