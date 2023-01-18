@@ -18,6 +18,10 @@ export default `#graphql
     lastSeriesId: ID
   }
 
+  input GetSeriesBySlugInput {
+    slug: String
+  }
+
   input CreateSeriesInput {
     title: String
     description: String
@@ -37,6 +41,7 @@ export default `#graphql
 
   extend type Query {
     getAllSeries(data: GetAllSeriesInput): [Series]!
+    getSeriesBySlug(data: GetSeriesBySlugInput): Series!
   }
 
   extend type Mutation {

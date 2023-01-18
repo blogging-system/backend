@@ -10,7 +10,10 @@ import {
 	removePostFromSeries_service,
 	publishSeries_service,
 } from "../Services/series.mutations.service";
-import { getAllSeries_service } from "../Services/series.queries.service";
+import {
+	getAllSeries_service,
+	getSeriesBySlug_service,
+} from "../Services/series.queries.service";
 
 export default {
 	Query: {
@@ -24,6 +27,21 @@ export default {
 
 				// (2) Get all series and return them
 				return await getAllSeries_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		getSeriesBySlug: async (parent, { data }) => {
+			try {
+				// (1) validate coming data
+				const validatedData = await validate(
+					seriesValidators.getSeriesBySlug,
+					data
+				);
+
+				// (2) Get Series document
+				return await getSeriesBySlug_service(validatedData);
 			} catch (error) {
 				return failure(error);
 			}

@@ -46,3 +46,20 @@ export const getAllSeries_service = async (data) => {
 	// (3) Return the found series
 	return series;
 };
+
+export const getSeriesBySlug_service = async (data) => {
+	// (1) Get series
+	const series = await Series.findOne({ slug: data.slug })
+		.select("-is_published -createdAt -updatedAt -views")
+		.lean();
+
+	// If not found
+	if (!series) {
+		return new GraphQLError("Seris Not Found", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+	console.log(series);
+	// (2) Return series
+	return series;
+};
