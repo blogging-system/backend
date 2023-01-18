@@ -51,6 +51,10 @@ export const getSeriesBySlug_service = async (data) => {
 	// (1) Get series
 	const series = await Series.findOne({ slug: data.slug })
 		.select("-is_published -createdAt -updatedAt -views")
+		.populate({
+			path: "posts",
+			select: "slug description imageUrl publishedAt",
+		})
 		.lean();
 
 	// If not found
@@ -59,7 +63,7 @@ export const getSeriesBySlug_service = async (data) => {
 			extensions: { http: { status: 404 } },
 		});
 	}
-	console.log(series);
+
 	// (2) Return series
 	return series;
 };
