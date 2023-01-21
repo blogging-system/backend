@@ -29,6 +29,7 @@ export const getPostById_service = async (data) => {
 
 // (2) Return Post by given slug
 export const getPostBySlug_service = async (data) => {
+	console.log({ slug: data.slug });
 	// (1) Find Post
 	const post = await Post.findOne({
 		slug: data.slug,
@@ -45,7 +46,7 @@ export const getPostBySlug_service = async (data) => {
 		});
 	}
 
-	// TODO: Work on views (only increase if not me (admin!))
+	//  TODO: Work on views (only increase if not me (admin!))
 
 	// (2) Return Post
 	return post;
@@ -53,13 +54,19 @@ export const getPostBySlug_service = async (data) => {
 
 // (3) Return All posts
 export const getAllPosts_service = async (data) => {
+	let posts = [];
 	// (1) Find posts
-	const posts = !data.lastPostId
-		? await Post.find({}).populate({ path: "tags" }).limit(data.limit).lean() // page 1
-		: await Post.find({ _id: { $gt: data.lastPostId } }) // Next pages
-				.populate({ path: "tags" })
-				.limit(data.limit)
-				.lean();
+
+	if (!data || !data.lastPostId) {
+		posts = await Post.find({}).populate({ path: "tags" }).limit(5).lean(); // page 1
+	}
+
+	if (data && data.lastPostId) {
+		await Post.find({ _id: { $gt: data.lastPostId } }) // Next pages
+			.populate({ path: "tags" })
+			.limit(data.limit)
+			.lean();
+	}
 
 	// If no posts found
 	if (posts.length == 0) {
@@ -104,11 +111,19 @@ export const getRelatedPosts_service = async (data) => {
 };
 
 export const getLatestPosts_service = async () => {
-	return await Post.find({}).sort({ publishedAt: -1 }).limit(3).lean();
+	const posts = await Post.find({ is_published: true })
+		.sort({ publishedAt: -1 })
+		.limit(3)
+		.lean();
+
+	return posts;
 };
 
 export const getPopularPosts_service = async () => {
-	return await Post.find({}).sort({ views: -1 }).limit(3).lean();
+	return await Post.find({ is_published: true })
+		.sort({ views: -1 })
+		.limit(3)
+		.lean();
 };
 
 export const getAllPostsByTag_service = async (data) => {

@@ -2,35 +2,24 @@ import { GraphQLError } from "graphql";
 import Series from "../Model/series.model";
 
 export const getAllSeries_service = async (data) => {
-	// (1) Let's intialize series variable
+	const pageNumber = data.page;
+	const limit = 6;
 	let series = [];
 
-	// (2) Get series from DB and sort them to return latest published
+	const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
 
-	// Scenario 1 => If lastSeriesId not provided, then find the first N series from DB
-	if (!data.lastSeriesId) {
-		series = await Series.find({ is_published: true }) // First page
+	// (1) Get series fom DB
+	if (data.page) {
+		series = await Series.find({ is_published: true })
 			.sort({ publishedAt: -1 }) // sort by latest published
-			.limit(data.limit)
+			.skip(skip)
+			.limit(limit)
 			.select("title slug description imageUrl tags publishedAt")
 			.populate({ path: "tags" })
 			.lean();
-	}
-
-	// Scenario 2 => If lastSeriesid was provided, then do pagination!1
-	if (data.lastSeriesId) {
-		// (1) Get publish date of the provided series document
-		const seriesProvided = await Series.findOne({ _id: data.lastSeriesId })
-			.select("publishedAt")
-			.lean();
-
-		// (2) Find the next N series published after the provied series document
-		series = await Series.find({
-			is_published: true,
-			publishedAt: { $lt: new Date(seriesProvided.publishedAt) },
-		}) // Next pages
-			.sort({ publishedAt: -1 })
-			.limit(data.limit)
+	} else {
+		series = await Series.find({ is_published: true })
+			.sort({ publishedAt: -1 }) // sort by latest published
 			.select("title slug description imageUrl tags publishedAt")
 			.populate({ path: "tags" })
 			.lean();
@@ -43,8 +32,10 @@ export const getAllSeries_service = async (data) => {
 		});
 	}
 
-	// (3) Return the found series
-	return series;
+	const count = await Series.find({ is_published: true }).select("_id").lean();
+
+	// (2) Return the found series
+	return { series, totalCount: count.length };
 };
 
 export const getSeriesBySlug_service = async (data) => {

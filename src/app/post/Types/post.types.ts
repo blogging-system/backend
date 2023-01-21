@@ -71,12 +71,12 @@ export default `#graphql
   }
 
   extend type Query {
-    getPostBySlug(data: GetPostBySlugInput): Post
-    getPostById(data: GetPostByIdInput): Post
-    getAllPosts(data: GetAllPostsInput): [Post]
-    getRelatedPosts(data: GetRelatedPostsInput): [Post]
-    getLatestPosts: [Post]
-    getPopularPosts: [Post]
+    getPostBySlug(data: GetPostBySlugInput): Post!
+    getPostById(data: GetPostByIdInput): Post!
+    getAllPosts(data: GetAllPostsInput): [Post]!
+    getRelatedPosts(data: GetRelatedPostsInput): [Post]!
+    getLatestPosts: [Post]!
+    getPopularPosts: [Post]!
     getAllPostsByTag(data: GetAllPostsByTagInput): [Post]!
   }
 

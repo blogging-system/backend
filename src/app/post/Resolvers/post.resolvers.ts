@@ -51,9 +51,7 @@ export default {
 		getAllPosts: async (parent, { data }) => {
 			try {
 				// (1) Validate comming Data
-				const validatedData = data
-					? await validate(postValidators.getAllPosts, data)
-					: data;
+				const validatedData = await validate(postValidators.getAllPosts, data);
 
 				// (2) Find and return posts
 				return await getAllPosts_service(validatedData);

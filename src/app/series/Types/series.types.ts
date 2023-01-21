@@ -14,8 +14,12 @@ export default `#graphql
   }
 
   input GetAllSeriesInput  {
-    limit: Int
-    lastSeriesId: ID
+    page: Int
+  }
+
+  type GetAllSeriesResult {
+    series: [Series]!
+    totalCount: Int
   }
 
   input GetSeriesBySlugInput {
@@ -40,7 +44,7 @@ export default `#graphql
   }
 
   extend type Query {
-    getAllSeries(data: GetAllSeriesInput): [Series]!
+    getAllSeries(data: GetAllSeriesInput): GetAllSeriesResult!
     getSeriesBySlug(data: GetSeriesBySlugInput): Series!
   }
 
