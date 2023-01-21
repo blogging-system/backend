@@ -4,7 +4,7 @@ import Post from "./../../post/Model/post.model";
 
 export const getAllTags_service = async (data) => {
 	// (1) Get all tags in DB
-	const tags = await Tag.find({}).select("_id name").lean();
+	const tags = await Tag.find({}).select("_id name slug").lean();
 
 	// If not tags found
 	if (tags.length == 0) {
@@ -25,15 +25,17 @@ export const getAllTags_service = async (data) => {
 
 			// (2) Return result
 			return await (tag = {
-				tagId: tag._id,
+				_id: tag._id,
 				name: tag.name,
+				slug: tag.slug,
 				count: postsCount.length,
 			});
 		})
 	);
-
+	
 	// (3) Return them with asending order
 	return await popularTags
+		.filter((tag) => tag.count >= 1)
 		.sort((current: any, next: any) => next.count - current.count) // sort ascending
 		.slice(0, data.limit);
 };

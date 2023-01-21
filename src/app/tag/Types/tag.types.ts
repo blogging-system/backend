@@ -1,11 +1,14 @@
 export default `#graphql
  type Tag {
+    _id: ID
     name: String
+    slug: String
   }
 
   type TagsWithCount {
-    tagId: ID
+    _id: ID
     name: String
+    slug: String
     count: Int
   }
 

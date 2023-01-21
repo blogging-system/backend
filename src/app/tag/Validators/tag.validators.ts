@@ -3,7 +3,7 @@ import Joi from "joi";
 export default {
 	// Queries
 	getAllTags: Joi.object({
-		limit: Joi.number().positive().min(1).max(10).default(5),
+		limit: Joi.number().positive().min(1).max(30).default(10),
 	}),
 
 	// Mutations
