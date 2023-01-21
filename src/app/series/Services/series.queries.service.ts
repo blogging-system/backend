@@ -44,7 +44,7 @@ export const getSeriesBySlug_service = async (data) => {
 		.select("-is_published -createdAt -updatedAt -views")
 		.populate({
 			path: "posts",
-			select: "slug description imageUrl publishedAt",
+			select: "slug title description imageUrl publishedAt",
 		})
 		.lean();
 

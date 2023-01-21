@@ -29,7 +29,6 @@ export const getPostById_service = async (data) => {
 
 // (2) Return Post by given slug
 export const getPostBySlug_service = async (data) => {
-	console.log({ slug: data.slug });
 	// (1) Find Post
 	const post = await Post.findOne({
 		slug: data.slug,
