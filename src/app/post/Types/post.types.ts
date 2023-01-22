@@ -40,7 +40,8 @@ export default `#graphql
   }
 
   input GetAllPostsByTagInput {
-    tagId: ID
+    slug: String
+    page: Int
   }
 
   input CreatePostInput {

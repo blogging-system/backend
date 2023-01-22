@@ -94,7 +94,7 @@ export default {
 		getAllPostsByTag: async (parent, { data }) => {
 			try {
 				// (1) Validate coming data
-				const validatedData = await validate(postValidators.getPostByTag, data);
+				const validatedData = await validate(postValidators.getPostsByTag, data);
 
 				// (2) Get posts
 				return await getAllPostsByTag_service(validatedData);

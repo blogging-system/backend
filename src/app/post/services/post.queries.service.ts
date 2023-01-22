@@ -1,5 +1,6 @@
 import { GraphQLError } from "graphql";
 import Post from "./../Model/post.model";
+import Tag from "./../../tag/Model/tag.model";
 
 // TODO: Only return posts if is_published == true!!!!! for all services!!!!
 
@@ -126,10 +127,28 @@ export const getPopularPosts_service = async () => {
 };
 
 export const getAllPostsByTag_service = async (data) => {
+	const pageNumber = data.page;
+	const limit = 6;
+
+	const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
+
+	const tag = await Tag.findOne({ slug: data.slug }).select("_id").lean();
+
 	// (1) Get posts from DB
-	const posts = await Post.find({ tags: data.tagId });
+	const posts = await Post.find({ tags: { $in: tag._id } })
+		.sort({ publishedAt: -1 })
+		.skip(skip)
+		.limit(limit)
+		.select("_id title slug imageUrl")
+		.lean();
 
 	// If not posts
+	if (posts.length == 0 && data.page > 1) {
+		return new GraphQLError("No More Posts", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+	
 	if (posts.length == 0) {
 		return new GraphQLError("No Posts with this tag", {
 			extensions: { http: { status: 404 } },
