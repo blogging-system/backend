@@ -148,13 +148,19 @@ export const getAllPostsByTag_service = async (data) => {
 			extensions: { http: { status: 404 } },
 		});
 	}
-	
+
 	if (posts.length == 0) {
 		return new GraphQLError("No Posts with this tag", {
 			extensions: { http: { status: 404 } },
 		});
 	}
 
+	// Get count of all posts having this tag
+	const totalCount = await Post.find({ tags: { $in: tag._id } })
+		.select("_id")
+		.lean()
+		.count();
+
 	// (2) Return found posts
-	return posts;
+	return { posts, totalCount };
 };

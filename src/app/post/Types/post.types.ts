@@ -44,6 +44,11 @@ export default `#graphql
     page: Int
   }
 
+  type GetAllPostsByTagResult {
+    posts: [Post]!
+    totalCount: Int
+  }
+
   input CreatePostInput {
     title: String
     description: String
@@ -78,7 +83,7 @@ export default `#graphql
     getRelatedPosts(data: GetRelatedPostsInput): [Post]!
     getLatestPosts: [Post]!
     getPopularPosts: [Post]!
-    getAllPostsByTag(data: GetAllPostsByTagInput): [Post]!
+    getAllPostsByTag(data: GetAllPostsByTagInput): GetAllPostsByTagResult!
   }
 
   extend type Mutation {
