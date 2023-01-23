@@ -18,8 +18,11 @@ export const createPost_service = async (data) => {
 		tags: postTags,
 	});
 
-	// (3) Save it into DB and return it
-	return await post.save();
+	// (3) Save it into DB
+	await post.save();
+
+	// (4) Return Post
+	return await Post.findOne({ _id: post._id }).populate("tags").lean();
 };
 
 // (2) Update Post

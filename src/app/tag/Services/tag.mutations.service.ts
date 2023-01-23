@@ -4,25 +4,29 @@ import Post from "./../../post/Model/post.model";
 
 export const insertTags_service = async ({ postTags }) => {
 	// (1) Insert Tags
-	postTags
-		.toString()
-		.split("-")
-		.forEach(async (tag) => {
-			// If tag is already created
-			const found = await Tag.findOne({ name: tag });
-			if (found) return;
+	const [...tags] = await Promise.all(
+		postTags
+			.toString()
+			.split("-")
+			.map(async (tag) => {
+				const found = await Tag.findOne({ name: tag });
 
-			// IF not found, then create new tag and save it
-			const newTag = new Tag({ name: tag });
-			return await newTag.save();
-		});
+				// If tag is already created
+				if (found) {
+					return found._id;
 
-	// (2) Get all tags
-	return await Tag.find({
-		name: {
-			$in: postTags.toString().split("-"),
-		},
-	});
+					// IF not found, then create new tag and save it
+				} else {
+					const newTag = new Tag({ name: tag });
+					const { _id } = await newTag.save();
+
+					return _id;
+				}
+			})
+	);
+
+	// (2) Return tags
+	return tags;
 };
 
 export const deleteTags_service = async ({ tags }) => {

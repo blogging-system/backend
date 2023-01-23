@@ -18,7 +18,7 @@ export default `#graphql
 
   extend type Query {
     getAllTags: [TagsWithCount]!
-    getLatestTags: [Tag]!
+    getLatestTags: [TagsWithCount]!
   }
 
   extend type Mutation {
