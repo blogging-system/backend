@@ -14,11 +14,7 @@ export default {
 	Query: {
 		getAllTags: async (parent, { data }) => {
 			try {
-				// (1) Validate comming data
-				const validatedData = await validate(tagValidators.getAllTags, data);
-
-				//(2) Return tags with provided limit
-				return await getAllTags_service(validatedData);
+				return await getAllTags_service();
 			} catch (error) {
 				return failure(error);
 			}

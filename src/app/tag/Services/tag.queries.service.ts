@@ -2,7 +2,7 @@ import { GraphQLError } from "graphql";
 import Tag from "./../Model/tag.model";
 import Post from "./../../post/Model/post.model";
 
-export const getAllTags_service = async (data) => {
+export const getAllTags_service = async () => {
 	// (1) Get all tags in DB
 	const tags = await Tag.find({}).select("_id name slug").lean();
 
@@ -14,7 +14,7 @@ export const getAllTags_service = async (data) => {
 	}
 
 	// (2) Loop through tags array and get all posts having this tag
-	const popularTags = await Promise.all(
+	const allTags = await Promise.all(
 		tags.map(async (tag: any) => {
 			// (1) Get all posts having this current tag
 			const postsCount = await Post.find({
@@ -32,12 +32,11 @@ export const getAllTags_service = async (data) => {
 			});
 		})
 	);
-	
-	// (3) Return them with asending order
-	return await popularTags
-		.filter((tag) => tag.count >= 1)
-		.sort((current: any, next: any) => next.count - current.count) // sort ascending
-		.slice(0, data.limit);
+
+	// (3) Return them with ascending order
+	return await allTags
+		.filter((tag) => tag.count >= 1) // to prevent 0 count tags
+		.sort((current: any, next: any) => next.count - current.count); // sort ascending
 };
 
 export const getLatestTags_service = async () => {

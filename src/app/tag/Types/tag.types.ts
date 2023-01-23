@@ -12,16 +12,12 @@ export default `#graphql
     count: Int
   }
 
-  input GetAllTagsInput {
-    limit: Int
-  }
-
  input DeleteTagInput {
   tagId: ID
  }
 
   extend type Query {
-    getAllTags(data: GetAllTagsInput): [TagsWithCount]!
+    getAllTags: [TagsWithCount]!
     getLatestTags: [Tag]!
   }
 
