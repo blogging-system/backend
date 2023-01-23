@@ -3,7 +3,7 @@ import Series from "../Model/series.model";
 
 export const getAllSeries_service = async (data) => {
 	const pageNumber = data.page;
-	const limit = 6;
+	const limit = 8;
 	let series = [];
 
 	const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
