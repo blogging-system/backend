@@ -128,7 +128,7 @@ export const getPopularPosts_service = async () => {
 
 export const getAllPostsByTag_service = async (data) => {
 	const pageNumber = data.page;
-	const limit = 6;
+	const limit = 8;
 
 	const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
 

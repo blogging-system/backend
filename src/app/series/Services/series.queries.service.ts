@@ -16,12 +16,20 @@ export const getAllSeries_service = async (data) => {
 			.limit(limit)
 			.select("title slug description imageUrl tags publishedAt")
 			.populate({ path: "tags" })
+			.populate({
+				path: "posts",
+				select: "_id slug title imageUrl",
+			})
 			.lean();
 	} else {
 		series = await Series.find({ is_published: true })
 			.sort({ publishedAt: -1 }) // sort by latest published
 			.select("title slug description imageUrl tags publishedAt")
 			.populate({ path: "tags" })
+			.populate({
+				path: "posts",
+				select: "_id slug title imageUrl",
+			})
 			.lean();
 	}
 
@@ -39,14 +47,19 @@ export const getAllSeries_service = async (data) => {
 };
 
 export const getSeriesBySlug_service = async (data) => {
+	// Let's make every page contains only 8 docs maximium
+	const limit = 8;
+
 	// (1) Get series
 	const series = await Series.findOne({ slug: data.slug })
 		.select("-is_published -createdAt -updatedAt -views")
 		.populate({
 			path: "posts",
-			select: "slug title description imageUrl publishedAt",
+			select: "_id slug title imageUrl",
 		})
 		.lean();
+
+	const count = series.posts.length;
 
 	// If not found
 	if (!series) {
@@ -55,6 +68,18 @@ export const getSeriesBySlug_service = async (data) => {
 		});
 	}
 
-	// (2) Return series
-	return series;
+	// If given page is larger than our numbers
+	if (data.page > Math.ceil(series.posts.length / limit)) {
+		return new GraphQLError("No More Posts", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	// (2) Sort them so the latest added be on the top of the array
+	series.posts = series.posts
+		.reverse()
+		.slice((data.page - 1) * limit, data.page * limit);
+
+	// (3) Return series document
+	return { series, totalCount: count };
 };

@@ -12,5 +12,6 @@
 
 
 -------------------------------
-
-Close the graphql introspection!!!! ([Security concern]('https://youtu.be/viWzbPuGqpo'))
+#### Don't forget:
+- Close the graphql introspection!!!! ([Security concern]('https://youtu.be/viWzbPuGqpo'))
+- Close DB ACCESS cloud!!

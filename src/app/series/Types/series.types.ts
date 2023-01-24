@@ -22,8 +22,14 @@ export default `#graphql
     totalCount: Int
   }
 
+  type GetSeriesBySlugResult {
+    series: Series!
+    totalCount: Int
+  }
+
   input GetSeriesBySlugInput {
     slug: String
+    page: Int
   }
 
   input CreateSeriesInput {
@@ -45,7 +51,7 @@ export default `#graphql
 
   extend type Query {
     getAllSeries(data: GetAllSeriesInput): GetAllSeriesResult!
-    getSeriesBySlug(data: GetSeriesBySlugInput): Series!
+    getSeriesBySlug(data: GetSeriesBySlugInput): GetSeriesBySlugResult!
   }
 
   extend type Mutation {

@@ -9,6 +9,7 @@ export default {
 
 	getSeriesBySlug: Joi.object({
 		slug: Joi.string().trim().required(),
+		page: Joi.number().positive().min(1).required(),
 	}),
 
 	// Mutations
