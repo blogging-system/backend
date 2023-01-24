@@ -1,6 +1,8 @@
 import { GraphQLError } from "graphql";
 import Series from "../Model/series.model";
 
+
+
 export const getAllSeries_service = async (data) => {
 	const pageNumber = data.page;
 	const limit = 8;

@@ -17,7 +17,7 @@ export default {
 	}),
 
 	getRelatedPosts: Joi.object({
-		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+		_id: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
 	}),
 
 	getPostsByTag: Joi.object({

@@ -36,7 +36,7 @@ export default `#graphql
   }
 
   input GetRelatedPostsInput {
-    postId: ID!
+    _id: ID!
   }
 
   input GetAllPostsByTagInput {

@@ -81,7 +81,7 @@ export const getAllPosts_service = async (data) => {
 
 export const getRelatedPosts_service = async (data) => {
 	// (1) Find post
-	const post = await Post.findOne({ _id: data.postId }).select("tags").lean();
+	const post = await Post.findOne({ _id: data._id }).select("tags").lean();
 
 	// If not found
 	if (!post) {
@@ -95,8 +95,7 @@ export const getRelatedPosts_service = async (data) => {
 	// (2) Get related Posts
 	const foundPosts = await Post.find({ tags: { $all: post.tags } })
 		.limit(3)
-		.populate({ path: "tags" })
-		.select("imageUrl tags")
+		.select("_id title slug imageUrl")
 		.lean();
 
 	// If no related posts
@@ -107,7 +106,7 @@ export const getRelatedPosts_service = async (data) => {
 	}
 
 	// (3) Filter out the current post and return the rest found posts
-	return foundPosts.filter((post) => post._id != data.postId);
+	return foundPosts.filter((post) => post._id != data._id);
 };
 
 export const getLatestPosts_service = async () => {
