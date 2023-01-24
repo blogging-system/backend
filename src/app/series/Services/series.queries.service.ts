@@ -51,7 +51,7 @@ export const getSeriesBySlug_service = async (data) => {
 	const limit = 8;
 
 	// (1) Get series
-	const series = await Series.findOne({ slug: data.slug })
+	const series = await Series.findOne({ slug: data.slug, is_published: true })
 		.select("-is_published -createdAt -updatedAt -views")
 		.populate({
 			path: "posts",
@@ -59,17 +59,17 @@ export const getSeriesBySlug_service = async (data) => {
 		})
 		.lean();
 
-	const count = series.posts.length;
-
 	// If not found
 	if (!series) {
-		return new GraphQLError("Seris Not Found", {
+		return new GraphQLError("Series Not Found", {
 			extensions: { http: { status: 404 } },
 		});
 	}
 
+	const count = series.posts.length;
+
 	// If given page is larger than our numbers
-	if (data.page > Math.ceil(series.posts.length / limit)) {
+	if (data.page != 1 && data.page > Math.ceil(count / limit)) {
 		return new GraphQLError("No More Posts", {
 			extensions: { http: { status: 404 } },
 		});
