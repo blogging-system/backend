@@ -2,6 +2,33 @@ import { GraphQLError } from "graphql";
 import Post from "./../Model/post.model";
 import Tag from "./../../tag/Model/tag.model";
 
+export const getPostByTitle_service = async (data) => {
+	console.log("--------", data.title, "--------------");
+	// (1) Let's find those docs that match this query!
+	const posts = await Post.aggregate([
+		{
+			$search: {
+				autocomplete: {
+					query: data.title,
+					path: "title",
+				},
+			},
+		},
+		{ $limit: 3 },
+		{ $project: { title: 1, slug: 1 } },
+	]);
+
+	// If none matchs
+	if (posts.length < 1) {
+		return new GraphQLError("No Posts Found", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	// (2) Return matched posts
+	return posts;
+};
+
 // TODO: Only return posts if is_published == true!!!!! for all services!!!!
 
 // (1) Return Post by given ID

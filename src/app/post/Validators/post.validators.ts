@@ -2,6 +2,10 @@ import Joi from "joi";
 
 export default {
 	// Queries
+	getPostByTitle: Joi.object({
+		title: Joi.string().required(),
+	}),
+
 	getPostBySlug: Joi.object({
 		slug: Joi.string().required(),
 	}),

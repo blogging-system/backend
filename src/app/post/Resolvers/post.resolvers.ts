@@ -4,6 +4,7 @@ import postValidators from "../Validators/post.validators";
 import failure from "./../../../helpers/handleFailure";
 
 import {
+	getPostByTitle_service,
 	getPostBySlug_service,
 	getPostById_service,
 	getAllPosts_service,
@@ -21,6 +22,21 @@ import {
 
 export default {
 	Query: {
+		getPostByTitle: async (parent, { data }) => {
+			try {
+				// (1) Validate coming data
+				const validatedData = await validate(
+					postValidators.getPostByTitle,
+					data
+				);
+
+				// (2) Find posts and return data
+				return await getPostByTitle_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
 		getPostBySlug: async (parent, { data }) => {
 			try {
 				// (1) Validate comming Data
@@ -94,7 +110,10 @@ export default {
 		getAllPostsByTag: async (parent, { data }) => {
 			try {
 				// (1) Validate coming data
-				const validatedData = await validate(postValidators.getPostsByTag, data);
+				const validatedData = await validate(
+					postValidators.getPostsByTag,
+					data
+				);
 
 				// (2) Get posts
 				return await getAllPostsByTag_service(validatedData);

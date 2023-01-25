@@ -22,6 +22,10 @@ export default `#graphql
     is_published: Boolean
   }
 
+  input GetPostByTitleInput {
+    title: String!
+  }
+
   input GetPostBySlugInput {
     slug: String!
   }
@@ -77,6 +81,7 @@ export default `#graphql
   }
 
   extend type Query {
+    getPostByTitle(data: GetPostByTitleInput): [Post]!
     getPostBySlug(data: GetPostBySlugInput): Post!
     getPostById(data: GetPostByIdInput): Post!
     getAllPosts(data: GetAllPostsInput): [Post]!
