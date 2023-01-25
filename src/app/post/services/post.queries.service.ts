@@ -10,6 +10,7 @@ export const getPostByTitle_service = async (data) => {
 				autocomplete: {
 					query: data.title,
 					path: "title",
+					fuzzy: { maxEdits: 2 },
 				},
 			},
 		},
@@ -17,7 +18,7 @@ export const getPostByTitle_service = async (data) => {
 		{ $project: { title: 1, slug: 1 } },
 	]);
 
-	// If none matchs
+	// If nothing matches
 	if (posts.length < 1) {
 		return new GraphQLError("No Posts Found", {
 			extensions: { http: { status: 404 } },
