@@ -3,7 +3,6 @@ import Post from "./../Model/post.model";
 import Tag from "./../../tag/Model/tag.model";
 
 export const getPostByTitle_service = async (data) => {
-	console.log("--------", data.title, "--------------");
 	// (1) Let's find those docs that match this query!
 	const posts = await Post.aggregate([
 		{

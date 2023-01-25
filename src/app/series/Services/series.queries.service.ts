@@ -1,8 +1,6 @@
 import { GraphQLError } from "graphql";
 import Series from "../Model/series.model";
 
-
-
 export const getAllSeries_service = async (data) => {
 	const pageNumber = data.page;
 	const limit = 8;
@@ -84,4 +82,30 @@ export const getSeriesBySlug_service = async (data) => {
 
 	// (3) Return series document
 	return { series, totalCount: count };
+};
+
+export const getSeriesByTitle_service = async (data) => {
+	// (1) Let's find those docs that match this query!
+	const series = await Series.aggregate([
+		{
+			$search: {
+				autocomplete: {
+					query: data.title,
+					path: "title",
+				},
+			},
+		},
+		{ $limit: 3 },
+		{ $project: { title: 1, slug: 1 } },
+	]);
+
+	// If none matchs
+	if (series.length < 1) {
+		return new GraphQLError("No Series Found", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	// (2) Return matched posts
+	return series;
 };

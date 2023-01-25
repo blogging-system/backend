@@ -1,6 +1,5 @@
 import validate from "../../../helpers/validate";
 import seriesValidators from "../Validations/series.validators";
-
 import failure from "../../../helpers/handleFailure";
 
 import {
@@ -13,6 +12,7 @@ import {
 import {
 	getAllSeries_service,
 	getSeriesBySlug_service,
+	getSeriesByTitle_service,
 } from "../Services/series.queries.service";
 
 export default {
@@ -42,6 +42,21 @@ export default {
 
 				// (2) Get Series document
 				return await getSeriesBySlug_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		getSeriesByTitle: async (parent, { data }) => {
+			try {
+				// (1) Validate coming data
+				const validatedData = await validate(
+					seriesValidators.getSeriesByTitle,
+					data
+				);
+
+				// (2) return the result
+				return await getSeriesByTitle_service(validatedData);
 			} catch (error) {
 				return failure(error);
 			}

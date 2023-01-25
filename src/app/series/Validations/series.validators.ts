@@ -12,6 +12,10 @@ export default {
 		page: Joi.number().positive().min(1).required(),
 	}),
 
+	getSeriesByTitle: Joi.object({
+		title: Joi.string().required(),
+	}),
+
 	// Mutations
 	createSeries: Joi.object({
 		title: Joi.string().required(),
