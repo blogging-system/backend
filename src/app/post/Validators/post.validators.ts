@@ -9,9 +9,11 @@ export default {
 	getPostBySlug: Joi.object({
 		slug: Joi.string().required(),
 	}),
+	
 	getPostById: Joi.object({
 		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
 	}),
+
 	getAllPosts: Joi.object({
 		lastPostId: Joi.string()
 			.hex()
@@ -30,6 +32,10 @@ export default {
 	}),
 
 	getPublishedPosts: Joi.object({
+		page: Joi.number().positive().min(1).required(),
+	}),
+
+	getUnPublishedPosts: Joi.object({
 		page: Joi.number().positive().min(1).required(),
 	}),
 

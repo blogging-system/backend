@@ -99,6 +99,7 @@ export default `#graphql
     getPopularPosts: [Post]!
     getAllPostsByTag(data: GetAllPostsByTagInput): GetAllPostsByTagResult!
     getPublishedPosts(data: GetPublishedPostsInput): GetPublishedPostsResult!
+    getUnPublishedPosts(data: GetPublishedPostsInput): GetPublishedPostsResult!
   }
 
   extend type Mutation {

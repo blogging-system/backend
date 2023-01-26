@@ -190,3 +190,64 @@ export const getAllPostsByTag_service = async (data) => {
 	// (2) Return found posts
 	return { posts, totalCount };
 };
+
+// TODO: protect this
+export const getPublishedPosts_service = async (data) => {
+	// (1) Prepare pagination logic
+	const pageNumber = data.page;
+	const limit = 8;
+
+	const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
+
+	// (2) Get posts
+	const posts = await Post.find({ is_published: true })
+		.skip(skip)
+		.limit(limit)
+		.select("_id title slug views")
+		.lean();
+
+	// If No More Posts
+	if (posts.length < 1) {
+		return new GraphQLError("No More Posts", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	const totalCount = await Post.count({ is_published: true });
+
+	return {
+		posts,
+		totalCount,
+	};
+};
+// TODO: protect this
+export const getUnPublishedPosts_service = async (data) => {
+	// (1) Prepare pagination logic
+	const pageNumber = data.page;
+	const limit = 8;
+
+	const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
+
+	// (2) Get posts
+	const posts = await Post.find({ is_published: false })
+		.skip(skip)
+		.limit(limit)
+		.select("_id title slug views")
+		.lean();
+
+	// If No More Posts
+	if (posts.length < 1) {
+		return new GraphQLError("No More Posts", {
+			extensions: { http: { status: 404 } },
+		});
+	}
+
+	const totalCount = await Post.count({ is_published: false });
+
+	return {
+		posts,
+		totalCount,
+	};
+};
+
+
