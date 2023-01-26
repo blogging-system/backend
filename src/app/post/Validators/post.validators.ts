@@ -29,6 +29,10 @@ export default {
 		page: Joi.number().positive().min(1).required(),
 	}),
 
+	getPublishedPosts: Joi.object({
+		page: Joi.number().positive().min(1).required(),
+	}),
+
 	// Mutations
 	create: Joi.object({
 		title: Joi.string().required(),
