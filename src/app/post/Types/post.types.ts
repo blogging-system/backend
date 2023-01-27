@@ -54,7 +54,7 @@ export default `#graphql
   }
 
   input GetPublishedPostsInput {
-    page: Int!
+    page: Int
   }
 
   type GetPublishedPostsResult {
@@ -63,12 +63,12 @@ export default `#graphql
   }
 
   input CreatePostInput {
-    title: String
-    description: String
-    content: String
-    tags: String
-    keywords: [String!]
-    imageUrl: String
+    title: String!
+    description: String!
+    content: String!
+    tags: [String!]!
+    keywords: [String!]!
+    imageUrl: String!
   }
 
   input UpdatePostInput {

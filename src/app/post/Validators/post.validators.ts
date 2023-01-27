@@ -9,7 +9,7 @@ export default {
 	getPostBySlug: Joi.object({
 		slug: Joi.string().required(),
 	}),
-	
+
 	getPostById: Joi.object({
 		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
 	}),
@@ -44,8 +44,8 @@ export default {
 		title: Joi.string().required(),
 		description: Joi.string().required(),
 		content: Joi.string().required(),
-		tags: Joi.string().required(),
-		keywords: Joi.array().items(Joi.string().required()).required(),
+		tags: Joi.array().items(Joi.string().required()),
+		keywords: Joi.array().items(Joi.string().required()),
 		imageUrl: Joi.string().uri().required(),
 	}),
 
