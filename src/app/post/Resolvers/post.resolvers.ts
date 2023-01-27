@@ -12,6 +12,8 @@ import {
 	getLatestPosts_service,
 	getPopularPosts_service,
 	getAllPostsByTag_service,
+	getPublishedPosts_service,
+	getUnPublishedPosts_service,
 } from "./../services/post.queries.service";
 import {
 	createPost_service,
@@ -117,6 +119,36 @@ export default {
 
 				// (2) Get posts
 				return await getAllPostsByTag_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		getPublishedPosts: async (parent, { data }) => {
+			try {
+				// (1) Validate coming data
+				const validatedData = await validate(
+					postValidators.getPublishedPosts,
+					data
+				);
+
+				// (2) Return the result
+				return await getPublishedPosts_service(validatedData);
+			} catch (error) {
+				return failure(error);
+			}
+		},
+
+		getUnPublishedPosts: async (parent, { data }) => {
+			try {
+				// (1) Validate coming data
+				const validatedData = await validate(
+					postValidators.getUnPublishedPosts,
+					data
+				);
+
+				// (2) Return the result
+				return await getUnPublishedPosts_service(validatedData);
 			} catch (error) {
 				return failure(error);
 			}

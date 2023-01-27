@@ -5,24 +5,21 @@ import Post from "./../../post/Model/post.model";
 export const insertTags_service = async ({ postTags }) => {
 	// (1) Insert Tags
 	const [...tags] = await Promise.all(
-		postTags
-			.toString()
-			.split("-")
-			.map(async (tag) => {
-				const found = await Tag.findOne({ name: tag });
+		postTags.map(async (tag) => {
+			const found = await Tag.findOne({ name: tag });
 
-				// If tag is already created
-				if (found) {
-					return found._id;
+			// If tag is already created
+			if (found) {
+				return found._id;
 
-					// IF not found, then create new tag and save it
-				} else {
-					const newTag = new Tag({ name: tag });
-					const { _id } = await newTag.save();
+				// IF not found, then create new tag and save it
+			} else {
+				const newTag = new Tag({ name: tag });
+				const { _id } = await newTag.save();
 
-					return _id;
-				}
-			})
+				return _id;
+			}
+		})
 	);
 
 	// (2) Return tags

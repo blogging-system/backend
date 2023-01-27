@@ -9,9 +9,11 @@ export default {
 	getPostBySlug: Joi.object({
 		slug: Joi.string().required(),
 	}),
+
 	getPostById: Joi.object({
 		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
 	}),
+
 	getAllPosts: Joi.object({
 		lastPostId: Joi.string()
 			.hex()
@@ -33,13 +35,17 @@ export default {
 		page: Joi.number().positive().min(1).required(),
 	}),
 
+	getUnPublishedPosts: Joi.object({
+		page: Joi.number().positive().min(1).required(),
+	}),
+
 	// Mutations
 	create: Joi.object({
 		title: Joi.string().required(),
 		description: Joi.string().required(),
 		content: Joi.string().required(),
-		tags: Joi.string().required(),
-		keywords: Joi.array().items(Joi.string().required()).required(),
+		tags: Joi.array().items(Joi.string().required()),
+		keywords: Joi.array().items(Joi.string().required()),
 		imageUrl: Joi.string().uri().required(),
 	}),
 
