@@ -72,12 +72,12 @@ export default `#graphql
   }
 
   input UpdatePostInput {
-    _id: ID
+    _id: ID!
     title: String
     description: String
     content: String
-    tags: String
-    keywords: [String]
+    tags: [String!]
+    keywords: [String!]
     imageUrl: String
   }
 
