@@ -201,7 +201,7 @@ export const getPublishedPosts_service = async (data) => {
 
 	// (2) Get posts
 	const posts = await Post.find({ is_published: true })
-		.sort({ createdAt: -1 })
+		.sort({ publishedAt: -1 })
 		.skip(skip)
 		.limit(limit)
 		.select("_id title slug views")
