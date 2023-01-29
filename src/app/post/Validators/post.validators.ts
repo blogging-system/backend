@@ -54,7 +54,7 @@ export default {
 		title: Joi.string(),
 		description: Joi.string(),
 		content: Joi.string(),
-		tags: Joi.string(),
+		tags: Joi.array().items(Joi.string().required()),
 		keywords: Joi.array().items(Joi.string().required()),
 		imageUrl: Joi.string().uri(),
 	}),
