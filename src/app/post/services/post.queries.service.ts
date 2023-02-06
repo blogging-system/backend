@@ -127,9 +127,7 @@ export const getRelatedPosts_service = async (data) => {
 
 	// If no related posts
 	if (foundPosts.length <= 1) {
-		return new GraphQLError("No Related Posts Found", {
-			extensions: { http: { status: 404 } },
-		});
+		return [];
 	}
 
 	// (3) Filter out the current post and return the rest found posts
@@ -201,7 +199,7 @@ export const getPublishedPosts_service = async (data) => {
 
 	// (2) Get posts
 	const posts = await Post.find({ is_published: true })
-		.sort({ publishedAt: -1 })
+		.sort({ views: -1 })
 		.skip(skip)
 		.limit(limit)
 		.select("_id title slug views")

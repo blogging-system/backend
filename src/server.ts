@@ -32,6 +32,15 @@ const yoga = createYoga({
 	landingPage: false,
 	graphqlEndpoint: "/",
 	logging: true,
+	maskedErrors: {
+		maskError(error: GraphQLError) {
+			return {
+				name: error.message,
+				status: error.extensions.http.status,
+				message: error.message,
+			};
+		},
+	},
 });
 
 // Pass it into a server to hook into request handlers.
