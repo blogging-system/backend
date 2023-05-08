@@ -18,6 +18,7 @@ import mongoose from "mongoose";
 import resolvers from "./resolvers";
 import typeDefs from "./typeDefs";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+import { createContext } from "vm";
 // import { createContext } from "./context";
 
 const schema = makeExecutableSchema({
@@ -28,10 +29,19 @@ const schema = makeExecutableSchema({
 // Create a Yoga instance with a GraphQL schema.
 const yoga = createYoga({
 	schema,
-	// context: createContext,
+	context: createContext,
 	landingPage: false,
 	graphqlEndpoint: "/",
 	logging: true,
+	maskedErrors: {
+		maskError(error: GraphQLError) {
+			return {
+				name: error.message,
+				status: error.extensions.http.status,
+				message: error.message,
+			};
+		},
+	},
 });
 
 // Pass it into a server to hook into request handlers.
@@ -41,8 +51,6 @@ const server = createServer(yoga);
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGODB_URI).then(async () => {
 	server.listen(process.env.PORT, () => {
-		console.info(
-			`Server is running on ${process.env.HOST}:${process.env.PORT} in ${process.env.NODE_ENV} environment`
-		);
+		console.info(`Server is running on ${process.env.HOST}:${process.env.PORT} in ${process.env.NODE_ENV} environment`);
 	});
 });
