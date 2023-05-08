@@ -3,7 +3,7 @@ import Post from "./../Model/post.model";
 import {
 	insertTags_service,
 	deleteTags_service,
-} from "./../../tag/Services/tag.mutations.service";
+} from "../../Tag/Services/tag.mutations.service";
 import { GraphQLError } from "graphql";
 
 export const createPost_service = async (data) => {
