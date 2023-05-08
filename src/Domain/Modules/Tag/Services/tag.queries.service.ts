@@ -1,5 +1,5 @@
 import { GraphQLError } from "graphql";
-import Tag from "./../Model/tag.model";
+import Tag from "../Model/tag.model";
 import Post from "./../../post/Model/post.model";
 
 export const getAllTags_service = async () => {
