@@ -1,7 +1,7 @@
 import { GraphQLError } from "graphql";
 
 import Series from "../Model/series.model";
-import Post from "./../../post/Model/post.model";
+import Post from "./../../Post/Model/post.model";
 
 export const createSeries_service = async (data) => {
 	// (1) Create series
@@ -16,9 +16,7 @@ export const createSeries_service = async (data) => {
 
 export const deleteSeries_service = async (data) => {
 	// (1) Get series from DB
-	const series = await Series.findOne({ _id: data.seriesId })
-		.select("_id posts")
-		.lean();
+	const series = await Series.findOne({ _id: data.seriesId }).select("_id posts").lean();
 
 	// If not found
 	if (!series) {
@@ -29,12 +27,9 @@ export const deleteSeries_service = async (data) => {
 
 	// If series has posts
 	if (series.posts.length >= 1) {
-		return new GraphQLError(
-			"Sorry, You need to remove all associated posts first.",
-			{
-				extensions: { http: { status: 400 } },
-			}
-		);
+		return new GraphQLError("Sorry, You need to remove all associated posts first.", {
+			extensions: { http: { status: 400 } },
+		});
 	}
 
 	// (2) Delete series
@@ -58,9 +53,7 @@ export const addPostToSeries_service = async (data) => {
 	}
 
 	// (2) Get series from DB
-	const series = await Series.findOne({ _id: data.seriesId }).select(
-		"posts tags"
-	);
+	const series = await Series.findOne({ _id: data.seriesId }).select("posts tags");
 
 	// If series is not found
 	if (!series) {
@@ -122,18 +115,13 @@ export const removePostFromSeries_service = async (data) => {
 	}
 
 	// (2) Remove post from series posts
-	series.posts = await series.posts.filter(
-		(postId) => postId.toString() != post._id.toString()
-	);
+	series.posts = await series.posts.filter((postId) => postId.toString() != post._id.toString());
 
 	// (3) Prepare tags payload and update
 	//  - step 1: Get all tags of all posts attached to this series
 	const [...allPostsTags] = await Promise.all(
 		series.posts.map(async (postId) => {
-			const post = await Post.findOne({ _id: postId })
-				.select("tags")
-				.populate("tags")
-				.lean();
+			const post = await Post.findOne({ _id: postId }).select("tags").populate("tags").lean();
 			return post.tags;
 		})
 	);
@@ -146,7 +134,7 @@ export const removePostFromSeries_service = async (data) => {
 				.map((el: any) => (el = el._id.toString()))
 		),
 	];
-	// ! test comment 
+	// ! test comment
 	// step 3: Update series tags
 	series.tags = await post.tags.filter((tagId: any) => {
 		if (!allPostsTagsFlat.includes(tagId._id.toString())) {
@@ -167,9 +155,7 @@ export const removePostFromSeries_service = async (data) => {
 
 export const publishSeries_service = async (data) => {
 	// (1) Get series
-	const series = await Series.findOne({ _id: data.seriesId }).select(
-		"is_published"
-	);
+	const series = await Series.findOne({ _id: data.seriesId }).select("is_published");
 
 	// If not found
 	if (!series) {

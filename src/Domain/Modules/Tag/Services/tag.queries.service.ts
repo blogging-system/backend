@@ -1,6 +1,6 @@
 import { GraphQLError } from "graphql";
 import Tag from "../Model/tag.model";
-import Post from "./../../post/Model/post.model";
+import Post from "./../../Post/Model/post.model";
 
 export const getAllTags_service = async () => {
 	// (1) Get all tags in DB
@@ -23,10 +23,7 @@ export const getAllTags_service = async () => {
 };
 
 export const getLatestTags_service = async () => {
-	const tags = await Tag.find({})
-		.sort({ createdAt: -1 })
-		.select("_id name slug")
-		.lean();
+	const tags = await Tag.find({}).sort({ createdAt: -1 }).select("_id name slug").lean();
 
 	// If not tags found
 	if (tags.length == 0) {

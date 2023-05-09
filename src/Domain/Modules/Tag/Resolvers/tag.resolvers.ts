@@ -1,12 +1,9 @@
-import validate from "../../../helpers/validate";
+import validate from "./../../../../shared/Helpers/validate";
 import tagValidators from "../Validators/tag.validators";
 
-import failure from "../../../helpers/handleFailure";
+import failure from "./../../../../shared/Helpers/handleFailure";
 
-import {
-	getAllTags_service,
-	getLatestTags_service,
-} from "../Services/tag.queries.service";
+import { getAllTags_service, getLatestTags_service } from "../Services/tag.queries.service";
 
 import { deleteTag_service } from "../Services/tag.mutations.service";
 
