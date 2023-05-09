@@ -1,7 +1,7 @@
-import validate from "../../../helpers/validate";
+import validate from "./../../../../shared/Helpers/validate";
 import postValidators from "../Validators/post.validators";
 
-import failure from "./../../../helpers/handleFailure";
+import failure from "./../../../../shared/Helpers/handleFailure";
 
 import {
 	getPostByTitle_service,
@@ -14,23 +14,20 @@ import {
 	getAllPostsByTag_service,
 	getPublishedPosts_service,
 	getUnPublishedPosts_service,
-} from "./../services/post.queries.service";
+} from "./../Services/post.queries.service";
 import {
 	createPost_service,
 	updatePost_service,
 	deletePost_service,
 	publishPost_service,
-} from "./../services/post.mutations.service";
+} from "./../Services/post.mutations.service";
 
 export default {
 	Query: {
 		getPostByTitle: async (parent, { data }) => {
 			try {
 				// (1) Validate coming data
-				const validatedData = await validate(
-					postValidators.getPostByTitle,
-					data
-				);
+				const validatedData = await validate(postValidators.getPostByTitle, data);
 
 				// (2) Find posts and return data
 				return await getPostByTitle_service(validatedData);
@@ -42,10 +39,7 @@ export default {
 		getPostBySlug: async (parent, { data }) => {
 			try {
 				// (1) Validate comming Data
-				const validatedData = await validate(
-					postValidators.getPostBySlug,
-					data
-				);
+				const validatedData = await validate(postValidators.getPostBySlug, data);
 
 				// (2) Find and return post
 				return await getPostBySlug_service(validatedData);
@@ -81,10 +75,7 @@ export default {
 		getRelatedPosts: async (parent, { data }) => {
 			try {
 				// (1) Valiadte comming data
-				const validatedData = await validate(
-					postValidators.getRelatedPosts,
-					data
-				);
+				const validatedData = await validate(postValidators.getRelatedPosts, data);
 
 				// (2) Find and return posts
 				return await getRelatedPosts_service(validatedData);
@@ -112,10 +103,7 @@ export default {
 		getAllPostsByTag: async (parent, { data }) => {
 			try {
 				// (1) Validate coming data
-				const validatedData = await validate(
-					postValidators.getPostsByTag,
-					data
-				);
+				const validatedData = await validate(postValidators.getPostsByTag, data);
 
 				// (2) Get posts
 				return await getAllPostsByTag_service(validatedData);
@@ -127,10 +115,7 @@ export default {
 		getPublishedPosts: async (parent, { data }) => {
 			try {
 				// (1) Validate coming data
-				const validatedData = await validate(
-					postValidators.getPublishedPosts,
-					data
-				);
+				const validatedData = await validate(postValidators.getPublishedPosts, data);
 
 				// (2) Return the result
 				return await getPublishedPosts_service(validatedData);
@@ -142,10 +127,7 @@ export default {
 		getUnPublishedPosts: async (parent, { data }) => {
 			try {
 				// (1) Validate coming data
-				const validatedData = await validate(
-					postValidators.getUnPublishedPosts,
-					data
-				);
+				const validatedData = await validate(postValidators.getUnPublishedPosts, data);
 
 				// (2) Return the result
 				return await getUnPublishedPosts_service(validatedData);
