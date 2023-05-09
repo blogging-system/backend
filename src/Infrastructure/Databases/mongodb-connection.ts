@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
-import config from "./../Config/Environments";
+import appEnv from "./../Config/Environments";
 
 /**
  * The configuration for connecting to a MongoDB database.
  *
+ * @public
  * @class
  */
 class MongoConnection {
@@ -14,7 +15,8 @@ class MongoConnection {
 	 */
 	static async connect(): Promise<void> {
 		mongoose.set("strictQuery", false);
-		await mongoose.connect(config.db.baseUrl, {
+
+		await mongoose.connect(appEnv.db.baseUrl, {
 			connectTimeoutMS: 30000,
 		});
 	}
@@ -24,7 +26,7 @@ class MongoConnection {
 	 *
 	 * @returns {Promise<void>} A promise that resolves when the database is dropped.
 	 */
-	static async dropDataBase(): Promise<void> {
+	static async dropDatabase(): Promise<void> {
 		return await mongoose.connection.dropDatabase();
 	}
 
@@ -44,7 +46,7 @@ class MongoConnection {
 	 * @returns {Promise<void>} A promise that resolves when the disconnection is successful.
 	 */
 	static async disconnect(): Promise<void> {
-		return mongoose.disconnect();
+		return await mongoose.disconnect();
 	}
 
 	/**
@@ -53,7 +55,7 @@ class MongoConnection {
 	 * @returns {Promise<void>} A promise that resolves when the connection is closed.
 	 */
 	static async closeConnection(): Promise<void> {
-		return mongoose.connection.close();
+		return await mongoose.connection.close();
 	}
 }
 
