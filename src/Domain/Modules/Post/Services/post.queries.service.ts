@@ -1,4 +1,9 @@
-import { NotFoundException } from "../../../../shared/Exceptions/Common/notFoundException";
+import {
+	NotFoundException,
+	ForbiddenException,
+	UnAuthorizedException,
+	ValidationException,
+} from "../../../../shared/Exceptions";
 import { GraphQLError } from "graphql";
 import Post from "./../Model/post.model";
 import Tag from "../../Tag/Model/tag.model";
@@ -142,7 +147,7 @@ export const getLatestPosts_service = async () => {
 };
 
 export const getPopularPosts_service = async () => {
-	throw new NotFoundException("Fuck your, it's not found");
+	throw new ValidationException("Fuck your, it's not found");
 
 	return await Post.find({ is_published: true }).sort({ views: -1 }).limit(8).lean();
 };

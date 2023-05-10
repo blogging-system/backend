@@ -4,8 +4,8 @@ import BaseException from "../baseException";
 export class InternalServerException extends BaseException {
 	constructor(errorMessage) {
 		super(
-			Http.httpStatusCodes.FORBIDDEN,
-			Http.httpStatusMessages.FORBIDDEN,
+			Http.httpStatusCodes.INTERNAL_SERVER_ERROR,
+			Http.httpStatusMessages.INTERNAL_SERVER_ERROR,
 			errorMessage || "Sorry, the process went wrong!"
 		);
 	}
