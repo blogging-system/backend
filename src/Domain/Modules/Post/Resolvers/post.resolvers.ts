@@ -49,15 +49,15 @@ export default {
 		},
 
 		getPostById: async (parent, { data }) => {
-			try {
-				// (1) Validate comming Data
-				const validatedData = await validate(postValidators.getPostById, data);
+			// try {
+			// (1) Validate comming Data
+			const validatedData = await validate(postValidators.getPostById, data);
 
-				// (2) Find and return post
-				return await getPostById_service(validatedData);
-			} catch (error) {
-				return failure(error);
-			}
+			// (2) Find and return post
+			return await getPostById_service(validatedData);
+			// } catch (error) {
+			// 	return failure(error);
+			// }
 		},
 
 		getAllPosts: async (parent, { data }) => {
@@ -94,7 +94,7 @@ export default {
 
 		getPopularPosts: async () => {
 			// try {
-				return await getPopularPosts_service();
+			return await getPopularPosts_service();
 			// } catch (error) {
 			// 	return failure(error);
 			// }
