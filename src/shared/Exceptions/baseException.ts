@@ -15,15 +15,18 @@ import { GraphQLError } from "graphql";
  * @param {string} errorMessage - The error message
  */
 export default class BaseException extends GraphQLError {
+	public errorName: string;
 	public statusCode: number;
 	public statusMessage: string;
 
-	constructor(statusCode: number, statusMessage: string, errorMessage: string) {
+	constructor(statusCode: number, statusMessage: string, errorMessage: string, errorName: string) {
 		super(errorMessage, undefined, undefined, undefined, undefined, undefined, {
 			statusCode,
 			statusMessage,
+			errorName,
 		});
 
+		this.errorName = errorName;
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 	}

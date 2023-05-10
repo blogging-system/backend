@@ -15,10 +15,7 @@ export default {
 	}),
 
 	getAllPosts: Joi.object({
-		lastPostId: Joi.string()
-			.hex()
-			.length(24)
-			.message("Sorry, Invalid lastPostId"),
+		lastPostId: Joi.string().hex().length(24).message("Sorry, Invalid lastPostId"),
 		limit: Joi.number().positive().min(1).max(10).default(5),
 	}),
 
@@ -41,7 +38,7 @@ export default {
 
 	// Mutations
 	create: Joi.object({
-		title: Joi.string().required(),
+		title: Joi.string().length(20).required(),
 		description: Joi.string().required(),
 		content: Joi.string().required(),
 		tags: Joi.array().items(Joi.string().required()),

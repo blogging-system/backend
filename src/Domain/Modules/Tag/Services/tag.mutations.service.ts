@@ -40,7 +40,6 @@ export const deleteTags_service = async ({ tags }) => {
 		*/
 		if (foundPosts && foundPosts.length <= 1) {
 			await Tag.deleteOne({ _id: tagId });
-			console.log("deleted", tagId);
 		}
 	});
 };

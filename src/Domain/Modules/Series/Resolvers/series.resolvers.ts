@@ -1,7 +1,7 @@
-import validate from "./../../../../shared/Helpers/validate";
+import validate from "../../../../shared/Helpers/validateInput";
 
 import seriesValidators from "../Validations/series.validators";
-import failure from "./../../../../shared/Helpers/handleFailure";
+import failure from "../../../../shared/Helpers/handleErrors";
 
 import {
 	createSeries_service,

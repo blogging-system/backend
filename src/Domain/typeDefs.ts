@@ -9,7 +9,7 @@ const root = `#graphql
     success: Boolean
     message: String
   }
-
+  
   type Query
   type Mutation
 `;

@@ -3,27 +3,38 @@ import { GraphQLError } from "graphql";
 import resolvers from "../Domain/resolvers";
 import typeDefs from "../Domain/typeDefs";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+import handleError from "./../shared/Helpers/handleErrors";
+import { applyMiddleware } from "graphql-middleware";
 
 const schema = makeExecutableSchema({
 	typeDefs,
 	resolvers,
 });
 
+// Define your middleware function
+const middleware = async (resolve, parent, args, context, info) => {
+	// Do something before resolving the request
+	console.log("Before resolving request");
+
+	// Resolve the request
+	const result = await resolve(parent, args, context, info);
+
+	// Do something after resolving the request
+	console.log("After resolving request");
+
+	// Return the result
+	return result;
+};
+
 const yoga = createYoga({
-	schema,
+	schema: applyMiddleware(schema, middleware),
 	landingPage: false,
 	graphqlEndpoint: "/",
 	graphiql: true,
 	logging: false,
 	maskedErrors: {
-		maskError(error: GraphQLError) {
-			return {
-				success: false,
-				name: error.name,
-				status: error.extensions.statusCode,
-				code: error.extensions.statusMessage,
-				message: error.message,
-			};
+		maskError(error: any) {
+			return handleError(error);
 		},
 	},
 });

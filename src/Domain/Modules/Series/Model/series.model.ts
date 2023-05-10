@@ -57,7 +57,6 @@ const SeriesSchema = new Schema(
 );
 
 SeriesSchema.pre("save", function (next) {
-	// console.log("hi form mogoose middleware....");
 	next();
 });
 

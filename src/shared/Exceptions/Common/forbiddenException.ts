@@ -16,6 +16,7 @@ export class ForbiddenException extends BaseException {
 			Http.httpStatusCodes.FORBIDDEN,
 			Http.httpStatusMessages.FORBIDDEN,
 			errorMessage || "Sorry, you are not allowed to do this!"
+			,'ForbiddenError'
 		);
 	}
 }
