@@ -13,12 +13,15 @@ const yoga = createYoga({
 	schema,
 	landingPage: false,
 	graphqlEndpoint: "/",
-	logging: true,
+	graphiql: true,
+	logging: false,
 	maskedErrors: {
 		maskError(error: GraphQLError) {
 			return {
-				name: error.message,
-				status: error.extensions.http.status,
+				success: false,
+				name: error.name,
+				status: error.extensions.statusCode,
+				code: error.extensions.statusMessage,
 				message: error.message,
 			};
 		},
