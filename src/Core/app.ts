@@ -1,7 +1,7 @@
 import { createYoga } from "graphql-yoga";
 import { GraphQLError } from "graphql";
-import resolvers from "./resolvers";
-import typeDefs from "./typeDefs";
+import resolvers from "../Domain/resolvers";
+import typeDefs from "../Domain/typeDefs";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 
 const schema = makeExecutableSchema({

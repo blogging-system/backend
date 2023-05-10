@@ -50,9 +50,7 @@ export const getPostById_service = async (data) => {
 
 	// If not found
 	if (!post) {
-		return new GraphQLError("Post Not Found", {
-			extensions: { http: { status: 404 } },
-		});
+		throw new NotFoundException("fuck you, not found!");
 	}
 
 	// TODO: Work on views (only increase if not me (admin!))
@@ -147,8 +145,6 @@ export const getLatestPosts_service = async () => {
 };
 
 export const getPopularPosts_service = async () => {
-	throw new ValidationException("Fuck your, it's not found");
-
 	return await Post.find({ is_published: true }).sort({ views: -1 }).limit(8).lean();
 };
 
