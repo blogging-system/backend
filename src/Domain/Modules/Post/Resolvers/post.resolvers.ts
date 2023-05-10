@@ -93,11 +93,11 @@ export default {
 		},
 
 		getPopularPosts: async () => {
-			try {
+			// try {
 				return await getPopularPosts_service();
-			} catch (error) {
-				return failure(error);
-			}
+			// } catch (error) {
+			// 	return failure(error);
+			// }
 		},
 
 		getAllPostsByTag: async (parent, { data }) => {
