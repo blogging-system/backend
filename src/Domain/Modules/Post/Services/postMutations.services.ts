@@ -3,24 +3,15 @@ import Post from "../Model/post.model";
 import { insertTags_service, deleteTags_service } from "../../Tag/Services/tag.mutations.service";
 import { GraphQLError } from "graphql";
 
+import PostRepository from "../Repository/post.repository";
+
 export default class PostMutationsServices {
 	public static async create(data) {
-		// (1) Insert and return array of tags documents
 		const postTags = await insertTags_service({
 			postTags: data.tags,
 		});
 
-		// (2) Create Post document
-		const post = new Post({
-			...data,
-			tags: postTags,
-		});
-
-		// (3) Save it into DB
-		await post.save();
-
-		// (4) Return Post
-		return await Post.findOne({ _id: post._id }).populate("tags").lean();
+		return await PostRepository.createOne({ ...data, tags: postTags });
 	}
 
 	// (2) Update Post
