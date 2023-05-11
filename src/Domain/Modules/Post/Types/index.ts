@@ -1,9 +1,3 @@
-import postTypes from "./post.types";
-import postQueries from "./postQueries";
-import postMutations from "./postMutations";
+import { CreatePostDTO } from "./post.dtos";
 
-export default `
-    ${postTypes}
-    ${postQueries}
-    ${postMutations}        
-`;
+export { CreatePostDTO };

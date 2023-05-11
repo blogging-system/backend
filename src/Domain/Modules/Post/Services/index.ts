@@ -1,7 +1,8 @@
+import { CreatePostDTO } from "../Types/post.dtos";
 import PostMutationsServices from "./postMutations.services";
 
 export default class PostServices {
-	public static async create(payload) {
+	public static async create(payload: CreatePostDTO) {
 		return await PostMutationsServices.create(payload);
 	}
 

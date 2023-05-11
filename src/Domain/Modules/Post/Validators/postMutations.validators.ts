@@ -1,7 +1,8 @@
 import Joi from "joi";
+import { CreatePostDTO } from "../Types";
 
 export const postMutationsValidators = {
-	create: Joi.object({
+	create: Joi.object<CreatePostDTO>({
 		title: Joi.string().length(20).required(),
 		description: Joi.string().required(),
 		content: Joi.string().required(),

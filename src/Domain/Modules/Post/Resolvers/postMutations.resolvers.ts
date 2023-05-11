@@ -1,10 +1,11 @@
-import validateInput from "../../../../shared/Helpers/validateInput";
+import validateInput from "../../../../Shared/Helpers/validateInput";
 import PostValidators from "../Validators";
 import PostServices from "../Services";
+import { CreatePostDTO } from "../Types";
 
 export const postMutations = {
 	createPost: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.create, args.data);
+		const validatedData = await validateInput(PostValidators.create, args.data as CreatePostDTO);
 
 		return await PostServices.create(validatedData);
 	},

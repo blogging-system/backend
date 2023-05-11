@@ -3,7 +3,7 @@ import {
 	ForbiddenException,
 	UnAuthorizedException,
 	ValidationException,
-} from "../../../../shared/Exceptions";
+} from "../../../../Shared/Exceptions";
 import { GraphQLError } from "graphql";
 import Post from "../Model/post.model";
 import Tag from "../../Tag/Model/tag.model";

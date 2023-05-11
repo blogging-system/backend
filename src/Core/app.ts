@@ -1,9 +1,9 @@
 import { createYoga } from "graphql-yoga";
 import { GraphQLError } from "graphql";
-import resolvers from "../Domain/resolvers";
-import typeDefs from "../Domain/typeDefs";
+import resolvers from "./resolvers";
+import typeDefs from "./typeDefs";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import handleError from "./../shared/Helpers/handleErrors";
+import handleError from "../Shared/Helpers/handleErrors";
 import { applyMiddleware } from "graphql-middleware";
 
 const schema = makeExecutableSchema({

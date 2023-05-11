@@ -1,3 +1,5 @@
+import { CreatePostDTO } from "../Types";
+import { InternalServerException } from "../../../../Shared/Exceptions";
 import Post from "../Model/post.model";
 
 import { insertTags_service, deleteTags_service } from "../../Tag/Services/tag.mutations.service";
@@ -6,15 +8,19 @@ import { GraphQLError } from "graphql";
 import PostRepository from "../Repository/post.repository";
 
 export default class PostMutationsServices {
-	public static async create(data) {
+	public static async create(data: CreatePostDTO) {
+		// TODO
 		const postTags = await insertTags_service({
 			postTags: data.tags,
 		});
 
-		return await PostRepository.createOne({ ...data, tags: postTags });
+		const createdPost = await PostRepository.createOne({ ...data, tags: postTags });
+
+		if (!createdPost) throw new InternalServerException("Sorry, the post creation failed!");
+
+		return createdPost;
 	}
 
-	// (2) Update Post
 	public static async update(data) {
 		// (1) Let's destructure the id from payload
 		const { _id, ...restData } = data;

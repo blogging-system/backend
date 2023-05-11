@@ -1,4 +1,4 @@
-import validateInput from "../../../../shared/Helpers/validateInput";
+import validateInput from "../../../../Shared/Helpers/validateInput";
 import PostValidators from "../Validators";
 
 import {
