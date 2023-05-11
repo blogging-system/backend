@@ -18,7 +18,8 @@ export class BadRequestException extends BaseException {
 		super(
 			Http.httpStatusCodes.BAD_REQUEST,
 			Http.httpStatusMessages.BAD_REQUEST,
-			errorMessage || "Sorry, you sent a bad request!"
+			errorMessage || "Sorry, you sent a bad request!",
+			"BadRequestError"
 		);
 	}
 }

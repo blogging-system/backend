@@ -8,13 +8,17 @@ import BaseException from "../baseException";
 export class ValidationException extends BaseException {
 	/**
 	 * Constructs a new ValidationException instance.
-	 * @param {string} errorMessage - The error message for the exception. Default is "Sorry, the validation process failed!".
+	 * @param {string | string[]} errorMessage - The error message or array of error messages for the exception. Default is "Sorry, the validation process failed!".
 	 */
-	constructor(errorMessage?: string) {
+
+	constructor(errorMessage?: string | string[]) {
+		const message = Array.isArray(errorMessage) ? errorMessage.join(", ") : errorMessage;
+
 		super(
 			Http.httpStatusCodes.UNPROCESSABLE_ENTITY,
 			Http.httpStatusMessages.UNPROCESSABLE_ENTITY,
-			errorMessage || "Sorry, the validation process failed!"
+			message || "Sorry, the validation process failed!",
+			"ValidationError"
 		);
 	}
 }
