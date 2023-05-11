@@ -5,7 +5,7 @@ import {
 	ValidationException,
 } from "../../../../shared/Exceptions";
 import { GraphQLError } from "graphql";
-import Post from "./../Model/post.model";
+import Post from "../Model/post.model";
 import Tag from "../../Tag/Model/tag.model";
 
 export const getPostByTitle_service = async (data) => {

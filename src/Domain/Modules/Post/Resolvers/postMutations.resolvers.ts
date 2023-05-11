@@ -1,39 +1,29 @@
-import { ForbiddenException, UnAuthorizedException } from "../../../../shared/Exceptions";
 import validateInput from "../../../../shared/Helpers/validateInput";
-import postValidators from "../Validators/post.validators";
+import PostValidators from "../Validators/post.validators";
+import PostServices from "../Services";
 
-import {
-	createPost_service,
-	updatePost_service,
-	deletePost_service,
-	publishPost_service,
-} from "./../Services/post.mutations.service";
+export const postMutations = {
+	createPost: async (parent, args, context, info) => {
+		const validatedData = await validateInput(postValidators.create, args.data);
 
-export const Mutation = {
-	createPost: async (parent, { data }) => {
-		// throw new ForbiddenException("fuck you!");
-
-		// throw new UnAuthorizedException("fuck you!");
-		const validatedData = await validateInput(postValidators.create, data);
-		console.log({ validatedData });
-		return await createPost_service(validatedData);
+		return await PostServices.create(validatedData);
 	},
 
-	updatePost: async (parent, { data }) => {
-		const validatedData = await validateInput(postValidators.update, data);
+	updatePost: async (parent, args, context, info) => {
+		const validatedData = await validateInput(postValidators.update, args.data);
 
-		return await updatePost_service(validatedData);
+		return await PostServices.update(validatedData);
 	},
 
-	deletePost: async (parent, { data }) => {
-		const validatedData = await validateInput(postValidators.delete, data);
+	deletePost: async (parent, args, context, info) => {
+		const validatedData = await validateInput(postValidators.delete, args.data);
 
-		return await deletePost_service(validatedData);
+		return await PostServices.delete(validatedData);
 	},
 
-	publishPost: async (parent, { data }) => {
-		const validatedData = await validateInput(postValidators.publish, data);
+	publishPost: async (parent, args, context, info) => {
+		const validatedData = await validateInput(postValidators.publish, args.data);
 
-		return await publishPost_service(validatedData);
+		return await PostServices.publish(validatedData);
 	},
 };

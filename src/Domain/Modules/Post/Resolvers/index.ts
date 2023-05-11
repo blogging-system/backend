@@ -1,7 +1,7 @@
-import { Query } from "./postQueries.resolvers";
-import { Mutation } from "./postMutations.resolvers";
+import { postQueries } from "./postQueries.resolvers";
+import { postMutations } from "./postMutations.resolvers";
 
 export default {
-	Query,
-	Mutation,
+	Query: postQueries,
+	Mutation: postMutations,
 };

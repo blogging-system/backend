@@ -12,9 +12,9 @@ import {
 	getAllPostsByTag_service,
 	getPublishedPosts_service,
 	getUnPublishedPosts_service,
-} from "./../Services/post.queries.service";
+} from "../Services/postQueries.services";
 
-export const Query = {
+export const postQueries = {
 	getPostByTitle: async (parent, { data }) => {
 		const validatedData = await validateInput(postValidators.getPostByTitle, data);
 

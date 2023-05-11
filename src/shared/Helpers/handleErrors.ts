@@ -1,8 +1,6 @@
 import { Http } from "./../Constants";
 
 export default (error) => {
-	console.log({ error });
-
 	if (error.extensions && error.extensions.errorName) {
 		const { errorName, statusCode, statusMessage } = error.extensions;
 		if (
@@ -28,6 +26,7 @@ export default (error) => {
 		};
 	}
 
+	console.log({ error });
 	console.log(Object.keys(error));
 	console.log(error.message);
 	console.log(error.extensions);
