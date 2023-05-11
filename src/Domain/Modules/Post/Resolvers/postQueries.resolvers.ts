@@ -1,5 +1,5 @@
 import validateInput from "../../../../shared/Helpers/validateInput";
-import postValidators from "../Validators/post.validators";
+import PostValidators from "../Validators";
 
 import {
 	getPostByTitle_service,
@@ -16,31 +16,31 @@ import {
 
 export const postQueries = {
 	getPostByTitle: async (parent, { data }) => {
-		const validatedData = await validateInput(postValidators.getPostByTitle, data);
+		const validatedData = await validateInput(PostValidators.getPostByTitle, data);
 
 		return await getPostByTitle_service(validatedData);
 	},
 
 	getPostBySlug: async (parent, { data }) => {
-		const validatedData = await validateInput(postValidators.getPostBySlug, data);
+		const validatedData = await validateInput(PostValidators.getPostBySlug, data);
 
 		return await getPostBySlug_service(validatedData);
 	},
 
 	getPostById: async (parent, { data }) => {
-		const validatedData = await validateInput(postValidators.getPostById, data);
+		const validatedData = await validateInput(PostValidators.getPostById, data);
 
 		return await getPostById_service(validatedData);
 	},
 
 	getAllPosts: async (parent, { data }) => {
-		const validatedData = await validateInput(postValidators.getAllPosts, data);
+		const validatedData = await validateInput(PostValidators.getAllPosts, data);
 
 		return await getAllPosts_service(validatedData);
 	},
 
 	getRelatedPosts: async (parent, { data }) => {
-		const validatedData = await validateInput(postValidators.getRelatedPosts, data);
+		const validatedData = await validateInput(PostValidators.getRelatedPosts, data);
 
 		return await getRelatedPosts_service(validatedData);
 	},
@@ -54,19 +54,19 @@ export const postQueries = {
 	},
 
 	getAllPostsByTag: async (parent, { data }) => {
-		const validatedData = await validateInput(postValidators.getPostsByTag, data);
+		const validatedData = await validateInput(PostValidators.getPostsByTag, data);
 
 		return await getAllPostsByTag_service(validatedData);
 	},
 
 	getPublishedPosts: async (parent, { data }) => {
-		const validatedData = await validateInput(postValidators.getPublishedPosts, data);
+		const validatedData = await validateInput(PostValidators.getPublishedPosts, data);
 
 		return await getPublishedPosts_service(validatedData);
 	},
 
 	getUnPublishedPosts: async (parent, { data }) => {
-		const validatedData = await validateInput(postValidators.getUnPublishedPosts, data);
+		const validatedData = await validateInput(PostValidators.getUnPublishedPosts, data);
 
 		return await getUnPublishedPosts_service(validatedData);
 	},
