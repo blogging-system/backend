@@ -15,7 +15,7 @@ export class ForbiddenException extends BaseException {
 		super(
 			Http.httpStatusCodes.FORBIDDEN,
 			Http.httpStatusMessages.FORBIDDEN,
-			errorMessage || "Sorry, you are not allowed to do this!"
+			errorMessage || "you are not allowed to do this!"
 			,'ForbiddenError'
 		);
 	}

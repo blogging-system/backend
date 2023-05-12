@@ -1,6 +1,6 @@
-import postTypeDefs from "./Modules/Post/Types";
-import tagTypeDefs from "./Modules/Tag/Types/tag.types";
-import seriesTypeDefs from "./Modules/Series/Types/series.types";
+import postTypeDefs from "../Domain/Modules/Post/Graphql";
+import tagTypeDefs from "../Domain/Modules/Tag/Types/tag.types";
+import seriesTypeDefs from "../Domain/Modules/Series/Types/series.types";
 
 const root = `#graphql
   scalar Date

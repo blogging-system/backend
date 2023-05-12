@@ -14,7 +14,7 @@ export class InternalServerException extends BaseException {
 		super(
 			Http.httpStatusCodes.INTERNAL_SERVER_ERROR,
 			Http.httpStatusMessages.INTERNAL_SERVER_ERROR,
-			errorMessage || "Sorry, the process went wrong!",
+			errorMessage || "the process went wrong!",
 			"InternalServerError"
 		);
 	}

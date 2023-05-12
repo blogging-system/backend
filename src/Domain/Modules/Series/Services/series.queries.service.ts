@@ -10,7 +10,7 @@ export const getAllSeries_service = async (data) => {
 
 	// (1) Get series fom DB
 	if (data.page) {
-		series = await Series.find({ is_published: true })
+		series = await Series.find({ isPublished: true })
 			.sort({ publishedAt: -1 }) // sort by latest published
 			.skip(skip)
 			.limit(limit)
@@ -22,7 +22,7 @@ export const getAllSeries_service = async (data) => {
 			})
 			.lean();
 	} else {
-		series = await Series.find({ is_published: true })
+		series = await Series.find({ isPublished: true })
 			.sort({ publishedAt: -1 }) // sort by latest published
 			.select("title slug description imageUrl tags publishedAt")
 			.populate({ path: "tags" })
@@ -40,7 +40,7 @@ export const getAllSeries_service = async (data) => {
 		});
 	}
 
-	const count = await Series.find({ is_published: true }).select("_id").lean();
+	const count = await Series.find({ isPublished: true }).select("_id").lean();
 
 	// (2) Return the found series
 	return { series, totalCount: count.length };
@@ -51,8 +51,8 @@ export const getSeriesBySlug_service = async (data) => {
 	const limit = 8;
 
 	// (1) Get series
-	const series = await Series.findOne({ slug: data.slug, is_published: true })
-		.select("-is_published -createdAt -updatedAt -views")
+	const series = await Series.findOne({ slug: data.slug, isPublished: true })
+		.select("-isPublished -createdAt -updatedAt -views")
 		.populate({
 			path: "posts",
 			select: "_id slug title imageUrl",

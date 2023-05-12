@@ -17,7 +17,7 @@ export class ValidationException extends BaseException {
 		super(
 			Http.httpStatusCodes.UNPROCESSABLE_ENTITY,
 			Http.httpStatusMessages.UNPROCESSABLE_ENTITY,
-			message || "Sorry, the validation process failed!",
+			message || "the validation process failed!",
 			"ValidationError"
 		);
 	}

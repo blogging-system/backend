@@ -17,8 +17,8 @@ export class NotFoundException extends BaseException {
 		super(
 			Http.httpStatusCodes.NOT_FOUND,
 			Http.httpStatusMessages.NOT_FOUND,
-			errorMessage || "Sorry, the resource is not found!"
-			,"NotFoundError"
+			errorMessage || "the resource is not found!",
+			"NotFoundError"
 		);
 	}
 }
