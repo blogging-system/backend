@@ -13,7 +13,7 @@ export const postMutationsValidators = {
 	}),
 
 	update: Joi.object<UpdatePostDTO>({
-		_id: Joi.string().hex().length(24).message("Sorry, Invalid _id").required(),
+		_id: Joi.string().hex().length(24).message("Invalid _id").required(),
 		payload: Joi.object({
 			title: Joi.string().length(5),
 			description: Joi.string().length(5),

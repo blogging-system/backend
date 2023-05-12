@@ -6,6 +6,7 @@ import { insertTags_service, deleteTags_service } from "../../Tag/Services/tag.m
 import { GraphQLError } from "graphql";
 
 import PostRepository from "../Repository/post.repository";
+import postRepository from "../Repository/post.repository";
 
 export default class PostMutationsServices {
 	public static async create(payload: CreatePostDTO) {
@@ -46,30 +47,24 @@ export default class PostMutationsServices {
 
 	// (3) Delete Post
 	public static async delete(postId: DeletePostDTO) {
-		// (1) Get the post from DB
-		const post = await Post.findOne({ _id: postId });
+		const post = await postRepository.findOne({ _id: postId });
+		console.log({ post });
+		if (!post) throw new NotFoundException("the post is not found!");
+		/**
+		 * TODO:
+		 *  use deleteMany on:
+		 *  - imageId
+		 * 	- tags[]
+		 * 	- keywords[]
+		 * 	- series[]
+		 *  -
+		 *
+		 **/
+		const { deletedCount } = await PostRepository.deleteOne({ _id: postId });
 
-		// If not found
-		if (!post) {
-			return new GraphQLError("Post Not Found (May be it's already deleted).", {
-				extensions: { http: { status: 404 } },
-			});
-		}
+		if (deletedCount === 0) throw new InternalServerException("The post deletion process failed!");
 
-		// TODO:
-		// (2) Check series
-
-		// (3) Delete tags if only found in this current post
-		await deleteTags_service({ tags: post.tags });
-
-		// (4) Delete post document
-		await Post.deleteOne({ _id: post._id });
-
-		// (5) Return success message
-		return {
-			success: true,
-			message: "The post is deleted successfully.",
-		};
+		return "The post is deleted successfully!";
 	}
 
 	public static async publish({ postId }) {
