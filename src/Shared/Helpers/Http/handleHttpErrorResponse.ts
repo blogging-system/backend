@@ -1,6 +1,6 @@
-import { Http } from "../Constants";
+import { Http } from "../../Constants";
 
-export default (error) => {
+export const handleHttpErrorResponse = (error) => {
 	if (error.extensions && error.extensions.errorName) {
 		const { errorName, statusCode, statusMessage } = error.extensions;
 		if (

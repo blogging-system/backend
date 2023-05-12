@@ -3,7 +3,7 @@ import { GraphQLError } from "graphql";
 import resolvers from "./resolvers";
 import typeDefs from "./typeDefs";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import handleError from "../Shared/Helpers/handleErrors";
+import { handleHttpErrorResponse } from "../Shared/Helpers/Http";
 import { applyMiddleware } from "graphql-middleware";
 
 const schema = makeExecutableSchema({
@@ -34,7 +34,7 @@ const yoga = createYoga({
 	logging: false,
 	maskedErrors: {
 		maskError(error: any) {
-			return handleError(error);
+			return handleHttpErrorResponse(error);
 		},
 	},
 });

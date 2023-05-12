@@ -1,3 +1,4 @@
+import { Http } from "../../../../Shared/Constants";
 import validateInput from "../../../../Shared/Helpers/validateInput";
 import PostValidators from "../Validators";
 import PostServices from "../Services";
@@ -19,7 +20,14 @@ export const postMutations = {
 	deletePost: async (parent, args, context, info) => {
 		const { postId } = await validateInput(PostValidators.delete, args.data as DeletePostDTO);
 
-		return await PostServices.delete(postId);
+		const message = await PostServices.delete(postId);
+
+		return {
+			success: true,
+			status: Http.httpStatusCodes.OK,
+			code: Http.httpStatusMessages.OK,
+			message,
+		};
 	},
 
 	publishPost: async (parent, args, context, info) => {

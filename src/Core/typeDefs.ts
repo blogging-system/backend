@@ -7,6 +7,8 @@ const root = `#graphql
 
   type Success {
     success: Boolean
+    status: String
+    code: String
     message: String
   }
   
