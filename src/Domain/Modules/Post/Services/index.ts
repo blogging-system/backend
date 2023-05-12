@@ -1,4 +1,4 @@
-import { CreatePostDTO, DeletePostDTO, UpdatePostDTO } from "../Types/post.dtos";
+import { CreatePostDTO, DeletePostDTO, PublishPostDTO, UpdatePostDTO } from "../Types/post.dtos";
 import PostMutationsServices from "./postMutations.services";
 
 export default class PostServices {
@@ -10,11 +10,11 @@ export default class PostServices {
 		return await PostMutationsServices.update(payload);
 	}
 
-	public static async delete(postId: DeletePostDTO) {
-		return await PostMutationsServices.delete(postId);
+	public static async delete(payload: DeletePostDTO) {
+		return await PostMutationsServices.delete(payload);
 	}
 
-	public static async publish(postId) {
-		return await PostMutationsServices.publish(postId);
+	public static async publish(payload: PublishPostDTO) {
+		return await PostMutationsServices.publish(payload);
 	}
 }

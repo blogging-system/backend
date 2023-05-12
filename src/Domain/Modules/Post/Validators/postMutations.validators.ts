@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { CreatePostDTO, UpdatePostDTO } from "../Types";
+import { CreatePostDTO, UpdatePostDTO, DeletePostDTO, PublishPostDTO } from "../Types";
 
 export const postMutationsValidators = {
 	create: Joi.object<CreatePostDTO>({
@@ -25,11 +25,11 @@ export const postMutationsValidators = {
 		}).required(),
 	}),
 
-	delete: Joi.object({
-		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+	delete: Joi.object<DeletePostDTO>({
+		_id: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
 	}),
 
-	publish: Joi.object({
-		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+	publish: Joi.object<PublishPostDTO>({
+		_id: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
 	}),
 };

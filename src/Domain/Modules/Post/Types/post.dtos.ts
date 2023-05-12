@@ -17,3 +17,7 @@ export interface UpdatePostDTO {
 export interface DeletePostDTO {
 	_id: Types.ObjectId;
 }
+
+export interface PublishPostDTO {
+	_id: Types.ObjectId;
+}

@@ -4,7 +4,7 @@ import seriesTypeDefs from "../Domain/Modules/Series/Types/series.types";
 
 const root = `#graphql
   scalar Date
-
+  
   type Success {
     success: Boolean
     name: String
