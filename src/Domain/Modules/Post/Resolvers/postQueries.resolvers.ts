@@ -15,58 +15,66 @@ import {
 } from "../Services/postQueries.services";
 
 export const postQueries = {
-	getPostByTitle: async (parent, { data }) => {
-		const validatedData = await validateInput(PostValidators.getPostByTitle, data);
+	suggestPostByTitle: async (parent, args, context, info) => {
+		const validatedData = await validateInput(PostValidators.getPostByTitle, args.data);
 
 		return await getPostByTitle_service(validatedData);
 	},
 
-	getPostBySlug: async (parent, { data }) => {
-		const validatedData = await validateInput(PostValidators.getPostBySlug, data);
+	getPostBySlug: async (parent, args, context, info) => {
+		const validatedData = await validateInput(PostValidators.getPostBySlug, args.data);
 
 		return await getPostBySlug_service(validatedData);
 	},
 
-	getPostById: async (parent, { data }) => {
-		const validatedData = await validateInput(PostValidators.getPostById, data);
+	getPostById: async (parent, args, context, info) => {
+		const validatedData = await validateInput(PostValidators.getPostById, args.data);
 
 		return await getPostById_service(validatedData);
 	},
 
-	getAllPosts: async (parent, { data }) => {
-		const validatedData = await validateInput(PostValidators.getAllPosts, data);
+	getAllPosts: async (parent, args, context, info) => {
+		const validatedData = await validateInput(PostValidators.getAllPosts, args.data);
 
 		return await getAllPosts_service(validatedData);
 	},
 
-	getRelatedPosts: async (parent, { data }) => {
-		const validatedData = await validateInput(PostValidators.getRelatedPosts, data);
-
-		return await getRelatedPosts_service(validatedData);
-	},
-
-	getLatestPosts: async () => {
-		return await getLatestPosts_service();
-	},
-
-	getPopularPosts: async () => {
-		return await getPopularPosts_service();
-	},
-
-	getAllPostsByTag: async (parent, { data }) => {
-		const validatedData = await validateInput(PostValidators.getPostsByTag, data);
+	getAllPostsByTag: async (parent, args, context, info) => {
+		const validatedData = await validateInput(PostValidators.getPostsByTag, args.data);
 
 		return await getAllPostsByTag_service(validatedData);
 	},
 
-	getPublishedPosts: async (parent, { data }) => {
-		const validatedData = await validateInput(PostValidators.getPublishedPosts, data);
+	getAllPostsBySeries: async (parent, args, context, info) => {
+		//
+	},
+
+	getAllPostsByKeywords: async (parent, args, context, info) => {
+		//
+	},
+
+	getRelatedPosts: async (parent, args, context, info) => {
+		const validatedData = await validateInput(PostValidators.getRelatedPosts, args.data);
+
+		return await getRelatedPosts_service(validatedData);
+	},
+
+	getLatestPosts: async (parent, args, context, info) => {
+		return await getLatestPosts_service();
+	},
+
+	getPopularPosts: async (parent, args, context, info) => {
+		return await getPopularPosts_service();
+	},
+
+	getPublishedPosts: async (parent, args, context, info) => {
+		const validatedData = await validateInput(PostValidators.getPublishedPosts, args.data);
 
 		return await getPublishedPosts_service(validatedData);
 	},
 
-	getUnPublishedPosts: async (parent, { data }) => {
-		const validatedData = await validateInput(PostValidators.getUnPublishedPosts, data);
+	getUnPublishedPosts: async (parent, args, context, info) => {
+		const validatedData = await validateInput(PostValidators.getUnPublishedPosts, args.data);
 
 		return await getUnPublishedPosts_service(validatedData);
 	},

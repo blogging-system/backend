@@ -9,7 +9,7 @@ import PostRepository from "../Repository/post.repository";
 import postRepository from "../Repository/post.repository";
 
 export default class PostMutationsServices {
-	public static async create(data: CreatePostDTO) {
+	public static async createPost(data: CreatePostDTO) {
 		// TODO
 		/** insert if not found
 		 *
@@ -27,7 +27,7 @@ export default class PostMutationsServices {
 		return createdPost;
 	}
 
-	public static async update(data: UpdatePostDTO) {
+	public static async updatePost(data: UpdatePostDTO) {
 		// TODO
 		/** insert if not found
 		 *
@@ -46,7 +46,7 @@ export default class PostMutationsServices {
 	}
 
 	// (3) Delete Post
-	public static async delete(data: DeletePostDTO) {
+	public static async deletePost(data: DeletePostDTO) {
 		const post = await postRepository.findOne({ _id: data._id });
 
 		if (!post) throw new NotFoundException("the post is not found!");
@@ -67,7 +67,7 @@ export default class PostMutationsServices {
 		return "The post is deleted successfully!";
 	}
 
-	public static async publish(data: PublishPostDTO) {
+	public static async publishPost(data: PublishPostDTO) {
 		const post = await PostRepository.findOne({ _id: data._id });
 
 		if (!post) throw new NotFoundException("The post is not found!");
