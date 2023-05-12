@@ -6,6 +6,7 @@ import { insertTags_service, deleteTags_service } from "../../Tag/Services/tag.m
 import { GraphQLError } from "graphql";
 
 import PostRepository from "../Repository/post.repository";
+import postRepository from "../Repository/post.repository";
 
 export default class PostMutationsServices {
 	public static async create(payload: CreatePostDTO) {
@@ -46,6 +47,9 @@ export default class PostMutationsServices {
 
 	// (3) Delete Post
 	public static async delete(postId: DeletePostDTO) {
+		const post = await postRepository.findOne({ _id: postId });
+		console.log({ post });
+		if (!post) throw new NotFoundException("the post is not found!");
 		/**
 		 * TODO:
 		 *  use deleteMany on:

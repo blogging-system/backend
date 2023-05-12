@@ -35,48 +35,22 @@ export default class BaseRepository<T extends Document> {
 	}
 
 	/**
-	 * Finds a single document in the database that matches the given query.
-	 *
+	 * Finds a single document that matches the provided query.
 	 * @param query - The query to use when searching for the document.
-	 * @param options - Additional query options.
-	 * @returns The found document, or null if no document was found.
+	 * @returns A Promise that resolves to the found document, or null if no document was found.
 	 */
-	async findOne(query: FilterQuery<T>, populate: string[] = [], options?: QueryOptions): Promise<T | null> {
-		const { select, sort } = options || {};
-
-		let queryBuilder = this.model.findOne(query);
-
-		if (populate) queryBuilder = (await queryBuilder).toObject().populate(populate);
-		if (select) queryBuilder = queryBuilder.select(select);
-		if (sort) queryBuilder = queryBuilder.sort(sort);
-
-		return queryBuilder.exec();
+	async findOne(query: FilterQuery<T>): Promise<T | null> {
+		return await this.model.findOne(query).lean();
 	}
 
 	/**
-	 * Finds documents that match the given query and populates the specified fields.
-	 * @param query The query used to match documents.
-	 * @param populate The fields to populate.
-	 * @param options The query options.
-	 * @returns A promise that resolves with the matching documents.
+	 * Find multiple documents that match the given query.
+	 * @param query The query to be executed on the database.
+	 * @param limit The maximum number of documents to be returned. Default value is 10.
+	 * @returns A promise that resolves to an array of found documents.
 	 */
-	async findMany(query: FilterQuery<T>, populate: string[], options?: QueryOptions): Promise<T[]> {
-		const { select, sort, limit, skip } = options || {};
-
-		let queryBuilder = this.model.find(query);
-
-		if (select) queryBuilder = queryBuilder.select(select);
-		if (sort) queryBuilder = queryBuilder.sort(sort);
-		if (limit) queryBuilder = queryBuilder.limit(limit);
-		if (skip) queryBuilder = queryBuilder.skip(skip);
-
-		const docs = await queryBuilder.exec();
-
-		for (const doc of docs) {
-			await doc.populate(populate);
-		}
-
-		return docs;
+	async findMany(query: FilterQuery<T>, limit = 10): Promise<T[]> {
+		return await this.model.find(query).limit(limit).lean();
 	}
 
 	/**
