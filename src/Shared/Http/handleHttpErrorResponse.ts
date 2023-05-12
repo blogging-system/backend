@@ -1,4 +1,4 @@
-import { Http } from "../../Constants";
+import { Http } from "../Constants";
 
 export const handleHttpErrorResponse = (error) => {
 	if (error.extensions && error.extensions.errorName) {

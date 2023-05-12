@@ -3,7 +3,7 @@ import { GraphQLError } from "graphql";
 import resolvers from "./resolvers";
 import typeDefs from "./typeDefs";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { handleHttpErrorResponse } from "../Shared/Helpers/Http";
+import { handleHttpErrorResponse } from "../Shared/Http";
 import { applyMiddleware } from "graphql-middleware";
 
 const schema = makeExecutableSchema({

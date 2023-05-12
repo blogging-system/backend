@@ -1,7 +1,7 @@
 import validate from "../../../../Shared/Helpers/validateInput";
 
 import seriesValidators from "../Validations/series.validators";
-import { handleHttpErrorResponse } from "../../../../Shared/Helpers/Http";
+import { handleHttpErrorResponse } from "../../../../Shared/Http";
 
 import {
 	createSeries_service,
