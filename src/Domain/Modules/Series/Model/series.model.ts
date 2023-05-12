@@ -44,7 +44,7 @@ const SeriesSchema = new Schema(
 			},
 		],
 		publishedAt: Date,
-		is_published: {
+		isPublished: {
 			type: Boolean,
 			default: false,
 			index: true,

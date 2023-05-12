@@ -1,3 +1,1 @@
-import { CreatePostDTO } from "./post.dtos";
-
-export { CreatePostDTO };
+export * from "./post.dtos";

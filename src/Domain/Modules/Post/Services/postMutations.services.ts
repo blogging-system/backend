@@ -1,5 +1,5 @@
-import { CreatePostDTO } from "../Types";
-import { InternalServerException } from "../../../../Shared/Exceptions";
+import { CreatePostDTO, DeletePostDTO, UpdatePostDTO } from "../Types";
+import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 import Post from "../Model/post.model";
 
 import { insertTags_service, deleteTags_service } from "../../Tag/Services/tag.mutations.service";
@@ -8,47 +8,44 @@ import { GraphQLError } from "graphql";
 import PostRepository from "../Repository/post.repository";
 
 export default class PostMutationsServices {
-	public static async create(data: CreatePostDTO) {
+	public static async create(payload: CreatePostDTO) {
 		// TODO
-		const postTags = await insertTags_service({
-			postTags: data.tags,
-		});
+		/** insert if not found
+		 *
+		 *  1. tags
+		 *  2. series
+		 *  3. keywords
+		 *  4. imageId
+		 *
+		 */
 
-		const createdPost = await PostRepository.createOne({ ...data, tags: postTags });
+		const createdPost = await PostRepository.createOne({ ...payload });
 
-		if (!createdPost) throw new InternalServerException("Sorry, the post creation failed!");
+		if (!createdPost) throw new InternalServerException("the post creation failed!");
 
 		return createdPost;
 	}
 
-	public static async update(data) {
-		// (1) Let's destructure the id from payload
-		const { _id, ...restData } = data;
+	public static async update({ _id, payload }: UpdatePostDTO) {
+		// TODO
+		/** insert if not found
+		 *
+		 *  1. tags
+		 *  2. series
+		 *  3. keywords
+		 *  4. imageId
+		 *
+		 */
 
-		// (2) Get Post document
-		const post = await Post.findOne({ _id: data._id });
+		const updatedPost = await PostRepository.updateOne({ _id }, { ...payload });
 
-		// If post not found
-		if (!post) {
-			return new GraphQLError("Post Not Found", {
-				extensions: { http: { status: 404 } },
-			});
-		}
+		if (!updatedPost) throw new NotFoundException("the post is not found!");
 
-		// (3) Update and return array of tags documents
-		const tags = await insertTags_service({
-			postTags: data.tags,
-		});
-
-		// (4) Update Payload
-		const updatedPost = await Object.assign(post, { ...restData, tags });
-
-		// (5) Save updated post and return it
-		return await updatedPost.save();
+		return updatedPost;
 	}
 
 	// (3) Delete Post
-	public static async delete({ postId }) {
+	public static async delete(postId: DeletePostDTO) {
 		// (1) Get the post from DB
 		const post = await Post.findOne({ _id: postId });
 
@@ -87,7 +84,7 @@ export default class PostMutationsServices {
 		}
 
 		// If it's already published
-		if (post.is_published) {
+		if (post.isPublished) {
 			return new GraphQLError("Already Published", {
 				extensions: { http: { status: 400 } },
 			});
@@ -96,7 +93,7 @@ export default class PostMutationsServices {
 		// (2) Update post document
 		const updatedPost = Object.assign(post, {
 			...post,
-			is_published: true,
+			isPublished: true,
 			publishedAt: new Date(),
 		});
 

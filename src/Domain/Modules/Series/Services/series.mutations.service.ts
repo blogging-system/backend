@@ -155,7 +155,7 @@ export const removePostFromSeries_service = async (data) => {
 
 export const publishSeries_service = async (data) => {
 	// (1) Get series
-	const series = await Series.findOne({ _id: data.seriesId }).select("is_published");
+	const series = await Series.findOne({ _id: data.seriesId }).select("isPublished");
 
 	// If not found
 	if (!series) {
@@ -166,14 +166,14 @@ export const publishSeries_service = async (data) => {
 
 	// If already published
 
-	if (series.is_published) {
+	if (series.isPublished) {
 		return new GraphQLError("Series is already published", {
 			extensions: { http: { status: 400 } },
 		});
 	}
 
 	// (2) Update series
-	series.is_published = true;
+	series.isPublished = true;
 	series.publishedAt = new Date();
 
 	// (3) Save series

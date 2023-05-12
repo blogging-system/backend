@@ -1,35 +1,28 @@
 export default `#graphql
 	input CreatePostInput {
-		title: String!
-		description: String!
-		content: String!
-		tags: [String!]!
-		keywords: [String!]!
-		imageUrl: String!
-	}
-
-	input UpdatePostInput {
-		_id: ID!
 		title: String
 		description: String
 		content: String
-		tags: [String!]
-		keywords: [String!]
-		imageUrl: String
+		imageId: ID
+		tags: [ID]
+		series: [ID]
+		keywords: [ID]
 	}
 
-	input DeletePostInput {
+	input UpdatePostInput {
+  		_id: ID
+		payload: CreatePostInput
+	}
+
+	input PostIdInput {
 		postId: ID
 	}
 
-	input PublishPostInput {
-		postId: ID
-	}
 
 	extend type Mutation {
 		createPost(data: CreatePostInput): Post!
 		updatePost(data: UpdatePostInput): Post!
-		deletePost(data: DeletePostInput): Success
-		publishPost(data: PublishPostInput): Success
+		deletePost(data: PostIdInput): Success
+		publishPost(data: PostIdInput): Success
 	}
 `;

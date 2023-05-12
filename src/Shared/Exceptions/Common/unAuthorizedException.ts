@@ -14,7 +14,7 @@ export class UnAuthorizedException extends BaseException {
 		super(
 			Http.httpStatusCodes.UNAUTHORIZED,
 			Http.httpStatusMessages.UNAUTHORIZED,
-			errorMessage || "Sorry, you are not authorized to do this!",
+			errorMessage || "you are not authorized to do this!",
 			"UnAuthorizedError"
 		);
 	}

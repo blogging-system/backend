@@ -10,7 +10,7 @@ export default `#graphql
     tags: [Tag]
     keywords: [String]
     publishedAt: Date
-    is_published: Boolean
+    isPublished: Boolean
   }
 
   input GetAllSeriesInput  {

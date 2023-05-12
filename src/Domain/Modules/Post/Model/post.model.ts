@@ -9,10 +9,10 @@ const PostSchema = new Schema(
 		},
 		slug: {
 			type: String,
+			index: true,
 			default: function () {
 				return slugify(this.title);
 			},
-			index: true,
 		},
 		description: {
 			type: String,
@@ -20,26 +20,18 @@ const PostSchema = new Schema(
 		content: {
 			type: String,
 		},
-
+		
+		imageId: { type: Schema.Types.ObjectId, ref: "Image" },
 		tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
-		keywords: [
-			{
-				type: String,
-			},
-		],
-		views: {
-			type: Number,
-			default: 0,
-		},
-		imageUrl: {
-			type: String,
-		},
-		publishedAt: Date,
-		is_published: {
+		series: [{ type: Schema.Types.ObjectId, ref: "Series" }],
+		keywords: [{ type: Schema.Types.ObjectId, ref: "Keyword" }],
+
+		isPublished: {
 			type: Boolean,
 			default: false,
 			index: true,
 		},
+		publishedAt: Date,
 	},
 	{
 		timestamps: true,

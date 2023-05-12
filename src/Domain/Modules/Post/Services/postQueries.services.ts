@@ -36,7 +36,7 @@ export const getPostByTitle_service = async (data) => {
 	return posts;
 };
 
-// TODO: Only return posts if is_published == true!!!!! for all services!!!!
+// TODO: Only return posts if isPublished == true!!!!! for all services!!!!
 
 // (1) Return Post by given ID
 export const getPostById_service = async (data) => {
@@ -140,13 +140,13 @@ export const getRelatedPosts_service = async (data) => {
 };
 
 export const getLatestPosts_service = async () => {
-	const posts = await Post.find({ is_published: true }).sort({ publishedAt: -1 }).limit(8).lean();
+	const posts = await Post.find({ isPublished: true }).sort({ publishedAt: -1 }).limit(8).lean();
 
 	return posts;
 };
 
 export const getPopularPosts_service = async () => {
-	return await Post.find({ is_published: true }).sort({ views: -1 }).limit(8).lean();
+	return await Post.find({ isPublished: true }).sort({ views: -1 }).limit(8).lean();
 };
 
 export const getAllPostsByTag_service = async (data) => {
@@ -197,7 +197,7 @@ export const getPublishedPosts_service = async (data) => {
 	const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
 
 	// (2) Get posts
-	const posts = await Post.find({ is_published: true })
+	const posts = await Post.find({ isPublished: true })
 		.sort({ views: -1 })
 		.skip(skip)
 		.limit(limit)
@@ -211,7 +211,7 @@ export const getPublishedPosts_service = async (data) => {
 		});
 	}
 
-	const totalCount = await Post.count({ is_published: true });
+	const totalCount = await Post.count({ isPublished: true });
 
 	return {
 		posts,
@@ -227,7 +227,7 @@ export const getUnPublishedPosts_service = async (data) => {
 	const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
 
 	// (2) Get posts
-	const posts = await Post.find({ is_published: false })
+	const posts = await Post.find({ isPublished: false })
 		.sort({ createdAt: -1 })
 		.skip(skip)
 		.limit(limit)
@@ -241,7 +241,7 @@ export const getUnPublishedPosts_service = async (data) => {
 		});
 	}
 
-	const totalCount = await Post.count({ is_published: false });
+	const totalCount = await Post.count({ isPublished: false });
 
 	return {
 		posts,

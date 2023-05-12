@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { Model, Document, QueryOptions, UpdateQuery, FilterQuery, PipelineStage, UpdateWriteOpResult } from "mongoose";
+import { Model, Document, QueryOptions, FilterQuery, PipelineStage, UpdateWriteOpResult } from "mongoose";
 
 /**
  * A generic base repository class for MongoDB models that provides common database operations.
@@ -80,27 +80,36 @@ export default class BaseRepository<T extends Document> {
 	}
 
 	/**
-	 * Updates a single document in the database that matches the given query.
+	 * Update a document in the collection that matches the given filter.
 	 *
-	 * @param query - The query to use when searching for the document to update.
-	 * @param update - The update operation to perform on the document.
-	 * @param options - Additional query options.
-	 * @returns The updated document.
+	 * @param {object} filter - The filter to apply the update operation.
+	 * @param {object} setPayload - The set payload to be updated in the document.
+	 * @param {object} unsetPayload - The unset payload to be removed from the document.
+	 *
+	 * @returns {Promise<UpdateWriteOpResult>} - A Promise that resolves to an object containing the result of the update operation.
 	 */
-	async updateOne(query: FilterQuery<T>, update: UpdateQuery<T>): Promise<UpdateWriteOpResult> {
-		return await this.model.updateOne(query, update, { new: true });
+	async updateOne(filter: object, setPayload: object, unsetPayload?: object): Promise<UpdateWriteOpResult> {
+		return await this.model.findOneAndUpdate(
+			{ ...filter },
+			{ $set: { ...setPayload }, $unset: { ...unsetPayload } },
+			{ new: true }
+		);
 	}
 
 	/**
-	 * Updates multiple documents in the database that match the given query.
+	 * Updates multiple documents that match the filter criteria in the collection.
 	 *
-	 * @param query - The query to use when searching for the documents to update.
-	 * @param update - The update operation to perform on the documents.
-	 * @param options - Additional query options.
-	 * @returns The number of documents updated.
+	 * @param filter - The filter to apply to the documents to update.
+	 * @param setPayload - The fields to update with new values.
+	 * @param unsetPayload - The fields to remove from the documents.
+	 * @returns A Promise that resolves with the result of the update operation.
 	 */
-	async updateMany(query: FilterQuery<T>, update: UpdateQuery<T>): Promise<UpdateWriteOpResult> {
-		return await this.model.updateMany(query, update);
+	async updateMany(filter: object, setPayload: object, unsetPayload?: object): Promise<UpdateWriteOpResult> {
+		return await this.model.updateMany(
+			{ ...filter },
+			{ $set: { ...setPayload }, $unset: { ...unsetPayload } },
+			{ new: true }
+		);
 	}
 
 	/**

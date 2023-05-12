@@ -12,13 +12,13 @@ export default `#graphql
 		slug: String
 		description: String
 		content: String
+		imageId: ID
 		tags: [Tag]
-		keywords: [String]
-		views: Int
-		imageUrl: String
+		series: [Tag]
+		keywords: [Tag]
+		isPublished: Boolean
+		publishedAt: Date
 		createdAt: Date
 		updatedAt: Date
-		publishedAt: Date
-		is_published: Boolean
 	}
 `;

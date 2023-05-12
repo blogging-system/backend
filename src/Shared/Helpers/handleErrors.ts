@@ -11,7 +11,7 @@ export default (error) => {
 				name: errorName,
 				status: statusCode,
 				code: statusMessage,
-				message: error.message.length > 1 ? error.message.split(", ") : error.message,
+				message: error.message.split(", "),
 			};
 		}
 	}
@@ -22,7 +22,7 @@ export default (error) => {
 			name: "DuplicateError",
 			status: Http.httpStatusCodes.CONFLICT,
 			code: Http.httpStatusMessages.CONFLICT,
-			message: `Sorry, the given data is already taken!`,
+			message: `the given data is already taken!`,
 		};
 	}
 
@@ -37,6 +37,6 @@ export default (error) => {
 		name: "InternalServerError",
 		status: Http.httpStatusCodes.INTERNAL_SERVER_ERROR,
 		code: Http.httpStatusMessages.INTERNAL_SERVER_ERROR,
-		message: "Sorry, something went wrong!!",
+		message: "something went wrong!!",
 	};
 };
