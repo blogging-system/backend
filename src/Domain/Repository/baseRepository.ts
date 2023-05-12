@@ -10,7 +10,7 @@ export default class BaseRepository<T extends Document> {
 	 * Constructs a new instance of the BaseRepository class.
 	 * @param model - The Mongoose model that the repository will interact with.
 	 */
-	constructor(private model: Model<T>) {
+	constructor(public model: Model<T>) {
 		this.model = model;
 	}
 
