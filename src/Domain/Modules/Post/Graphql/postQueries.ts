@@ -1,5 +1,5 @@
 export default `#graphql
-	input GetPostByTitleInput {
+	input suggestPostByTitleInput {
 		title: String!
 	}
 
@@ -40,14 +40,16 @@ export default `#graphql
 	}
 
 	extend type Query {
-		getPostByTitle(data: GetPostByTitleInput): [Post]!
+		suggestPostByTitle(data: suggestPostByTitleInput): [Post]!
 		getPostBySlug(data: GetPostBySlugInput): Post!
 		getPostById(data: GetPostByIdInput): Post!
 		getAllPosts(data: GetAllPostsInput): [Post]!
+		getAllPostsByTag(data: GetAllPostsByTagInput): GetAllPostsByTagResult!
+		getAllPostsBySeries: [Post]!
+		getAllPostsByKeyword: [Post]!
 		getRelatedPosts(data: GetRelatedPostsInput): [Post]!
 		getLatestPosts: [Post]!
 		getPopularPosts: [Post]!
-		getAllPostsByTag(data: GetAllPostsByTagInput): GetAllPostsByTagResult!
 		getPublishedPosts(data: GetPublishedPostsInput): GetPublishedPostsResult!
 		getUnPublishedPosts(data: GetPublishedPostsInput): GetPublishedPostsResult!
 	}

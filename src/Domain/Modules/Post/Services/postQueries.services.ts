@@ -186,13 +186,13 @@ export default class PostQueriesServices {
 		return foundPosts.filter((post) => post._id != data._id);
 	}
 
-	public static async getLatestPosts() {
+	public static async getLatestPosts(data) {
 		const posts = await Post.find({ isPublished: true }).sort({ publishedAt: -1 }).limit(8).lean();
 
 		return posts;
 	}
 
-	public static async getPopularPosts() {
+	public static async getPopularPosts(data) {
 		return await Post.find({ isPublished: true }).sort({ views: -1 }).limit(8).lean();
 	}
 
