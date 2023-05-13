@@ -7,13 +7,14 @@ import {
 import { GraphQLError } from "graphql";
 import Post from "../Model/post.model";
 import Tag from "../../Tag/Model/tag.model";
-import { SuggestPostByTitleDTO, getPostBySlugDTO } from "../Types";
+import { SuggestPostByTitleDTO, getPostByIdDTO, getPostBySlugDTO } from "../Types";
 import PostRepository from "../Repository/post.repository";
 
 export default class PostQueriesServices {
 	public static async suggestPostByTitle(data: SuggestPostByTitleDTO) {
 		const matchedPosts = await PostRepository.aggregate([
 			{ $search: { index: "suggestPostByTitle", autocomplete: { query: data.title, path: "title" } } },
+			{ $match: { isPublished: true } },
 			{ $limit: 5 },
 			{ $project: { title: 1, slug: 1 } },
 		]);
@@ -24,7 +25,7 @@ export default class PostQueriesServices {
 	}
 
 	public static async getPostBySlug(data: getPostBySlugDTO) {
-		const matchedPost = await PostRepository.findOne({ slug: data.slug });
+		const matchedPost = await PostRepository.findOne({ slug: data.slug, isPublished: true });
 
 		if (!matchedPost) throw new NotFoundException("The post is not found!");
 
@@ -32,31 +33,14 @@ export default class PostQueriesServices {
 		return matchedPost;
 	}
 
-	// TODO: Only return posts if isPublished == true!!!!! for all services!!!!
+	public static async getPostById(data: getPostByIdDTO) {
+		const matchedPost = await PostRepository.findOne({ slug: data._id, isPublished: true });
 
-	// (1) Return Post by given ID
-	public static async getPostById(data) {
-		// (1) Find Post
-		const post = await Post.findOne({
-			_id: data.postId,
-		})
-			.populate({
-				path: "tags",
-			})
-			.lean();
+		if (!matchedPost) throw new NotFoundException("The post is not found!");
 
-		// If not found
-		if (!post) {
-			throw new NotFoundException("fuck you, not found!");
-		}
-
-		// TODO: Work on views (only increase if not me (admin!))
-
-		// (2) Return Post
-		return post;
+		return matchedPost;
 	}
 
-	// (3) Return All posts
 	public static async getAllPosts(data) {
 		let posts = [];
 		// (1) Find posts

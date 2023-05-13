@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { SuggestPostByTitleDTO, getPostBySlugDTO } from "../Types";
+import { SuggestPostByTitleDTO, getPostByIdDTO, getPostBySlugDTO } from "../Types";
 
 export const postQueriesValidators = {
 	suggestPostByTitle: Joi.object<SuggestPostByTitleDTO>({
@@ -10,8 +10,8 @@ export const postQueriesValidators = {
 		slug: Joi.string().required(),
 	}),
 
-	getPostById: Joi.object({
-		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+	getPostById: Joi.object<getPostByIdDTO>({
+		_id: Joi.string().hex().length(24).message("Invalid postId"),
 	}),
 
 	getAllPosts: Joi.object({
