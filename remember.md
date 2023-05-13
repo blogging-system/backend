@@ -14,3 +14,5 @@ The wrapping class I mentioned is an example of the Facade pattern.
 The Facade pattern provides a simplified interface to a complex system of classes, making it easier to use. It is often used to provide a higher-level API to a library or framework, hiding the complexity of the underlying implementation from the user. 
 
 In the example you mentioned, the `PostServices` class acts as a Facade for the `PostMutationsServices` and `PostQueriesServices` classes, providing a simplified interface to the functionality they offer.
+
+- Remember, when delting hte DB the autocompltee function will broke! you need to add the index from the db again (manually in atlas)!

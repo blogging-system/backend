@@ -7,57 +7,29 @@ import {
 import { GraphQLError } from "graphql";
 import Post from "../Model/post.model";
 import Tag from "../../Tag/Model/tag.model";
+import { SuggestPostByTitleDTO, getPostBySlugDTO } from "../Types";
+import PostRepository from "../Repository/post.repository";
 
 export default class PostQueriesServices {
-	public static async suggestPostByTitle(data) {
-		// (1) Let's find those docs that match this query!
-		const posts = await Post.aggregate([
-			{
-				$search: {
-					autocomplete: {
-						query: data.title,
-						path: "title",
-						fuzzy: { maxEdits: 2 },
-					},
-				},
-			},
-			{ $limit: 3 },
+	public static async suggestPostByTitle(data: SuggestPostByTitleDTO) {
+		const matchedPosts = await PostRepository.aggregate([
+			{ $search: { index: "suggestPostByTitle", autocomplete: { query: data.title, path: "title" } } },
+			{ $limit: 5 },
 			{ $project: { title: 1, slug: 1 } },
 		]);
 
-		// If nothing matches
-		if (posts.length < 1) {
-			return new GraphQLError("No Posts Found", {
-				extensions: { http: { status: 404 } },
-			});
-		}
+		if (matchedPosts.length < 1) throw new NotFoundException("Not matched posts found!");
 
-		// (2) Return matched posts
-		return posts;
+		return matchedPosts;
 	}
 
-	// (2) Return Post by given slug
-	public static async getPostBySlug(data) {
-		// (1) Find Post
-		const post = await Post.findOne({
-			slug: data.slug,
-		})
-			.populate({
-				path: "tags",
-			})
-			.lean();
+	public static async getPostBySlug(data: getPostBySlugDTO) {
+		const matchedPost = await PostRepository.findOne({ slug: data.slug });
 
-		// If not found
-		if (!post) {
-			return new GraphQLError("Post Not Found", {
-				extensions: { http: { status: 404 } },
-			});
-		}
+		if (!matchedPost) throw new NotFoundException("The post is not found!");
 
-		//  TODO: Work on views (only increase if not me (admin!))
-
-		// (2) Return Post
-		return post;
+		// TODO: increase views!
+		return matchedPost;
 	}
 
 	// TODO: Only return posts if isPublished == true!!!!! for all services!!!!

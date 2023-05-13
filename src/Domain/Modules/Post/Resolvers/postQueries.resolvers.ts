@@ -2,16 +2,17 @@ import validateInput from "../../../../Shared/Helpers/validateInput";
 import PostValidators from "../Validators";
 
 import PostServices from "../Services";
+import { SuggestPostByTitleDTO, getPostBySlugDTO } from "../Types";
 
 export const postQueries = {
 	suggestPostByTitle: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getPostByTitle, args.data);
+		const validatedData = await validateInput(PostValidators.suggestPostByTitle, args.data as SuggestPostByTitleDTO);
 
 		return await PostServices.suggestPostByTitle(validatedData);
 	},
 
 	getPostBySlug: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getPostBySlug, args.data);
+		const validatedData = await validateInput(PostValidators.getPostBySlug, args.data as getPostBySlugDTO);
 
 		return await PostServices.getPostBySlug(validatedData);
 	},

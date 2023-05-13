@@ -1,11 +1,12 @@
 import Joi from "joi";
+import { SuggestPostByTitleDTO, getPostBySlugDTO } from "../Types";
 
 export const postQueriesValidators = {
-	getPostByTitle: Joi.object({
+	suggestPostByTitle: Joi.object<SuggestPostByTitleDTO>({
 		title: Joi.string().required(),
 	}),
 
-	getPostBySlug: Joi.object({
+	getPostBySlug: Joi.object<getPostBySlugDTO>({
 		slug: Joi.string().required(),
 	}),
 
