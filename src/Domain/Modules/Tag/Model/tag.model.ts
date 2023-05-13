@@ -5,24 +5,19 @@ const TagSchema = new Schema(
 	{
 		name: {
 			type: String,
-			trim: true,
 			unique: true,
-			index: true,
-			required: true,
 		},
-
 		slug: {
 			type: String,
+			index: true,
 			default: function () {
 				return slugify(this.name);
 			},
-			index: true,
 		},
 	},
 	{
 		timestamps: true,
 		versionKey: false,
-		autoCreate: true,
 	}
 );
 

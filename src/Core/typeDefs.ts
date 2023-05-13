@@ -1,4 +1,4 @@
-import postTypeDefs from "../Domain/Modules/Post/Graphql";
+import postTypeDefs from "../Domain/Modules/Post/GraphQL";
 import tagTypeDefs from "../Domain/Modules/Tag/Types/tag.types";
 import seriesTypeDefs from "../Domain/Modules/Series/Types/series.types";
 
@@ -14,6 +14,7 @@ const root = `#graphql
   }
   
   type Query
+  
   type Mutation
 `;
 
