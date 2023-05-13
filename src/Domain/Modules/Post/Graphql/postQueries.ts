@@ -33,12 +33,24 @@ export default `#graphql
 
 	}
 
-	input GetRelatedPostsInput {
-		_id: ID
+	input GetAllPostsByKeywordInput {
+		pageSize: Int
+		pageNumber: Int
+		sort: Int
+		keywordId: ID
+
 	}
 
-	input GetPublishedPostsInput {
-		page: Int
+	input GetRelatedPostsInput {
+		pageSize: Int
+		pageNumber: Int
+		sort: Int
+		postId: ID
+	}
+
+	input GetUnPublishedPostsInput {
+		pageSize: Int
+		pageNumber: Int
 	}
 
 	extend type Query {
@@ -48,11 +60,9 @@ export default `#graphql
 		getAllPosts(data: GetAllPostsInput): [Post]!
 		getAllPostsByTag(data: GetAllPostsByTagInput): [Post]!
 		getAllPostsBySeries(data: GetAllPostsBySeriesInput): [Post]!
-		getAllPostsByKeyword: [Post]!
+		getAllPostsByKeyword(data: GetAllPostsByKeywordInput): [Post]!
 		getRelatedPosts(data: GetRelatedPostsInput): [Post]!
-		getLatestPosts: [Post]!
 		getPopularPosts: [Post]!
-		getPublishedPosts(data: GetPublishedPostsInput): [Post]!
-		getUnPublishedPosts(data: GetPublishedPostsInput): [Post]!
+		getUnPublishedPosts(data: GetUnPublishedPostsInput): [Post]!
 	}
 `;

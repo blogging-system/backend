@@ -5,6 +5,9 @@ import {
 	GetPostBySlugDTO,
 	GetAllPostsByTagDTO,
 	GetAllPostsBySeriesDTO,
+	GetAllPostsByKeywordDTO,
+	GetRelatedPostsDTO,
+	GetUnPublishedPostsDTO,
 } from "../Types";
 import { CreatePostDTO, DeletePostDTO, PublishPostDTO, UpdatePostDTO } from "../Types/postMutations.dtos";
 import PostMutationsServices from "./postMutations.services";
@@ -50,27 +53,19 @@ export default class PostServices {
 		return await PostQueriesServices.getAllPostsBySeries(data);
 	}
 
-	public static async getAllPostsByKeyword(data) {
+	public static async getAllPostsByKeyword(data: GetAllPostsByKeywordDTO) {
 		return await PostQueriesServices.getAllPostsByKeywords(data);
 	}
 
-	public static async getRelatedPosts(data) {
+	public static async getRelatedPosts(data: GetRelatedPostsDTO) {
 		return await PostQueriesServices.getRelatedPosts(data);
-	}
-
-	public static async getLatestPosts(data) {
-		return await PostQueriesServices.getLatestPosts(data);
 	}
 
 	public static async getPopularPosts(data) {
 		return await PostQueriesServices.getPopularPosts(data);
 	}
 
-	public static async getPublishedPosts(data) {
-		return await PostQueriesServices.getPublishedPosts(data);
-	}
-
-	public static async getUnPublishedPosts(data) {
+	public static async getUnPublishedPosts(data: GetUnPublishedPostsDTO) {
 		return await PostQueriesServices.getUnPublishedPosts(data);
 	}
 }

@@ -31,3 +31,22 @@ export interface GetAllPostsBySeriesDTO {
 	sort: 1 | -1;
 	seriesId: Types.ObjectId;
 }
+
+export interface GetAllPostsByKeywordDTO {
+	pageSize: number;
+	pageNumber: number;
+	sort: 1 | -1;
+	keywordId: Types.ObjectId;
+}
+
+export interface GetRelatedPostsDTO {
+	pageSize: number;
+	pageNumber: number;
+	sort: 1 | -1;
+	postId: Types.ObjectId;
+}
+
+export interface GetUnPublishedPostsDTO {
+	pageSize: number;
+	pageNumber: number;
+}

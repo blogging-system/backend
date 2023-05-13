@@ -14,6 +14,8 @@ import {
 	GetPostBySlugDTO,
 	GetAllPostsByTagDTO,
 	GetAllPostsBySeriesDTO,
+	GetRelatedPostsDTO,
+	GetUnPublishedPostsDTO,
 } from "../Types";
 import PostRepository from "../Repository/post.repository";
 
@@ -94,106 +96,75 @@ export default class PostQueriesServices {
 	}
 
 	public static async getAllPostsByKeywords(data) {
-		//
+		const { pageSize, pageNumber, sort, keywordId } = data;
+
+		const matchedPosts = await PostRepository.aggregate([
+			{ $match: { isPublished: true, keywords: { $in: [new Types.ObjectId(keywordId)] } } },
+			{ $sort: { isPublishedAt: sort } },
+			{ $skip: pageSize * (pageNumber - 1) },
+			{ $limit: pageSize },
+		]);
+
+		if (matchedPosts.length == 0) throw new NotFoundException("No posts found!");
+
+		return matchedPosts;
 	}
 
-	public static async getRelatedPosts(data) {
-		// (1) Find post
-		const post = await Post.findOne({ _id: data._id }).select("tags").lean();
+	public static async getRelatedPosts(data: GetRelatedPostsDTO) {
+		const { pageSize, pageNumber, sort, postId } = data;
 
-		// If not found
-		if (!post) {
-			return new GraphQLError("Post Not Found", {
-				extensions: {
-					http: { status: 404 },
+		const post = await PostRepository.findOne({ _id: postId });
+
+		if (!post) throw new NotFoundException("The post is not found!");
+
+		const matchedPosts = await PostRepository.aggregate([
+			{
+				$match: {
+					$or: [
+						{
+							isPublished: true,
+							tags: { $all: post.tags || [] },
+							keywords: { $all: post.keywords || [] },
+							series: { $all: post.series || [] },
+						},
+						{
+							isPublished: true,
+							tags: { $in: post.tags || [] },
+							keywords: { $in: post.keywords || [] },
+							series: { $in: post.series || [] },
+						},
+					],
 				},
-			});
-		}
+			},
+			{ $sort: { isPublishedAt: sort } },
+			{ $skip: pageSize * (pageNumber - 1) },
+			{ $limit: pageSize },
+		]);
 
-		// (2) Get related Posts
-		const foundPosts = await Post.find({ tags: { $all: post.tags } })
-			.limit(3)
-			.select("_id title slug imageUrl")
-			.lean();
+		if (matchedPosts.length == 0) throw new NotFoundException("No posts found!");
 
-		// If no related posts
-		if (foundPosts.length <= 1) {
-			return [];
-		}
-
-		// (3) Filter out the current post and return the rest found posts
-		return foundPosts.filter((post) => post._id != data._id);
-	}
-
-	public static async getLatestPosts(data) {
-		const posts = await Post.find({ isPublished: true }).sort({ isPublishedAt: -1 }).limit(8).lean();
-
-		return posts;
+		return matchedPosts;
 	}
 
 	public static async getPopularPosts(data) {
+		// TODO work on this with view model!
 		return await Post.find({ isPublished: true }).sort({ views: -1 }).limit(8).lean();
 	}
 
 	// TODO: protect this
-	public static async getPublishedPosts(data) {
-		// (1) Prepare pagination logic
-		const pageNumber = data.page;
-		const limit = 8;
+	public static async getUnPublishedPosts(data: GetUnPublishedPostsDTO) {
+		console.log({ data });
 
-		const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
+		const { pageSize, pageNumber } = data;
+		const matchedPosts = await PostRepository.aggregate([
+			{ $match: { isPublished: false } },
+			{ $sort: { createdAt: -1 } },
+			{ $skip: pageSize * (pageNumber - 1) },
+			{ $limit: pageSize },
+		]);
 
-		// (2) Get posts
-		const posts = await Post.find({ isPublished: true })
-			.sort({ views: -1 })
-			.skip(skip)
-			.limit(limit)
-			.select("_id title slug views")
-			.lean();
+		if (matchedPosts.length == 0) throw new NotFoundException("No posts found!");
 
-		// If No More Posts
-		if (posts.length < 1) {
-			return new GraphQLError("No More Posts", {
-				extensions: { http: { status: 404 } },
-			});
-		}
-
-		const totalCount = await Post.count({ isPublished: true });
-
-		return {
-			posts,
-			totalCount,
-		};
-	}
-
-	// TODO: protect this
-	public static async getUnPublishedPosts(data) {
-		// (1) Prepare pagination logic
-		const pageNumber = data.page;
-		const limit = 8;
-
-		const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
-
-		// (2) Get posts
-		const posts = await Post.find({ isPublished: false })
-			.sort({ createdAt: -1 })
-			.skip(skip)
-			.limit(limit)
-			.select("_id title slug views")
-			.lean();
-
-		// If No More Posts
-		if (posts.length < 1) {
-			return new GraphQLError("No More Posts", {
-				extensions: { http: { status: 404 } },
-			});
-		}
-
-		const totalCount = await Post.count({ isPublished: false });
-
-		return {
-			posts,
-			totalCount,
-		};
+		return matchedPosts;
 	}
 }

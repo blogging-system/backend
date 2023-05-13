@@ -9,6 +9,9 @@ import {
 	GetPostBySlugDTO,
 	GetAllPostsByTagDTO,
 	GetAllPostsBySeriesDTO,
+	GetAllPostsByKeywordDTO,
+	GetRelatedPostsDTO,
+	GetUnPublishedPostsDTO,
 } from "../Types";
 
 export const postQueries = {
@@ -49,31 +52,26 @@ export const postQueries = {
 	},
 
 	getAllPostsByKeyword: async (parent, args, context, info) => {
-		return await PostServices.getAllPostsByKeyword(args.data);
+		const validatedData = await validateInput(
+			PostValidators.getAllPostsByKeywords,
+			args.data as GetAllPostsByKeywordDTO
+		);
+
+		return await PostServices.getAllPostsByKeyword(validatedData);
 	},
 
 	getRelatedPosts: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getRelatedPosts, args.data);
+		const validatedData = await validateInput(PostValidators.getRelatedPosts, args.data as GetRelatedPostsDTO);
 
 		return await PostServices.getRelatedPosts(validatedData);
-	},
-
-	getLatestPosts: async (parent, args, context, info) => {
-		return await PostServices.getLatestPosts(args.data);
 	},
 
 	getPopularPosts: async (parent, args, context, info) => {
 		return await PostServices.getPopularPosts(args.data);
 	},
 
-	getPublishedPosts: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getPublishedPosts, args.data);
-
-		return await PostServices.getPublishedPosts(validatedData);
-	},
-
 	getUnPublishedPosts: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getUnPublishedPosts, args.data);
+		const validatedData = await validateInput(PostValidators.getUnPublishedPosts, args.data as GetUnPublishedPostsDTO);
 
 		return await PostServices.getUnPublishedPosts(validatedData);
 	},

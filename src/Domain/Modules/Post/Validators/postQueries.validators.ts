@@ -6,6 +6,9 @@ import {
 	GetPostBySlugDTO,
 	GetAllPostsByTagDTO,
 	GetAllPostsBySeriesDTO,
+	GetAllPostsByKeywordDTO,
+	GetRelatedPostsDTO,
+	GetUnPublishedPostsDTO,
 } from "../Types";
 
 export const postQueriesValidators = {
@@ -41,15 +44,22 @@ export const postQueriesValidators = {
 		seriesId: Joi.string().hex().length(24).message("Invalid tagId"),
 	}),
 
-	getRelatedPosts: Joi.object({
-		_id: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+	getAllPostsByKeywords: Joi.object<GetAllPostsByKeywordDTO>({
+		pageSize: Joi.number().integer().positive().default(10),
+		pageNumber: Joi.number().integer().positive().default(1),
+		sort: Joi.number().integer().valid(1, -1).default(1),
+		keywordId: Joi.string().hex().length(24).message("Invalid tagId"),
 	}),
 
-	getPublishedPosts: Joi.object({
-		page: Joi.number().positive().min(1).required(),
+	getRelatedPosts: Joi.object<GetRelatedPostsDTO>({
+		pageSize: Joi.number().integer().positive().default(10),
+		pageNumber: Joi.number().integer().positive().default(1),
+		sort: Joi.number().integer().valid(1, -1).default(1),
+		postId: Joi.string().hex().length(24).message("Invalid tagId"),
 	}),
 
-	getUnPublishedPosts: Joi.object({
-		page: Joi.number().positive().min(1).required(),
+	getUnPublishedPosts: Joi.object<GetUnPublishedPostsDTO>({
+		pageSize: Joi.number().integer().positive().default(10),
+		pageNumber: Joi.number().integer().positive().default(1),
 	}),
 };
