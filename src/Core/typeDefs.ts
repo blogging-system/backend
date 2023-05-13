@@ -1,6 +1,6 @@
 import postTypeDefs from "../Domain/Modules/Post/GraphQL";
-import tagTypeDefs from "../Domain/Modules/Tag/Types/tag.types";
-import seriesTypeDefs from "../Domain/Modules/Series/Types/series.types";
+import tagTypeDefs from "../Domain/Modules/Tag/GraphQL";
+// import seriesTypeDefs from "../Domain/Modules/Series/Types/series.types";
 
 const root = `#graphql
   scalar Date
@@ -18,4 +18,4 @@ const root = `#graphql
   type Mutation
 `;
 
-export default [root, postTypeDefs, tagTypeDefs, seriesTypeDefs];
+export default [root, postTypeDefs, tagTypeDefs];
