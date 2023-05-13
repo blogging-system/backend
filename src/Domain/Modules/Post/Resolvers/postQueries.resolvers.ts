@@ -11,6 +11,7 @@ import {
 	GetAllPostsBySeriesDTO,
 	GetAllPostsByKeywordDTO,
 	GetRelatedPostsDTO,
+	GetUnPublishedPostsDTO,
 } from "../Types";
 
 export const postQueries = {
@@ -65,14 +66,12 @@ export const postQueries = {
 		return await PostServices.getRelatedPosts(validatedData);
 	},
 
-
 	getPopularPosts: async (parent, args, context, info) => {
 		return await PostServices.getPopularPosts(args.data);
 	},
 
-
 	getUnPublishedPosts: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getUnPublishedPosts, args.data);
+		const validatedData = await validateInput(PostValidators.getUnPublishedPosts, args.data as GetUnPublishedPostsDTO);
 
 		return await PostServices.getUnPublishedPosts(validatedData);
 	},

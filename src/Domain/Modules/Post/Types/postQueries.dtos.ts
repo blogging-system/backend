@@ -45,3 +45,8 @@ export interface GetRelatedPostsDTO {
 	sort: 1 | -1;
 	postId: Types.ObjectId;
 }
+
+export interface GetUnPublishedPostsDTO {
+	pageSize: number;
+	pageNumber: number;
+}

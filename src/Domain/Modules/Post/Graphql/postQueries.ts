@@ -48,8 +48,9 @@ export default `#graphql
 		postId: ID
 	}
 
-	input GetPublishedPostsInput {
-		page: Int
+	input GetUnPublishedPostsInput {
+		pageSize: Int
+		pageNumber: Int
 	}
 
 	extend type Query {
@@ -62,6 +63,6 @@ export default `#graphql
 		getAllPostsByKeyword(data: GetAllPostsByKeywordInput): [Post]!
 		getRelatedPosts(data: GetRelatedPostsInput): [Post]!
 		getPopularPosts: [Post]!
-		getUnPublishedPosts(data: GetPublishedPostsInput): [Post]!
+		getUnPublishedPosts(data: GetUnPublishedPostsInput): [Post]!
 	}
 `;

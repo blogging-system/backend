@@ -8,6 +8,7 @@ import {
 	GetAllPostsBySeriesDTO,
 	GetAllPostsByKeywordDTO,
 	GetRelatedPostsDTO,
+	GetUnPublishedPostsDTO,
 } from "../Types";
 
 export const postQueriesValidators = {
@@ -57,7 +58,8 @@ export const postQueriesValidators = {
 		postId: Joi.string().hex().length(24).message("Invalid tagId"),
 	}),
 
-	getUnPublishedPosts: Joi.object({
-		page: Joi.number().positive().min(1).required(),
+	getUnPublishedPosts: Joi.object<GetUnPublishedPostsDTO>({
+		pageSize: Joi.number().integer().positive().default(10),
+		pageNumber: Joi.number().integer().positive().default(1),
 	}),
 };

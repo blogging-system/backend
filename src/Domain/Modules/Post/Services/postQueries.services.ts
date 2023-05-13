@@ -15,6 +15,7 @@ import {
 	GetAllPostsByTagDTO,
 	GetAllPostsBySeriesDTO,
 	GetRelatedPostsDTO,
+	GetUnPublishedPostsDTO,
 } from "../Types";
 import PostRepository from "../Repository/post.repository";
 
@@ -151,33 +152,19 @@ export default class PostQueriesServices {
 	}
 
 	// TODO: protect this
-	public static async getUnPublishedPosts(data) {
-		// (1) Prepare pagination logic
-		const pageNumber = data.page;
-		const limit = 8;
+	public static async getUnPublishedPosts(data: GetUnPublishedPostsDTO) {
+		console.log({ data });
 
-		const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
+		const { pageSize, pageNumber } = data;
+		const matchedPosts = await PostRepository.aggregate([
+			{ $match: { isPublished: false } },
+			{ $sort: { createdAt: -1 } },
+			{ $skip: pageSize * (pageNumber - 1) },
+			{ $limit: pageSize },
+		]);
 
-		// (2) Get posts
-		const posts = await Post.find({ isPublished: false })
-			.sort({ createdAt: -1 })
-			.skip(skip)
-			.limit(limit)
-			.select("_id title slug views")
-			.lean();
+		if (matchedPosts.length == 0) throw new NotFoundException("No posts found!");
 
-		// If No More Posts
-		if (posts.length < 1) {
-			return new GraphQLError("No More Posts", {
-				extensions: { http: { status: 404 } },
-			});
-		}
-
-		const totalCount = await Post.count({ isPublished: false });
-
-		return {
-			posts,
-			totalCount,
-		};
+		return matchedPosts;
 	}
 }
