@@ -57,10 +57,6 @@ export const postQueriesValidators = {
 		postId: Joi.string().hex().length(24).message("Invalid tagId"),
 	}),
 
-	getPublishedPosts: Joi.object({
-		page: Joi.number().positive().min(1).required(),
-	}),
-
 	getUnPublishedPosts: Joi.object({
 		page: Joi.number().positive().min(1).required(),
 	}),

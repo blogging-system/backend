@@ -62,7 +62,6 @@ export default `#graphql
 		getAllPostsByKeyword(data: GetAllPostsByKeywordInput): [Post]!
 		getRelatedPosts(data: GetRelatedPostsInput): [Post]!
 		getPopularPosts: [Post]!
-		getPublishedPosts(data: GetPublishedPostsInput): [Post]!
 		getUnPublishedPosts(data: GetPublishedPostsInput): [Post]!
 	}
 `;

@@ -64,10 +64,6 @@ export default class PostServices {
 		return await PostQueriesServices.getPopularPosts(data);
 	}
 
-	public static async getPublishedPosts(data) {
-		return await PostQueriesServices.getPublishedPosts(data);
-	}
-
 	public static async getUnPublishedPosts(data) {
 		return await PostQueriesServices.getUnPublishedPosts(data);
 	}

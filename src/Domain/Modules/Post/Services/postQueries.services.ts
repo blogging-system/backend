@@ -145,40 +145,9 @@ export default class PostQueriesServices {
 		return matchedPosts;
 	}
 
-
 	public static async getPopularPosts(data) {
+		// TODO work on this with view model!
 		return await Post.find({ isPublished: true }).sort({ views: -1 }).limit(8).lean();
-	}
-
-	// TODO: protect this
-	public static async getPublishedPosts(data) {
-		// (1) Prepare pagination logic
-		const pageNumber = data.page;
-		const limit = 8;
-
-		const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
-
-		// (2) Get posts
-		const posts = await Post.find({ isPublished: true })
-			.sort({ views: -1 })
-			.skip(skip)
-			.limit(limit)
-			.select("_id title slug views")
-			.lean();
-
-		// If No More Posts
-		if (posts.length < 1) {
-			return new GraphQLError("No More Posts", {
-				extensions: { http: { status: 404 } },
-			});
-		}
-
-		const totalCount = await Post.count({ isPublished: true });
-
-		return {
-			posts,
-			totalCount,
-		};
 	}
 
 	// TODO: protect this

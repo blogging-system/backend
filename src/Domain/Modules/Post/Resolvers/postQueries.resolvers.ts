@@ -70,11 +70,6 @@ export const postQueries = {
 		return await PostServices.getPopularPosts(args.data);
 	},
 
-	getPublishedPosts: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getPublishedPosts, args.data);
-
-		return await PostServices.getPublishedPosts(validatedData);
-	},
 
 	getUnPublishedPosts: async (parent, args, context, info) => {
 		const validatedData = await validateInput(PostValidators.getUnPublishedPosts, args.data);
