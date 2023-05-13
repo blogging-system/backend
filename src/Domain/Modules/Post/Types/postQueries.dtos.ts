@@ -24,3 +24,10 @@ export interface GetAllPostsByTagDTO {
 	sort: 1 | -1;
 	tagId: Types.ObjectId;
 }
+
+export interface GetAllPostsBySeriesDTO {
+	pageSize: number;
+	pageNumber: number;
+	sort: 1 | -1;
+	seriesId: Types.ObjectId;
+}

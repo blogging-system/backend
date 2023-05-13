@@ -2,7 +2,14 @@ import validateInput from "../../../../Shared/Helpers/validateInput";
 import PostValidators from "../Validators";
 
 import PostServices from "../Services";
-import { SuggestPostByTitleDTO, GetAllPostsDTO, GetPostByIdDTO, GetPostBySlugDTO, GetAllPostsByTagDTO } from "../Types";
+import {
+	SuggestPostByTitleDTO,
+	GetAllPostsDTO,
+	GetPostByIdDTO,
+	GetPostBySlugDTO,
+	GetAllPostsByTagDTO,
+	GetAllPostsBySeriesDTO,
+} from "../Types";
 
 export const postQueries = {
 	suggestPostByTitle: async (parent, args, context, info) => {
@@ -36,7 +43,9 @@ export const postQueries = {
 	},
 
 	getAllPostsBySeries: async (parent, args, context, info) => {
-		return await PostServices.getAllPostsBySeries(args.data);
+		const validatedData = await validateInput(PostValidators.getAllPostsBySeries, args.data as GetAllPostsBySeriesDTO);
+
+		return await PostServices.getAllPostsBySeries(validatedData);
 	},
 
 	getAllPostsByKeyword: async (parent, args, context, info) => {

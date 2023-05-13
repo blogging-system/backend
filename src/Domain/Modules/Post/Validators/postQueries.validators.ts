@@ -1,5 +1,12 @@
 import Joi from "joi";
-import { SuggestPostByTitleDTO, GetAllPostsDTO, GetPostByIdDTO, GetPostBySlugDTO, GetAllPostsByTagDTO } from "../Types";
+import {
+	SuggestPostByTitleDTO,
+	GetAllPostsDTO,
+	GetPostByIdDTO,
+	GetPostBySlugDTO,
+	GetAllPostsByTagDTO,
+	GetAllPostsBySeriesDTO,
+} from "../Types";
 
 export const postQueriesValidators = {
 	suggestPostByTitle: Joi.object<SuggestPostByTitleDTO>({
@@ -25,6 +32,13 @@ export const postQueriesValidators = {
 		pageNumber: Joi.number().integer().positive().default(1),
 		sort: Joi.number().integer().valid(1, -1).default(1),
 		tagId: Joi.string().hex().length(24).message("Invalid tagId"),
+	}),
+
+	getAllPostsBySeries: Joi.object<GetAllPostsBySeriesDTO>({
+		pageSize: Joi.number().integer().positive().default(10),
+		pageNumber: Joi.number().integer().positive().default(1),
+		sort: Joi.number().integer().valid(1, -1).default(1),
+		seriesId: Joi.string().hex().length(24).message("Invalid tagId"),
 	}),
 
 	getRelatedPosts: Joi.object({

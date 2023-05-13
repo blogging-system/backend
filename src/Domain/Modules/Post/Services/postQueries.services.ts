@@ -7,7 +7,14 @@ import {
 } from "../../../../Shared/Exceptions";
 import { GraphQLError } from "graphql";
 import Post from "../Model/post.model";
-import { SuggestPostByTitleDTO, GetAllPostsDTO, GetPostByIdDTO, GetPostBySlugDTO, GetAllPostsByTagDTO } from "../Types";
+import {
+	SuggestPostByTitleDTO,
+	GetAllPostsDTO,
+	GetPostByIdDTO,
+	GetPostBySlugDTO,
+	GetAllPostsByTagDTO,
+	GetAllPostsBySeriesDTO,
+} from "../Types";
 import PostRepository from "../Repository/post.repository";
 
 export default class PostQueriesServices {
@@ -71,8 +78,19 @@ export default class PostQueriesServices {
 		return matchedPosts;
 	}
 
-	public static async getAllPostsBySeries(data) {
-		//
+	public static async getAllPostsBySeries(data: GetAllPostsBySeriesDTO) {
+		const { pageSize, pageNumber, sort, seriesId } = data;
+
+		const matchedPosts = await PostRepository.aggregate([
+			{ $match: { isPublished: true, series: { $in: [new Types.ObjectId(seriesId)] } } },
+			{ $sort: { isPublishedAt: sort } },
+			{ $skip: pageSize * (pageNumber - 1) },
+			{ $limit: pageSize },
+		]);
+
+		if (matchedPosts.length == 0) throw new NotFoundException("No posts found!");
+
+		return matchedPosts;
 	}
 
 	public static async getAllPostsByKeywords(data) {
