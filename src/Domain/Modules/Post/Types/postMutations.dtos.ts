@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+
 export interface CreatePostDTO {
 	title: string;
 	description: string;
@@ -15,5 +16,9 @@ export interface UpdatePostDTO {
 }
 
 export interface DeletePostDTO {
+	_id: Types.ObjectId;
+}
+
+export interface PublishPostDTO {
 	_id: Types.ObjectId;
 }

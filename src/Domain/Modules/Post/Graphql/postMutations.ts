@@ -14,15 +14,15 @@ export default `#graphql
 		payload: CreatePostInput
 	}
 
-	input PostIdInput {
-		postId: ID
+	input DeleteOrPublishPostInput {
+		_id: ID
 	}
 
 
 	extend type Mutation {
 		createPost(data: CreatePostInput): Post!
 		updatePost(data: UpdatePostInput): Post!
-		deletePost(data: PostIdInput): Success
-		publishPost(data: PostIdInput): Success
+		deletePost(data: DeleteOrPublishPostInput): Success!
+		publishPost(data: DeleteOrPublishPostInput): Success!
 	}
 `;

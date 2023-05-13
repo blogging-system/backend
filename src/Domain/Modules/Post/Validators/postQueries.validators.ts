@@ -1,30 +1,48 @@
 import Joi from "joi";
+import {
+	SuggestPostByTitleDTO,
+	GetAllPostsDTO,
+	GetPostByIdDTO,
+	GetPostBySlugDTO,
+	GetAllPostsByTagDTO,
+	GetAllPostsBySeriesDTO,
+} from "../Types";
 
 export const postQueriesValidators = {
-	getPostByTitle: Joi.object({
+	suggestPostByTitle: Joi.object<SuggestPostByTitleDTO>({
 		title: Joi.string().required(),
 	}),
 
-	getPostBySlug: Joi.object({
+	getPostBySlug: Joi.object<GetPostBySlugDTO>({
 		slug: Joi.string().required(),
 	}),
 
-	getPostById: Joi.object({
-		postId: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+	getPostById: Joi.object<GetPostByIdDTO>({
+		_id: Joi.string().hex().length(24).message("Invalid postId"),
 	}),
 
-	getAllPosts: Joi.object({
-		lastPostId: Joi.string().hex().length(24).message("Sorry, Invalid lastPostId"),
-		limit: Joi.number().positive().min(1).max(10).default(5),
+	getAllPosts: Joi.object<GetAllPostsDTO>({
+		pageSize: Joi.number().integer().positive().default(10),
+		pageNumber: Joi.number().integer().positive().default(1),
+		sort: Joi.number().integer().valid(1, -1).default(1),
+	}),
+
+	getAllPostsByTag: Joi.object<GetAllPostsByTagDTO>({
+		pageSize: Joi.number().integer().positive().default(10),
+		pageNumber: Joi.number().integer().positive().default(1),
+		sort: Joi.number().integer().valid(1, -1).default(1),
+		tagId: Joi.string().hex().length(24).message("Invalid tagId"),
+	}),
+
+	getAllPostsBySeries: Joi.object<GetAllPostsBySeriesDTO>({
+		pageSize: Joi.number().integer().positive().default(10),
+		pageNumber: Joi.number().integer().positive().default(1),
+		sort: Joi.number().integer().valid(1, -1).default(1),
+		seriesId: Joi.string().hex().length(24).message("Invalid tagId"),
 	}),
 
 	getRelatedPosts: Joi.object({
 		_id: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
-	}),
-
-	getPostsByTag: Joi.object({
-		slug: Joi.string().required(),
-		page: Joi.number().positive().min(1).required(),
 	}),
 
 	getPublishedPosts: Joi.object({

@@ -174,7 +174,7 @@ export const publishSeries_service = async (data) => {
 
 	// (2) Update series
 	series.isPublished = true;
-	series.publishedAt = new Date();
+	series.isPublishedAt = new Date();
 
 	// (3) Save series
 	await series.save();

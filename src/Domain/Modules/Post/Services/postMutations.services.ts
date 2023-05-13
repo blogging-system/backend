@@ -1,5 +1,5 @@
-import { CreatePostDTO, DeletePostDTO, UpdatePostDTO } from "../Types";
-import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
+import { CreatePostDTO, DeletePostDTO, PublishPostDTO, UpdatePostDTO } from "../Types";
+import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 import Post from "../Model/post.model";
 
 import { insertTags_service, deleteTags_service } from "../../Tag/Services/tag.mutations.service";
@@ -9,7 +9,7 @@ import PostRepository from "../Repository/post.repository";
 import postRepository from "../Repository/post.repository";
 
 export default class PostMutationsServices {
-	public static async create(payload: CreatePostDTO) {
+	public static async createPost(data: CreatePostDTO) {
 		// TODO
 		/** insert if not found
 		 *
@@ -20,14 +20,14 @@ export default class PostMutationsServices {
 		 *
 		 */
 
-		const createdPost = await PostRepository.createOne({ ...payload });
+		const createdPost = await PostRepository.createOne({ ...data });
 
 		if (!createdPost) throw new InternalServerException("the post creation failed!");
 
 		return createdPost;
 	}
 
-	public static async update({ _id, payload }: UpdatePostDTO) {
+	public static async updatePost(data: UpdatePostDTO) {
 		// TODO
 		/** insert if not found
 		 *
@@ -38,7 +38,7 @@ export default class PostMutationsServices {
 		 *
 		 */
 
-		const updatedPost = await PostRepository.updateOne({ _id }, { ...payload });
+		const updatedPost = await PostRepository.updateOne({ _id: data._id }, { ...data.payload });
 
 		if (!updatedPost) throw new NotFoundException("the post is not found!");
 
@@ -46,9 +46,9 @@ export default class PostMutationsServices {
 	}
 
 	// (3) Delete Post
-	public static async delete(postId: DeletePostDTO) {
-		const post = await postRepository.findOne({ _id: postId });
-		console.log({ post });
+	public static async deletePost(data: DeletePostDTO) {
+		const post = await postRepository.findOne({ _id: data._id });
+
 		if (!post) throw new NotFoundException("the post is not found!");
 		/**
 		 * TODO:
@@ -60,45 +60,27 @@ export default class PostMutationsServices {
 		 *  -
 		 *
 		 **/
-		const { deletedCount } = await PostRepository.deleteOne({ _id: postId });
+		const { deletedCount } = await PostRepository.deleteOne({ _id: data._id });
 
 		if (deletedCount === 0) throw new InternalServerException("The post deletion process failed!");
 
 		return "The post is deleted successfully!";
 	}
 
-	public static async publish({ postId }) {
-		// (1) Get post
-		const post = await Post.findOne({ _id: postId });
+	public static async publishPost(data: PublishPostDTO) {
+		const post = await PostRepository.findOne({ _id: data._id });
 
-		// If not found
-		if (!post) {
-			return new GraphQLError("Post Not Found", {
-				extensions: { http: { status: 404 } },
-			});
-		}
+		if (!post) throw new NotFoundException("The post is not found!");
 
-		// If it's already published
-		if (post.isPublished) {
-			return new GraphQLError("Already Published", {
-				extensions: { http: { status: 400 } },
-			});
-		}
+		if (post.isPublished) throw new ForbiddenException("The post is already published!");
 
-		// (2) Update post document
-		const updatedPost = Object.assign(post, {
-			...post,
-			isPublished: true,
-			publishedAt: new Date(),
-		});
+		const { modifiedCount } = await PostRepository.updateOne(
+			{ _id: data._id },
+			{ isPublished: true, isPublishedAt: new Date() }
+		);
 
-		// (3) Save updated post
-		await post.save();
+		if (modifiedCount === 0) throw new InternalServerException("The post publication failed!");
 
-		// (4) Return succcess message
-		return {
-			success: true,
-			message: "Post is published successfully.",
-		};
+		return "The post is published successfully!";
 	}
 }

@@ -13,7 +13,6 @@ export default class BaseRepository<T extends Document> {
 	constructor(public model: Model<T>) {
 		this.model = model;
 	}
-
 	/**
 	 * Creates a new document in the database.
 	 *

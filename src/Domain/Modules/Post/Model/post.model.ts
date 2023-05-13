@@ -20,7 +20,7 @@ const PostSchema = new Schema(
 		content: {
 			type: String,
 		},
-		
+
 		imageId: { type: Schema.Types.ObjectId, ref: "Image" },
 		tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
 		series: [{ type: Schema.Types.ObjectId, ref: "Series" }],
@@ -31,7 +31,7 @@ const PostSchema = new Schema(
 			default: false,
 			index: true,
 		},
-		publishedAt: Date,
+		isPublishedAt: Date,
 	},
 	{
 		timestamps: true,

@@ -43,12 +43,12 @@ const SeriesSchema = new Schema(
 				type: String,
 			},
 		],
-		publishedAt: Date,
 		isPublished: {
 			type: Boolean,
 			default: false,
 			index: true,
 		},
+		isPublishedAt: Date,
 	},
 	{
 		timestamps: true,
