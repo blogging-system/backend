@@ -60,10 +60,6 @@ export default class PostServices {
 		return await PostQueriesServices.getRelatedPosts(data);
 	}
 
-	public static async getLatestPosts(data) {
-		return await PostQueriesServices.getLatestPosts(data);
-	}
-
 	public static async getPopularPosts(data) {
 		return await PostQueriesServices.getPopularPosts(data);
 	}

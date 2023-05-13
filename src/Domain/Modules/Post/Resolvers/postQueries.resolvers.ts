@@ -65,9 +65,6 @@ export const postQueries = {
 		return await PostServices.getRelatedPosts(validatedData);
 	},
 
-	getLatestPosts: async (parent, args, context, info) => {
-		return await PostServices.getLatestPosts(args.data);
-	},
 
 	getPopularPosts: async (parent, args, context, info) => {
 		return await PostServices.getPopularPosts(args.data);
