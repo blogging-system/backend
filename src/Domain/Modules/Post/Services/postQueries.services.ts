@@ -94,7 +94,18 @@ export default class PostQueriesServices {
 	}
 
 	public static async getAllPostsByKeywords(data) {
-		//
+		const { pageSize, pageNumber, sort, keywordId } = data;
+
+		const matchedPosts = await PostRepository.aggregate([
+			{ $match: { isPublished: true, keywords: { $in: [new Types.ObjectId(keywordId)] } } },
+			{ $sort: { isPublishedAt: sort } },
+			{ $skip: pageSize * (pageNumber - 1) },
+			{ $limit: pageSize },
+		]);
+
+		if (matchedPosts.length == 0) throw new NotFoundException("No posts found!");
+
+		return matchedPosts;
 	}
 
 	public static async getRelatedPosts(data) {

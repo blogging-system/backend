@@ -33,6 +33,14 @@ export default `#graphql
 
 	}
 
+	input GetAllPostsByKeywordInput {
+		pageSize: Int
+		pageNumber: Int
+		sort: Int
+		keywordId: ID
+
+	}
+
 	input GetRelatedPostsInput {
 		_id: ID
 	}
@@ -48,7 +56,7 @@ export default `#graphql
 		getAllPosts(data: GetAllPostsInput): [Post]!
 		getAllPostsByTag(data: GetAllPostsByTagInput): [Post]!
 		getAllPostsBySeries(data: GetAllPostsBySeriesInput): [Post]!
-		getAllPostsByKeyword: [Post]!
+		getAllPostsByKeyword(data: GetAllPostsByKeywordInput): [Post]!
 		getRelatedPosts(data: GetRelatedPostsInput): [Post]!
 		getLatestPosts: [Post]!
 		getPopularPosts: [Post]!

@@ -5,6 +5,7 @@ import {
 	GetPostBySlugDTO,
 	GetAllPostsByTagDTO,
 	GetAllPostsBySeriesDTO,
+	GetAllPostsByKeywordDTO,
 } from "../Types";
 import { CreatePostDTO, DeletePostDTO, PublishPostDTO, UpdatePostDTO } from "../Types/postMutations.dtos";
 import PostMutationsServices from "./postMutations.services";
@@ -50,7 +51,7 @@ export default class PostServices {
 		return await PostQueriesServices.getAllPostsBySeries(data);
 	}
 
-	public static async getAllPostsByKeyword(data) {
+	public static async getAllPostsByKeyword(data:GetAllPostsByKeywordDTO) {
 		return await PostQueriesServices.getAllPostsByKeywords(data);
 	}
 
