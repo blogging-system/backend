@@ -4,16 +4,23 @@ export interface SuggestPostByTitleDTO {
 	title: string;
 }
 
-export interface getPostBySlugDTO {
+export interface GetPostBySlugDTO {
 	slug: string;
 }
 
-export interface getPostByIdDTO {
+export interface GetPostByIdDTO {
 	_id: Types.ObjectId;
 }
 
-export interface getAllPostsDTO {
+export interface GetAllPostsDTO {
 	pageSize: number;
 	pageNumber: number;
 	sort: 1 | -1;
+}
+
+export interface GetAllPostsByTagDTO {
+	pageSize: number;
+	pageNumber: number;
+	sort: 1 | -1;
+	tagId: Types.ObjectId;
 }

@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import {
 	NotFoundException,
 	ForbiddenException,
@@ -6,8 +7,7 @@ import {
 } from "../../../../Shared/Exceptions";
 import { GraphQLError } from "graphql";
 import Post from "../Model/post.model";
-import Tag from "../../Tag/Model/tag.model";
-import { SuggestPostByTitleDTO, getAllPostsDTO, getPostByIdDTO, getPostBySlugDTO } from "../Types";
+import { SuggestPostByTitleDTO, GetAllPostsDTO, GetPostByIdDTO, GetPostBySlugDTO, GetAllPostsByTagDTO } from "../Types";
 import PostRepository from "../Repository/post.repository";
 
 export default class PostQueriesServices {
@@ -24,7 +24,7 @@ export default class PostQueriesServices {
 		return matchedPosts;
 	}
 
-	public static async getPostBySlug(data: getPostBySlugDTO) {
+	public static async getPostBySlug(data: GetPostBySlugDTO) {
 		const matchedPost = await PostRepository.findOne({ slug: data.slug, isPublished: true });
 
 		if (!matchedPost) throw new NotFoundException("The post is not found!");
@@ -33,15 +33,15 @@ export default class PostQueriesServices {
 		return matchedPost;
 	}
 
-	public static async getPostById(data: getPostByIdDTO) {
-		const matchedPost = await PostRepository.findOne({ slug: data._id, isPublished: true });
+	public static async getPostById(data: GetPostByIdDTO) {
+		const matchedPost = await PostRepository.findOne({ _id: data._id, isPublished: true });
 
 		if (!matchedPost) throw new NotFoundException("The post is not found!");
 
 		return matchedPost;
 	}
 
-	public static async getAllPosts(data: getAllPostsDTO) {
+	public static async getAllPosts(data: GetAllPostsDTO) {
 		const { pageSize, pageNumber, sort } = data;
 
 		const matchedPosts = await PostRepository.aggregate([
@@ -56,43 +56,19 @@ export default class PostQueriesServices {
 		return matchedPosts;
 	}
 
-	public static async getAllPostsByTag(data) {
-		const pageNumber = data.page;
-		const limit = 8;
+	public static async getAllPostsByTag(data: GetAllPostsByTagDTO) {
+		const { pageSize, pageNumber, sort, tagId } = data;
 
-		const skip = pageNumber == 1 ? 0 : (pageNumber - 1) * limit;
+		const matchedPosts = await PostRepository.aggregate([
+			{ $match: { isPublished: true, tags: { $in: [new Types.ObjectId(tagId)] } } },
+			{ $sort: { isPublishedAt: sort } },
+			{ $skip: pageSize * (pageNumber - 1) },
+			{ $limit: pageSize },
+		]);
 
-		const tag = await Tag.findOne({ slug: data.slug }).select("_id").lean();
+		if (matchedPosts.length == 0) throw new NotFoundException("No posts found!");
 
-		// (1) Get posts from DB
-		const posts = await Post.find({ tags: { $in: tag._id } })
-			.sort({ isPublishedAt: -1 })
-			.skip(skip)
-			.limit(limit)
-			.select("_id title slug imageUrl")
-			.lean();
-
-		// If not posts
-		if (posts.length == 0 && data.page > 1) {
-			return new GraphQLError("No More Posts", {
-				extensions: { http: { status: 404 } },
-			});
-		}
-
-		if (posts.length == 0) {
-			return new GraphQLError("No Posts with this tag", {
-				extensions: { http: { status: 404 } },
-			});
-		}
-
-		// Get count of all posts having this tag
-		const totalCount = await Post.find({ tags: { $in: tag._id } })
-			.select("_id")
-			.lean()
-			.count();
-
-		// (2) Return found posts
-		return { posts, totalCount };
+		return matchedPosts;
 	}
 
 	public static async getAllPostsBySeries(data) {

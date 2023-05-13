@@ -2,7 +2,7 @@ import validateInput from "../../../../Shared/Helpers/validateInput";
 import PostValidators from "../Validators";
 
 import PostServices from "../Services";
-import { SuggestPostByTitleDTO, getAllPostsDTO, getPostByIdDTO, getPostBySlugDTO } from "../Types";
+import { SuggestPostByTitleDTO, GetAllPostsDTO, GetPostByIdDTO, GetPostBySlugDTO, GetAllPostsByTagDTO } from "../Types";
 
 export const postQueries = {
 	suggestPostByTitle: async (parent, args, context, info) => {
@@ -12,25 +12,25 @@ export const postQueries = {
 	},
 
 	getPostBySlug: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getPostBySlug, args.data as getPostBySlugDTO);
+		const validatedData = await validateInput(PostValidators.getPostBySlug, args.data as GetPostBySlugDTO);
 
 		return await PostServices.getPostBySlug(validatedData);
 	},
 
 	getPostById: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getPostById, args.data as getPostByIdDTO);
+		const validatedData = await validateInput(PostValidators.getPostById, args.data as GetPostByIdDTO);
 
 		return await PostServices.getPostById(validatedData);
 	},
 
 	getAllPosts: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getAllPosts, args.data as getAllPostsDTO);
+		const validatedData = await validateInput(PostValidators.getAllPosts, args.data as GetAllPostsDTO);
 
 		return await PostServices.getAllPosts(validatedData);
 	},
 
 	getAllPostsByTag: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getPostsByTag, args.data);
+		const validatedData = await validateInput(PostValidators.getAllPostsByTag, args.data as GetAllPostsByTagDTO);
 
 		return await PostServices.getAllPostsByTag(validatedData);
 	},

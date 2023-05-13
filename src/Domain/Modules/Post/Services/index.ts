@@ -1,4 +1,4 @@
-import { SuggestPostByTitleDTO, getAllPostsDTO, getPostByIdDTO, getPostBySlugDTO } from "../Types";
+import { SuggestPostByTitleDTO, GetAllPostsDTO, GetPostByIdDTO, GetPostBySlugDTO, GetAllPostsByTagDTO } from "../Types";
 import { CreatePostDTO, DeletePostDTO, PublishPostDTO, UpdatePostDTO } from "../Types/postMutations.dtos";
 import PostMutationsServices from "./postMutations.services";
 import PostQueriesServices from "./postQueries.services";
@@ -23,19 +23,19 @@ export default class PostServices {
 		return await PostQueriesServices.suggestPostByTitle(data);
 	}
 
-	public static async getPostBySlug(data: getPostBySlugDTO) {
+	public static async getPostBySlug(data: GetPostBySlugDTO) {
 		return await PostQueriesServices.getPostBySlug(data);
 	}
 
-	public static async getPostById(data: getPostByIdDTO) {
+	public static async getPostById(data: GetPostByIdDTO) {
 		return await PostQueriesServices.getPostById(data);
 	}
 
-	public static async getAllPosts(data:getAllPostsDTO) {
+	public static async getAllPosts(data: GetAllPostsDTO) {
 		return await PostQueriesServices.getAllPosts(data);
 	}
 
-	public static async getAllPostsByTag(data) {
+	public static async getAllPostsByTag(data: GetAllPostsByTagDTO) {
 		return await PostQueriesServices.getAllPostsByTag(data);
 	}
 

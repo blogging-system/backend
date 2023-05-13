@@ -1,14 +1,14 @@
 export default `#graphql
 	input suggestPostByTitleInput {
-		title: String!
+		title: String
 	}
 
 	input GetPostBySlugInput {
-		slug: String!
+		slug: String
 	}
 
 	input GetPostByIdInput {
-		_id: ID!
+		_id: ID
 	}
 
 	input GetAllPostsInput {
@@ -17,27 +17,20 @@ export default `#graphql
 		sort: Int
 	}
 
-	input GetRelatedPostsInput {
-		_id: ID!
-	}
-
 	input GetAllPostsByTagInput {
-		slug: String
-		page: Int
+		pageSize: Int
+		pageNumber: Int
+		sort: Int
+		tagId: ID
+
 	}
 
-	type GetAllPostsByTagResult {
-		posts: [Post]!
-		totalCount: Int
+	input GetRelatedPostsInput {
+		_id: ID
 	}
 
 	input GetPublishedPostsInput {
 		page: Int
-	}
-
-	type GetPublishedPostsResult {
-		posts: [Post]!
-		totalCount: Int
 	}
 
 	extend type Query {
@@ -45,13 +38,13 @@ export default `#graphql
 		getPostBySlug(data: GetPostBySlugInput): Post!
 		getPostById(data: GetPostByIdInput): Post!
 		getAllPosts(data: GetAllPostsInput): [Post]!
-		getAllPostsByTag(data: GetAllPostsByTagInput): GetAllPostsByTagResult!
+		getAllPostsByTag(data: GetAllPostsByTagInput): [Post]!
 		getAllPostsBySeries: [Post]!
 		getAllPostsByKeyword: [Post]!
 		getRelatedPosts(data: GetRelatedPostsInput): [Post]!
 		getLatestPosts: [Post]!
 		getPopularPosts: [Post]!
-		getPublishedPosts(data: GetPublishedPostsInput): GetPublishedPostsResult!
-		getUnPublishedPosts(data: GetPublishedPostsInput): GetPublishedPostsResult!
+		getPublishedPosts(data: GetPublishedPostsInput): [Post]!
+		getUnPublishedPosts(data: GetPublishedPostsInput): [Post]!
 	}
 `;
