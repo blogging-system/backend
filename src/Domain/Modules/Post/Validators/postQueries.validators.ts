@@ -7,6 +7,7 @@ import {
 	GetAllPostsByTagDTO,
 	GetAllPostsBySeriesDTO,
 	GetAllPostsByKeywordDTO,
+	GetRelatedPostsDTO,
 } from "../Types";
 
 export const postQueriesValidators = {
@@ -49,8 +50,11 @@ export const postQueriesValidators = {
 		keywordId: Joi.string().hex().length(24).message("Invalid tagId"),
 	}),
 
-	getRelatedPosts: Joi.object({
-		_id: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+	getRelatedPosts: Joi.object<GetRelatedPostsDTO>({
+		pageSize: Joi.number().integer().positive().default(10),
+		pageNumber: Joi.number().integer().positive().default(1),
+		sort: Joi.number().integer().valid(1, -1).default(1),
+		postId: Joi.string().hex().length(24).message("Invalid tagId"),
 	}),
 
 	getPublishedPosts: Joi.object({

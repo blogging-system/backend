@@ -42,7 +42,10 @@ export default `#graphql
 	}
 
 	input GetRelatedPostsInput {
-		_id: ID
+		pageSize: Int
+		pageNumber: Int
+		sort: Int
+		postId: ID
 	}
 
 	input GetPublishedPostsInput {

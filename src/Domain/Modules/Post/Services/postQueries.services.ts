@@ -14,6 +14,7 @@ import {
 	GetPostBySlugDTO,
 	GetAllPostsByTagDTO,
 	GetAllPostsBySeriesDTO,
+	GetRelatedPostsDTO,
 } from "../Types";
 import PostRepository from "../Repository/post.repository";
 
@@ -108,32 +109,40 @@ export default class PostQueriesServices {
 		return matchedPosts;
 	}
 
-	public static async getRelatedPosts(data) {
-		// (1) Find post
-		const post = await Post.findOne({ _id: data._id }).select("tags").lean();
+	public static async getRelatedPosts(data: GetRelatedPostsDTO) {
+		const { pageSize, pageNumber, sort, postId } = data;
 
-		// If not found
-		if (!post) {
-			return new GraphQLError("Post Not Found", {
-				extensions: {
-					http: { status: 404 },
+		const post = await PostRepository.findOne({ _id: postId });
+
+		if (!post) throw new NotFoundException("The post is not found!");
+
+		const matchedPosts = await PostRepository.aggregate([
+			{
+				$match: {
+					$or: [
+						{
+							isPublished: true,
+							tags: { $all: post.tags || [] },
+							keywords: { $all: post.keywords || [] },
+							series: { $all: post.series || [] },
+						},
+						{
+							isPublished: true,
+							tags: { $in: post.tags || [] },
+							keywords: { $in: post.keywords || [] },
+							series: { $in: post.series || [] },
+						},
+					],
 				},
-			});
-		}
+			},
+			{ $sort: { isPublishedAt: sort } },
+			{ $skip: pageSize * (pageNumber - 1) },
+			{ $limit: pageSize },
+		]);
 
-		// (2) Get related Posts
-		const foundPosts = await Post.find({ tags: { $all: post.tags } })
-			.limit(3)
-			.select("_id title slug imageUrl")
-			.lean();
+		if (matchedPosts.length == 0) throw new NotFoundException("No posts found!");
 
-		// If no related posts
-		if (foundPosts.length <= 1) {
-			return [];
-		}
-
-		// (3) Filter out the current post and return the rest found posts
-		return foundPosts.filter((post) => post._id != data._id);
+		return matchedPosts;
 	}
 
 	public static async getLatestPosts(data) {

@@ -38,3 +38,10 @@ export interface GetAllPostsByKeywordDTO {
 	sort: 1 | -1;
 	keywordId: Types.ObjectId;
 }
+
+export interface GetRelatedPostsDTO {
+	pageSize: number;
+	pageNumber: number;
+	sort: 1 | -1;
+	postId: Types.ObjectId;
+}

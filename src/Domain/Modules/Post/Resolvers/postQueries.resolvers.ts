@@ -10,6 +10,7 @@ import {
 	GetAllPostsByTagDTO,
 	GetAllPostsBySeriesDTO,
 	GetAllPostsByKeywordDTO,
+	GetRelatedPostsDTO,
 } from "../Types";
 
 export const postQueries = {
@@ -59,7 +60,7 @@ export const postQueries = {
 	},
 
 	getRelatedPosts: async (parent, args, context, info) => {
-		const validatedData = await validateInput(PostValidators.getRelatedPosts, args.data);
+		const validatedData = await validateInput(PostValidators.getRelatedPosts, args.data as GetRelatedPostsDTO);
 
 		return await PostServices.getRelatedPosts(validatedData);
 	},
