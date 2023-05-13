@@ -1,4 +1,4 @@
-import { SuggestPostByTitleDTO, getPostByIdDTO, getPostBySlugDTO } from "../Types";
+import { SuggestPostByTitleDTO, getAllPostsDTO, getPostByIdDTO, getPostBySlugDTO } from "../Types";
 import { CreatePostDTO, DeletePostDTO, PublishPostDTO, UpdatePostDTO } from "../Types/postMutations.dtos";
 import PostMutationsServices from "./postMutations.services";
 import PostQueriesServices from "./postQueries.services";
@@ -31,7 +31,7 @@ export default class PostServices {
 		return await PostQueriesServices.getPostById(data);
 	}
 
-	public static async getAllPosts(data) {
+	public static async getAllPosts(data:getAllPostsDTO) {
 		return await PostQueriesServices.getAllPosts(data);
 	}
 

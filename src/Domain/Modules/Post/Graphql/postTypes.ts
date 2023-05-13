@@ -17,7 +17,7 @@ export default `#graphql
 		series: [Tag]
 		keywords: [Tag]
 		isPublished: Boolean
-		publishedAt: Date
+		isPublishedAt: Date
 		createdAt: Date
 		updatedAt: Date
 	}

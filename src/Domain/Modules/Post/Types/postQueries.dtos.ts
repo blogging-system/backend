@@ -11,3 +11,9 @@ export interface getPostBySlugDTO {
 export interface getPostByIdDTO {
 	_id: Types.ObjectId;
 }
+
+export interface getAllPostsDTO {
+	pageSize: number;
+	pageNumber: number;
+	sort: 1 | -1;
+}

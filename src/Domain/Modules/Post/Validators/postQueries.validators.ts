@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { SuggestPostByTitleDTO, getPostByIdDTO, getPostBySlugDTO } from "../Types";
+import { SuggestPostByTitleDTO, getAllPostsDTO, getPostByIdDTO, getPostBySlugDTO } from "../Types";
 
 export const postQueriesValidators = {
 	suggestPostByTitle: Joi.object<SuggestPostByTitleDTO>({
@@ -14,9 +14,10 @@ export const postQueriesValidators = {
 		_id: Joi.string().hex().length(24).message("Invalid postId"),
 	}),
 
-	getAllPosts: Joi.object({
-		lastPostId: Joi.string().hex().length(24).message("Sorry, Invalid lastPostId"),
-		limit: Joi.number().positive().min(1).max(10).default(5),
+	getAllPosts: Joi.object<getAllPostsDTO>({
+		pageSize: Joi.number().integer().positive().default(10),
+		pageNumber: Joi.number().integer().positive().default(1),
+		sort: Joi.number().integer().valid(1, -1).default(1),
 	}),
 
 	getRelatedPosts: Joi.object({

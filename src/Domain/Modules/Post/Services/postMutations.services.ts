@@ -76,7 +76,7 @@ export default class PostMutationsServices {
 
 		const { modifiedCount } = await PostRepository.updateOne(
 			{ _id: data._id },
-			{ isPublished: true, publishedAt: new Date() }
+			{ isPublished: true, isPublishedAt: new Date() }
 		);
 
 		if (modifiedCount === 0) throw new InternalServerException("The post publication failed!");

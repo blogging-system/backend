@@ -7,7 +7,7 @@ import {
 import { GraphQLError } from "graphql";
 import Post from "../Model/post.model";
 import Tag from "../../Tag/Model/tag.model";
-import { SuggestPostByTitleDTO, getPostByIdDTO, getPostBySlugDTO } from "../Types";
+import { SuggestPostByTitleDTO, getAllPostsDTO, getPostByIdDTO, getPostBySlugDTO } from "../Types";
 import PostRepository from "../Repository/post.repository";
 
 export default class PostQueriesServices {
@@ -41,30 +41,19 @@ export default class PostQueriesServices {
 		return matchedPost;
 	}
 
-	public static async getAllPosts(data) {
-		let posts = [];
-		// (1) Find posts
+	public static async getAllPosts(data: getAllPostsDTO) {
+		const { pageSize, pageNumber, sort } = data;
 
-		if (!data || !data.lastPostId) {
-			posts = await Post.find({}).populate({ path: "tags" }).limit(5).lean(); // page 1
-		}
+		const matchedPosts = await PostRepository.aggregate([
+			{ $match: { isPublished: true } },
+			{ $sort: { isPublishedAt: sort } },
+			{ $skip: pageSize * (pageNumber - 1) },
+			{ $limit: pageSize },
+		]);
 
-		if (data && data.lastPostId) {
-			await Post.find({ _id: { $gt: data.lastPostId } }) // Next pages
-				.populate({ path: "tags" })
-				.limit(data.limit)
-				.lean();
-		}
+		if (matchedPosts.length == 0) throw new NotFoundException("No posts found!");
 
-		// If no posts found
-		if (posts.length == 0) {
-			return new GraphQLError("No Posts Found", {
-				extensions: { http: { status: 404 } },
-			});
-		}
-
-		// (2) Return found posts in DB
-		return posts;
+		return matchedPosts;
 	}
 
 	public static async getAllPostsByTag(data) {
@@ -77,7 +66,7 @@ export default class PostQueriesServices {
 
 		// (1) Get posts from DB
 		const posts = await Post.find({ tags: { $in: tag._id } })
-			.sort({ publishedAt: -1 })
+			.sort({ isPublishedAt: -1 })
 			.skip(skip)
 			.limit(limit)
 			.select("_id title slug imageUrl")
@@ -143,7 +132,7 @@ export default class PostQueriesServices {
 	}
 
 	public static async getLatestPosts(data) {
-		const posts = await Post.find({ isPublished: true }).sort({ publishedAt: -1 }).limit(8).lean();
+		const posts = await Post.find({ isPublished: true }).sort({ isPublishedAt: -1 }).limit(8).lean();
 
 		return posts;
 	}

@@ -8,12 +8,13 @@ export default `#graphql
 	}
 
 	input GetPostByIdInput {
-		postId: ID!
+		_id: ID!
 	}
 
 	input GetAllPostsInput {
-		lastPostId: ID
-		limit: Int
+		pageSize: Int
+		pageNumber: Int
+		sort: Int
 	}
 
 	input GetRelatedPostsInput {
