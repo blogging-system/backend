@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import slugify from "slugify";
 
 const TagSchema = new Schema(
 	{
@@ -10,9 +9,6 @@ const TagSchema = new Schema(
 		slug: {
 			type: String,
 			index: true,
-			default: function () {
-				return slugify(this.name);
-			},
 		},
 	},
 	{
