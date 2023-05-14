@@ -151,7 +151,6 @@ export default class PostQueriesServices {
 		return await Post.find({ isPublished: true }).sort({ views: -1 }).limit(8).lean();
 	}
 
-	// TODO: protect this
 	public static async getUnPublishedPosts(data: GetUnPublishedPostsDTO) {
 		console.log({ data });
 

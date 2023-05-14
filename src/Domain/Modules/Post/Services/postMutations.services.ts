@@ -40,7 +40,8 @@ export default class PostMutationsServices {
 
 		const updatedPost = await PostRepository.updateOne({ _id: data._id }, { ...data.payload });
 
-		if (!updatedPost) throw new NotFoundException("the post is not found!");
+		if (updatedPost.matchedCount === 0) throw new NotFoundException("the post is not found!");
+		if (updatedPost.modifiedCount === 0) throw new InternalServerException("the post update process failed!");
 
 		return updatedPost;
 	}

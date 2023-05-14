@@ -1,9 +1,15 @@
 import postModel from "../Model/post.model";
 import { BaseRepository } from "../../../Repository";
 import { FilterQuery } from "mongoose";
+import slugify from "slugify";
+
 class PostRepository extends BaseRepository<any> {
 	constructor() {
 		super(postModel);
+	}
+
+	async createOne(payload: any): Promise<any> {
+		return await super.createOne({ ...payload, slug: slugify(payload.title) });
 	}
 
 	/**
@@ -25,6 +31,10 @@ class PostRepository extends BaseRepository<any> {
 	 */
 	async findMany(query: FilterQuery<any>, limit = 10): Promise<any[]> {
 		return await this.model.find(query).populate("tags series").limit(limit).lean();
+	}
+
+	async updateOne(filter, setPayload, unsetPayload?: any) {
+		return await super.updateOne(filter, { ...setPayload, slug: slugify(setPayload.title) }, unsetPayload);
 	}
 }
 
