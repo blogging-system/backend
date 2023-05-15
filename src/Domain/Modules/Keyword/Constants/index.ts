@@ -1,5 +1,5 @@
-import successMessages from "./postSuccessMessages.constants";
-import failureMessages from "./postFailureMessages.constants";
+import successMessages from "./keywordSuccessMessages.constants";
+import failureMessages from "./keywordFailureMessages.constants";
 
 export default {
 	successMessages,

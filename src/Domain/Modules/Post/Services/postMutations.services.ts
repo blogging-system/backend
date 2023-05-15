@@ -2,7 +2,7 @@ import { CreatePostDTO, DeletePostDTO, PublishPostDTO, UpdatePostDTO } from "../
 import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 import Post from "../Model/post.model";
 
-import { insertTags_service, deleteTags_service } from "../../Tag/Services/tag.mutations.service";
+// import { insertTags_service, deleteTags_service } from "../../Tag/Services/tag.mutations.service";
 import { GraphQLError } from "graphql";
 
 import PostRepository from "../Repository/post.repository";
