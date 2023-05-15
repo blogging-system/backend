@@ -1,5 +1,5 @@
 import TagRepository from "./../Repository/tag.repository";
-import { CreateTagDTO, UpdateTagDTO } from "../Types";
+import { CreateTagDTO, DeleteTagDTO, UpdateTagDTO } from "../Types";
 import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 
 export default class TagMutationsServices {
@@ -18,5 +18,18 @@ export default class TagMutationsServices {
 		if (updatedTag.modifiedCount === 0) throw new InternalServerException("The tag update process failed");
 
 		return updatedTag;
+	}
+
+	public static async deleteTag(data: DeleteTagDTO) {
+		/**
+		 * TODO: check other model!
+		 */
+
+		// if no other documents have this it as a reference, then
+		const { deletedCount } = await TagRepository.deleteOne({ _id: data._id });
+
+		if (deletedCount === 0) throw new InternalServerException("The tag deletion process failed!");
+
+		return "The tag is deleted successfully!";
 	}
 }
