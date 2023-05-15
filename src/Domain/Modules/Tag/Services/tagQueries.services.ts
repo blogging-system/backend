@@ -1,6 +1,6 @@
 import { NotFoundException } from "../../../../Shared/Exceptions";
 import TagRepository from "../Repository/tag.repository";
-import { SuggestTagByNameDTO } from "../Types";
+import { GetTagBySlugDTO, SuggestTagByNameDTO } from "../Types";
 
 export default class TagQueriesServices {
 	public static async suggestTagByName(data: SuggestTagByNameDTO) {
@@ -11,5 +11,11 @@ export default class TagQueriesServices {
 		return matchedTags;
 	}
 
-    
+	public static async getTagBySlug(data: GetTagBySlugDTO) {
+		const matchedTag = await TagRepository.findOne({ slug: data.slug });
+
+		if (!matchedTag) throw new NotFoundException("The tag is not found!");
+
+		return matchedTag;
+	}
 }

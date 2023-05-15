@@ -5,7 +5,7 @@ export default `#graphql
         limit: Int
     }
 
-    input getTagBySlugInput {
+    input GetTagBySlugInput {
         slug: String
     }
 
