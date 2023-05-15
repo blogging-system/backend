@@ -1,6 +1,6 @@
 import { NotFoundException } from "../../../../Shared/Exceptions";
 import TagRepository from "../Repository/tag.repository";
-import { GetTagBySlugDTO, SuggestTagByNameDTO } from "../Types";
+import { GetAllTagsDTO, GetTagBySlugDTO, SuggestTagByNameDTO } from "../Types";
 
 export default class TagQueriesServices {
 	public static async suggestTagByName(data: SuggestTagByNameDTO) {
@@ -17,5 +17,19 @@ export default class TagQueriesServices {
 		if (!matchedTag) throw new NotFoundException("The tag is not found!");
 
 		return matchedTag;
+	}
+
+	public static async getAllTags(data: GetAllTagsDTO) {
+		const { pageSize, pageNumber, sort } = data;
+
+		const matchedTags = await TagRepository.aggregate([
+			{ $sort: { createdAt: sort } },
+			{ $skip: pageSize * (pageNumber - 1) },
+			{ $limit: pageSize },
+		]);
+
+		if (matchedTags.length == 0) throw new NotFoundException("No Tags found!");
+
+		return matchedTags;
 	}
 }

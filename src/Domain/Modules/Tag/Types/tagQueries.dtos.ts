@@ -6,3 +6,9 @@ export interface SuggestTagByNameDTO {
 export interface GetTagBySlugDTO {
 	slug: string;
 }
+
+export interface GetAllTagsDTO {
+	pageSize: number;
+	pageNumber: number;
+	sort: 1 | -1;
+}

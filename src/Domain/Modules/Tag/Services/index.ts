@@ -1,4 +1,11 @@
-import { CreateTagDTO, DeleteTagDTO, GetTagBySlugDTO, SuggestTagByNameDTO, UpdateTagDTO } from "../Types";
+import {
+	CreateTagDTO,
+	DeleteTagDTO,
+	GetAllTagsDTO,
+	GetTagBySlugDTO,
+	SuggestTagByNameDTO,
+	UpdateTagDTO,
+} from "../Types";
 import TagMutationsServices from "./tagMutations.services";
 import TagQueriesServices from "./tagQueries.services";
 export default class TagServices {
@@ -20,5 +27,9 @@ export default class TagServices {
 
 	public static async getTagBySlug(data: GetTagBySlugDTO) {
 		return await TagQueriesServices.getTagBySlug(data);
+	}
+
+	public static async getAllTags(data: GetAllTagsDTO) {
+		return await TagQueriesServices.getAllTags(data);
 	}
 }

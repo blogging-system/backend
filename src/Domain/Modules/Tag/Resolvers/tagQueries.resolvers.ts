@@ -1,6 +1,6 @@
 import TagValidators from "../Validators";
 import validateInput from "../../../../Shared/Helpers/validateInput";
-import { GetTagBySlugDTO, SuggestTagByNameDTO } from "../Types";
+import { GetAllTagsDTO, GetTagBySlugDTO, SuggestTagByNameDTO } from "../Types";
 import TagServices from "../Services";
 
 export const tagQueries = {
@@ -14,5 +14,11 @@ export const tagQueries = {
 		const validatedData = await validateInput(TagValidators.getTagBySlug, args.data as GetTagBySlugDTO);
 
 		return await TagServices.getTagBySlug(validatedData);
+	},
+
+	getAllTags: async (parent, args, context, info) => {
+		const validatedData = await validateInput(TagValidators.getAllTags, args.data as GetAllTagsDTO);
+
+		return await TagServices.getAllTags(validatedData);
 	},
 };
