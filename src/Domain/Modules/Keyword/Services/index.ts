@@ -1,4 +1,10 @@
-import { CreateKeywordDTO, DeleteKeywordDTO, UpdateKeywordDTO } from "../Types";
+import {
+	CreateKeywordDTO,
+	DeleteKeywordDTO,
+	GetAllKeywordsDTO,
+	SuggestKeywordByNameDTO,
+	UpdateKeywordDTO,
+} from "../Types";
 import KeywordMutationsServices from "./keywordMutations.services";
 import KeywordQueriesServices from "./keywordQueries.services";
 
@@ -13,5 +19,13 @@ export default class PostServices {
 
 	public static async deleteKeyword(data: DeleteKeywordDTO) {
 		return await KeywordMutationsServices.deleteKeyword(data);
+	}
+
+	public static async suggestKeywordByName(data: SuggestKeywordByNameDTO) {
+		return await KeywordQueriesServices.suggestKeywordByName(data);
+	}
+
+	public static async getAllKeywords(data: GetAllKeywordsDTO) {
+		return await KeywordQueriesServices.getAllKeywords(data);
 	}
 }
