@@ -4,7 +4,14 @@ export const handleHttpErrorResponse = (error) => {
 	if (error.extensions && error.extensions.errorName) {
 		const { errorName, statusCode, statusMessage } = error.extensions;
 		if (
-			["ValidationError", "ForbiddenError", "UnAuthorizedError", "NotFoundError", "BadRequestError"].includes(errorName)
+			[
+				"ValidationError",
+				"ForbiddenError",
+				"UnAuthorizedError",
+				"NotFoundError",
+				"BadRequestError",
+				"InternalServerError",
+			].includes(errorName)
 		) {
 			return {
 				success: false,

@@ -1,14 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
-const TagSchema = new Schema(
+const KeywordSchema = new Schema(
 	{
 		name: {
 			type: String,
 			unique: true,
-			index: true,
-		},
-		slug: {
-			type: String,
 			index: true,
 		},
 	},
@@ -18,6 +14,6 @@ const TagSchema = new Schema(
 	}
 );
 
-TagSchema.index({ name: "text" });
+KeywordSchema.index({ name: "text" });
 
-export default mongoose.model("Tag", TagSchema);
+export default mongoose.model("Keyword", KeywordSchema);

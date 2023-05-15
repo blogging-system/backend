@@ -7,3 +7,7 @@ export interface UpdateTagDTO {
 	_id: Types.ObjectId;
 	name: string;
 }
+
+export interface DeleteTagDTO {
+	_id: Types.ObjectId;
+}
