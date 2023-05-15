@@ -3,7 +3,13 @@ export default `#graphql
 		name: String
 	}
 
+	input UpdateKeywordInput {
+		_id: ID
+		name: String
+	}
+
 	extend type Mutation {
-		createKeyword(data: CreateKeywordInput): Tag!
+		createKeyword(data: CreateKeywordInput): Tag
+		updateKeyword(data: UpdateKeywordInput): Tag
 	}
 `;
