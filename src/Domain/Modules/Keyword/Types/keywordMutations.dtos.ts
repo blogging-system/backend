@@ -7,3 +7,7 @@ export interface UpdateKeywordDTO {
 	_id: Types.ObjectId;
 	name: string;
 }
+
+export interface DeleteKeywordDTO {
+	_id: Types.ObjectId;
+}

@@ -8,8 +8,13 @@ export default `#graphql
 		name: String
 	}
 
+	input DeleteKeywordInput {
+		_id: ID
+	}
+
 	extend type Mutation {
 		createKeyword(data: CreateKeywordInput): Tag
 		updateKeyword(data: UpdateKeywordInput): Tag
+		deleteKeyword(data: DeleteKeywordInput): Success
 	}
 `;
