@@ -25,19 +25,3 @@
 // 			}
 // 		},
 // 	},
-
-
-// 	Mutation: {
-// 		deleteTag: async (parent, { data }) => {
-// 			try {
-// 				// (1) Validate comming data
-// 				const validatedData = await validate(tagValidators.deleteTag, data);
-
-// 				// (2) Delete Tag and return message
-// 				return await deleteTag_service(validatedData);
-// 			} catch (error) {
-// 				return handleHttpErrorResponse(error);
-// 			}
-// 		},
-// 	},
-// };

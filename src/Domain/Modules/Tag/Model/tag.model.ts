@@ -5,6 +5,7 @@ const TagSchema = new Schema(
 		name: {
 			type: String,
 			unique: true,
+			index: true,
 		},
 		slug: {
 			type: String,
@@ -16,5 +17,7 @@ const TagSchema = new Schema(
 		versionKey: false,
 	}
 );
+
+TagSchema.index({ name: "text" });
 
 export default mongoose.model("Tag", TagSchema);
