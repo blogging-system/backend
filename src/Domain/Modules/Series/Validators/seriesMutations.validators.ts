@@ -1,5 +1,11 @@
 import Joi from "joi";
-import { CreateSeriesDTO, DeleteSeriesDTO, PublishSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
+import {
+	AddTagToSeriesDTO,
+	CreateSeriesDTO,
+	DeleteSeriesDTO,
+	PublishSeriesDTO,
+	UpdateSeriesDTO,
+} from "../Types/seriesMutations.dtos";
 
 export const seriesMutationsValidators = {
 	createSeries: Joi.object<CreateSeriesDTO>({
@@ -27,5 +33,10 @@ export const seriesMutationsValidators = {
 
 	deleteSeries: Joi.object<DeleteSeriesDTO>({
 		_id: Joi.string().required(),
+	}),
+
+	addTagToSeries: Joi.object<AddTagToSeriesDTO>({
+		seriesId: Joi.string().required(),
+		tagId: Joi.string().required(),
 	}),
 };

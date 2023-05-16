@@ -1,7 +1,13 @@
 import validateInput from "../../../../Shared/Helpers/validateInput";
 import { handleHttpSuccessResponse } from "../../../../Shared/Http";
 import SeriesServices from "../Services";
-import { CreateSeriesDTO, DeleteSeriesDTO, PublishSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
+import {
+	AddTagToSeriesDTO,
+	CreateSeriesDTO,
+	DeleteSeriesDTO,
+	PublishSeriesDTO,
+	UpdateSeriesDTO,
+} from "../Types/seriesMutations.dtos";
 import SeriesValidators from "../Validators";
 
 export const seriesMutations = {
@@ -31,5 +37,11 @@ export const seriesMutations = {
 		const message = await SeriesServices.deleteSeries(validatedData);
 
 		return handleHttpSuccessResponse("SERIES_DELETED", message);
+	},
+
+	addTagToSeries: async (parent, args, context, info) => {
+		const validatedData = await validateInput(SeriesValidators.addTagToSeries, args.data as AddTagToSeriesDTO);
+
+		return await SeriesServices.addTagToSeries(validatedData);
 	},
 };

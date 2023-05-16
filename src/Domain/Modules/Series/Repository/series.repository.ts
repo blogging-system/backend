@@ -2,6 +2,7 @@ import seriesModel from "../Model/series.model";
 import { BaseRepository } from "../../../Repository";
 import { FilterQuery } from "mongoose";
 import slugify from "slugify";
+import { AddTagToSeriesDTO } from "../Types/seriesMutations.dtos";
 
 class SeriesRepository extends BaseRepository<any> {
 	constructor() {
@@ -12,7 +13,7 @@ class SeriesRepository extends BaseRepository<any> {
 		if (payload.title) {
 			payload.slug = slugify(payload.title);
 		}
-		
+
 		return await super.createOne(payload);
 	}
 
@@ -31,6 +32,16 @@ class SeriesRepository extends BaseRepository<any> {
 		}
 
 		return await super.updateOne(filter, setPayload, unsetPayload);
+	}
+
+	async addTagToSeries(data: AddTagToSeriesDTO) {
+		return await this.model.findOneAndUpdate(
+			{ _id: data.seriesId },
+			{
+				$addToSet: { tags: data.tagId },
+			},
+			{ new: true }
+		);
 	}
 }
 

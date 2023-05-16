@@ -20,10 +20,17 @@ export default `#graphql
         _id: ID
     }
 
+    input AddTagToSeriesInput {
+        seriesId: ID
+        tagId: ID
+    }
+
     extend type Mutation {
         createSeries(data: CreateSeriesInput): Series
         updateSeries(data: UpdateSeriesInput): Series
         publishSeries(data: PublishSeriesInput): Success
         deleteSeries(data: DeleteSeriesInput): Success
+        addTagToSeries(data: AddTagToSeriesInput): Series
+        
     }
 `;

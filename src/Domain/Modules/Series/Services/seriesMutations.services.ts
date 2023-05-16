@@ -1,4 +1,11 @@
-import { CreateSeriesDTO, DeleteSeriesDTO, PublishSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
+import { Types } from "mongoose";
+import {
+	AddTagToSeriesDTO,
+	CreateSeriesDTO,
+	DeleteSeriesDTO,
+	PublishSeriesDTO,
+	UpdateSeriesDTO,
+} from "../Types/seriesMutations.dtos";
 import SeriesRepository from "../Repository/series.repository";
 import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 export default class SeriesMutationServices {
@@ -34,12 +41,21 @@ export default class SeriesMutationServices {
 	public static async deleteSeries(data: DeleteSeriesDTO) {
 		// TODO:
 		// check if there are any posts in this series!
-		// check if therer are any other keywords/ tags used in any collection!
+		// check if there are any other keywords/ tags used in any collection!
 
 		const { deletedCount } = await SeriesRepository.deleteOne({ _id: data._id });
 
 		if (deletedCount === 0) throw new NotFoundException("The series is not found!");
 
 		return "The series is deleted successfully!";
+	}
+
+	public static async addTagToSeries(data: AddTagToSeriesDTO) {
+		const updatedSeries = await SeriesRepository.addTagToSeries(data);
+
+		if (updatedSeries.matchedCount === 0) throw new NotFoundException("The series is not found!");
+		if (updatedSeries.modifiedCount === 0) throw new InternalServerException("The series update failed!");
+
+		return updatedSeries;
 	}
 }
