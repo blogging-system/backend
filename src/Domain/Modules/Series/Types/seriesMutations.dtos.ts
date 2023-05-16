@@ -15,3 +15,7 @@ export interface UpdateSeriesDTO {
 export interface PublishSeriesDTO {
 	_id: Types.ObjectId;
 }
+
+export interface DeleteSeriesDTO {
+	_id: Types.ObjectId;
+}

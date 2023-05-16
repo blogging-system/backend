@@ -16,9 +16,14 @@ export default `#graphql
         _id: ID
     }
 
+    input DeleteSeriesInput {
+        _id: ID
+    }
+
     extend type Mutation {
         createSeries(data: CreateSeriesInput): Series
         updateSeries(data: UpdateSeriesInput): Series
-        publishSeries(data: PublishSeriesInput): Series
+        publishSeries(data: PublishSeriesInput): Success
+        deleteSeries(data: DeleteSeriesInput): Success
     }
 `;
