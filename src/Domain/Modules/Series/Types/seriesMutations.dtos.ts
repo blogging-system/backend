@@ -6,3 +6,8 @@ export interface CreateSeriesDTO {
 	tags: Types.ObjectId[];
 	keywords: Types.ObjectId[];
 }
+
+export interface UpdateSeriesDTO {
+	_id: Types.ObjectId;
+	payload: CreateSeriesDTO;
+}

@@ -7,7 +7,13 @@ export default `#graphql
         keywords: [ID]
     }
 
+    input UpdateSeriesInput {
+        _id: ID
+        payload: CreateSeriesInput
+    }
+
     extend type Mutation {
         createSeries(data: CreateSeriesInput): Series
+        updateSeries(data: UpdateSeriesInput): Series
     }
 `;
