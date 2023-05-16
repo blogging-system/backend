@@ -1,6 +1,6 @@
 import validate from "../../../../Shared/Helpers/validateInput";
 
-import seriesValidators from "../Validations/series.validators";
+import seriesValidators from "../Validators/series.validators";
 import { handleHttpErrorResponse } from "../../../../Shared/Http";
 
 import {
