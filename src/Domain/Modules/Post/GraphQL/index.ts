@@ -1,6 +1,6 @@
-import postTypes from "./postTypes";
-import postQueries from "./postQueries";
-import postMutations from "./postMutations";
+import postTypes from "./postTypes.schema";
+import postQueries from "./postQueries.schema";
+import postMutations from "./postMutations.schema";
 
 export default `
     ${postTypes}
