@@ -12,8 +12,13 @@ export default `#graphql
         payload: CreateSeriesInput
     }
 
+    input PublishSeriesInput {
+        _id: ID
+    }
+
     extend type Mutation {
         createSeries(data: CreateSeriesInput): Series
         updateSeries(data: UpdateSeriesInput): Series
+        publishSeries(data: PublishSeriesInput): Series
     }
 `;

@@ -1,6 +1,6 @@
 import validateInput from "../../../../Shared/Helpers/validateInput";
 import SeriesServices from "../Services";
-import { CreateSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
+import { CreateSeriesDTO, PublishSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
 import SeriesValidators from "../Validators";
 
 export const seriesMutations = {
@@ -14,5 +14,11 @@ export const seriesMutations = {
 		const validatedData = await validateInput(SeriesValidators.updateSeries, args.data as UpdateSeriesDTO);
 
 		return await SeriesServices.updateSeries(validatedData);
+	},
+
+	publishSeries: async (parent, args, context, info) => {
+		const validatedData = await validateInput(SeriesValidators.publishSeries, args.data as PublishSeriesDTO);
+
+		return await SeriesServices.publishedSeries(validatedData);
 	},
 };

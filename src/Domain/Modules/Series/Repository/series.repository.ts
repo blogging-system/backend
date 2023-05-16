@@ -9,7 +9,11 @@ class SeriesRepository extends BaseRepository<any> {
 	}
 
 	async createOne(payload: any): Promise<any> {
-		return await super.createOne({ ...payload, slug: slugify(payload.title) });
+		if (payload.title) {
+			payload.slug = slugify(payload.title);
+		}
+		
+		return await super.createOne(payload);
 	}
 
 	async findOne(query: FilterQuery<any>): Promise<any> {
@@ -22,7 +26,11 @@ class SeriesRepository extends BaseRepository<any> {
 	}
 
 	async updateOne(filter, setPayload, unsetPayload?: any) {
-		return await super.updateOne(filter, { ...setPayload, slug: slugify(setPayload.title) }, unsetPayload);
+		if (setPayload.title) {
+			setPayload.slug = slugify(setPayload.title);
+		}
+
+		return await super.updateOne(filter, setPayload, unsetPayload);
 	}
 }
 

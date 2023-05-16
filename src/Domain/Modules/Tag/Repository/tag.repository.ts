@@ -9,11 +9,19 @@ class TagRepository extends BaseRepository<any> {
 	}
 
 	async createOne(payload: any): Promise<any> {
-		return await super.createOne({ ...payload, slug: slugify(payload.name) });
+		if (payload.name) {
+			payload.slug = slugify(payload.name);
+		}
+		
+		return await super.createOne(payload);
 	}
 
 	async updateOne(filter, setPayload, unsetPayload?: any) {
-		return await super.updateOne(filter, { ...setPayload, slug: slugify(setPayload.name) }, unsetPayload);
+		if (setPayload.name) {
+			setPayload.slug = slugify(setPayload.name);
+		}
+
+		return await super.updateOne(filter, setPayload, unsetPayload);
 	}
 }
 
