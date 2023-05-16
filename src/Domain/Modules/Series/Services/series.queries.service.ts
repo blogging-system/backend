@@ -76,9 +76,7 @@ export const getSeriesBySlug_service = async (data) => {
 	}
 
 	// (2) Sort them so the latest added be on the top of the array
-	series.posts = series.posts
-		.reverse()
-		.slice((data.page - 1) * limit, data.page * limit);
+	series.posts = series.posts.reverse().slice((data.page - 1) * limit, data.page * limit);
 
 	// (3) Return series document
 	return { series, totalCount: count };
@@ -110,3 +108,4 @@ export const getSeriesByTitle_service = async (data) => {
 	// (2) Return matched posts
 	return series;
 };
+//
