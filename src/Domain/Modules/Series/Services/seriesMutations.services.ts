@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 import {
 	AddOrRemoveTagFromSeriesDTO,
 	AddOrRemoveKeywordFromSeriesDTO,
@@ -8,7 +7,7 @@ import {
 	UpdateSeriesDTO,
 } from "../Types/seriesMutations.dtos";
 import SeriesRepository from "../Repository/series.repository";
-import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
+import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 export default class SeriesMutationServices {
 	public static async createSeries(data: CreateSeriesDTO) {
 		const createdSeries = await SeriesRepository.createOne(data);
@@ -55,7 +54,6 @@ export default class SeriesMutationServices {
 		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
 
 		if (!foundSeries) throw new NotFoundException("The series is not found!");
-		if (foundSeries.tags.includes(data.tagId)) throw new ForbiddenException("The tag is already added!");
 
 		return await SeriesRepository.addTagToSeries(data);
 	}
@@ -64,7 +62,6 @@ export default class SeriesMutationServices {
 		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
 
 		if (!foundSeries) throw new NotFoundException("The series is not found!");
-		if (!foundSeries.tags.includes(data.tagId)) throw new ForbiddenException("The tag is already removed!");
 
 		return await SeriesRepository.removeTagFromSeries(data);
 	}
@@ -73,8 +70,17 @@ export default class SeriesMutationServices {
 		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
 
 		if (!foundSeries) throw new NotFoundException("The series is not found!");
-		if (foundSeries.tags.includes(data.keywordId)) throw new ForbiddenException("The keyword is already added!");
 
 		return await SeriesRepository.addKeywordToSeries(data);
+	}
+
+	public static async removeKeywordFromSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
+		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
+
+		if (!foundSeries) throw new NotFoundException("The series is not found!");
+
+		const result = await SeriesRepository.removeKeywordFromSeries(data);
+
+		return result;
 	}
 }

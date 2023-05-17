@@ -66,4 +66,13 @@ export const seriesMutations = {
 
 		return await SeriesServices.addKeywordToSeries(validatedData);
 	},
+
+	removeKeywordFromSeries: async (parents, args, context, info) => {
+		const validatedData = await validateInput(
+			SeriesValidators.addOrRemoveKeywordToSeries,
+			args.data as AddOrRemoveKeywordFromSeriesDTO
+		);
+
+		return await SeriesServices.removeKeywordFromSeries(validatedData);
+	},
 };

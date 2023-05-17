@@ -38,6 +38,7 @@ export default `#graphql
         addTagToSeries(data: AddOrRemoveTagToSeriesInput): Series
         removeTagFromSeries(data: AddOrRemoveTagToSeriesInput): Series
         addKeywordToSeries(data: AddOrRemoveKeywordToSeriesInput): Series
+        removeKeywordFromSeries(data: AddOrRemoveKeywordToSeriesInput): Series
 
     }
 `;

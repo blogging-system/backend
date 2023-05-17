@@ -1,6 +1,6 @@
 import seriesModel from "../Model/series.model";
 import { BaseRepository } from "../../../Repository";
-import { FilterQuery } from "mongoose";
+import { FilterQuery, Types } from "mongoose";
 import slugify from "slugify";
 import { AddOrRemoveTagFromSeriesDTO, AddOrRemoveKeywordFromSeriesDTO } from "../Types/seriesMutations.dtos";
 
@@ -45,11 +45,7 @@ class SeriesRepository extends BaseRepository<any> {
 	}
 
 	async removeTagFromSeries(data: AddOrRemoveTagFromSeriesDTO) {
-		return await this.model.findOneAndUpdate(
-			{ _id: data.seriesId },
-			{ $pull: { tags: data.tagId } },
-			{ new: true }
-		);
+		return await this.model.findOneAndUpdate({ _id: data.seriesId }, { $pull: { tags: data.tagId } }, { new: true });
 	}
 
 	async addKeywordToSeries(data: AddOrRemoveKeywordFromSeriesDTO) {

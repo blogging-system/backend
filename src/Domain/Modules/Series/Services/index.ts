@@ -36,4 +36,8 @@ export default class SeriesServices {
 	public static async addKeywordToSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
 		return await SeriesMutationServices.addKeywordToSeries(data);
 	}
+
+	public static async removeKeywordFromSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
+		return await SeriesMutationServices.removeKeywordFromSeries(data);
+	}
 }
