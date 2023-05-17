@@ -2,7 +2,7 @@ import seriesModel from "../Model/series.model";
 import { BaseRepository } from "../../../Repository";
 import { FilterQuery } from "mongoose";
 import slugify from "slugify";
-import { AddOrRemoveTagToSeriesDTO } from "../Types/seriesMutations.dtos";
+import { AddOrRemoveTagFromSeriesDTO, AddOrRemoveKeywordFromSeriesDTO } from "../Types/seriesMutations.dtos";
 
 class SeriesRepository extends BaseRepository<any> {
 	constructor() {
@@ -34,7 +34,7 @@ class SeriesRepository extends BaseRepository<any> {
 		return await super.updateOne(filter, setPayload, unsetPayload);
 	}
 
-	async addTagToSeries(data: AddOrRemoveTagToSeriesDTO) {
+	async addTagToSeries(data: AddOrRemoveTagFromSeriesDTO) {
 		return await this.model.findOneAndUpdate(
 			{ _id: data.seriesId },
 			{
@@ -44,8 +44,30 @@ class SeriesRepository extends BaseRepository<any> {
 		);
 	}
 
-	async removeTagFromSeries(data: AddOrRemoveTagToSeriesDTO) {
-		return await this.model.findOneAndUpdate({ _id: data.seriesId }, { $pull: { tags: data.tagId } }, { new: true });
+	async removeTagFromSeries(data: AddOrRemoveTagFromSeriesDTO) {
+		return await this.model.findOneAndUpdate(
+			{ _id: data.seriesId },
+			{ $pull: { tags: data.tagId } },
+			{ new: true }
+		);
+	}
+
+	async addKeywordToSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
+		return await this.model.findOneAndUpdate(
+			{ _id: data.seriesId },
+			{
+				$addToSet: { keywords: data.keywordId },
+			},
+			{ new: true }
+		);
+	}
+
+	async removeKeywordFromSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
+		return await this.model.findOneAndUpdate(
+			{ _id: data.seriesId },
+			{ $pull: { keywords: data.keywordId } },
+			{ new: true }
+		);
 	}
 }
 

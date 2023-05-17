@@ -1,5 +1,6 @@
 import {
-	AddOrRemoveTagToSeriesDTO,
+	AddOrRemoveTagFromSeriesDTO,
+	AddOrRemoveKeywordFromSeriesDTO,
 	CreateSeriesDTO,
 	DeleteSeriesDTO,
 	PublishSeriesDTO,
@@ -24,11 +25,15 @@ export default class SeriesServices {
 		return await SeriesMutationServices.deleteSeries(data);
 	}
 
-	public static async addTagToSeries(data: AddOrRemoveTagToSeriesDTO) {
+	public static async addTagToSeries(data: AddOrRemoveTagFromSeriesDTO) {
 		return await SeriesMutationServices.addTagToSeries(data);
 	}
 
-	public static async removeTagFromSeries(data: AddOrRemoveTagToSeriesDTO) {
+	public static async removeTagFromSeries(data: AddOrRemoveTagFromSeriesDTO) {
 		return await SeriesMutationServices.removeTagFromSeries(data);
+	}
+
+	public static async addKeywordToSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
+		return await SeriesMutationServices.addKeywordToSeries(data);
 	}
 }
