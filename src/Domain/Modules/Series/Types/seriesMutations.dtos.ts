@@ -20,7 +20,7 @@ export interface DeleteSeriesDTO {
 	_id: Types.ObjectId;
 }
 
-export interface AddTagToSeriesDTO {
+export interface AddOrRemoveTagToSeriesDTO {
 	seriesId: Types.ObjectId;
 	tagId: Types.ObjectId;
 }

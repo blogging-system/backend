@@ -20,7 +20,7 @@ export default `#graphql
         _id: ID
     }
 
-    input AddTagToSeriesInput {
+    input AddOrRemoveTagToSeriesInput {
         seriesId: ID
         tagId: ID
     }
@@ -30,7 +30,7 @@ export default `#graphql
         updateSeries(data: UpdateSeriesInput): Series
         publishSeries(data: PublishSeriesInput): Success
         deleteSeries(data: DeleteSeriesInput): Success
-        addTagToSeries(data: AddTagToSeriesInput): Series
-        
+        addTagToSeries(data: AddOrRemoveTagToSeriesInput): Series
+        removeTagFromSeries(data: AddOrRemoveTagToSeriesInput): Series
     }
 `;

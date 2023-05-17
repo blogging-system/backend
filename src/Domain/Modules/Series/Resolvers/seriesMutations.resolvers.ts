@@ -2,7 +2,7 @@ import validateInput from "../../../../Shared/Helpers/validateInput";
 import { handleHttpSuccessResponse } from "../../../../Shared/Http";
 import SeriesServices from "../Services";
 import {
-	AddTagToSeriesDTO,
+	AddOrRemoveTagToSeriesDTO,
 	CreateSeriesDTO,
 	DeleteSeriesDTO,
 	PublishSeriesDTO,
@@ -40,8 +40,20 @@ export const seriesMutations = {
 	},
 
 	addTagToSeries: async (parent, args, context, info) => {
-		const validatedData = await validateInput(SeriesValidators.addTagToSeries, args.data as AddTagToSeriesDTO);
+		const validatedData = await validateInput(
+			SeriesValidators.addOrRemoveTagToSeries,
+			args.data as AddOrRemoveTagToSeriesDTO
+		);
 
 		return await SeriesServices.addTagToSeries(validatedData);
+	},
+
+	removeTagFromSeries: async (parents, args, context, info) => {
+		const validatedData = await validateInput(
+			SeriesValidators.addOrRemoveTagToSeries,
+			args.data as AddOrRemoveTagToSeriesDTO
+		);
+
+		return await SeriesServices.removeTagFromSeries(validatedData);
 	},
 };

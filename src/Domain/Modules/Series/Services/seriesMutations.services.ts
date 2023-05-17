@@ -1,13 +1,13 @@
 import { Types } from "mongoose";
 import {
-	AddTagToSeriesDTO,
+	AddOrRemoveTagToSeriesDTO,
 	CreateSeriesDTO,
 	DeleteSeriesDTO,
 	PublishSeriesDTO,
 	UpdateSeriesDTO,
 } from "../Types/seriesMutations.dtos";
 import SeriesRepository from "../Repository/series.repository";
-import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
+import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 export default class SeriesMutationServices {
 	public static async createSeries(data: CreateSeriesDTO) {
 		const createdSeries = await SeriesRepository.createOne(data);
@@ -50,12 +50,21 @@ export default class SeriesMutationServices {
 		return "The series is deleted successfully!";
 	}
 
-	public static async addTagToSeries(data: AddTagToSeriesDTO) {
-		const updatedSeries = await SeriesRepository.addTagToSeries(data);
+	public static async addTagToSeries(data: AddOrRemoveTagToSeriesDTO) {
+		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
 
-		if (updatedSeries.matchedCount === 0) throw new NotFoundException("The series is not found!");
-		if (updatedSeries.modifiedCount === 0) throw new InternalServerException("The series update failed!");
+		if (!foundSeries) throw new NotFoundException("The series is not found!");
+		if (foundSeries.tags.includes(data.tagId)) throw new ForbiddenException("The tag is already added!");
 
-		return updatedSeries;
+		return await SeriesRepository.addTagToSeries(data);
+	}
+
+	public static async removeTagFromSeries(data: AddOrRemoveTagToSeriesDTO) {
+		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
+
+		if (!foundSeries) throw new NotFoundException("The series is not found!");
+		if (!foundSeries.tags.includes(data.tagId)) throw new ForbiddenException("The tag is already removed!");
+
+		return await SeriesRepository.removeTagFromSeries(data);
 	}
 }
