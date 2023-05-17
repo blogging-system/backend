@@ -1,4 +1,11 @@
-import { CreateSeriesDTO, DeleteSeriesDTO, PublishSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
+import {
+	AddOrRemoveTagFromSeriesDTO,
+	AddOrRemoveKeywordFromSeriesDTO,
+	CreateSeriesDTO,
+	DeleteSeriesDTO,
+	PublishSeriesDTO,
+	UpdateSeriesDTO,
+} from "../Types/seriesMutations.dtos";
 import SeriesRepository from "../Repository/series.repository";
 import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 export default class SeriesMutationServices {
@@ -34,12 +41,46 @@ export default class SeriesMutationServices {
 	public static async deleteSeries(data: DeleteSeriesDTO) {
 		// TODO:
 		// check if there are any posts in this series!
-		// check if therer are any other keywords/ tags used in any collection!
+		// check if there are any other keywords/ tags used in any collection!
 
 		const { deletedCount } = await SeriesRepository.deleteOne({ _id: data._id });
 
 		if (deletedCount === 0) throw new NotFoundException("The series is not found!");
 
 		return "The series is deleted successfully!";
+	}
+
+	public static async addTagToSeries(data: AddOrRemoveTagFromSeriesDTO) {
+		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
+
+		if (!foundSeries) throw new NotFoundException("The series is not found!");
+
+		return await SeriesRepository.addTagToSeries(data);
+	}
+
+	public static async removeTagFromSeries(data: AddOrRemoveTagFromSeriesDTO) {
+		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
+
+		if (!foundSeries) throw new NotFoundException("The series is not found!");
+
+		return await SeriesRepository.removeTagFromSeries(data);
+	}
+
+	public static async addKeywordToSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
+		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
+
+		if (!foundSeries) throw new NotFoundException("The series is not found!");
+
+		return await SeriesRepository.addKeywordToSeries(data);
+	}
+
+	public static async removeKeywordFromSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
+		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
+
+		if (!foundSeries) throw new NotFoundException("The series is not found!");
+
+		const result = await SeriesRepository.removeKeywordFromSeries(data);
+
+		return result;
 	}
 }

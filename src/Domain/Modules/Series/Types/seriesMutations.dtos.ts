@@ -19,3 +19,13 @@ export interface PublishSeriesDTO {
 export interface DeleteSeriesDTO {
 	_id: Types.ObjectId;
 }
+
+export interface AddOrRemoveTagFromSeriesDTO {
+	seriesId: Types.ObjectId;
+	tagId: Types.ObjectId;
+}
+
+export interface AddOrRemoveKeywordFromSeriesDTO {
+	seriesId: Types.ObjectId;
+	keywordId: Types.ObjectId;
+}

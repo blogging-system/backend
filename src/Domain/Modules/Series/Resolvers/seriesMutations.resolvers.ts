@@ -1,7 +1,14 @@
 import validateInput from "../../../../Shared/Helpers/validateInput";
 import { handleHttpSuccessResponse } from "../../../../Shared/Http";
 import SeriesServices from "../Services";
-import { CreateSeriesDTO, DeleteSeriesDTO, PublishSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
+import {
+	AddOrRemoveTagFromSeriesDTO,
+	AddOrRemoveKeywordFromSeriesDTO,
+	CreateSeriesDTO,
+	DeleteSeriesDTO,
+	PublishSeriesDTO,
+	UpdateSeriesDTO,
+} from "../Types/seriesMutations.dtos";
 import SeriesValidators from "../Validators";
 
 export const seriesMutations = {
@@ -31,5 +38,41 @@ export const seriesMutations = {
 		const message = await SeriesServices.deleteSeries(validatedData);
 
 		return handleHttpSuccessResponse("SERIES_DELETED", message);
+	},
+
+	addTagToSeries: async (parent, args, context, info) => {
+		const validatedData = await validateInput(
+			SeriesValidators.addOrRemoveTagToSeries,
+			args.data as AddOrRemoveTagFromSeriesDTO
+		);
+
+		return await SeriesServices.addTagToSeries(validatedData);
+	},
+
+	removeTagFromSeries: async (parents, args, context, info) => {
+		const validatedData = await validateInput(
+			SeriesValidators.addOrRemoveTagToSeries,
+			args.data as AddOrRemoveTagFromSeriesDTO
+		);
+
+		return await SeriesServices.removeTagFromSeries(validatedData);
+	},
+
+	addKeywordToSeries: async (parent, args, context, info) => {
+		const validatedData = await validateInput(
+			SeriesValidators.addOrRemoveKeywordToSeries,
+			args.data as AddOrRemoveKeywordFromSeriesDTO
+		);
+
+		return await SeriesServices.addKeywordToSeries(validatedData);
+	},
+
+	removeKeywordFromSeries: async (parents, args, context, info) => {
+		const validatedData = await validateInput(
+			SeriesValidators.addOrRemoveKeywordToSeries,
+			args.data as AddOrRemoveKeywordFromSeriesDTO
+		);
+
+		return await SeriesServices.removeKeywordFromSeries(validatedData);
 	},
 };

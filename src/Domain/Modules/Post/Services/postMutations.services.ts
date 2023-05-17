@@ -84,4 +84,8 @@ export default class PostMutationsServices {
 
 		return "The post is published successfully!";
 	}
+
+
+	// addPostToSeries()
+	// removePostFromSeries()
 }
