@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { GetSeriesBySlugDTO, SuggestSeriesByTitleDTO } from "../Types/seriesQueries.dtos";
+import { GetSeriesByIdDTO, GetSeriesBySlugDTO, SuggestSeriesByTitleDTO } from "../Types/seriesQueries.dtos";
 
 export const seriesQueriesValidators = {
 	suggestSeriesByTitle: Joi.object<SuggestSeriesByTitleDTO>({
@@ -8,5 +8,9 @@ export const seriesQueriesValidators = {
 
 	getSeriesBySlug: Joi.object<GetSeriesBySlugDTO>({
 		slug: Joi.string().required(),
+	}),
+
+	getSeriesById: Joi.object<GetSeriesByIdDTO>({
+		_id: Joi.string().required(),
 	}),
 };
