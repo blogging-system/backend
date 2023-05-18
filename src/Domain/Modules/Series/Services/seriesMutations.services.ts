@@ -8,7 +8,7 @@ import {
 } from "../Types/seriesMutations.dtos";
 import SeriesRepository from "../Repository/series.repository";
 import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
-export default class SeriesMutationServices {
+export default class SeriesMutationsServices {
 	public static async createSeries(data: CreateSeriesDTO) {
 		const createdSeries = await SeriesRepository.createOne(data);
 
