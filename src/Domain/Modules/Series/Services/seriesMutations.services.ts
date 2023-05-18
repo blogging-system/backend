@@ -8,8 +8,9 @@ import {
 	deleteSeriesIfNotReferencedInOtherPostsDTO,
 } from "../Types/seriesMutations.dtos";
 import SeriesRepository from "../Repository/series.repository";
-import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
+import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 import PostRepository from "../../Post/Repository/post.repository";
+import TagServices from "../../Tag/Services";
 export default class SeriesMutationsServices {
 	public static async createSeries(data: CreateSeriesDTO) {
 		const createdSeries = await SeriesRepository.createOne(data);
@@ -44,6 +45,23 @@ export default class SeriesMutationsServices {
 		// TODO:
 		// check if there are any posts in this series!
 		// check if there are any other keywords/ tags used in any collection!
+		const foundSeries = await SeriesRepository.findOne({ _id: data._id });
+
+		if (!foundSeries) throw new NotFoundException("The series is not found!");
+
+		const foundPosts = await PostRepository.findMany({ tags: { $in: data._id } });
+
+		if (foundPosts.length != 0)
+			throw new ForbiddenException("You need to deleted the posts associated to this series first!");
+
+		const mappedFoundSeries = foundPosts.map(
+			(post) =>
+				(post = {
+					_id: post._id,
+				})
+		);
+		// work on this later!
+		// await TagServices.deleteTagsIfNotReferencedInOtherPostsOrSeries({ tags: mappedFoundPosts });
 
 		const { deletedCount } = await SeriesRepository.deleteOne({ _id: data._id });
 
