@@ -1,7 +1,7 @@
 import SeriesServices from "../Services";
 import SeriesValidators from "./../Validators";
 import validateInput from "../../../../Shared/Helpers/validateInput";
-import { SuggestSeriesByTitleDTO } from "../Types/seriesQueries.dtos";
+import { GetSeriesBySlugDTO, SuggestSeriesByTitleDTO } from "../Types/seriesQueries.dtos";
 
 export const seriesQueriesResolvers = {
 	suggestSeriesByTitle: async (parent, args, context, info) => {
@@ -11,5 +11,11 @@ export const seriesQueriesResolvers = {
 		);
 
 		return await SeriesServices.suggestSeriesByTitle(validatedData);
+	},
+
+	getSeriesBySlug: async (parent, args, context, info) => {
+		const validatedData = await validateInput(SeriesValidators.getSeriesBySlug, args.data as GetSeriesBySlugDTO);
+
+		return await SeriesServices.getSeriesBySlug(validatedData);
 	},
 };

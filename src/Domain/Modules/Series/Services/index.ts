@@ -6,7 +6,7 @@ import {
 	PublishSeriesDTO,
 	UpdateSeriesDTO,
 } from "../Types/seriesMutations.dtos";
-import { SuggestSeriesByTitleDTO } from "../Types/seriesQueries.dtos";
+import { GetSeriesBySlugDTO, SuggestSeriesByTitleDTO } from "../Types/seriesQueries.dtos";
 import SeriesMutationsServices from "./seriesMutations.services";
 import SeriesQueriesServices from "./seriesQueries.services";
 
@@ -45,5 +45,9 @@ export default class SeriesServices {
 
 	public static async suggestSeriesByTitle(data: SuggestSeriesByTitleDTO) {
 		return await SeriesQueriesServices.suggestSeriesByTitle(data);
+	}
+
+	public static async getSeriesBySlug(data: GetSeriesBySlugDTO) {
+		return await SeriesQueriesServices.getSeriesBySlug(data);
 	}
 }
