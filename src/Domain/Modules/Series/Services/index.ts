@@ -6,38 +6,44 @@ import {
 	PublishSeriesDTO,
 	UpdateSeriesDTO,
 } from "../Types/seriesMutations.dtos";
-import SeriesMutationServices from "./seriesMutations.services";
+import { SuggestSeriesByTitleDTO } from "../Types/seriesQueries.dtos";
+import SeriesMutationsServices from "./seriesMutations.services";
+import SeriesQueriesServices from "./seriesQueries.services";
 
 export default class SeriesServices {
 	public static async createSeries(data: CreateSeriesDTO) {
-		return await SeriesMutationServices.createSeries(data);
+		return await SeriesMutationsServices.createSeries(data);
 	}
 
 	public static async updateSeries(data: UpdateSeriesDTO) {
-		return await SeriesMutationServices.updateSeries(data);
+		return await SeriesMutationsServices.updateSeries(data);
 	}
 
 	public static async publishedSeries(data: PublishSeriesDTO) {
-		return await SeriesMutationServices.publishSeries(data);
+		return await SeriesMutationsServices.publishSeries(data);
 	}
 
 	public static async deleteSeries(data: DeleteSeriesDTO) {
-		return await SeriesMutationServices.deleteSeries(data);
+		return await SeriesMutationsServices.deleteSeries(data);
 	}
 
 	public static async addTagToSeries(data: AddOrRemoveTagFromSeriesDTO) {
-		return await SeriesMutationServices.addTagToSeries(data);
+		return await SeriesMutationsServices.addTagToSeries(data);
 	}
 
 	public static async removeTagFromSeries(data: AddOrRemoveTagFromSeriesDTO) {
-		return await SeriesMutationServices.removeTagFromSeries(data);
+		return await SeriesMutationsServices.removeTagFromSeries(data);
 	}
 
 	public static async addKeywordToSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
-		return await SeriesMutationServices.addKeywordToSeries(data);
+		return await SeriesMutationsServices.addKeywordToSeries(data);
 	}
 
 	public static async removeKeywordFromSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
-		return await SeriesMutationServices.removeKeywordFromSeries(data);
+		return await SeriesMutationsServices.removeKeywordFromSeries(data);
+	}
+
+	public static async suggestSeriesByTitle(data: SuggestSeriesByTitleDTO) {
+		return await SeriesQueriesServices.suggestSeriesByTitle(data);
 	}
 }

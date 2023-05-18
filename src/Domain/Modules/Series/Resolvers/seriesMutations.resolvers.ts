@@ -11,7 +11,7 @@ import {
 } from "../Types/seriesMutations.dtos";
 import SeriesValidators from "../Validators";
 
-export const seriesMutations = {
+export const seriesMutationsResolvers = {
 	createSeries: async (parent, args, context, info) => {
 		const validatedData = await validateInput(SeriesValidators.createSeries, args.data as CreateSeriesDTO);
 
