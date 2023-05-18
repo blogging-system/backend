@@ -20,6 +20,10 @@ export interface DeleteSeriesDTO {
 	_id: Types.ObjectId;
 }
 
+export interface deleteSeriesIfNotReferencedInOtherPostsDTO {
+	series: [Types.ObjectId];
+}
+
 export interface AddOrRemoveTagFromSeriesDTO {
 	seriesId: Types.ObjectId;
 	tagId: Types.ObjectId;

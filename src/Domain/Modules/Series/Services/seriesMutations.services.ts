@@ -5,9 +5,11 @@ import {
 	DeleteSeriesDTO,
 	PublishSeriesDTO,
 	UpdateSeriesDTO,
+	deleteSeriesIfNotReferencedInOtherPostsDTO,
 } from "../Types/seriesMutations.dtos";
 import SeriesRepository from "../Repository/series.repository";
 import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
+import PostRepository from "../../Post/Repository/post.repository";
 export default class SeriesMutationsServices {
 	public static async createSeries(data: CreateSeriesDTO) {
 		const createdSeries = await SeriesRepository.createOne(data);
@@ -48,6 +50,18 @@ export default class SeriesMutationsServices {
 		if (deletedCount === 0) throw new NotFoundException("The series is not found!");
 
 		return "The series is deleted successfully!";
+	}
+
+	public static async deleteSeriesIfNotReferencedInOtherPosts(data: deleteSeriesIfNotReferencedInOtherPostsDTO) {
+		const deletePromises = data.series.map(async (series) => {
+			const foundPosts = await PostRepository.findMany({ series: series._id });
+
+			if (foundPosts.length <= 1) {
+				await SeriesRepository.deleteOne({ _id: series._id });
+			}
+		});
+
+		await Promise.all(deletePromises);
 	}
 
 	public static async addTagToSeries(data: AddOrRemoveTagFromSeriesDTO) {

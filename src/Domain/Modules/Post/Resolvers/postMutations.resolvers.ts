@@ -18,9 +18,9 @@ export const postMutations = {
 	},
 
 	deletePost: async (parent, args, context, info) => {
-		const { _id } = await validateInput(PostValidators.delete, args.data as DeletePostDTO);
+		const validatedData = await validateInput(PostValidators.delete, args.data as DeletePostDTO);
 
-		const message = await PostServices.deletePost(_id);
+		const message = await PostServices.deletePost(validatedData);
 
 		return handleHttpSuccessResponse("POST_DELETED_SUCCESSFULLY", message);
 	},
