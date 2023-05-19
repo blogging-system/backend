@@ -15,13 +15,6 @@ const SeriesSchema = new Schema(
 		},
 
 		image: { type: Schema.Types.ObjectId, ref: "Image" },
-
-		isPublished: {
-			type: Boolean,
-			default: false,
-			index: true,
-		},
-		isPublishedAt: Date,
 	},
 	{
 		timestamps: true,

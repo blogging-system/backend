@@ -23,13 +23,3 @@ export interface DeleteSeriesDTO {
 export interface deleteSeriesIfNotReferencedInOtherPostsDTO {
 	series: [Types.ObjectId];
 }
-
-export interface AddOrRemoveTagFromSeriesDTO {
-	seriesId: Types.ObjectId;
-	tagId: Types.ObjectId;
-}
-
-export interface AddOrRemoveKeywordFromSeriesDTO {
-	seriesId: Types.ObjectId;
-	keywordId: Types.ObjectId;
-}

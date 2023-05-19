@@ -1,6 +1,4 @@
 import {
-	AddOrRemoveTagFromSeriesDTO,
-	AddOrRemoveKeywordFromSeriesDTO,
 	CreateSeriesDTO,
 	DeleteSeriesDTO,
 	PublishSeriesDTO,
@@ -78,39 +76,5 @@ export default class SeriesMutationsServices {
 		});
 
 		await Promise.all(deletePromises);
-	}
-
-	public static async addTagToSeries(data: AddOrRemoveTagFromSeriesDTO) {
-		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
-
-		if (!foundSeries) throw new NotFoundException("The series is not found!");
-
-		return await SeriesRepository.addTagToSeries(data);
-	}
-
-	public static async removeTagFromSeries(data: AddOrRemoveTagFromSeriesDTO) {
-		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
-
-		if (!foundSeries) throw new NotFoundException("The series is not found!");
-
-		return await SeriesRepository.removeTagFromSeries(data);
-	}
-
-	public static async addKeywordToSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
-		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
-
-		if (!foundSeries) throw new NotFoundException("The series is not found!");
-
-		return await SeriesRepository.addKeywordToSeries(data);
-	}
-
-	public static async removeKeywordFromSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
-		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
-
-		if (!foundSeries) throw new NotFoundException("The series is not found!");
-
-		const result = await SeriesRepository.removeKeywordFromSeries(data);
-
-		return result;
 	}
 }
