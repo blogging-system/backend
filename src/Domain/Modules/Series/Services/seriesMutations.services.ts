@@ -1,7 +1,6 @@
 import {
 	CreateSeriesDTO,
 	DeleteSeriesDTO,
-	PublishSeriesDTO,
 	UpdateSeriesDTO,
 	deleteSeriesIfNotReferencedInOtherPostsDTO,
 } from "../Types/seriesMutations.dtos";
@@ -26,18 +25,6 @@ export default class SeriesMutationsServices {
 		if (updatedSeries.modifiedCount === 0) throw new InternalServerException("The series update failed!");
 
 		return updatedSeries;
-	}
-
-	public static async publishSeries(data: PublishSeriesDTO) {
-		const publishedSeries = await SeriesRepository.updateOne(
-			{ _id: data._id },
-			{ isPublished: true, isPublishedAt: new Date() }
-		);
-
-		if (publishedSeries.matchedCount === 0) throw new NotFoundException("The series is not found!");
-		if (publishedSeries.modifiedCount === 0) throw new InternalServerException("The series update failed!");
-
-		return "The series is published successfully!";
 	}
 
 	public static async deleteSeries(data: DeleteSeriesDTO) {

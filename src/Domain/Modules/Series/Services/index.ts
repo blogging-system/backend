@@ -1,7 +1,6 @@
 import {
 	CreateSeriesDTO,
 	DeleteSeriesDTO,
-	PublishSeriesDTO,
 	UpdateSeriesDTO,
 	deleteSeriesIfNotReferencedInOtherPostsDTO,
 } from "../Types/seriesMutations.dtos";
@@ -16,10 +15,6 @@ export default class SeriesServices {
 
 	public static async updateSeries(data: UpdateSeriesDTO) {
 		return await SeriesMutationsServices.updateSeries(data);
-	}
-
-	public static async publishedSeries(data: PublishSeriesDTO) {
-		return await SeriesMutationsServices.publishSeries(data);
 	}
 
 	public static async deleteSeries(data: DeleteSeriesDTO) {

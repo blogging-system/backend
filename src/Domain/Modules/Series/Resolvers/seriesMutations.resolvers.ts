@@ -1,7 +1,7 @@
 import validateInput from "../../../../Shared/Helpers/validateInput";
 import { handleHttpSuccessResponse } from "../../../../Shared/Http";
 import SeriesServices from "../Services";
-import { CreateSeriesDTO, DeleteSeriesDTO, PublishSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
+import { CreateSeriesDTO, DeleteSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
 import SeriesValidators from "../Validators";
 
 export const seriesMutationsResolvers = {
@@ -15,14 +15,6 @@ export const seriesMutationsResolvers = {
 		const validatedData = await validateInput(SeriesValidators.updateSeries, args.data as UpdateSeriesDTO);
 
 		return await SeriesServices.updateSeries(validatedData);
-	},
-
-	publishSeries: async (parent, args, context, info) => {
-		const validatedData = await validateInput(SeriesValidators.publishSeries, args.data as PublishSeriesDTO);
-
-		const message = await SeriesServices.publishedSeries(validatedData);
-
-		return handleHttpSuccessResponse("SERIES_PUBLISHED", message);
 	},
 
 	deleteSeries: async (parent, args, context, info) => {

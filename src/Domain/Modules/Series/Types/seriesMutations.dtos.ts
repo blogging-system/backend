@@ -12,10 +12,6 @@ export interface UpdateSeriesDTO {
 	payload: CreateSeriesDTO;
 }
 
-export interface PublishSeriesDTO {
-	_id: Types.ObjectId;
-}
-
 export interface DeleteSeriesDTO {
 	_id: Types.ObjectId;
 }
