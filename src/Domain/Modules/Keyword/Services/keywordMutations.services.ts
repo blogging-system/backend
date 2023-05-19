@@ -48,7 +48,8 @@ export default class KeywordMutationsServices {
 			]);
 
 			const totalReferences = foundPosts.length + foundSeries.length;
-
+			console.log({ totalReferences });
+console.log("from keyowds service")
 			if (totalReferences <= 3) {
 				await KeywordMutationsServices.deleteKeyword({ _id: keyword._id });
 			}

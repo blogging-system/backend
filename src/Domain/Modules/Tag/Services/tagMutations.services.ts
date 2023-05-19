@@ -45,7 +45,8 @@ export default class TagMutationsServices {
 			]);
 
 			const totalReferences = foundPosts.length + foundSeries.length;
-
+			console.log({ totalReferences });
+			console.log("from tags service");
 			if (totalReferences <= 3) {
 				await TagRepository.deleteOne({ _id: tag._id });
 			}

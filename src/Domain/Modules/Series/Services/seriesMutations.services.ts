@@ -11,6 +11,7 @@ import SeriesRepository from "../Repository/series.repository";
 import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 import PostRepository from "../../Post/Repository/post.repository";
 import TagServices from "../../Tag/Services";
+import KeywordServices from "../../Keyword/Services";
 export default class SeriesMutationsServices {
 	public static async createSeries(data: CreateSeriesDTO) {
 		const createdSeries = await SeriesRepository.createOne(data);
@@ -42,30 +43,27 @@ export default class SeriesMutationsServices {
 	}
 
 	public static async deleteSeries(data: DeleteSeriesDTO) {
-		// TODO:
-		// check if there are any posts in this series!
-		// check if there are any other keywords/ tags used in any collection!
 		const foundSeries = await SeriesRepository.findOne({ _id: data._id });
 
 		if (!foundSeries) throw new NotFoundException("The series is not found!");
 
-		const foundPosts = await PostRepository.findMany({ tags: { $in: data._id } });
+		console.log({ foundSeries });
 
-		if (foundPosts.length != 0)
-			throw new ForbiddenException("You need to deleted the posts associated to this series first!");
+		const referencedPosts = await PostRepository.findMany({ tags: { $in: foundSeries._id } });
+		console.log({ referencedPosts });
 
-		const mappedFoundSeries = foundPosts.map(
-			(post) =>
-				(post = {
-					_id: post._id,
-				})
-		);
-		// work on this later!
-		// await TagServices.deleteTagsIfNotReferencedInOtherPostsOrSeries({ tags: mappedFoundPosts });
+		if (referencedPosts.length != 0)
+			throw new ForbiddenException("You need to delete the posts referencing this series first!");
 
-		const { deletedCount } = await SeriesRepository.deleteOne({ _id: data._id });
+		const foundSeriesTagsList = foundSeries.tags.map((tag) => tag._id);
+		const foundSeriesKeywordsList = foundSeries.keywords.map((keyword) => keyword._id);
 
-		if (deletedCount === 0) throw new NotFoundException("The series is not found!");
+		await TagServices.deleteTagsIfNotReferencedInOtherPostsOrSeries({ tags: foundSeriesTagsList });
+		await KeywordServices.deleteKeywordsIfNotReferencedInOtherPostsOrSeries({ keywords: foundSeriesKeywordsList });
+		console.log("here");
+		// const { deletedCount } = await SeriesRepository.deleteOne({ _id: data._id });
+		//
+		// if (deletedCount === 0) throw new NotFoundException("The series is not found!");
 
 		return "The series is deleted successfully!";
 	}

@@ -15,8 +15,6 @@ const SeriesSchema = new Schema(
 		},
 
 		image: { type: Schema.Types.ObjectId, ref: "Image" },
-		tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
-		keywords: [{ type: Schema.Types.ObjectId, ref: "Keyword" }],
 
 		isPublished: {
 			type: Boolean,

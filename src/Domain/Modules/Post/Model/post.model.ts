@@ -17,7 +17,7 @@ const PostSchema = new Schema(
 			type: String,
 		},
 
-		imageId: { type: Schema.Types.ObjectId, ref: "Image" },
+		image: { type: Schema.Types.ObjectId, ref: "Image" },
 		tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
 		series: [{ type: Schema.Types.ObjectId, ref: "Series" }],
 		keywords: [{ type: Schema.Types.ObjectId, ref: "Keyword" }],
