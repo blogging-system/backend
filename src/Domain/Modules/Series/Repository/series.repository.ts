@@ -18,11 +18,11 @@ class SeriesRepository extends BaseRepository<any> {
 
 	async findOne(query: FilterQuery<any>): Promise<any> {
 		// TODO: add "Keywords image" to populate
-		return await this.model.findOne(query).populate("tags keywords").lean();
+		return await this.model.findOne(query).populate("").lean();
 	}
 
 	async findMany(query: FilterQuery<any>, limit = 10): Promise<any[]> {
-		return await this.model.find(query).populate("tags keywords").limit(limit).lean();
+		return await this.model.find(query).populate("").limit(limit).lean();
 	}
 
 	async updateOne(filter, setPayload, unsetPayload?: any) {

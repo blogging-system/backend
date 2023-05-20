@@ -14,8 +14,8 @@ export default `#graphql
     }
     
     extend type Mutation {
-        createTag(data: CreateTagInput): Tag!
-        updateTag(data: UpdateTagInput): Tag!
-        deleteTag(data: DeleteTagInput): Success!
+        createTag(data: CreateTagInput): Tag
+        updateTag(data: UpdateTagInput): Tag
+        deleteTag(data: DeleteTagInput): Success
     }
 `;

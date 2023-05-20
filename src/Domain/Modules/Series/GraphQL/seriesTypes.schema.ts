@@ -5,10 +5,6 @@ export default `#graphql
         slug: String
         description: String
         image: ID
-		tags: [Tag]
-		keywords: [Tag]
-		isPublished: Boolean
-		isPublishedAt: Date
         createdAt: Date
 		updatedAt: Date
     }

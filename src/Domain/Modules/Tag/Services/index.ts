@@ -5,7 +5,6 @@ import {
 	GetTagBySlugDTO,
 	SuggestTagByNameDTO,
 	UpdateTagDTO,
-	deleteTagsIfNotReferencedInOtherPostsOrSeriesDTO,
 } from "../Types";
 import TagMutationsServices from "./tagMutations.services";
 import TagQueriesServices from "./tagQueries.services";
@@ -33,12 +32,4 @@ export default class TagServices {
 	public static async getAllTags(data: GetAllTagsDTO) {
 		return await TagQueriesServices.getAllTags(data);
 	}
-
-	public static async deleteTagsIfNotReferencedInOtherPostsOrSeries(
-		data: deleteTagsIfNotReferencedInOtherPostsOrSeriesDTO
-	) {
-		return await TagMutationsServices.deleteTagsIfNotReferencedInOtherPostsOrSeries(data);
-	}
-
-	
 }

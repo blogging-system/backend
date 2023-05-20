@@ -26,10 +26,7 @@ export default class SeriesMutationsServices {
 
 		if (!foundSeries) throw new NotFoundException("The series is not found!");
 
-		console.log({ foundSeries });
-
 		const seriesReferencingPosts = await PostRepository.findMany({ series: { $in: foundSeries._id } });
-		console.log({ seriesReferencingPosts });
 
 		if (seriesReferencingPosts.length != 0)
 			throw new ForbiddenException("You need to delete the posts referencing this series first!");
