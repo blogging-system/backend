@@ -4,7 +4,6 @@ import {
 	GetAllKeywordsDTO,
 	SuggestKeywordByNameDTO,
 	UpdateKeywordDTO,
-	deleteKeywordsIfNotReferencedInOtherPostsOrSeriesDTO,
 } from "../Types";
 import KeywordMutationsServices from "./keywordMutations.services";
 import KeywordQueriesServices from "./keywordQueries.services";
@@ -28,11 +27,5 @@ export default class KeywordServices {
 
 	public static async getAllKeywords(data: GetAllKeywordsDTO) {
 		return await KeywordQueriesServices.getAllKeywords(data);
-	}
-
-	public static async deleteKeywordsIfNotReferencedInOtherPostsOrSeries(
-		data: deleteKeywordsIfNotReferencedInOtherPostsOrSeriesDTO
-	) {
-		return await KeywordMutationsServices.deleteKeywordsIfNotReferencedInOtherPostsOrSeries(data);
 	}
 }
