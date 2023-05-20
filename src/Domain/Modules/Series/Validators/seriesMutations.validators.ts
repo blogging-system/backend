@@ -6,8 +6,6 @@ export const seriesMutationsValidators = {
 		title: Joi.string().required(),
 		description: Joi.string().required(),
 		image: Joi.string().required(),
-		tags: Joi.array().items(Joi.string().required()),
-		keywords: Joi.array().items(Joi.string().required()),
 	}),
 
 	updateSeries: Joi.object<UpdateSeriesDTO>({
@@ -16,8 +14,6 @@ export const seriesMutationsValidators = {
 			title: Joi.string(),
 			description: Joi.string(),
 			image: Joi.string(),
-			tags: Joi.array().items(Joi.string()),
-			keywords: Joi.array().items(Joi.string()),
 		}),
 	}),
 

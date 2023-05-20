@@ -31,7 +31,6 @@ export default class PostMutationsServices {
 
 		await TagServices.deleteTagsIfNotReferencedInOtherPostsOrSeries({ tags: post.tags });
 		await KeywordServices.deleteKeywordsIfNotReferencedInOtherPostsOrSeries({ keywords: post.keywords });
-		await SeriesServices.deleteSeriesIfNotReferencedInOtherPosts({ series: post.series });
 
 		const { deletedCount } = await PostRepository.deleteOne({ _id: data._id });
 

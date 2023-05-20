@@ -3,8 +3,6 @@ export interface CreateSeriesDTO {
 	title: string;
 	description: string;
 	image: Types.ObjectId;
-	tags: Types.ObjectId[];
-	keywords: Types.ObjectId[];
 }
 
 export interface UpdateSeriesDTO {
@@ -14,8 +12,4 @@ export interface UpdateSeriesDTO {
 
 export interface DeleteSeriesDTO {
 	_id: Types.ObjectId;
-}
-
-export interface deleteSeriesIfNotReferencedInOtherPostsDTO {
-	series: [Types.ObjectId];
 }

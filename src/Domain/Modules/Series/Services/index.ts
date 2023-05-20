@@ -1,9 +1,4 @@
-import {
-	CreateSeriesDTO,
-	DeleteSeriesDTO,
-	UpdateSeriesDTO,
-	deleteSeriesIfNotReferencedInOtherPostsDTO,
-} from "../Types/seriesMutations.dtos";
+import { CreateSeriesDTO, DeleteSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
 import { GetSeriesByIdDTO, GetSeriesBySlugDTO, SuggestSeriesByTitleDTO } from "../Types/seriesQueries.dtos";
 import SeriesMutationsServices from "./seriesMutations.services";
 import SeriesQueriesServices from "./seriesQueries.services";
@@ -19,10 +14,6 @@ export default class SeriesServices {
 
 	public static async deleteSeries(data: DeleteSeriesDTO) {
 		return await SeriesMutationsServices.deleteSeries(data);
-	}
-
-	public static async deleteSeriesIfNotReferencedInOtherPosts(data: deleteSeriesIfNotReferencedInOtherPostsDTO) {
-		return await SeriesMutationsServices.deleteSeriesIfNotReferencedInOtherPosts(data);
 	}
 
 	public static async suggestSeriesByTitle(data: SuggestSeriesByTitleDTO) {

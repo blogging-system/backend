@@ -3,8 +3,6 @@ export default `#graphql
         title: String
         description: String
         image: ID
-        tags: [ID]
-        keywords: [ID]
     }
 
     input UpdateSeriesInput {

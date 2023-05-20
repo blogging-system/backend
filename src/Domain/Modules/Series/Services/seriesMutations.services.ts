@@ -1,14 +1,8 @@
-import {
-	CreateSeriesDTO,
-	DeleteSeriesDTO,
-	UpdateSeriesDTO,
-	deleteSeriesIfNotReferencedInOtherPostsDTO,
-} from "../Types/seriesMutations.dtos";
+import { CreateSeriesDTO, DeleteSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
 import SeriesRepository from "../Repository/series.repository";
 import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 import PostRepository from "../../Post/Repository/post.repository";
-import TagServices from "../../Tag/Services";
-import KeywordServices from "../../Keyword/Services";
+
 export default class SeriesMutationsServices {
 	public static async createSeries(data: CreateSeriesDTO) {
 		const createdSeries = await SeriesRepository.createOne(data);
@@ -34,34 +28,16 @@ export default class SeriesMutationsServices {
 
 		console.log({ foundSeries });
 
-		const referencedPosts = await PostRepository.findMany({ tags: { $in: foundSeries._id } });
-		console.log({ referencedPosts });
+		const seriesReferencingPosts = await PostRepository.findMany({ series: { $in: foundSeries._id } });
+		console.log({ seriesReferencingPosts });
 
-		if (referencedPosts.length != 0)
+		if (seriesReferencingPosts.length != 0)
 			throw new ForbiddenException("You need to delete the posts referencing this series first!");
 
-		const foundSeriesTagsList = foundSeries.tags.map((tag) => tag._id);
-		const foundSeriesKeywordsList = foundSeries.keywords.map((keyword) => keyword._id);
+		const { deletedCount } = await SeriesRepository.deleteOne({ _id: data._id });
 
-		await TagServices.deleteTagsIfNotReferencedInOtherPostsOrSeries({ tags: foundSeriesTagsList });
-		await KeywordServices.deleteKeywordsIfNotReferencedInOtherPostsOrSeries({ keywords: foundSeriesKeywordsList });
-		console.log("here");
-		// const { deletedCount } = await SeriesRepository.deleteOne({ _id: data._id });
-		//
-		// if (deletedCount === 0) throw new NotFoundException("The series is not found!");
+		if (deletedCount === 0) throw new NotFoundException("The series is not found!");
 
 		return "The series is deleted successfully!";
-	}
-
-	public static async deleteSeriesIfNotReferencedInOtherPosts(data: deleteSeriesIfNotReferencedInOtherPostsDTO) {
-		const deletePromises = data.series.map(async (series) => {
-			const foundPosts = await PostRepository.findMany({ series: series._id });
-
-			if (foundPosts.length <= 1) {
-				await SeriesRepository.deleteOne({ _id: series._id });
-			}
-		});
-
-		await Promise.all(deletePromises);
 	}
 }
