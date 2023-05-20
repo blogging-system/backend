@@ -25,6 +25,8 @@ export default class PostMutationsServices {
 
 		if (!post) throw new NotFoundException("the post is not found!");
 
+		
+
 		const { deletedCount } = await PostRepository.deleteOne({ _id: data._id });
 
 		if (deletedCount === 0) throw new InternalServerException("The post deletion process failed!");
