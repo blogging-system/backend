@@ -1,6 +1,13 @@
 import KeywordRepository from "./../Repository/keyword.repository";
+import PostRepository from "../../Post/Repository/post.repository";
+import SeriesRepository from "../../Series/Repository/series.repository";
 import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
-import { CreateKeywordDTO, DeleteKeywordDTO, UpdateKeywordDTO } from "../Types";
+import {
+	CreateKeywordDTO,
+	DeleteKeywordDTO,
+	deleteKeywordsIfNotReferencedInOtherPostsOrSeriesDTO,
+	UpdateKeywordDTO,
+} from "../Types";
 
 export default class KeywordMutationsServices {
 	public static async createKeyword(data: CreateKeywordDTO) {
@@ -29,5 +36,25 @@ export default class KeywordMutationsServices {
 		if (deletedCount === 0) throw new InternalServerException("The keyword deletion process failed!");
 
 		return "The keyword is deleted successfully!";
+	}
+
+	public static async deleteKeywordsIfNotReferencedInOtherPostsOrSeries(
+		data: deleteKeywordsIfNotReferencedInOtherPostsOrSeriesDTO
+	) {
+		const deletePromises = data.keywords.map(async (keyword) => {
+			const [foundPosts, foundSeries] = await Promise.all([
+				PostRepository.findMany({ keywords: { $in: keyword._id } }),
+				SeriesRepository.findMany({ keywords: { $in: keyword._id } }),
+			]);
+
+			const totalReferences = foundPosts.length + foundSeries.length;
+			console.log({ totalReferences });
+console.log("from keyowds service")
+			if (totalReferences <= 3) {
+				await KeywordMutationsServices.deleteKeyword({ _id: keyword._id });
+			}
+		});
+
+		await Promise.all(deletePromises);
 	}
 }

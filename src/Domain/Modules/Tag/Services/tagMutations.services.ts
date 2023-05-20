@@ -1,5 +1,7 @@
 import TagRepository from "./../Repository/tag.repository";
-import { CreateTagDTO, DeleteTagDTO, UpdateTagDTO } from "../Types";
+import PostRepository from "../../Post/Repository/post.repository";
+import SeriesRepository from "../../Series/Repository/series.repository";
+import { CreateTagDTO, DeleteTagDTO, UpdateTagDTO, deleteTagsIfNotReferencedInOtherPostsOrSeriesDTO } from "../Types";
 import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 
 export default class TagMutationsServices {
@@ -31,5 +33,25 @@ export default class TagMutationsServices {
 		if (deletedCount === 0) throw new InternalServerException("The tag deletion process failed!");
 
 		return "The tag is deleted successfully!";
+	}
+
+	public static async deleteTagsIfNotReferencedInOtherPostsOrSeries(
+		data: deleteTagsIfNotReferencedInOtherPostsOrSeriesDTO
+	) {
+		const deletePromises = data.tags.map(async (tag) => {
+			const [foundPosts, foundSeries] = await Promise.all([
+				PostRepository.findMany({ tags: { $in: tag._id } }),
+				SeriesRepository.findMany({ tags: { $in: tag._id } }),
+			]);
+
+			const totalReferences = foundPosts.length + foundSeries.length;
+			console.log({ totalReferences });
+			console.log("from tags service");
+			if (totalReferences <= 3) {
+				await TagRepository.deleteOne({ _id: tag._id });
+			}
+		});
+
+		await Promise.all(deletePromises);
 	}
 }

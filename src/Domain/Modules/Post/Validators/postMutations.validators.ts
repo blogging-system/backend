@@ -3,7 +3,7 @@ import { CreatePostDTO, UpdatePostDTO, DeletePostDTO, PublishPostDTO } from "../
 
 export const postMutationsValidators = {
 	create: Joi.object<CreatePostDTO>({
-		title: Joi.string().length(20).required(),
+		title: Joi.string().required(),
 		description: Joi.string().required(),
 		content: Joi.string().required(),
 		tags: Joi.array().items(Joi.string().required()),
@@ -26,10 +26,10 @@ export const postMutationsValidators = {
 	}),
 
 	delete: Joi.object<DeletePostDTO>({
-		_id: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+		_id: Joi.string(),
 	}),
 
 	publish: Joi.object<PublishPostDTO>({
-		_id: Joi.string().hex().length(24).message("Sorry, Invalid postId"),
+		_id: Joi.string(),
 	}),
 };

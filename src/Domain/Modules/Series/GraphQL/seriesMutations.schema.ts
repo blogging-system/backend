@@ -3,8 +3,6 @@ export default `#graphql
         title: String
         description: String
         image: ID
-        tags: [ID]
-        keywords: [ID]
     }
 
     input UpdateSeriesInput {
@@ -12,33 +10,14 @@ export default `#graphql
         payload: CreateSeriesInput
     }
 
-    input PublishSeriesInput {
-        _id: ID
-    }
 
     input DeleteSeriesInput {
         _id: ID
     }
 
-    input AddOrRemoveTagToSeriesInput {
-        seriesId: ID
-        tagId: ID
-    }
-
-    input AddOrRemoveKeywordToSeriesInput {
-        seriesId: ID
-        keywordId: ID
-    }
-
     extend type Mutation {
         createSeries(data: CreateSeriesInput): Series
         updateSeries(data: UpdateSeriesInput): Series
-        publishSeries(data: PublishSeriesInput): Success
         deleteSeries(data: DeleteSeriesInput): Success
-        addTagToSeries(data: AddOrRemoveTagToSeriesInput): Series
-        removeTagFromSeries(data: AddOrRemoveTagToSeriesInput): Series
-        addKeywordToSeries(data: AddOrRemoveKeywordToSeriesInput): Series
-        removeKeywordFromSeries(data: AddOrRemoveKeywordToSeriesInput): Series
-
     }
 `;

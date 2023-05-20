@@ -12,7 +12,7 @@ class PostRepository extends BaseRepository<any> {
 		if (payload.title) {
 			payload.slug = slugify(payload.title);
 		}
-		
+
 		return await super.createOne(payload);
 	}
 
@@ -23,8 +23,8 @@ class PostRepository extends BaseRepository<any> {
 	 * @returns {Promise<any>} - The promise that resolves to the found document, null if not found.
 	 */
 	async findOne(query: FilterQuery<any>): Promise<any> {
-		// TODO: add "Keywords imageId" to populate
-		return await this.model.findOne(query).populate("tags series").lean();
+		// todo: imageId!
+		return await this.model.findOne(query).populate("tags series keywords").lean();
 	}
 
 	/**

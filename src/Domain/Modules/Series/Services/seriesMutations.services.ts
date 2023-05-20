@@ -1,13 +1,8 @@
-import {
-	AddOrRemoveTagFromSeriesDTO,
-	AddOrRemoveKeywordFromSeriesDTO,
-	CreateSeriesDTO,
-	DeleteSeriesDTO,
-	PublishSeriesDTO,
-	UpdateSeriesDTO,
-} from "../Types/seriesMutations.dtos";
+import { CreateSeriesDTO, DeleteSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
 import SeriesRepository from "../Repository/series.repository";
-import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
+import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
+import PostRepository from "../../Post/Repository/post.repository";
+
 export default class SeriesMutationsServices {
 	public static async createSeries(data: CreateSeriesDTO) {
 		const createdSeries = await SeriesRepository.createOne(data);
@@ -26,61 +21,23 @@ export default class SeriesMutationsServices {
 		return updatedSeries;
 	}
 
-	public static async publishSeries(data: PublishSeriesDTO) {
-		const publishedSeries = await SeriesRepository.updateOne(
-			{ _id: data._id },
-			{ isPublished: true, isPublishedAt: new Date() }
-		);
-
-		if (publishedSeries.matchedCount === 0) throw new NotFoundException("The series is not found!");
-		if (publishedSeries.modifiedCount === 0) throw new InternalServerException("The series update failed!");
-
-		return "The series is published successfully!";
-	}
-
 	public static async deleteSeries(data: DeleteSeriesDTO) {
-		// TODO:
-		// check if there are any posts in this series!
-		// check if there are any other keywords/ tags used in any collection!
+		const foundSeries = await SeriesRepository.findOne({ _id: data._id });
+
+		if (!foundSeries) throw new NotFoundException("The series is not found!");
+
+		console.log({ foundSeries });
+
+		const seriesReferencingPosts = await PostRepository.findMany({ series: { $in: foundSeries._id } });
+		console.log({ seriesReferencingPosts });
+
+		if (seriesReferencingPosts.length != 0)
+			throw new ForbiddenException("You need to delete the posts referencing this series first!");
 
 		const { deletedCount } = await SeriesRepository.deleteOne({ _id: data._id });
 
 		if (deletedCount === 0) throw new NotFoundException("The series is not found!");
 
 		return "The series is deleted successfully!";
-	}
-
-	public static async addTagToSeries(data: AddOrRemoveTagFromSeriesDTO) {
-		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
-
-		if (!foundSeries) throw new NotFoundException("The series is not found!");
-
-		return await SeriesRepository.addTagToSeries(data);
-	}
-
-	public static async removeTagFromSeries(data: AddOrRemoveTagFromSeriesDTO) {
-		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
-
-		if (!foundSeries) throw new NotFoundException("The series is not found!");
-
-		return await SeriesRepository.removeTagFromSeries(data);
-	}
-
-	public static async addKeywordToSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
-		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
-
-		if (!foundSeries) throw new NotFoundException("The series is not found!");
-
-		return await SeriesRepository.addKeywordToSeries(data);
-	}
-
-	public static async removeKeywordFromSeries(data: AddOrRemoveKeywordFromSeriesDTO) {
-		const foundSeries = await SeriesRepository.findOne({ _id: data.seriesId });
-
-		if (!foundSeries) throw new NotFoundException("The series is not found!");
-
-		const result = await SeriesRepository.removeKeywordFromSeries(data);
-
-		return result;
 	}
 }
