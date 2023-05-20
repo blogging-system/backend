@@ -2,9 +2,12 @@ import mongoose, { Schema } from "mongoose";
 
 const ImageSchema = new Schema(
 	{
-		title: {
+		url: {
 			type: String,
 			unique: true,
+		},
+		altText: {
+			// types: String, // for accessability purposes
 		},
 	},
 	{
