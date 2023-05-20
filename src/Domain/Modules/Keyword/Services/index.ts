@@ -1,6 +1,7 @@
 import {
 	CreateKeywordDTO,
 	DeleteKeywordDTO,
+	DeleteUnusedKeywordsDTO,
 	GetAllKeywordsDTO,
 	SuggestKeywordByNameDTO,
 	UpdateKeywordDTO,
@@ -19,6 +20,10 @@ export default class KeywordServices {
 
 	public static async deleteKeyword(data: DeleteKeywordDTO) {
 		return await KeywordMutationsServices.deleteKeyword(data);
+	}
+
+	public static async deleteUnusedKeywords(data: DeleteUnusedKeywordsDTO) {
+		return await KeywordMutationsServices.deleteUnusedKeywords(data);
 	}
 
 	public static async suggestKeywordByName(data: SuggestKeywordByNameDTO) {

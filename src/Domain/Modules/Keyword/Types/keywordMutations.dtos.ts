@@ -11,3 +11,7 @@ export interface UpdateKeywordDTO {
 export interface DeleteKeywordDTO {
 	_id: Types.ObjectId;
 }
+
+export interface DeleteUnusedKeywordsDTO {
+	keywords: [Types.ObjectId];
+}
