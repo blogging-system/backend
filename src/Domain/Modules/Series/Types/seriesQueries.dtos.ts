@@ -11,3 +11,9 @@ export interface GetSeriesBySlugDTO {
 export interface GetSeriesByIdDTO {
 	_id: Types.ObjectId;
 }
+
+export interface GetAllSeriesDTO {
+	pageSize: number;
+	pageNumber: number;
+	sort: 1 | -1;
+}
