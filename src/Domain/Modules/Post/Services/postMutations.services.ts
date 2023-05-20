@@ -1,10 +1,6 @@
 import { CreatePostDTO, DeletePostDTO, PublishPostDTO, UpdatePostDTO } from "../Types";
 import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 import PostRepository from "../Repository/post.repository";
-import mongoose, { Types } from "mongoose";
-import TagServices from "../../Tag/Services";
-import KeywordServices from "../../Keyword/Services";
-import SeriesServices from "../../Series/Services";
 
 export default class PostMutationsServices {
 	public static async createPost(data: CreatePostDTO) {
@@ -28,9 +24,6 @@ export default class PostMutationsServices {
 		const post = await PostRepository.findOne({ _id: data._id });
 
 		if (!post) throw new NotFoundException("the post is not found!");
-
-		await TagServices.deleteTagsIfNotReferencedInOtherPostsOrSeries({ tags: post.tags });
-		await KeywordServices.deleteKeywordsIfNotReferencedInOtherPostsOrSeries({ keywords: post.keywords });
 
 		const { deletedCount } = await PostRepository.deleteOne({ _id: data._id });
 
