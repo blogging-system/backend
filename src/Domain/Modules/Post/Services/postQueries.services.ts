@@ -1,11 +1,5 @@
 import { Types } from "mongoose";
-import {
-	NotFoundException,
-	ForbiddenException,
-	UnAuthorizedException,
-	ValidationException,
-} from "../../../../Shared/Exceptions";
-import { GraphQLError } from "graphql";
+import { NotFoundException } from "../../../../Shared/Exceptions";
 import Post from "../Model/post.model";
 import {
 	SuggestPostByTitleDTO,

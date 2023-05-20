@@ -1,6 +1,7 @@
 import {
 	CreateTagDTO,
 	DeleteTagDTO,
+	DeleteUnusedTagsDTO,
 	GetAllTagsDTO,
 	GetTagBySlugDTO,
 	SuggestTagByNameDTO,
@@ -19,6 +20,10 @@ export default class TagServices {
 
 	public static async deleteTag(data: DeleteTagDTO) {
 		return await TagMutationsServices.deleteTag(data);
+	}
+
+	public static async deleteUnusedTags(data: DeleteUnusedTagsDTO) {
+		return await TagMutationsServices.deleteUnusedTags(data);
 	}
 
 	public static async suggestTagByName(data: SuggestTagByNameDTO) {
