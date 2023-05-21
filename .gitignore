@@ -9,6 +9,7 @@ npm-debug.log
 bin
 
 public/dist
+dist
 
 debug.log
 error.log
