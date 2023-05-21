@@ -1,4 +1,5 @@
 import { NotFoundException } from "../../../../Shared/Exceptions";
+import ViewsTrackerServices from "../../ViewsTracker/Services";
 import SeriesRepository from "../Repository/series.repository";
 import {
 	GetAllSeriesDTO,
@@ -34,6 +35,8 @@ export default class SeriesQueriesServices {
 		const matchedSeries = await SeriesRepository.findOne({ slug: data.slug });
 
 		if (!matchedSeries) throw new NotFoundException("The series is not found!");
+
+		await ViewsTrackerServices.increment({ target: matchedSeries._id, targetType: "Series" });
 
 		return matchedSeries;
 	}

@@ -4,6 +4,7 @@ import PostRepository from "../Repository/post.repository";
 import SeriesServices from "../../Series/Services";
 import TagServices from "../../Tag/Services";
 import KeywordServices from "../../Keyword/Services";
+import ImageServices from "../../Image/Services";
 
 export default class PostMutationsServices {
 	public static async createPost(data: CreatePostDTO) {
@@ -35,6 +36,7 @@ export default class PostMutationsServices {
 		const postKeywordIds = post.keywords.map((keyword) => keyword._id);
 
 		await Promise.all([
+			ImageServices.deleteImage({ _id: post.image._id }),
 			SeriesServices.deleteUnusedSeries({ series: postSeriesIds }),
 			TagServices.deleteUnusedTags({ tags: postTagIds }),
 			KeywordServices.deleteUnusedKeywords({ keywords: postKeywordIds }),

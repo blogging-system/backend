@@ -12,6 +12,7 @@ import {
 	GetUnPublishedPostsDTO,
 } from "../Types";
 import PostRepository from "../Repository/post.repository";
+import ViewsTrackerServices from "../../ViewsTracker/Services";
 
 export default class PostQueriesServices {
 	public static async suggestPostByTitle(data: SuggestPostByTitleDTO) {
@@ -32,7 +33,8 @@ export default class PostQueriesServices {
 
 		if (!matchedPost) throw new NotFoundException("The post is not found!");
 
-		// TODO: increase views!
+		await ViewsTrackerServices.increment({ target: matchedPost._id, targetType: "Post" });
+
 		return matchedPost;
 	}
 

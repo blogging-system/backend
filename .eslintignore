@@ -6,3 +6,5 @@ dist
 coverage
 logs
 bin
+.env
+.env.example
