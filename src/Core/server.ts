@@ -8,7 +8,7 @@ const server = createServer(app);
 const startServer = async () => {
 	try {
 		await MongoConnection.connect();
-		server.listen(appEnv.host.port, () => {
+		server.listen(appEnv.host.port, "::", () => {
 			console.info(
 				`Server is running on "${process.env.HOST}:${appEnv.host.port}/" in "${process.env.NODE_ENV}" environment`
 			);
