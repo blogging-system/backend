@@ -32,7 +32,6 @@
 	"homepage": "https://github.com/AhmedElgaidi/blog-backend#readme",
 	"dependencies": {
 		"@apollo/server": "^4.3.0",
-		"@types/webrtc": "^0.0.33",
 		"body-parser": "^1.20.1",
 		"clean-webpack-plugin": "^4.0.0",
 		"cloudinary": "^1.37.0",
