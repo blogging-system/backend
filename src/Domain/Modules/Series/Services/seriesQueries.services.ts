@@ -1,6 +1,11 @@
 import { NotFoundException } from "../../../../Shared/Exceptions";
 import SeriesRepository from "../Repository/series.repository";
-import { GetSeriesByIdDTO, GetSeriesBySlugDTO, SuggestSeriesByTitleDTO } from "../Types/seriesQueries.dtos";
+import {
+	GetAllSeriesDTO,
+	GetSeriesByIdDTO,
+	GetSeriesBySlugDTO,
+	SuggestSeriesByTitleDTO,
+} from "../Types/seriesQueries.dtos";
 
 export default class SeriesQueriesServices {
 	public static async suggestSeriesByTitle(data: SuggestSeriesByTitleDTO) {
@@ -37,6 +42,20 @@ export default class SeriesQueriesServices {
 		const matchedSeries = await SeriesRepository.findOne({ _id: data._id });
 
 		if (!matchedSeries) throw new NotFoundException("The series is not found!");
+
+		return matchedSeries;
+	}
+
+	public static async getAllSeries(data: GetAllSeriesDTO) {
+		const { pageSize, pageNumber, sort } = data;
+
+		const matchedSeries = await SeriesRepository.aggregate([
+			{ $sort: { createdAt: sort } },
+			{ $skip: pageSize * (pageNumber - 1) },
+			{ $limit: pageSize },
+		]);
+
+		if (matchedSeries.length == 0) throw new NotFoundException("No series found!");
 
 		return matchedSeries;
 	}

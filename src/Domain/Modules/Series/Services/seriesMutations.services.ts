@@ -1,4 +1,4 @@
-import { CreateSeriesDTO, DeleteSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
+import { CreateSeriesDTO, DeleteSeriesDTO, DeleteUnusedSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
 import SeriesRepository from "../Repository/series.repository";
 import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 import PostRepository from "../../Post/Repository/post.repository";
@@ -36,5 +36,17 @@ export default class SeriesMutationsServices {
 		if (deletedCount === 0) throw new NotFoundException("The series is not found!");
 
 		return "The series is deleted successfully!";
+	}
+
+	public static async deleteUnusedSeries(data: DeleteUnusedSeriesDTO) {
+		const deletePromises = data.series.map(async (series) => {
+			const seriesReferencingPosts = await PostRepository.findMany({ series: { $in: series._id } });
+
+			if (seriesReferencingPosts.length === 0) {
+				await SeriesRepository.deleteOne({ _id: series._id });
+			}
+		});
+
+		await Promise.all(deletePromises);
 	}
 }

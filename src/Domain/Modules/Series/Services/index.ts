@@ -1,5 +1,15 @@
-import { CreateSeriesDTO, DeleteSeriesDTO, UpdateSeriesDTO } from "../Types/seriesMutations.dtos";
-import { GetSeriesByIdDTO, GetSeriesBySlugDTO, SuggestSeriesByTitleDTO } from "../Types/seriesQueries.dtos";
+import {
+	CreateSeriesDTO,
+	DeleteSeriesDTO,
+	DeleteUnusedSeriesDTO,
+	UpdateSeriesDTO,
+} from "../Types/seriesMutations.dtos";
+import {
+	GetAllSeriesDTO,
+	GetSeriesByIdDTO,
+	GetSeriesBySlugDTO,
+	SuggestSeriesByTitleDTO,
+} from "../Types/seriesQueries.dtos";
 import SeriesMutationsServices from "./seriesMutations.services";
 import SeriesQueriesServices from "./seriesQueries.services";
 
@@ -16,6 +26,10 @@ export default class SeriesServices {
 		return await SeriesMutationsServices.deleteSeries(data);
 	}
 
+	public static async deleteUnusedSeries(data: DeleteUnusedSeriesDTO) {
+		return await SeriesMutationsServices.deleteUnusedSeries(data);
+	}
+
 	public static async suggestSeriesByTitle(data: SuggestSeriesByTitleDTO) {
 		return await SeriesQueriesServices.suggestSeriesByTitle(data);
 	}
@@ -26,5 +40,9 @@ export default class SeriesServices {
 
 	public static async getSeriesById(data: GetSeriesByIdDTO) {
 		return await SeriesQueriesServices.getSeriesById(data);
+	}
+
+	public static async getAllSeries(data: GetAllSeriesDTO) {
+		return await SeriesQueriesServices.getAllSeries(data);
 	}
 }

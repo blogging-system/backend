@@ -1,6 +1,9 @@
 import { CreatePostDTO, DeletePostDTO, PublishPostDTO, UpdatePostDTO } from "../Types";
 import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 import PostRepository from "../Repository/post.repository";
+import SeriesServices from "../../Series/Services";
+import TagServices from "../../Tag/Services";
+import KeywordServices from "../../Keyword/Services";
 
 export default class PostMutationsServices {
 	public static async createPost(data: CreatePostDTO) {
@@ -23,11 +26,21 @@ export default class PostMutationsServices {
 	public static async deletePost(data: DeletePostDTO) {
 		const post = await PostRepository.findOne({ _id: data._id });
 
-		if (!post) throw new NotFoundException("the post is not found!");
+		if (!post) {
+			throw new NotFoundException("The post is not found!");
+		}
 
-		const { deletedCount } = await PostRepository.deleteOne({ _id: data._id });
+		const postSeriesIds = post.series.map((series) => series._id);
+		const postTagIds = post.tags.map((tag) => tag._id);
+		const postKeywordIds = post.keywords.map((keyword) => keyword._id);
 
-		if (deletedCount === 0) throw new InternalServerException("The post deletion process failed!");
+		await Promise.all([
+			SeriesServices.deleteUnusedSeries({ series: postSeriesIds }),
+			TagServices.deleteUnusedTags({ tags: postTagIds }),
+			KeywordServices.deleteUnusedKeywords({ keywords: postKeywordIds }),
+		]);
+
+		await PostRepository.deleteOne({ _id: data._id });
 
 		return "The post is deleted successfully!";
 	}

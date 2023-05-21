@@ -11,3 +11,7 @@ export interface UpdateTagDTO {
 export interface DeleteTagDTO {
 	_id: Types.ObjectId;
 }
+
+export interface DeleteUnusedTagsDTO {
+	tags: [Types.ObjectId];
+}

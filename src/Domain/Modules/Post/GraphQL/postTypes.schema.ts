@@ -1,11 +1,4 @@
 export default `#graphql
-	type Tag {
-		_id: ID
-		name: String
-		createdAt: Date
-		updatedAt: Date
-	}
-
 	type Post {
 		_id: ID
 		title: String

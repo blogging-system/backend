@@ -23,7 +23,7 @@ class PostRepository extends BaseRepository<any> {
 	 * @returns {Promise<any>} - The promise that resolves to the found document, null if not found.
 	 */
 	async findOne(query: FilterQuery<any>): Promise<any> {
-		// todo: imageId!
+		// todo: image!
 		return await this.model.findOne(query).populate("tags series keywords").lean();
 	}
 
@@ -34,7 +34,7 @@ class PostRepository extends BaseRepository<any> {
 	 * @returns A promise that resolves to an array of documents.
 	 */
 	async findMany(query: FilterQuery<any>, limit = 10): Promise<any[]> {
-		return await this.model.find(query).populate("tags series").limit(limit).lean();
+		return await this.model.find(query).populate("tags series keywords").limit(limit).lean();
 	}
 
 	async updateOne(filter, setPayload, unsetPayload?: any) {

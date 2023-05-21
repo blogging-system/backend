@@ -13,3 +13,7 @@ export interface UpdateSeriesDTO {
 export interface DeleteSeriesDTO {
 	_id: Types.ObjectId;
 }
+
+export interface DeleteUnusedSeriesDTO {
+	series: [Types.ObjectId];
+}

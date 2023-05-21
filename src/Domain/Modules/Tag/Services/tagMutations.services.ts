@@ -1,6 +1,6 @@
 import TagRepository from "./../Repository/tag.repository";
 import PostRepository from "../../Post/Repository/post.repository";
-import { CreateTagDTO, DeleteTagDTO, UpdateTagDTO } from "../Types";
+import { CreateTagDTO, DeleteTagDTO, DeleteUnusedTagsDTO, UpdateTagDTO } from "../Types";
 import { ForbiddenException, InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 
 export default class TagMutationsServices {
@@ -32,5 +32,17 @@ export default class TagMutationsServices {
 		if (deletedCount === 0) throw new InternalServerException("The tag deletion process failed!");
 
 		return "The tag is deleted successfully!";
+	}
+
+	public static async deleteUnusedTags(data: DeleteUnusedTagsDTO) {
+		const deletePromises = data.tags.map(async (tag) => {
+			const tagReferencingPosts = await PostRepository.findMany({ tags: { $in: tag._id } });
+
+			if (tagReferencingPosts.length === 0) {
+				await TagRepository.deleteOne({ _id: tag._id });
+			}
+		});
+
+		await Promise.all(deletePromises);
 	}
 }
