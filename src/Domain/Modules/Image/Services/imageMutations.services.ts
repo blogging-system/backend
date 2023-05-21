@@ -1,6 +1,6 @@
 import { InternalServerException, NotFoundException } from "../../../../Shared/Exceptions";
 import ImageRepository from "../Repository/image.repository";
-import { CreateImageDTO, UpdateImageDTO } from "../Types";
+import { CreateImageDTO, DeleteImageDTO, UpdateImageDTO } from "../Types";
 
 export default class ImageMutationsServices {
 	public static async createImage(data: CreateImageDTO) {
@@ -18,5 +18,17 @@ export default class ImageMutationsServices {
 		if (updatedImage.modifiedCount === 0) throw new InternalServerException("The image update process failed!");
 
 		return updatedImage;
+	}
+
+	public static async deleteImage(data: DeleteImageDTO) {
+		const foundImage = await ImageRepository.findOne({ _id: data._id });
+
+		if (!foundImage) throw new NotFoundException("The image is not found!");
+
+		const { deletedCount } = await ImageRepository.deleteOne({ _id: data._id });
+
+		if (deletedCount === 0) throw new NotFoundException("The image delete process failed!");
+
+		return "The image is deleted successfully!";
 	}
 }

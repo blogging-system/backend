@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { CreateImageDTO, UpdateImageDTO } from "../Types";
+import { CreateImageDTO, DeleteImageDTO, UpdateImageDTO } from "../Types";
 
 export const imageMutationsValidators = {
 	createImage: Joi.object<CreateImageDTO>({
@@ -13,5 +13,9 @@ export const imageMutationsValidators = {
 			url: Joi.string(),
 			altText: Joi.string(),
 		}),
+	}),
+
+	deleteImage: Joi.object<DeleteImageDTO>({
+		_id: Joi.string().required(),
 	}),
 };

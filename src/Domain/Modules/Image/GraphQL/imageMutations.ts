@@ -9,8 +9,14 @@ export default `#graphql
         payload: CreateImageInput
     }
 
+
+    input DeleteImageInput {
+        _id: ID
+    }
+
     extend type Mutation {
         createImage(data: CreateImageInput): Image
         updateImage(data: UpdateImageInput): Image
+        deleteImage(data: DeleteImageInput): Success
     }
 `;
