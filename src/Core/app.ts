@@ -15,13 +15,10 @@ const schema = makeExecutableSchema({
 const middleware = async (resolve, parent, args, context, info) => {
 	console.log("Before resolving request");
 
-	// Resolve the request
 	const result = await resolve(parent, args, context, info);
 
-	// Do something after resolving the request
 	console.log("After resolving request");
 
-	// Return the result
 	return result;
 };
 
