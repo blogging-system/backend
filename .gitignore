@@ -21,6 +21,8 @@ error.log
 /build
 
 # misc
+.env.development
+.env.production
 .DS_Store
 .env
 .env.local
