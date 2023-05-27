@@ -1,10 +1,12 @@
 import { createYoga } from "graphql-yoga";
-import { GraphQLError } from "graphql";
+import dotenv from "dotenv";
 import resolvers from "./resolvers";
 import typeDefs from "./typeDefs";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { handleHttpErrorResponse } from "../Shared/Http";
 import { applyMiddleware } from "graphql-middleware";
+
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const schema = makeExecutableSchema({
 	typeDefs,

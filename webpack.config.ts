@@ -4,7 +4,7 @@ import nodeExternals from "webpack-node-externals";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 
-dotenv.config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const { NODE_ENV } = process.env;
 const isDev = NODE_ENV === "development";
