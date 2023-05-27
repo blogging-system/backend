@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import appEnv from "./../Config/Environments";
 
 /**
  * The configuration for connecting to a MongoDB database.
@@ -16,7 +15,7 @@ class MongoConnection {
 	static async connect(): Promise<void> {
 		mongoose.set("strictQuery", false);
 
-		await mongoose.connect(appEnv.db.baseUrl, {
+		await mongoose.connect(process.env.MONGODB_URI, {
 			connectTimeoutMS: 30000,
 		});
 	}
