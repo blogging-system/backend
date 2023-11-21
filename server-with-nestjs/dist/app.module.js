@@ -32,4 +32,5 @@ exports.AppModule = AppModule = __decorate([
         providers: [app_service_1.AppService],
     })
 ], AppModule);
+console.log("hi");
 //# sourceMappingURL=app.module.js.map
