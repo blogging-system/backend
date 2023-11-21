@@ -12,17 +12,11 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
-    MongooseModule.forRoot(
-      'mongodb+srv://ahmedelgaidi:81zO2YXL5zQtUDr0@cluster0.b1lyle4.mongodb.net/blog',
-    ),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     PostModule,
     UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  constructor() {
-    console.log({ env: process.env.MONGO_URI });
-  }
-}
+export class AppModule {}
