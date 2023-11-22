@@ -42,4 +42,14 @@ export class PostController {
     console.log({ data });
     return await this.postService.deletePost(data);
   }
+
+  @Get(':slug')
+  async getPostBySlug(@Param('slug') slug: string) {
+    return await this.postService.getPostBySlug(slug);
+  }
+
+  @Get(':postId')
+  async getPostById(@Param('postId') postId: string) {
+    return await this.postService.getPostById(postId);
+  }
 }

@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
-import { Tag } from '../tag/tag.schema';
-import { Series } from '../series/series.schema';
 import { Keyword } from '../keyword/keyword.schema';
+import { HydratedDocument, Types } from 'mongoose';
+import { Series } from '../series/series.schema';
+import { Tag } from '../tag/tag.schema';
 
 export type PostDocument = HydratedDocument<Post>;
 
@@ -15,7 +15,7 @@ export class Post {
   @Prop({ index: true, unique: true })
   title: string;
 
-  @Prop({})
+  @Prop({ index: true })
   slug: string;
 
   @Prop({})

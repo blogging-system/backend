@@ -12,6 +12,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { MESSAGES } from './constants';
 import { Post } from './post.schema';
 import { Model } from 'mongoose';
+import slugify from 'slugify';
 
 @Injectable()
 export class PostService {
@@ -69,8 +70,19 @@ export class PostService {
     });
   }
 
+  async getPostById(postId: string) {
+    return await this.findOneById(postId);
+  }
+
+  async getPostBySlug(slug: string) {
+    return await this.findOne({ slug });
+  }
+
   private async createOne(data: CreatePostDto) {
-    const isPostCreated = await this.postModel.create(data);
+    const isPostCreated = await this.postModel.create({
+      ...data,
+      slug: slugify(data.title),
+    });
 
     if (!isPostCreated)
       throw new InternalServerErrorException(MESSAGES.CREATION_FAILED);
@@ -81,7 +93,7 @@ export class PostService {
   private async updateOne(postId: string, payload: PostManipulationDto) {
     const isPostUpdated = await this.postModel.findByIdAndUpdate(
       postId,
-      payload,
+      { ...payload, slug: slugify(payload.title) },
       { new: true },
     );
 
@@ -102,6 +114,14 @@ export class PostService {
 
   private async findOneById(postId: string) {
     const isPostFound = await this.postModel.findOne({ _id: postId }).lean();
+
+    if (!isPostFound) throw new NotFoundException(MESSAGES.POST_NOT_FOUND);
+
+    return isPostFound;
+  }
+
+  private async findOne(query: any) {
+    const isPostFound = await this.postModel.findOne(query).lean();
 
     if (!isPostFound) throw new NotFoundException(MESSAGES.POST_NOT_FOUND);
 

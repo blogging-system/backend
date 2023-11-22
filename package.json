@@ -30,7 +30,8 @@
     "cross-env": "^7.0.3",
     "mongoose": "^8.0.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "slugify": "^1.6.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
