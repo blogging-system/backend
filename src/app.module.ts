@@ -9,6 +9,7 @@ import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { ExceptionsFilter } from './shared/filters';
 import { KeywordModule } from './modules/keyword/keyword.module';
 import { TagModule } from './modules/tag/tag.module';
+import { SeriesModule } from './modules/series/series.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { TagModule } from './modules/tag/tag.module';
     UserModule,
     KeywordModule,
     TagModule,
+    SeriesModule,
   ],
   controllers: [AppController],
   providers: [
