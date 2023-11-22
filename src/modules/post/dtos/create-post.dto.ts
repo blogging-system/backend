@@ -6,4 +6,14 @@ export class CreatePostDto {
   @IsString()
   @IsNotEmpty()
   title: string;
+
+  @Type(() => String)
+  @IsString()
+  @IsNotEmpty()
+  description: string;
+
+  @Type(() => String)
+  @IsString()
+  @IsNotEmpty()
+  content: string;
 }

@@ -1,14 +1,12 @@
-import { BlogPost, BlogPostSchema } from './schemas/post.schema';
-import { PostController } from './controllers/post.controller';
-import { PostService } from './services/post.service';
+import { Post, PostSchema } from './post.schema';
+import { PostController } from './post.controller';
+import { PostService } from './post.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: BlogPost.name, schema: BlogPostSchema },
-    ]),
+    MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
   ],
   controllers: [PostController],
   providers: [PostService],

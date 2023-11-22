@@ -1,0 +1,7 @@
+export const failureMessages = {
+  CREATION_FAILED: 'The post creation process failed!',
+  UPDATE_FAILED: 'The post update process failed!',
+  DELETE_FAILED: 'The post deletion process failed!',
+  POST_NOT_FOUND: 'The post is not found!',
+  POSTS_NOT_FOUND: 'No posts are found!',
+};

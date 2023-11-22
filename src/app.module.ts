@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { Module, ValidationPipe } from '@nestjs/common';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { ExceptionsFilter } from './shared/filters';
+import { KeywordModule } from './modules/keyword/keyword.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ExceptionsFilter } from './shared/filters';
     }),
     PostModule,
     UserModule,
+    KeywordModule,
   ],
   controllers: [AppController],
   providers: [
