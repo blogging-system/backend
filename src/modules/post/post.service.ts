@@ -1,11 +1,12 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { KeywordService } from '../keyword/keyword.service';
 import { SeriesService } from '../series/series.service';
-import { CreatePostDto, DeletePostDto } from './dtos';
+import { CreatePostDto, DeletePostDto, PostManipulationDto } from './dtos';
 import { TagService } from '../tag/tag.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { MESSAGES } from './constants';
@@ -30,6 +31,7 @@ export class PostService {
   }
 
   async updatePost(postId: string, payload: CreatePostDto) {
+    await this.findOneById(postId);
     await this.tagService.areTagsAvailable(payload.tags);
     await this.keywordService.areKeywordsAvailable(payload.keywords);
     await this.seriesService.areSeriesAvailable(payload.series);
@@ -38,7 +40,33 @@ export class PostService {
   }
 
   async deletePost(data: DeletePostDto) {
+    await this.findOneById(data.postId);
+
     return await this.deleteOne(data);
+  }
+
+  async publishPost(postId: string) {
+    const foundPost = await this.findOneById(postId);
+
+    if (foundPost.isPublished)
+      throw new BadRequestException(MESSAGES.ALREADY_PUBLISHED);
+
+    return await this.updateOne(postId, {
+      isPublished: true,
+      isPublishedAt: new Date(Date.now()),
+    });
+  }
+
+  async unPublishPost(postId: string) {
+    const foundPost = await this.findOneById(postId);
+
+    if (!foundPost.isPublished)
+      throw new BadRequestException(MESSAGES.ALREADY_UNPUBLISHED);
+
+    return await this.updateOne(postId, {
+      isPublished: false,
+      isPublishedAt: new Date(Date.now()),
+    });
   }
 
   private async createOne(data: CreatePostDto) {
@@ -50,9 +78,7 @@ export class PostService {
     return isPostCreated;
   }
 
-  private async updateOne(postId: string, payload: CreatePostDto) {
-    await this.findOneById(postId);
-
+  private async updateOne(postId: string, payload: PostManipulationDto) {
     const isPostUpdated = await this.postModel.findByIdAndUpdate(
       postId,
       payload,
@@ -66,8 +92,6 @@ export class PostService {
   }
 
   private async deleteOne(data: DeletePostDto) {
-    await this.findOneById(data.postId);
-
     const isPostDeleted = await this.postModel.deleteOne({ _id: data.postId });
 
     if (isPostDeleted.deletedCount === 0)

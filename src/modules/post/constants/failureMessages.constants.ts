@@ -4,4 +4,6 @@ export const failureMessages = {
   DELETE_FAILED: 'The post deletion process failed!',
   POST_NOT_FOUND: 'The post is not found!',
   POSTS_NOT_FOUND: 'No posts are found!',
+  ALREADY_PUBLISHED: 'The post is already published!',
+  ALREADY_UNPUBLISHED: 'The post is already unpublished!',
 };

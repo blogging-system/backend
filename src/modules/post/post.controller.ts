@@ -27,6 +27,16 @@ export class PostController {
     return await this.postService.updatePost(postId, payload);
   }
 
+  @Post('/publish/:postId')
+  async publishPost(@Param('postId') postId: string) {
+    return await this.postService.publishPost(postId);
+  }
+
+  @Post('/unpublish/:postId')
+  async unPublishPost(@Param('postId') postId: string) {
+    return await this.postService.unPublishPost(postId);
+  }
+
   @Delete(':postId')
   async deletePost(@Param() data: DeletePostDto) {
     console.log({ data });
