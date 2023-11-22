@@ -6,9 +6,11 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { PostService } from './post.service';
-import { CreatePostDto, DeletePostDto } from './dtos';
+import { CreatePostDto, DeletePostDto, GetAllPosts } from './dtos';
+import { Pagination } from 'src/shared/dtos';
 
 @Controller('posts')
 export class PostController {
@@ -51,5 +53,16 @@ export class PostController {
   @Get(':postId')
   async getPostById(@Param('postId') postId: string) {
     return await this.postService.getPostById(postId);
+  }
+
+  @Get()
+  async getAllPosts(@Query() query: Pagination) {
+    const { tagId, seriesId, ...pagination } = query;
+    const filter = { tagId, seriesId };
+
+    return this.postService.getAllPosts(
+      filter as GetAllPosts,
+      pagination as Pagination,
+    );
   }
 }

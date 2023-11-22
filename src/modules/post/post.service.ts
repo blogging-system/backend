@@ -1,14 +1,20 @@
 import {
-  BadRequestException,
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
+  BadRequestException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { KeywordService } from '../keyword/keyword.service';
 import { SeriesService } from '../series/series.service';
-import { CreatePostDto, DeletePostDto, PostManipulationDto } from './dtos';
+import {
+  GetAllPosts,
+  CreatePostDto,
+  DeletePostDto,
+  PostManipulationDto,
+} from './dtos';
 import { TagService } from '../tag/tag.service';
 import { InjectModel } from '@nestjs/mongoose';
+import { Pagination } from 'src/shared/dtos';
 import { MESSAGES } from './constants';
 import { Post } from './post.schema';
 import { Model } from 'mongoose';
@@ -53,6 +59,7 @@ export class PostService {
       throw new BadRequestException(MESSAGES.ALREADY_PUBLISHED);
 
     return await this.updateOne(postId, {
+      title: foundPost.title,
       isPublished: true,
       isPublishedAt: new Date(Date.now()),
     });
@@ -65,6 +72,7 @@ export class PostService {
       throw new BadRequestException(MESSAGES.ALREADY_UNPUBLISHED);
 
     return await this.updateOne(postId, {
+      title: foundPost.title,
       isPublished: false,
       isPublishedAt: new Date(Date.now()),
     });
@@ -76,6 +84,14 @@ export class PostService {
 
   async getPostBySlug(slug: string) {
     return await this.findOne({ slug });
+  }
+
+  async getAllPosts(filter: GetAllPosts, pagination: Pagination) {
+    return await this.findMany(filter, pagination, [
+      'tags',
+      'keywords',
+      'series',
+    ]);
   }
 
   private async createOne(data: CreatePostDto) {
@@ -126,5 +142,30 @@ export class PostService {
     if (!isPostFound) throw new NotFoundException(MESSAGES.POST_NOT_FOUND);
 
     return isPostFound;
+  }
+
+  private async findMany(
+    filter,
+    { pageNumber, pageSize, sort },
+    populate: string[],
+  ) {
+    const query = {
+      tags: filter.tagId,
+      series: filter.seriesId,
+      isPublished: true,
+    };
+
+    const foundPosts = await this.postModel
+      .find(query)
+      .skip((pageNumber - 1) * Number(pageSize))
+      .limit(pageSize)
+      .sort(sort == 1 ? 'isPublishedAt' : '-isPublishedAt')
+      .lean()
+      .populate(populate);
+
+    if (foundPosts.length === 0)
+      throw new NotFoundException(MESSAGES.POSTS_NOT_FOUND);
+
+    return foundPosts;
   }
 }
