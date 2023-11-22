@@ -11,7 +11,9 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class TagService {
-  constructor(@InjectModel(Tag.name) private keywordModel: Model<Tag>) {}
+  constructor(
+    @InjectModel(Tag.name) private readonly keywordModel: Model<Tag>,
+  ) {}
 
   async createTag(data: CreateTagDto) {
     return await this.createOne(data);
@@ -19,6 +21,14 @@ export class TagService {
 
   async deleteTag(data: DeleteTagDto) {
     return await this.deleteOne(data);
+  }
+
+  async areTagsAvailable(tags: string[]) {
+    try {
+      await Promise.all(tags.map((tag) => this.findOneById(tag)));
+    } catch (error) {
+      throw new NotFoundException(MESSAGES.NOT_AVAILABLE);
+    }
   }
 
   private async createOne(data: CreateTagDto) {

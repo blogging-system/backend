@@ -3,18 +3,38 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { Post } from './post.schema';
-import { InjectModel } from '@nestjs/mongoose';
+import { KeywordService } from '../keyword/keyword.service';
+import { SeriesService } from '../series/series.service';
 import { CreatePostDto, DeletePostDto } from './dtos';
-import { Model } from 'mongoose';
+import { TagService } from '../tag/tag.service';
+import { InjectModel } from '@nestjs/mongoose';
 import { MESSAGES } from './constants';
+import { Post } from './post.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class PostService {
-  constructor(@InjectModel(Post.name) private postModel: Model<Post>) {}
+  constructor(
+    @InjectModel(Post.name) private postModel: Model<Post>,
+    private readonly keywordService: KeywordService,
+    private readonly seriesService: SeriesService,
+    private readonly tagService: TagService,
+  ) {}
 
   async createPost(data: CreatePostDto) {
+    await this.tagService.areTagsAvailable(data.tags);
+    await this.keywordService.areKeywordsAvailable(data.keywords);
+    await this.seriesService.areSeriesAvailable(data.series);
+
     return await this.createOne(data);
+  }
+
+  async updatePost(postId: string, payload: CreatePostDto) {
+    await this.tagService.areTagsAvailable(payload.tags);
+    await this.keywordService.areKeywordsAvailable(payload.keywords);
+    await this.seriesService.areSeriesAvailable(payload.series);
+
+    return await this.updateOne(postId, payload);
   }
 
   async deletePost(data: DeletePostDto) {
@@ -28,6 +48,21 @@ export class PostService {
       throw new InternalServerErrorException(MESSAGES.CREATION_FAILED);
 
     return isPostCreated;
+  }
+
+  private async updateOne(postId: string, payload: CreatePostDto) {
+    await this.findOneById(postId);
+
+    const isPostUpdated = await this.postModel.findByIdAndUpdate(
+      postId,
+      payload,
+      { new: true },
+    );
+
+    if (!isPostUpdated)
+      throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED);
+
+    return isPostUpdated;
   }
 
   private async deleteOne(data: DeletePostDto) {

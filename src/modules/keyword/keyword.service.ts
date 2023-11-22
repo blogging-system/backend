@@ -23,6 +23,14 @@ export class KeywordService {
     return await this.deleteOne(data);
   }
 
+  async areKeywordsAvailable(tags: string[]) {
+    try {
+      await Promise.all(tags.map((tag) => this.findOneById(tag)));
+    } catch (error) {
+      throw new NotFoundException(MESSAGES.NOT_AVAILABLE);
+    }
+  }
+
   private async createOne(data: CreateKeywordDto) {
     const isKeywordCreated = await this.keywordModel.create(data);
 

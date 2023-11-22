@@ -21,6 +21,14 @@ export class SeriesService {
     return await this.deleteOne(data);
   }
 
+  async areSeriesAvailable(tags: string[]) {
+    try {
+      await Promise.all(tags.map((tag) => this.findOneById(tag)));
+    } catch (error) {
+      throw new NotFoundException(MESSAGES.NOT_AVAILABLE);
+    }
+  }
+
   private async createOne(data: CreateSeriesDto) {
     const isSeriesCreated = await this.seriesModel.create(data);
 

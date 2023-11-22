@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
+import { Tag } from '../tag/tag.schema';
+import { Series } from '../series/series.schema';
+import { Keyword } from '../keyword/keyword.schema';
 
 export type PostDocument = HydratedDocument<Post>;
 
@@ -20,6 +23,15 @@ export class Post {
 
   @Prop({})
   content: string;
+
+  @Prop({ type: [Types.ObjectId], ref: Tag.name })
+  tags: Tag[];
+
+  @Prop({ type: [Types.ObjectId], ref: Keyword.name })
+  keywords: Keyword[];
+
+  @Prop({ type: [Types.ObjectId], ref: Series.name })
+  series: Series[];
 
   @Prop({ default: false })
   isPublished: boolean;

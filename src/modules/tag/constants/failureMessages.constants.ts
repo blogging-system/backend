@@ -3,5 +3,6 @@ export const failureMessages = {
   UPDATE_FAILED: 'The tag update process failed!',
   DELETE_FAILED: 'The tag deletion process failed!',
   TAG_NOT_FOUND: 'The tag is not found!',
-  TAGs_NOT_FOUND: 'No tags are found!',
+  TAGS_NOT_FOUND: 'No tags are found!',
+  NOT_AVAILABLE: 'One or more tags do not exist',
 };

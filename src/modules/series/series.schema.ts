@@ -10,7 +10,7 @@ export type SeriesDocument = HydratedDocument<Series>;
 })
 export class Series {
   @Prop({ index: true, unique: true })
-  name: string;
+  title: string;
 
   @Prop({})
   slug: string;
