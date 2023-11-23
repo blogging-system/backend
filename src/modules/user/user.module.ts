@@ -11,6 +11,7 @@ import { CreateUserDto } from './dtos';
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
+  exports: [UserService],
   controllers: [UserController],
   providers: [UserService, UserSeederService],
 })
