@@ -40,6 +40,7 @@ import { SeriesModule } from './modules/series/series.module';
       provide: APP_FILTER,
       useClass: ExceptionsFilter,
     },
+
     AppService,
   ],
 })

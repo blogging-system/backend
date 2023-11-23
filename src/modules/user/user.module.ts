@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserService } from './services/user.service';
 import { Module, OnModuleInit } from '@nestjs/common';
 import { UserSeederService } from './services/user-seeder.service';
+import { appConfig } from 'src/shared/config';
 import { CreateUserDto } from './dtos';
 
 @Module({
@@ -18,13 +19,13 @@ export class UserModule implements OnModuleInit {
 
   async onModuleInit() {
     const rootUser: CreateUserDto = {
-      firstName: process.env.FIRST_NAME,
-      lastName: process.env.LAST_NAME,
-      email: process.env.EMAIL,
-      password: process.env.PASSWORD,
+      firstName: appConfig.seeders.rootUser.firstName,
+      lastName: appConfig.seeders.rootUser.lastName,
+      email: appConfig.seeders.rootUser.email,
+      password: appConfig.seeders.rootUser.password,
       isRoot: true,
     };
-
+    console.log({ rootUser });
     await this.userSeederService.seedRootUser(rootUser);
   }
 }
