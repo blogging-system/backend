@@ -12,6 +12,9 @@ export type PostDocument = HydratedDocument<Post>;
   autoCreate: true,
 })
 export class Post {
+  @Prop({ type: Types.ObjectId })
+  _id: string;
+
   @Prop({ index: true, unique: true })
   title: string;
 

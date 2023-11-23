@@ -18,7 +18,9 @@ export class UserService {
     return await this.createOne(data);
   }
 
-  async findUser() {}
+  async findUser(email: string): Promise<User> {
+    return await this.findOneByEmail(email);
+  }
 
   async isUserFound(email: string): Promise<boolean> {
     const isUserFound = await this.userModel.findOne({ email }).lean();

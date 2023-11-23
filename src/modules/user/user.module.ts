@@ -1,9 +1,9 @@
-import { UserController } from './user.controller';
-import { User, UserSchema } from './user.schema';
-import { MongooseModule } from '@nestjs/mongoose';
+import { UserSeederService } from './services/user-seeder.service';
 import { UserService } from './services/user.service';
 import { Module, OnModuleInit } from '@nestjs/common';
-import { UserSeederService } from './services/user-seeder.service';
+import { UserController } from './user.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from './user.schema';
 import { appConfig } from 'src/shared/config';
 import { CreateUserDto } from './dtos';
 
@@ -25,7 +25,7 @@ export class UserModule implements OnModuleInit {
       password: appConfig.seeders.rootUser.password,
       isRoot: true,
     };
-    console.log({ rootUser });
+
     await this.userSeederService.seedRootUser(rootUser);
   }
 }

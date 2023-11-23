@@ -10,6 +10,7 @@ import { ExceptionsFilter } from './shared/filters';
 import { KeywordModule } from './modules/keyword/keyword.module';
 import { TagModule } from './modules/tag/tag.module';
 import { SeriesModule } from './modules/series/series.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SeriesModule } from './modules/series/series.module';
     KeywordModule,
     TagModule,
     SeriesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

@@ -35,7 +35,7 @@ export const appConfig: AppConfig = {
     rootUser: {
       firstName: 'Ahmed',
       lastName: 'Elgaidi',
-      email: 'ahmedelgaidi260@gmail.com',
+      email: 'test@gmail.com',
       password: process.env.ROOT_USER_PASSWORD,
     },
   },
