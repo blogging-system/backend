@@ -7,7 +7,7 @@ export interface AppConfig {
       | EnvironmentType.TEST
       | EnvironmentType.PRODUCTION;
   };
-  server: { host: 'http://localhost'; port: 3000 };
+  server: { host: string; port: number };
   storage: {
     database: { mongodb: { uri: string } };
   };
@@ -15,6 +15,7 @@ export interface AppConfig {
     portfolio: string;
     blog: string;
     admin: string;
+    localhost: string;
   };
   encryptionKeys: { otp: string };
   tokenSecrets: {
