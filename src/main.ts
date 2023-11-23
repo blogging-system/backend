@@ -5,7 +5,7 @@ import { appConfig } from './shared/config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: Object.values(appConfig.clients),
+    origin: [...Object.values(appConfig.clients), 'localhost'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

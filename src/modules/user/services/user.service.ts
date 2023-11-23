@@ -47,4 +47,12 @@ export class UserService {
 
     return isUserFound;
   }
+
+  private async findOneById(userId: string): Promise<User> {
+    const isUserFound = await this.userModel.findOne({ _id: userId }).lean();
+
+    if (!isUserFound) throw new NotFoundException(MESSAGES.USER_NOT_FOUND);
+
+    return isUserFound;
+  }
 }
