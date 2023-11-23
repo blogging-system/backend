@@ -19,8 +19,6 @@ export const appConfig: AppConfig = {
     portfolio: 'https://www.ahmedelgaidi.com',
     blog: 'https://blog.ahmedelgaidi.com',
     admin: 'https://dashboard.ahmedelgaidi.com',
-    localhost:
-      process.env.NODE_ENV === 'development' ? 'http://localhost' : undefined,
   },
   encryptionKeys: { otp: process.env.OTP_ENCRYPTION_KEY },
   tokenSecrets: {

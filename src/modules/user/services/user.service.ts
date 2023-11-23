@@ -18,8 +18,12 @@ export class UserService {
     return await this.createOne(data);
   }
 
-  async findUser(email: string): Promise<User> {
+  async findUserByEmail(email: string): Promise<User> {
     return await this.findOneByEmail(email);
+  }
+
+  async findUserById(userId: string): Promise<User> {
+    return await this.findUserById(userId);
   }
 
   async isUserFound(email: string): Promise<boolean> {

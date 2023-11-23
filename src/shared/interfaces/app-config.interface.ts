@@ -15,7 +15,6 @@ export interface AppConfig {
     portfolio: string;
     blog: string;
     admin: string;
-    localhost: string;
   };
   encryptionKeys: { otp: string };
   tokenSecrets: {

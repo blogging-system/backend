@@ -9,7 +9,7 @@ export class AuthService {
   constructor(private readonly userService: UserService) {}
 
   async login(data: LoginDto) {
-    const isUserFound = await this.userService.findUser(data.email);
+    const isUserFound = await this.userService.findUserByEmail(data.email);
 
     if (!isUserFound)
       throw new BadRequestException(MESSAGES.WRONG_EMAIL_OR_PASSWORD);

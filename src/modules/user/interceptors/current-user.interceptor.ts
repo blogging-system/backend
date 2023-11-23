@@ -3,9 +3,12 @@ import {
   ExecutionContext,
   Injectable,
   NestInterceptor,
+  NotFoundException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { UserService } from '../services/user.service';
+import { MESSAGES } from '../constants';
+import TokenHelper from 'src/shared/helpers/token.helper';
 
 @Injectable()
 export class CurrentUserInterceptor implements NestInterceptor {
@@ -17,10 +20,19 @@ export class CurrentUserInterceptor implements NestInterceptor {
   ): Promise<Observable<any>> {
     const request = context.switchToHttp().getRequest();
 
-    const userId = request?.session?.userId || null;
+    const authorizationHeader = request.headers.authorization || null;
 
-    // request.currentUser = await this.userService.findOne({ id: userId });
-    request.currentUser = null;
+    if (!authorizationHeader) {
+      throw new NotFoundException(MESSAGES.AUTH_HEADER_NOT_FOUND);
+    }
+
+    const accessToken = authorizationHeader.replace('Bearer ', '');
+
+    const decoded = TokenHelper.verifyAccessToken(accessToken);
+    console.log({ decoded });
+
+    // request.currentUser = await this.userService.findUserById(userId);
+
     return next.handle();
   }
 }
