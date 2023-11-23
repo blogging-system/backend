@@ -10,6 +10,18 @@ export class User {
 
   @Prop()
   lastName: string;
+
+  @Prop({ index: true, unique: true })
+  email: string;
+
+  @Prop()
+  password: string;
+
+  @Prop({ default: true })
+  isAdmin: boolean;
+
+  @Prop({ default: false })
+  isRoot: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
