@@ -18,13 +18,12 @@ import { CreateUserDto } from './dtos';
 export class UserModule implements OnModuleInit {
   constructor(private readonly userSeederService: UserSeederService) {}
 
-  async onModuleInit() {
+  async onModuleInit(): Promise<void> {
     const rootUser: CreateUserDto = {
       firstName: appConfig.seeders.rootUser.firstName,
       lastName: appConfig.seeders.rootUser.lastName,
       email: appConfig.seeders.rootUser.email,
       password: appConfig.seeders.rootUser.password,
-      isRoot: true,
     };
 
     await this.userSeederService.seedRootUser(rootUser);

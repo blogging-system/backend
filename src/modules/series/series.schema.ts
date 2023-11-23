@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type SeriesDocument = HydratedDocument<Series>;
 
@@ -9,9 +9,6 @@ export type SeriesDocument = HydratedDocument<Series>;
   autoCreate: true,
 })
 export class Series {
-  @Prop({ type: Types.ObjectId })
-  _id: string;
-
   @Prop({ index: true, unique: true })
   title: string;
 
