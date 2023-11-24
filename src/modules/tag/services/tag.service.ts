@@ -1,20 +1,19 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { InjectModel } from '@nestjs/mongoose'
-import { Tag } from '../schemas/tag.schema'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateTagDto, DeleteTagDto } from '../dtos'
+import { TagRepository } from '../repositories'
+import { DeleteTagResponse } from '../types'
 import { MESSAGES } from '../constants'
-import { Model } from 'mongoose'
-import { TagRepository } from '../repositories/tag.repository'
+import { Tag } from '../schemas'
 
 @Injectable()
 export class TagService {
   constructor(private readonly tagRepo: TagRepository) {}
 
-  async createTag(data: CreateTagDto) {
+  async createTag(data: CreateTagDto): Promise<Tag> {
     return await this.tagRepo.createOne(data)
   }
 
-  async deleteTag(data: DeleteTagDto) {
+  async deleteTag(data: DeleteTagDto): Promise<DeleteTagResponse> {
     return await this.tagRepo.deleteOne(data)
   }
 
@@ -24,7 +23,7 @@ export class TagService {
     return !!isTagFound
   }
 
-  async areTagsAvailable(tagIds: string[]) {
+  async areTagsAvailable(tagIds: string[]): Promise<void> {
     const array = await Promise.all(tagIds.map((id) => this.isTagAvailable(id)))
 
     const areTagsAvailable = array.every((available) => available)

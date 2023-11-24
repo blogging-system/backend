@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
-import { Model } from 'mongoose'
-import { MESSAGES } from '../constants'
-import { Tag } from '../schemas/tag.schema'
-import { InjectModel } from '@nestjs/mongoose'
 import { CreateTagDto, DeleteTagDto } from '../dtos'
+import { InjectModel } from '@nestjs/mongoose'
 import { DeleteTagResponse } from '../types'
+import { MESSAGES } from '../constants'
+import { Tag } from '../schemas'
+import { Model } from 'mongoose'
 
 @Injectable()
 export class TagRepository {
