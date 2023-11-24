@@ -1,10 +1,10 @@
-import * as jwt from 'jsonwebtoken'
 import { appConfig } from '../config'
+import * as jwt from 'jsonwebtoken'
 
 /**
  * Helper class for generating and managing tokens.
  */
-export default class TokenHelper {
+export class TokenHelper {
   /**
    * Generates an access token using the provided payload.
    *
