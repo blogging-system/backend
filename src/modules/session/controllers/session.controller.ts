@@ -11,8 +11,8 @@ export class SessionController {
   constructor(private readonly sessionService: SessionService) {}
 
   @Get(':sessionId')
-  async getSession(@Param('sessionId') sessionId: string) {
-    return await this.sessionService.getSession(sessionId)
+  async getSession(@Param('sessionId') sessionId: string, @CurrentUser() user: User) {
+    return await this.sessionService.getSession(sessionId, user._id)
   }
 
   @Get()

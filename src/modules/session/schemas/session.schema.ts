@@ -21,7 +21,7 @@ export class Session {
   refreshToken: string
 
   @Prop()
-  ip: string
+  ipAddress: string
 
   @Prop({ type: Map, of: SchemaTypes.Mixed })
   device: Record<string, unknown>

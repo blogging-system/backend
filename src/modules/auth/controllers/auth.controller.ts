@@ -15,8 +15,12 @@ export class AuthController {
   ) {}
 
   @Post('/login')
-  async login(@Body() data: LoginDto, @IpAddress() ip: string, @DeviceInfo() device: any): Promise<LoginResponse> {
-    return await this.authService.login(data, ip, device)
+  async login(
+    @Body() data: LoginDto,
+    @IpAddress() ipAddress: string,
+    @DeviceInfo() device: any,
+  ): Promise<LoginResponse> {
+    return await this.authService.login(data, ipAddress, device)
   }
 
   @Get('/whoami')

@@ -5,6 +5,12 @@ export class PublicSessionDto {
   _id: string
 
   @Expose()
+  ipAddress: string
+
+  @Expose()
+  device: object
+
+  @Expose()
   createdAt: Date
 
   @Expose()

@@ -13,7 +13,7 @@ export class AuthService {
     private readonly sessionService: SessionService,
   ) {}
 
-  async login(data: LoginDto, ip: string, device: Record<string, unknown>): Promise<LoginResponse> {
+  async login(data: LoginDto, ipAddress: string, device: Record<string, unknown>): Promise<LoginResponse> {
     const isUserFound = await this.userService.findUserByEmail(data.email)
 
     if (!isUserFound) throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
@@ -30,7 +30,7 @@ export class AuthService {
     const accessToken = await TokenHelper.generateAccessToken(tokenPayload)
     const refreshToken = await TokenHelper.generateRefreshToken(tokenPayload)
 
-    await this.sessionService.createSession({ userId: isUserFound._id, accessToken, refreshToken, ip, device })
+    await this.sessionService.createSession({ userId: isUserFound._id, accessToken, refreshToken, ipAddress, device })
 
     return {
       accessToken,

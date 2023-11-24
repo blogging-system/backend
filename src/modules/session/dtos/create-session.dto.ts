@@ -11,7 +11,7 @@ export class CreateSessionDto {
   refreshToken: string
 
   @Type(() => String)
-  ip: string
+  ipAddress: string
 
   @Type(() => Object)
   device: object
