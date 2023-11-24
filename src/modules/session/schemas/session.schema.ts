@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { HydratedDocument, Types } from 'mongoose'
+import { HydratedDocument, SchemaTypes, Types } from 'mongoose'
 import { ExpiryDuration } from 'src/shared/enums'
 import { User } from '../../user/schemas'
 
@@ -19,6 +19,12 @@ export class Session {
 
   @Prop()
   refreshToken: string
+
+  @Prop()
+  ip: string
+
+  @Prop({ type: Map, of: SchemaTypes.Mixed })
+  device: Record<string, unknown>
 
   @Prop({
     default: Date.now(),

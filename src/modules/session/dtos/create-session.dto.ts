@@ -9,4 +9,10 @@ export class CreateSessionDto {
 
   @Type(() => String)
   refreshToken: string
+
+  @Type(() => String)
+  ip: string
+
+  @Type(() => Object)
+  device: object
 }

@@ -1,7 +1,7 @@
 import { User } from '../../user/schemas/user.schema'
 import { AuthService } from '../services/auth.service'
 import { CurrentUser } from '../../user/decorators'
-import { Serialize } from 'src/shared/decorators'
+import { DeviceInfo, IpAddress, Serialize } from 'src/shared/decorators'
 import { UserService } from '../../user/services/user.service'
 import { Body, Controller, Get, Post } from '@nestjs/common'
 import { LoginDto, LoginResponse, PublicUserDto } from '../dtos'
@@ -15,8 +15,8 @@ export class AuthController {
   ) {}
 
   @Post('/login')
-  async login(@Body() data: LoginDto): Promise<LoginResponse> {
-    return await this.authService.login(data)
+  async login(@Body() data: LoginDto, @IpAddress() ip: string, @DeviceInfo() device: any): Promise<LoginResponse> {
+    return await this.authService.login(data, ip, device)
   }
 
   @Get('/whoami')

@@ -1,7 +1,9 @@
-import { User } from 'src/modules/user/schemas/user.schema'
+import { Session } from 'src/modules/session/schemas'
+import { User } from 'src/modules/user/schemas'
 
 declare module 'express' {
   interface Request {
-    currentUser?: partial<User>
+    currentUser?: Partial<User>
+    session?: Partial<Session>
   }
 }

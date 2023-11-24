@@ -6,18 +6,22 @@ import { TokenHelper } from '../helpers/token.helper'
 @Injectable()
 export class BearerTokenMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction): Promise<void> {
+    console.log('from middleware!')
+
     try {
       const accessToken = req?.headers['authorization']?.split(' ')[1] || null
 
       if (!accessToken) throw new NotFoundException(MESSAGES.ACCESS_TOKEN_NOT_FOUND)
 
-      const { _id, firstName, lastName, sessionId } = TokenHelper.verifyAccessToken(accessToken)
+      const { _id, role } = TokenHelper.verifyAccessToken(accessToken)
 
       req.currentUser = {
         _id,
-        firstName,
-        lastName,
-        sessionId,
+        role,
+      }
+
+      req.session = {
+        accessToken,
       }
 
       return next()

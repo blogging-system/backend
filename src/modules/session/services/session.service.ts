@@ -3,6 +3,7 @@ import { SessionRepository } from '../repositories'
 import { MESSAGES } from '../../auth/constants'
 import { CreateSessionDto } from '../dtos'
 import { Session } from '../schemas'
+import { Types } from 'mongoose'
 
 @Injectable()
 export class SessionService {
@@ -16,8 +17,12 @@ export class SessionService {
     return await this.sessionRepo.findOneById(sessionId)
   }
 
-  async isSessionValid(sessionId: string): Promise<void> {
-    const isSessionFound = await this.sessionRepo.findOne({ _id: sessionId })
+  async getAllUserSessions(userId: string): Promise<Session[]> {
+    return await this.sessionRepo.findMany(userId)
+  }
+
+  async isSessionValid(userId: string, accessToken: string): Promise<void> {
+    const isSessionFound = await this.sessionRepo.findOne({ userId: new Types.ObjectId(userId), accessToken })
 
     if (!isSessionFound) throw new UnauthorizedException(MESSAGES.INVOKED_TOKEN)
   }
