@@ -1,12 +1,14 @@
-import { Keyword, KeywordSchema } from './keyword.schema'
-import { KeywordController } from './keyword.controller'
-import { KeywordService } from './keyword.service'
+import { KeywordRepository } from './repositories'
+import { Keyword, KeywordSchema } from './schemas'
 import { MongooseModule } from '@nestjs/mongoose'
+import { KeywordController } from './controllers'
+import { KeywordService } from './services'
 import { Module } from '@nestjs/common'
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: Keyword.name, schema: KeywordSchema }])],
-  providers: [KeywordService],
+  exports: [KeywordService, KeywordRepository],
+  providers: [KeywordService, KeywordRepository],
   controllers: [KeywordController],
 })
 export class KeywordModule {}

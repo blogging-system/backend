@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { Keyword } from '../keyword/keyword.schema'
+import { Keyword } from '../keyword/schemas/keyword.schema'
 import { HydratedDocument, Types } from 'mongoose'
-import { Series } from '../series/series.schema'
+import { Series } from '../series/schemas/series.schema'
 import { Tag } from '../tag/schemas/tag.schema'
 
 export type PostDocument = HydratedDocument<Post>

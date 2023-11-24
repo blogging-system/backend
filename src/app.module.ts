@@ -13,6 +13,7 @@ import { SeriesModule } from './modules/series/series.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { BearerTokenMiddleware } from './shared/middlewares'
 import { SessionModule } from './modules/session/session.module'
+import { ValidateSessionInterceptor } from './modules/session/interceptors'
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { SessionModule } from './modules/session/session.module'
   ],
   controllers: [AppController],
   providers: [
+    AppService,
     {
       provide: APP_PIPE,
       useValue: new ValidationPipe({
@@ -42,10 +44,13 @@ import { SessionModule } from './modules/session/session.module'
       }),
     },
     {
+      provide: APP_INTERCEPTOR,
+      useClass: ValidateSessionInterceptor,
+    },
+    {
       provide: APP_FILTER,
       useClass: ExceptionsFilter,
     },
-    AppService,
   ],
 })
 export class AppModule {

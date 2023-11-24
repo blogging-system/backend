@@ -14,6 +14,10 @@ export class TagService {
   }
 
   async deleteTag(data: DeleteTagDto): Promise<DeleteTagResponse> {
+    const isTagAvailable = await this.isTagAvailable(data.tagId)
+
+    if (!isTagAvailable) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
+
     return await this.tagRepo.deleteOne(data)
   }
 

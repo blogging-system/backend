@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Param, Post } from '@nestjs/common'
-import { CreateKeywordDto, DeleteKeywordDto } from './dtos'
-import { KeywordService } from './keyword.service'
+import { CreateKeywordDto, DeleteKeywordDto } from '../dtos'
+import { KeywordService } from '../services/keyword.service'
 
 @Controller('keywords')
 export class KeywordController {

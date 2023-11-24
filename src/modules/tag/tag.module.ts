@@ -9,5 +9,6 @@ import { Module } from '@nestjs/common'
   imports: [MongooseModule.forFeature([{ name: Tag.name, schema: TagSchema }])],
   providers: [TagService, TagRepository],
   controllers: [TagController],
+  exports: [TagService, TagRepository],
 })
 export class TagModule {}
