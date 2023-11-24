@@ -1,10 +1,11 @@
-import { CreatePostDto, DeletePostDto, DeletePostResponse, PostManipulationDto } from './dtos'
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
-import slugify from 'slugify'
-import { Model } from 'mongoose'
-import { Post } from './post.schema'
-import { MESSAGES } from './constants'
+import { CreatePostDto, DeletePostDto, PostManipulationDto } from '../dtos'
+import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
+import { MESSAGES } from '../constants'
+import { Post } from '../schemas'
+import { Model } from 'mongoose'
+import slugify from 'slugify'
 
 @Injectable()
 export class PostRepository {
@@ -22,14 +23,18 @@ export class PostRepository {
   }
 
   async updateOne(postId: string, payload: PostManipulationDto): Promise<Post> {
-    const isPostUpdated = await this.postModel.findByIdAndUpdate(postId, { ...payload, slug: slugify(payload.title) }, { new: true })
+    const isPostUpdated = await this.postModel.findByIdAndUpdate(
+      postId,
+      { ...payload, slug: slugify(payload.title) },
+      { new: true },
+    )
 
     if (!isPostUpdated) throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED)
 
     return isPostUpdated
   }
 
-  async deleteOne(data: DeletePostDto): Promise<DeletePostResponse> {
+  async deleteOne(data: DeletePostDto): Promise<ResultMessage> {
     const isPostDeleted = await this.postModel.deleteOne({ _id: data.postId })
 
     if (isPostDeleted.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)

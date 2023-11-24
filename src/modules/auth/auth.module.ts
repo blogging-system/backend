@@ -1,22 +1,14 @@
-import { Session, SessionSchema } from '../session/schemas'
-import { SessionRepository } from '../session/repositories'
-import { UserRepository } from '../user/repositories'
+import { SessionModule } from '../session/session.module'
 import { SessionService } from '../session/services'
-import { User, UserSchema } from '../user/schemas'
-import { AuthController } from './auth.controller'
-import { MongooseModule } from '@nestjs/mongoose'
+import { UserModule } from '../user/user.module'
+import { AuthController } from './controllers'
 import { UserService } from '../user/services'
-import { AuthService } from './auth.service'
+import { AuthService } from './services'
 import { Module } from '@nestjs/common'
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: User.name, schema: UserSchema },
-      { name: Session.name, schema: SessionSchema },
-    ]),
-  ],
-  providers: [AuthService, UserService, UserRepository, SessionService, SessionRepository],
+  imports: [UserModule, SessionModule],
+  providers: [AuthService, UserService, SessionService],
   controllers: [AuthController],
 })
 export class AuthModule {}

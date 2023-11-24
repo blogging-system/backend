@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { CreateKeywordDto, DeleteKeywordDto } from '../dtos'
-import { DeleteKeywordResponse } from '../types'
+import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
 import { Keyword } from '../schemas'
@@ -18,7 +18,7 @@ export class KeywordRepository {
     return isKeywordCreated
   }
 
-  async deleteOne(data: DeleteKeywordDto): Promise<DeleteKeywordResponse> {
+  async deleteOne(data: DeleteKeywordDto): Promise<ResultMessage> {
     const isKeywordDeleted = await this.keywordModel.deleteOne({
       _id: data.keywordId,
     })

@@ -1,20 +1,21 @@
-import { GetAllPosts, CreatePostDto, DeletePostDto, DeletePostResponse } from './dtos'
+import { GetAllPosts, CreatePostDto, DeletePostDto } from '../dtos'
 import { Injectable, BadRequestException } from '@nestjs/common'
-import { KeywordService } from '../keyword/services/keyword.service'
-import { SeriesService } from '../series/services/series.service'
-import { PostRepository } from './post.repository'
-import { TagService } from '../tag/services/tag.service'
+import { KeywordService } from '../../keyword/services'
+import { SeriesService } from '../../series/services'
+import { ResultMessage } from 'src/shared/types'
+import { PostRepository } from '../repositories'
+import { TagService } from '../../tag/services'
 import { Pagination } from 'src/shared/dtos'
-import { MESSAGES } from './constants'
-import { Post } from './post.schema'
+import { MESSAGES } from '../constants'
+import { Post } from '../schemas'
 
 @Injectable()
 export class PostService {
   constructor(
     private readonly postRepo: PostRepository,
-    private readonly keywordService: KeywordService,
-    private readonly seriesService: SeriesService,
     private readonly tagService: TagService,
+    private readonly seriesService: SeriesService,
+    private readonly keywordService: KeywordService,
   ) {}
 
   async createPost(data: CreatePostDto): Promise<Post> {
@@ -35,7 +36,7 @@ export class PostService {
     return await this.postRepo.updateOne(postId, payload)
   }
 
-  async deletePost(data: DeletePostDto): Promise<DeletePostResponse> {
+  async deletePost(data: DeletePostDto): Promise<ResultMessage> {
     await this.isPostAvailable(data.postId)
 
     return await this.postRepo.deleteOne(data)

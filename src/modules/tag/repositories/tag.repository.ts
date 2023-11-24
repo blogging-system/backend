@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
 import { CreateTagDto, DeleteTagDto } from '../dtos'
+import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
-import { DeleteTagResponse } from '../types'
 import { MESSAGES } from '../constants'
 import { Tag } from '../schemas'
 import { Model } from 'mongoose'
@@ -18,7 +18,7 @@ export class TagRepository {
     return isTagCreated
   }
 
-  async deleteOne(data: DeleteTagDto): Promise<DeleteTagResponse> {
+  async deleteOne(data: DeleteTagDto): Promise<ResultMessage> {
     const isTagDeleted = await this.tagModel.deleteOne({
       _id: data.tagId,
     })

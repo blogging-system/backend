@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateSeriesDto, DeleteSeriesDto } from '../dtos'
 import { SeriesRepository } from '../repositories'
-import { DeleteSeriesResponse } from '../types'
+import { ResultMessage } from 'src/shared/types'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
 
@@ -13,7 +13,7 @@ export class SeriesService {
     return await this.seriesRepo.createOne(data)
   }
 
-  async deleteSeries(data: DeleteSeriesDto): Promise<DeleteSeriesResponse> {
+  async deleteSeries(data: DeleteSeriesDto): Promise<ResultMessage> {
     const isSeriesAvailable = await this.isSeriesAvailable(data.seriesId)
 
     if (!isSeriesAvailable) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)

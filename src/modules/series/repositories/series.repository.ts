@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { CreateSeriesDto, DeleteSeriesDto } from '../dtos'
-import { DeleteSeriesResponse } from '../types'
+import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
@@ -18,7 +18,7 @@ export class SeriesRepository {
     return isSeriesCreated
   }
 
-  async deleteOne(data: DeleteSeriesDto): Promise<DeleteSeriesResponse> {
+  async deleteOne(data: DeleteSeriesDto): Promise<ResultMessage> {
     const isSeriesDeleted = await this.seriesModel.deleteOne({
       _id: data.seriesId,
     })

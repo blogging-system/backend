@@ -8,9 +8,9 @@ import { adminUser } from './data'
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
+  exports: [UserService, UserRepository],
   providers: [UserService, UserRepository, UserSeederService],
   controllers: [UserController],
-  exports: [UserService],
 })
 export class UserModule implements OnModuleInit {
   constructor(private readonly userSeederService: UserSeederService) {}

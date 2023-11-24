@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateTagDto, DeleteTagDto } from '../dtos'
+import { ResultMessage } from 'src/shared/types'
 import { TagRepository } from '../repositories'
-import { DeleteTagResponse } from '../types'
 import { MESSAGES } from '../constants'
 import { Tag } from '../schemas'
 
@@ -13,7 +13,7 @@ export class TagService {
     return await this.tagRepo.createOne(data)
   }
 
-  async deleteTag(data: DeleteTagDto): Promise<DeleteTagResponse> {
+  async deleteTag(data: DeleteTagDto): Promise<ResultMessage> {
     const isTagAvailable = await this.isTagAvailable(data.tagId)
 
     if (!isTagAvailable) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)

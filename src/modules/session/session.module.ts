@@ -7,8 +7,8 @@ import { Module } from '@nestjs/common'
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: Session.name, schema: SessionSchema }])],
+  exports: [SessionService, SessionRepository],
   providers: [SessionService, SessionRepository],
   controllers: [SessionController],
-  exports: [SessionService],
 })
 export class SessionModule {}

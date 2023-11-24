@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
-import { UserService } from '../user/services/user.service'
+import { UserService } from '../../user/services/user.service'
 import { TokenHelper } from 'src/shared/helpers/token.helper'
-import { LoginDto, LoginResponse } from './dtos'
+import { LoginDto, LoginResponse } from '../dtos'
 import { HashHelper } from 'src/shared/helpers'
-import { MESSAGES } from './constants'
-import { SessionService } from '../session/services'
+import { MESSAGES } from '../constants'
+import { SessionService } from '../../session/services'
 
 @Injectable()
 export class AuthService {

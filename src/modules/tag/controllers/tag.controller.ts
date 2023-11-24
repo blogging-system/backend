@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Param, Post } from '@nestjs/common'
 import { CreateTagDto, DeleteTagDto } from '../dtos'
-import { DeleteTagResponse } from '../types'
+import { ResultMessage } from 'src/shared/types'
 import { TagService } from '../services'
 import { Tag } from '../schemas'
 
@@ -14,7 +14,7 @@ export class TagController {
   }
 
   @Delete(':tagId')
-  async deleteTag(@Param() data: DeleteTagDto): Promise<DeleteTagResponse> {
+  async deleteTag(@Param() data: DeleteTagDto): Promise<ResultMessage> {
     return await this.tagService.deleteTag(data)
   }
 }

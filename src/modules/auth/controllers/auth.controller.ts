@@ -1,10 +1,10 @@
-import { User } from '../user/schemas/user.schema'
-import { AuthService } from './auth.service'
-import { CurrentUser } from '../user/decorators'
+import { User } from '../../user/schemas/user.schema'
+import { AuthService } from '../services/auth.service'
+import { CurrentUser } from '../../user/decorators'
 import { Serialize } from 'src/shared/decorators'
-import { UserService } from '../user/services/user.service'
+import { UserService } from '../../user/services/user.service'
 import { Body, Controller, Get, Post } from '@nestjs/common'
-import { LoginDto, LoginResponse, PublicUserDto } from './dtos'
+import { LoginDto, LoginResponse, PublicUserDto } from '../dtos'
 
 @Serialize(PublicUserDto)
 @Controller('auth')

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Param, Post } from '@nestjs/common'
 import { CreateSeriesDto, DeleteSeriesDto } from '../dtos'
-import { DeleteSeriesResponse } from '../types'
+import { ResultMessage } from 'src/shared/types'
 import { SeriesService } from '../services'
 import { Series } from '../schemas'
 
@@ -14,7 +14,7 @@ export class SeriesController {
   }
 
   @Delete(':seriesId')
-  async deleteTag(@Param() data: DeleteSeriesDto): Promise<DeleteSeriesResponse> {
+  async deleteTag(@Param() data: DeleteSeriesDto): Promise<ResultMessage> {
     return await this.seriesService.deleteSeries(data)
   }
 }
