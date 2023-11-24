@@ -1,5 +1,5 @@
 import { Injectable, NestMiddleware, NotFoundException, UnauthorizedException } from '@nestjs/common'
-import { SessionService } from 'src/modules/session/session.service'
+import { SessionService } from 'src/modules/session/services'
 import { NextFunction, Request, Response } from 'express'
 import { MESSAGES } from 'src/modules/auth/constants'
 import TokenHelper from '../helpers/token.helper'
@@ -8,7 +8,7 @@ import TokenHelper from '../helpers/token.helper'
 export class BearerTokenMiddleware implements NestMiddleware {
   constructor(private readonly sessionService: SessionService) {}
 
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const accessToken = req?.headers['authorization']?.split(' ')[1] || null
 

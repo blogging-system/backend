@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { HydratedDocument, Types } from 'mongoose'
 import { ExpiryDuration } from 'src/shared/enums'
-import { User } from '../user/schemas/user.schema'
+import { User } from '../../user/schemas'
 
 export type SessionDocument = HydratedDocument<Session>
 

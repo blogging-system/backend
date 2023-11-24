@@ -1,9 +1,9 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { Model, Types } from 'mongoose'
-import { Session } from '../session.schema'
 import { CreateSessionDto } from '../dtos'
 import { MESSAGES } from '../constants'
+import { Model, Types } from 'mongoose'
+import { Session } from '../schemas'
 
 @Injectable()
 export class SessionRepository {

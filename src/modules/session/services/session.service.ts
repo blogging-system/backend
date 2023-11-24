@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
-import { CreateSessionDto } from './dtos'
-import { Session } from './session.schema'
-import { SessionRepository } from './repositories'
-import { MESSAGES } from '../auth/constants'
+import { SessionRepository } from '../repositories'
+import { MESSAGES } from '../../auth/constants'
+import { CreateSessionDto } from '../dtos'
+import { Session } from '../schemas'
 
 @Injectable()
 export class SessionService {
