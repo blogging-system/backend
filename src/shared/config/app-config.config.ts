@@ -1,8 +1,9 @@
-import * as dotenv from 'dotenv';
-import { AppConfig } from '../interfaces';
-import { EnvironmentType } from '../constants';
+import * as dotenv from 'dotenv'
+import { AppConfig } from '../interfaces'
+import { EnvironmentType } from '../constants'
+import { ExpiryDuration } from '../enums'
 
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
 export const appConfig: AppConfig = {
   environment: {
@@ -24,11 +25,11 @@ export const appConfig: AppConfig = {
   tokenSecrets: {
     accessToken: {
       secret: process.env.ACCESS_TOKEN_SECRET,
-      expiresIn: '12h',
+      expiresIn: ExpiryDuration.TWELVE_HOURS,
     },
     refreshToken: {
       secret: process.env.REFRESH_TOKEN_SECRET,
-      expiresIn: '24h',
+      expiresIn: ExpiryDuration.TWENTY_FOUR_HOURS,
     },
   },
   seeders: {
@@ -39,4 +40,4 @@ export const appConfig: AppConfig = {
       password: process.env.ROOT_USER_PASSWORD,
     },
   },
-};
+}

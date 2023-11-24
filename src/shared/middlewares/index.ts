@@ -1,1 +1,1 @@
-export * from './current-user.middleware';
+export * from './bearer-token.middleware'

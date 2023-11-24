@@ -1,7 +1,7 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { HydratedDocument } from 'mongoose'
 
-export type SeriesDocument = HydratedDocument<Series>;
+export type SeriesDocument = HydratedDocument<Series>
 
 @Schema({
   timestamps: true,
@@ -10,13 +10,13 @@ export type SeriesDocument = HydratedDocument<Series>;
 })
 export class Series {
   @Prop({ index: true, unique: true })
-  title: string;
+  title: string
 
   @Prop({})
-  slug: string;
+  slug: string
 
   @Prop({})
-  description: string;
+  description: string
 }
 
-export const SeriesSchema = SchemaFactory.createForClass(Series);
+export const SeriesSchema = SchemaFactory.createForClass(Series)

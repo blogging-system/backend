@@ -5,4 +5,4 @@ export const failureMessages = {
   SERIES_NOT_FOUND: 'The series is not found!',
   SERIES_ARE_NOT_FOUND: 'No series are found!',
   NOT_AVAILABLE: 'One or more series do not exist',
-};
+}

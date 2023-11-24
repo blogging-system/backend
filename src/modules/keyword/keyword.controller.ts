@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
-import { CreateKeywordDto, DeleteKeywordDto } from './dtos';
-import { KeywordService } from './keyword.service';
+import { Body, Controller, Delete, Param, Post } from '@nestjs/common'
+import { CreateKeywordDto, DeleteKeywordDto } from './dtos'
+import { KeywordService } from './keyword.service'
 
 @Controller('keywords')
 export class KeywordController {
@@ -8,11 +8,11 @@ export class KeywordController {
 
   @Post()
   async createKeyword(@Body() data: CreateKeywordDto) {
-    return await this.keywordService.createKeyword(data);
+    return await this.keywordService.createKeyword(data)
   }
 
   @Delete(':keywordId')
   async deleteKeyword(@Param() data: DeleteKeywordDto) {
-    return await this.keywordService.deleteKeyword(data);
+    return await this.keywordService.deleteKeyword(data)
   }
 }

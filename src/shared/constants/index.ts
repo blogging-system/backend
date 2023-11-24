@@ -1,1 +1,1 @@
-export * from './environment.constant';
+export * from './environment.constant'

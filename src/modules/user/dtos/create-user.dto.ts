@@ -1,25 +1,25 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
+import { Type } from 'class-transformer'
 
 export class CreateUserDto {
   @Type(() => String)
   @IsString()
   @IsNotEmpty()
-  firstName: string;
+  firstName: string
 
   @Type(() => String)
   @IsString()
   @IsNotEmpty()
-  lastName: string;
+  lastName: string
 
   @Type(() => String)
   @IsString()
   @IsEmail()
   @IsNotEmpty()
-  email: string;
+  email: string
 
   @Type(() => String)
   @IsString()
   @IsNotEmpty()
-  password: string;
+  password: string
 }

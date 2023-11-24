@@ -1,27 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
 
 interface ApiLinks {
-  linkedIn: string;
-  leetCode: string;
-  github: string;
+  linkedIn: string
+  leetCode: string
+  github: string
 }
 
 interface ApiInfo {
-  title: string;
-  description: string;
-  architecture: string;
-  type: string;
-  environment: string;
-  documentation: string;
+  title: string
+  description: string
+  architecture: string
+  type: string
+  environment: string
+  documentation: string
 }
 
 export interface WelcomeResponse {
-  message: string;
+  message: string
   data: {
-    api: ApiInfo;
-    author: string;
-    links: ApiLinks;
-  };
+    api: ApiInfo
+    author: string
+    links: ApiLinks
+  }
 }
 @Injectable()
 export class AppService {
@@ -41,10 +41,9 @@ export class AppService {
           architecture: 'Monolith',
           type: 'RESTful API',
           environment: process.env.NODE_ENV,
-          documentation:
-            'https://postman.com/ahmedelgaidi/workspace/personal-blog',
+          documentation: 'https://postman.com/ahmedelgaidi/workspace/personal-blog',
         },
       },
-    };
+    }
   }
 }

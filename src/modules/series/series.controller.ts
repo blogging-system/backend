@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
-import { CreateSeriesDto, DeleteSeriesDto } from './dtos';
-import { SeriesService } from './series.service';
+import { Body, Controller, Delete, Param, Post } from '@nestjs/common'
+import { CreateSeriesDto, DeleteSeriesDto } from './dtos'
+import { SeriesService } from './series.service'
 
 @Controller('series')
 export class SeriesController {
@@ -8,11 +8,11 @@ export class SeriesController {
 
   @Post()
   async createTag(@Body() data: CreateSeriesDto) {
-    return await this.seriesService.createSeries(data);
+    return await this.seriesService.createSeries(data)
   }
 
   @Delete(':seriesId')
   async deleteTag(@Param() data: DeleteSeriesDto) {
-    return await this.seriesService.deleteSeries(data);
+    return await this.seriesService.deleteSeries(data)
   }
 }

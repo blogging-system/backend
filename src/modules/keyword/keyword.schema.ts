@@ -1,7 +1,7 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { HydratedDocument } from 'mongoose'
 
-export type KeywordDocument = HydratedDocument<Keyword>;
+export type KeywordDocument = HydratedDocument<Keyword>
 
 @Schema({
   timestamps: true,
@@ -10,7 +10,7 @@ export type KeywordDocument = HydratedDocument<Keyword>;
 })
 export class Keyword {
   @Prop({ index: true, unique: true })
-  name: string;
+  name: string
 }
 
-export const KeywordSchema = SchemaFactory.createForClass(Keyword);
+export const KeywordSchema = SchemaFactory.createForClass(Keyword)

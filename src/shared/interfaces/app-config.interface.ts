@@ -1,38 +1,35 @@
-import { EnvironmentType } from '../constants';
+import { EnvironmentType } from '../constants'
 
 export interface AppConfig {
   environment: {
-    env:
-      | EnvironmentType.DEVELOPMENT
-      | EnvironmentType.TEST
-      | EnvironmentType.PRODUCTION;
-  };
-  server: { host: string; port: number };
+    env: EnvironmentType.DEVELOPMENT | EnvironmentType.TEST | EnvironmentType.PRODUCTION
+  }
+  server: { host: string; port: number }
   storage: {
-    database: { mongodb: { uri: string } };
-  };
+    database: { mongodb: { uri: string } }
+  }
   clients: {
-    portfolio: string;
-    blog: string;
-    admin: string;
-  };
-  encryptionKeys: { otp: string };
+    portfolio: string
+    blog: string
+    admin: string
+  }
+  encryptionKeys: { otp: string }
   tokenSecrets: {
     accessToken: {
-      secret: string;
-      expiresIn: string;
-    };
+      secret: string
+      expiresIn: string
+    }
     refreshToken: {
-      secret: string;
-      expiresIn: string;
-    };
-  };
+      secret: string
+      expiresIn: string
+    }
+  }
   seeders: {
     rootUser: {
-      firstName: string;
-      lastName: string;
-      email: string;
-      password: string;
-    };
-  };
+      firstName: string
+      lastName: string
+      email: string
+      password: string
+    }
+  }
 }

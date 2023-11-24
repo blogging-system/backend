@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt'
 
 /**
  * A helper class for generating and verifying hashes using bcrypt.
@@ -11,7 +11,7 @@ export class HashHelper {
    * @returns A Promise that resolves to the hashed password.
    */
   static async generateHash(plainText: string): Promise<string> {
-    return await bcrypt.hash(plainText, 10);
+    return await bcrypt.hash(plainText, 10)
   }
 
   /**
@@ -22,7 +22,7 @@ export class HashHelper {
    * @returns A Promise that resolves to true if the password matches the hash, or false otherwise.
    */
   static async verifyHash(plainText: string, hash: string): Promise<boolean> {
-    const isMatch = await bcrypt.compare(plainText, hash);
-    return isMatch;
+    const isMatch = await bcrypt.compare(plainText, hash)
+    return isMatch
   }
 }

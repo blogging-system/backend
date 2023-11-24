@@ -5,4 +5,4 @@ export const failureMessages = {
   TAG_NOT_FOUND: 'The tag is not found!',
   TAGS_NOT_FOUND: 'No tags are found!',
   NOT_AVAILABLE: 'One or more tags do not exist',
-};
+}

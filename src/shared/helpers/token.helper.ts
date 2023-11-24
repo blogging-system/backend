@@ -1,5 +1,5 @@
-import * as jwt from 'jsonwebtoken';
-import { appConfig } from '../config';
+import * as jwt from 'jsonwebtoken'
+import { appConfig } from '../config'
 
 /**
  * Helper class for generating and managing tokens.
@@ -12,11 +12,7 @@ export default class TokenHelper {
    * @returns {string} - The generated access token.
    */
   public static generateAccessToken(payload: any): string {
-    return TokenHelper.generateToken(
-      payload,
-      appConfig.tokenSecrets.accessToken.secret,
-      appConfig.tokenSecrets.accessToken.expiresIn,
-    );
+    return TokenHelper.generateToken(payload, appConfig.tokenSecrets.accessToken.secret, appConfig.tokenSecrets.accessToken.expiresIn)
   }
 
   /**
@@ -26,10 +22,7 @@ export default class TokenHelper {
    * @returns {any} - The verified token payload.
    */
   public static verifyAccessToken(token: string): any {
-    return TokenHelper.verifyToken(
-      token,
-      appConfig.tokenSecrets.accessToken.secret,
-    );
+    return TokenHelper.verifyToken(token, appConfig.tokenSecrets.accessToken.secret)
   }
 
   /**
@@ -39,11 +32,7 @@ export default class TokenHelper {
    * @returns {string} - The generated refresh token.
    */
   public static generateRefreshToken(payload: any): string {
-    return TokenHelper.generateToken(
-      payload,
-      appConfig.tokenSecrets.refreshToken.secret,
-      appConfig.tokenSecrets.refreshToken.expiresIn,
-    );
+    return TokenHelper.generateToken(payload, appConfig.tokenSecrets.refreshToken.secret, appConfig.tokenSecrets.refreshToken.expiresIn)
   }
 
   /**
@@ -53,10 +42,7 @@ export default class TokenHelper {
    * @returns {any} - The verified token payload.
    */
   public static verifyRefreshToken(token: string): any {
-    return TokenHelper.verifyToken(
-      token,
-      appConfig.tokenSecrets.refreshToken.secret,
-    );
+    return TokenHelper.verifyToken(token, appConfig.tokenSecrets.refreshToken.secret)
   }
 
   /**
@@ -67,12 +53,8 @@ export default class TokenHelper {
    * @param expiresIn - The expiration time for the token.
    * @returns The generated token.
    */
-  private static generateToken(
-    payload: any,
-    secret: string,
-    expiresIn: string,
-  ): string {
-    return jwt.sign(payload, secret, { expiresIn });
+  private static generateToken(payload: any, secret: string, expiresIn: string): string {
+    return jwt.sign(payload, secret, { expiresIn })
   }
 
   /**
@@ -84,6 +66,6 @@ export default class TokenHelper {
    */
 
   private static verifyToken(token, secret) {
-    return jwt.verify(token, secret);
+    return jwt.verify(token, secret)
   }
 }

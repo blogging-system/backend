@@ -1,24 +1,24 @@
-import { Expose } from 'class-transformer';
+import { Expose } from 'class-transformer'
 
 export class PublicUserDto {
   @Expose()
-  _id: string;
+  _id: string
 
   @Expose()
-  email: string;
+  email: string
 
   @Expose()
-  firstName: string;
+  firstName: string
 
   @Expose()
-  lastName: string;
+  lastName: string
 
   @Expose()
-  role: string;
+  role: string
 
   @Expose()
-  accessToken: string;
+  accessToken: string
 
   @Expose()
-  refreshToken: string;
+  refreshToken: string
 }

@@ -1,18 +1,18 @@
-import { PostModule } from './modules/post/post.module';
-import { UserModule } from './modules/user/user.module';
-import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app.controller';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AppService } from './app.service';
-import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common';
-import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { ExceptionsFilter } from './shared/filters';
-import { KeywordModule } from './modules/keyword/keyword.module';
-import { TagModule } from './modules/tag/tag.module';
-import { SeriesModule } from './modules/series/series.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { CurrentUserMiddleware } from './shared/middlewares';
-import { CurrentUserInterceptor } from './modules/user/interceptors';
+import { PostModule } from './modules/post/post.module'
+import { UserModule } from './modules/user/user.module'
+import { MongooseModule } from '@nestjs/mongoose'
+import { AppController } from './app.controller'
+import { ConfigModule } from '@nestjs/config'
+import { AppService } from './app.service'
+import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common'
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { ExceptionsFilter } from './shared/filters'
+import { KeywordModule } from './modules/keyword/keyword.module'
+import { TagModule } from './modules/tag/tag.module'
+import { SeriesModule } from './modules/series/series.module'
+import { AuthModule } from './modules/auth/auth.module'
+import { BearerTokenMiddleware } from './shared/middlewares'
+import { SessionModule } from './modules/session/session.module'
 
 @Module({
   imports: [
@@ -29,6 +29,7 @@ import { CurrentUserInterceptor } from './modules/user/interceptors';
     TagModule,
     SeriesModule,
     AuthModule,
+    SessionModule,
   ],
   controllers: [AppController],
   providers: [
@@ -44,19 +45,11 @@ import { CurrentUserInterceptor } from './modules/user/interceptors';
       provide: APP_FILTER,
       useClass: ExceptionsFilter,
     },
-
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CurrentUserInterceptor,
-    },
-
     AppService,
   ],
 })
 export class AppModule {
-  constructor(private configService: ConfigService) {}
-
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CurrentUserMiddleware).forRoutes('*');
+    consumer.apply(BearerTokenMiddleware).exclude('/auth/login').forRoutes('*')
   }
 }

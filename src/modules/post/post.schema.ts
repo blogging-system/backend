@@ -1,10 +1,10 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Keyword } from '../keyword/keyword.schema';
-import { HydratedDocument, Types } from 'mongoose';
-import { Series } from '../series/series.schema';
-import { Tag } from '../tag/tag.schema';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { Keyword } from '../keyword/keyword.schema'
+import { HydratedDocument, Types } from 'mongoose'
+import { Series } from '../series/series.schema'
+import { Tag } from '../tag/schemas/tag.schema'
 
-export type PostDocument = HydratedDocument<Post>;
+export type PostDocument = HydratedDocument<Post>
 
 @Schema({
   timestamps: true,
@@ -13,31 +13,31 @@ export type PostDocument = HydratedDocument<Post>;
 })
 export class Post {
   @Prop({ index: true, unique: true })
-  title: string;
+  title: string
 
   @Prop({ index: true })
-  slug: string;
+  slug: string
 
   @Prop({})
-  description: string;
+  description: string
 
   @Prop({})
-  content: string;
+  content: string
 
   @Prop({ type: [Types.ObjectId], ref: Tag.name })
-  tags: Tag[];
+  tags: Tag[]
 
   @Prop({ type: [Types.ObjectId], ref: Keyword.name })
-  keywords: Keyword[];
+  keywords: Keyword[]
 
   @Prop({ type: [Types.ObjectId], ref: Series.name })
-  series: Series[];
+  series: Series[]
 
   @Prop({ default: false })
-  isPublished: boolean;
+  isPublished: boolean
 
   @Prop({})
-  isPublishedAt: Date;
+  isPublishedAt: Date
 }
 
-export const PostSchema = SchemaFactory.createForClass(Post);
+export const PostSchema = SchemaFactory.createForClass(Post)
