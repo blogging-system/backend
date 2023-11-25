@@ -14,6 +14,7 @@ import { AuthModule } from './modules/auth/auth.module'
 import { BearerTokenMiddleware } from './shared/middlewares'
 import { SessionModule } from './modules/session/session.module'
 import { ValidateSessionInterceptor } from './modules/session/interceptors'
+import { appConfig } from './shared/config'
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { ValidateSessionInterceptor } from './modules/session/interceptors'
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
-    MongooseModule.forRoot(process.env.MONGO_URI, {
+    MongooseModule.forRoot(appConfig.storage.database.mongodb.uri, {
       connectTimeoutMS: 30000,
     }),
     PostModule,
