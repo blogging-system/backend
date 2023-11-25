@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common'
+import { ResultMessage } from './shared/types'
 
 interface ApiLinks {
   linkedIn: string
@@ -44,6 +45,12 @@ export class AppService {
           documentation: 'https://documenter.getpostman.com/view/8694181/2s9YeD8Yr5',
         },
       },
+    }
+  }
+
+  ping(): ResultMessage {
+    return {
+      message: 'The ping was successful!',
     }
   }
 }

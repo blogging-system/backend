@@ -5,6 +5,7 @@ import { SessionRepository } from '../repositories'
 import { CreateSessionDto } from '../dtos'
 import { Session } from '../schemas'
 import { Types } from 'mongoose'
+import { ResultMessage } from 'src/shared/types'
 
 @Injectable()
 export class SessionService {
@@ -14,14 +15,19 @@ export class SessionService {
     return await this.sessionRepo.createOne(data)
   }
 
-  async getSession(sessionId: string, userId: string): Promise<Session> {
+  async deleteSession(sessionId: string): Promise<ResultMessage> {
+    await this.isSessionValid(sessionId)
+
+    return await this.sessionRepo.deleteOne(sessionId)
+  }
+
+  async getSession(sessionId: string): Promise<Session> {
     const isSessionFound = await this.sessionRepo.findOne({
       _id: new Types.ObjectId(sessionId),
-      userId: new Types.ObjectId(userId),
     })
-    console.log({ sessionId, userId, isSessionFound })
 
-    if (!isSessionFound) throw new ForbiddenException(MESSAGES.NOT_ALLOWED)
+    // TODO:// here!
+    // if (!isSessionFound) throw new ForbiddenException(MESSAGES.)
 
     return isSessionFound
   }
@@ -30,9 +36,13 @@ export class SessionService {
     return await this.sessionRepo.findMany(userId)
   }
 
-  async isSessionValid(userId: string, accessToken: string): Promise<void> {
-    const isSessionFound = await this.sessionRepo.findOne({ userId: new Types.ObjectId(userId), accessToken })
+  async isSessionValid(accessToken: string): Promise<Session> {
+    const isSessionFound = await this.sessionRepo.findOne({
+      accessToken,
+    })
 
     if (!isSessionFound) throw new UnauthorizedException(AUTH_MESSAGES.INVOKED_TOKEN)
+
+    return isSessionFound
   }
 }

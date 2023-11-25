@@ -4,6 +4,7 @@ import { CreateSessionDto } from '../dtos'
 import { MESSAGES } from '../constants'
 import { Model, Types } from 'mongoose'
 import { Session } from '../schemas'
+import { ResultMessage } from 'src/shared/types'
 
 @Injectable()
 export class SessionRepository {
@@ -15,6 +16,16 @@ export class SessionRepository {
     if (!isSessionCreated) throw new InternalServerErrorException(MESSAGES.CREATION_FAILED)
 
     return isSessionCreated
+  }
+
+  async deleteOne(sessionId: string): Promise<ResultMessage> {
+    const isSessionDeleted = await this.sessionModel.deleteOne({ _id: new Types.ObjectId(sessionId) })
+
+    if (isSessionDeleted.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
+
+    return {
+      message: MESSAGES.DELETED_SUCCESSFULLY,
+    }
   }
 
   async findOneById(sessionId: string): Promise<Session> {

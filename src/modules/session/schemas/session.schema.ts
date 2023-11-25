@@ -1,11 +1,12 @@
 import { HydratedDocument, SchemaTypes, Types } from 'mongoose'
-import { Prop, SchemaFactory } from '@nestjs/mongoose'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { ExpiryDuration } from 'src/shared/enums'
 import { BaseSchema } from 'src/shared/schemas'
 import { User } from '../../user/schemas'
 
 export type SessionDocument = HydratedDocument<Session>
 
+@Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Session extends BaseSchema {
   @Prop({ type: Types.ObjectId, ref: User.name, index: true })
   userId: string

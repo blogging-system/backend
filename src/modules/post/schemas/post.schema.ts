@@ -1,4 +1,4 @@
-import { Prop, SchemaFactory } from '@nestjs/mongoose'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { HydratedDocument, Types } from 'mongoose'
 import { BaseSchema } from 'src/shared/schemas'
 import { Keyword } from '../../keyword/schemas'
@@ -7,6 +7,7 @@ import { Tag } from '../../tag/schemas'
 
 export type PostDocument = HydratedDocument<Post>
 
+@Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Post extends BaseSchema {
   @Prop({ index: true, unique: true })
   title: string

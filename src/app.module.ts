@@ -4,7 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { AppController } from './app.controller'
 import { ConfigModule } from '@nestjs/config'
 import { AppService } from './app.service'
-import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common'
+import { MiddlewareConsumer, Module, RequestMethod, ValidationPipe } from '@nestjs/common'
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { ExceptionsFilter } from './shared/filters'
 import { KeywordModule } from './modules/keyword/keyword.module'
@@ -55,6 +55,6 @@ import { ValidateSessionInterceptor } from './modules/session/interceptors'
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(BearerTokenMiddleware).exclude('/auth/login').forRoutes('*')
+    consumer.apply(BearerTokenMiddleware).forRoutes('*')
   }
 }

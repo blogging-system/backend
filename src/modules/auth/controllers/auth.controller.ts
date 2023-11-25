@@ -6,9 +6,9 @@ import { UserService } from '../../user/services/user.service'
 import { Body, Controller, Get, Post } from '@nestjs/common'
 import { LoginDto, LoginResponse } from '../dtos'
 import { PublicUserDto } from 'src/modules/user/dtos'
+import { TokensSessionDto } from 'src/modules/session/dtos'
 
 @Controller('auth')
-@Serialize(PublicUserDto)
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -16,6 +16,7 @@ export class AuthController {
   ) {}
 
   @Post('/login')
+  @Serialize(TokensSessionDto)
   async login(
     @Body() data: LoginDto,
     @IpAddress() ipAddress: string,
@@ -25,6 +26,7 @@ export class AuthController {
   }
 
   @Get('/whoami')
+  @Serialize(PublicUserDto)
   async whoAmI(@CurrentUser() user: User): Promise<User> {
     return await this.userService.findUserById(user._id)
   }
