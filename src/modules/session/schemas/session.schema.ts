@@ -12,7 +12,7 @@ export type SessionDocument = HydratedDocument<Session>
 })
 export class Session {
   @Prop({ type: Types.ObjectId, ref: User.name, index: true })
-  userId: User
+  userId: Types.ObjectId
 
   @Prop()
   accessToken: string

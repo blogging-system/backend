@@ -12,7 +12,11 @@ export class TokenHelper {
    * @returns {string} - The generated access token.
    */
   public static generateAccessToken(payload: any): string {
-    return TokenHelper.generateToken(payload, appConfig.tokenSecrets.accessToken.secret, appConfig.tokenSecrets.accessToken.expiresIn)
+    return TokenHelper.generateToken(
+      payload,
+      appConfig.tokenSecrets.accessToken.secret,
+      appConfig.tokenSecrets.accessToken.expiresIn,
+    )
   }
 
   /**
@@ -32,7 +36,11 @@ export class TokenHelper {
    * @returns {string} - The generated refresh token.
    */
   public static generateRefreshToken(payload: any): string {
-    return TokenHelper.generateToken(payload, appConfig.tokenSecrets.refreshToken.secret, appConfig.tokenSecrets.refreshToken.expiresIn)
+    return TokenHelper.generateToken(
+      payload,
+      appConfig.tokenSecrets.refreshToken.secret,
+      appConfig.tokenSecrets.refreshToken.expiresIn,
+    )
   }
 
   /**

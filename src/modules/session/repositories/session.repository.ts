@@ -38,7 +38,7 @@ export class SessionRepository {
   }
 
   async findMany(userId: string): Promise<Session[]> {
-    const areSessionsFound = await this.sessionModel.find({ userId: new Types.ObjectId(userId) })
+    const areSessionsFound = await this.sessionModel.find({ userId: new Types.ObjectId(userId) }).lean()
 
     if (areSessionsFound.length === 0) throw new NotFoundException(MESSAGES.SESSIONS_NOT_FOUND)
 
