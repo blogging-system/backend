@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common'
 import { MESSAGES as AUTH_MESSAGES } from '../../auth/constants'
-import { SessionRepository } from '../repositories'
 import { MESSAGES } from './../../../shared/constants'
+import { SessionRepository } from '../repositories'
 import { CreateSessionDto } from '../dtos'
 import { Session } from '../schemas'
 import { Types } from 'mongoose'

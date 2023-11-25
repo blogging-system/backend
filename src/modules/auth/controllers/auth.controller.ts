@@ -4,10 +4,11 @@ import { CurrentUser } from '../../user/decorators'
 import { DeviceInfo, IpAddress, Serialize } from 'src/shared/decorators'
 import { UserService } from '../../user/services/user.service'
 import { Body, Controller, Get, Post } from '@nestjs/common'
-import { LoginDto, LoginResponse, PublicUserDto } from '../dtos'
+import { LoginDto, LoginResponse } from '../dtos'
+import { PublicUserDto } from 'src/modules/user/dtos'
 
-@Serialize(PublicUserDto)
 @Controller('auth')
+@Serialize(PublicUserDto)
 export class AuthController {
   constructor(
     private readonly authService: AuthService,

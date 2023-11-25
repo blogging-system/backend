@@ -24,7 +24,6 @@ export class AuthService {
 
     const tokenPayload = {
       _id: isUserFound._id,
-      role: isUserFound.role,
     }
 
     const accessToken = await TokenHelper.generateAccessToken(tokenPayload)

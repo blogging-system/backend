@@ -1,8 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common'
-import { SessionService } from '../services'
 import { CurrentUser } from 'src/modules/user/decorators'
-import { User } from 'src/modules/user/schemas'
+import { Controller, Get, Param } from '@nestjs/common'
 import { Serialize } from 'src/shared/decorators'
+import { User } from 'src/modules/user/schemas'
+import { SessionService } from '../services'
 import { PublicSessionDto } from '../dtos'
 import { Session } from '../schemas'
 

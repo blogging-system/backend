@@ -1,7 +1,8 @@
-import { Expose } from 'class-transformer'
+import { Expose, Transform } from 'class-transformer'
 
 export class PublicUserDto {
   @Expose()
+  @Transform(({ key, obj }) => obj[key])
   _id: string
 
   @Expose()
@@ -12,13 +13,4 @@ export class PublicUserDto {
 
   @Expose()
   lastName: string
-
-  @Expose()
-  role: string
-
-  @Expose()
-  accessToken: string
-
-  @Expose()
-  refreshToken: string
 }

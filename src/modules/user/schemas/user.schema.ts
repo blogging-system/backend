@@ -1,15 +1,10 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { HydratedDocument, ObjectId } from 'mongoose'
-import { Transform } from 'class-transformer'
-import { ROLES } from '../enums'
+import { Prop, SchemaFactory } from '@nestjs/mongoose'
+import { BaseSchema } from 'src/shared/schemas'
+import { HydratedDocument } from 'mongoose'
 
 export type UserDocument = HydratedDocument<User>
 
-@Schema({ timestamps: true, versionKey: false })
-export class User {
-  @Transform(({ value }) => value.toString())
-  _id: string
-
+export class User extends BaseSchema {
   @Prop()
   firstName: string
 
@@ -21,9 +16,6 @@ export class User {
 
   @Prop()
   password: string
-
-  @Prop({ enum: [ROLES.ADMIN, ROLES.USER], default: ROLES.ADMIN, index: true })
-  role: string
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

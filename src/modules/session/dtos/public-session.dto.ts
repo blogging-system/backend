@@ -1,13 +1,12 @@
-import { Exclude, Expose, Transform } from 'class-transformer'
+import { Expose, Transform } from 'class-transformer'
 
 export class PublicSessionDto {
   @Expose()
-  @Transform((params) => params.obj._id)
+  @Transform(({ key, obj }) => obj[key])
   _id: string
 
-  // @Exclude()
   @Expose()
-  @Transform((params) => params.obj._id)
+  @Transform((value) => value.obj.userId.toString())
   userId: string
 
   @Expose()

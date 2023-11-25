@@ -41,7 +41,7 @@ export class AppService {
           architecture: 'Monolith',
           type: 'RESTful API',
           environment: process.env.NODE_ENV,
-          documentation: 'https://postman.com/ahmedelgaidi/workspace/personal-blog',
+          documentation: 'https://documenter.getpostman.com/view/8694181/2s9YeD8Yr5',
         },
       },
     }
