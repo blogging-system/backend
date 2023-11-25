@@ -14,7 +14,7 @@ export const appConfig: AppConfig = {
   },
   server: { host: 'http://localhost', port: 3000 },
   storage: {
-    database: { mongodb: { uri: process.env.MONGO_URI.toString() } },
+    database: { mongodb: { uri: process.env.MONGO_URI } },
   },
   clients: {
     portfolio: 'https://www.ahmedelgaidi.com',
