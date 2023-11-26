@@ -1,10 +1,10 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
+import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { CreateSessionDto } from '../dtos'
 import { MESSAGES } from '../constants'
 import { Model, Types } from 'mongoose'
 import { Session } from '../schemas'
-import { ResultMessage } from 'src/shared/types'
 
 @Injectable()
 export class SessionRepository {
@@ -21,11 +21,19 @@ export class SessionRepository {
   async deleteOne(sessionId: string): Promise<ResultMessage> {
     const isSessionDeleted = await this.sessionModel.deleteOne({ _id: new Types.ObjectId(sessionId) })
 
-    if (isSessionDeleted.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
+    if (isSessionDeleted.deletedCount === 0) throw new BadRequestException(MESSAGES.SESSION_NOT_FOUND)
 
     return {
       message: MESSAGES.DELETED_SUCCESSFULLY,
     }
+  }
+
+  async deleteMany(currentAccessToken: string): Promise<ResultMessage> {
+    const areSessionsRevoked = await this.sessionModel.deleteMany({ accessToken: { $ne: currentAccessToken } })
+
+    if (!areSessionsRevoked) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
+
+    return { message: MESSAGES.ALL_DELETED_SUCCESSFULLY }
   }
 
   async findOneById(sessionId: string): Promise<Session> {

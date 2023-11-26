@@ -26,8 +26,9 @@ export class ProtectResourceInterceptor implements NestInterceptor {
       const { _id } = await TokenHelper.verifyAccessToken(accessToken)
 
       req.currentUser = { _id }
+      req.session = { accessToken }
 
-      await this.sessionService.isSessionValid(accessToken)
+      await this.sessionService.isSessionValid({ accessToken })
 
       return next.handle()
     } catch (error) {

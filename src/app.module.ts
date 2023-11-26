@@ -5,14 +5,13 @@ import { AppController } from './app.controller'
 import { ConfigModule } from '@nestjs/config'
 import { AppService } from './app.service'
 import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common'
-import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { APP_FILTER, APP_PIPE } from '@nestjs/core'
 import { ExceptionsFilter } from './shared/filters'
 import { KeywordModule } from './modules/keyword/keyword.module'
 import { TagModule } from './modules/tag/tag.module'
 import { SeriesModule } from './modules/series/series.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { SessionModule } from './modules/session/session.module'
-import { ValidateSessionInterceptor } from './modules/session/interceptors'
 import { appConfig } from './shared/config'
 
 @Module({
@@ -43,10 +42,6 @@ import { appConfig } from './shared/config'
         forbidNonWhitelisted: true,
       }),
     },
-    // {
-    //   provide: APP_INTERCEPTOR,
-    //   useClass: ValidateSessionInterceptor,
-    // },
     {
       provide: APP_FILTER,
       useClass: ExceptionsFilter,
