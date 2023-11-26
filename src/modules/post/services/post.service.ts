@@ -1,5 +1,5 @@
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common'
 import { GetAllPosts, CreatePostDto, DeletePostDto } from '../dtos'
-import { Injectable, BadRequestException } from '@nestjs/common'
 import { KeywordService } from '../../keyword/services'
 import { SeriesService } from '../../series/services'
 import { ResultMessage } from 'src/shared/types'
@@ -71,7 +71,11 @@ export class PostService {
   }
 
   async getPostBySlug(slug: string): Promise<Post> {
-    return await this.postRepo.findOne({ slug })
+    const isPostFound = await this.postRepo.findOne({ slug })
+
+    if (!isPostFound) throw new NotFoundException(MESSAGES.POST_NOT_FOUND)
+
+    return isPostFound
   }
 
   async isPostAvailable(postId: string): Promise<Post> {

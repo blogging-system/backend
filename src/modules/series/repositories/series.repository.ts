@@ -6,13 +6,14 @@ import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
+import { Pagination } from 'src/shared/dtos'
 
 @Injectable()
 export class SeriesRepository {
   constructor(@InjectModel(Series.name) private seriesModel: Model<Series>) {}
 
   async createOne(data: CreateSeriesDto): Promise<Series> {
-    const isSeriesCreated = await this.seriesModel.create(data)
+    const isSeriesCreated = await this.seriesModel.create({ ...data, slug: slugify(data.title) })
 
     if (!isSeriesCreated) throw new InternalServerErrorException(MESSAGES.CREATION_FAILED)
 
@@ -51,5 +52,18 @@ export class SeriesRepository {
 
   async findOne(query: any): Promise<Series> {
     return await this.seriesModel.findOne(query).lean()
+  }
+
+  async findMany({ pageNumber, pageSize }: Partial<Pagination>) {
+    const foundSeries = await this.seriesModel
+      .find()
+      .skip((pageNumber - 1) * Number(pageSize))
+      .limit(pageSize)
+      .sort()
+      .lean()
+
+    if (foundSeries.length === 0) throw new NotFoundException(MESSAGES.SERIES_ARE_NOT_FOUND)
+
+    return foundSeries
   }
 }

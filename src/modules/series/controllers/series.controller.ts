@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common'
 import { CreateSeriesDto, DeleteSeriesDto } from '../dtos'
 import { ResultMessage } from 'src/shared/types'
 import { SeriesService } from '../services'
 import { Series } from '../schemas'
+import { Pagination } from 'src/shared/dtos'
 
 @Controller('series')
 export class SeriesController {
@@ -21,5 +22,15 @@ export class SeriesController {
   @Delete(':seriesId')
   async deleteTag(@Param() data: DeleteSeriesDto): Promise<ResultMessage> {
     return await this.seriesService.deleteSeries(data)
+  }
+
+  @Get(':slug')
+  async getSeriesBySlug(@Param('slug') slug: string): Promise<Series> {
+    return await this.seriesService.getSeriesBySlug(slug)
+  }
+
+  @Get()
+  async getAllSeries(@Query() query: Pagination): Promise<Series[]> {
+    return this.seriesService.getAllSeries(query as Pagination)
   }
 }

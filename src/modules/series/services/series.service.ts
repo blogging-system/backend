@@ -4,6 +4,7 @@ import { SeriesRepository } from '../repositories'
 import { ResultMessage } from 'src/shared/types'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
+import { Pagination } from 'src/shared/dtos'
 
 @Injectable()
 export class SeriesService {
@@ -25,6 +26,22 @@ export class SeriesService {
     if (!isSeriesAvailable) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
 
     return await this.seriesRepo.deleteOne(data)
+  }
+
+  async getSeriesById(seriesId: string): Promise<Series> {
+    return await this.seriesRepo.findOneById(seriesId)
+  }
+
+  async getSeriesBySlug(slug: string): Promise<Series> {
+    const isSeriesFound = await this.seriesRepo.findOne({ slug })
+
+    if (!isSeriesFound) throw new NotFoundException(MESSAGES.SERIES_NOT_FOUND)
+
+    return isSeriesFound
+  }
+
+  async getAllSeries(pagination: Partial<Pagination>): Promise<Series[]> {
+    return await this.seriesRepo.findMany(pagination)
   }
 
   async isSeriesAvailable(seriesId: string): Promise<boolean> {
