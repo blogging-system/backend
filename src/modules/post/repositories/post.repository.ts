@@ -1,12 +1,11 @@
+import { CreatePostDto, DeletePostDto, PostManipulationDto, GetAllPostsDto } from '../dtos'
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
-import { CreatePostDto, DeletePostDto, GetAllPostsFilter, PostManipulationDto } from '../dtos'
 import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
-import { Pagination } from 'src/shared/dtos'
 
 @Injectable()
 export class PostRepository {
@@ -38,8 +37,7 @@ export class PostRepository {
   async deleteOne(data: DeletePostDto): Promise<ResultMessage> {
     const isPostDeleted = await this.postModel.deleteOne({ _id: data.postId })
 
-    if (isPostDeleted.deletedCount === 0)
-      throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
+    if (isPostDeleted.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
 
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
@@ -56,11 +54,7 @@ export class PostRepository {
     return await this.postModel.findOne(query).populate(['tags', 'keywords', 'series']).lean()
   }
 
-  async findMany(
-    filter: GetAllPostsFilter,
-    pagination: Pagination,
-    isPublished?: boolean,
-  ): Promise<Post[]> {
+  async findMany({ pagination, filter, isPublished }: GetAllPostsDto): Promise<Post[]> {
     const { pageNumber, pageSize, sort } = pagination
     const query: { tags?: string; series?: string; isPublished?: boolean } = {}
 

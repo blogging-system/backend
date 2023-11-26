@@ -1,4 +1,6 @@
-export * from './get-all-posts.dto'
+export * from './get-post-by-slug.dto'
+export * from './posts-filter.dto'
 export * from './delete-post.dto'
 export * from './create-post.dto'
 export * from './common.dto'
+export * from './get-all-posts.dto'

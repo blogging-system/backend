@@ -1,16 +1,8 @@
-import { IsMongoId, IsNotEmpty, IsOptional } from 'class-validator'
-import { Type } from 'class-transformer'
+import { PostsFilter } from './posts-filter.dto'
+import { Pagination } from 'src/shared/dtos'
 
-export class GetAllPostsFilter {
-  @Type(() => String)
-  @IsNotEmpty({ each: true })
-  @IsMongoId()
-  @IsOptional()
-  tagId?: string
-
-  @Type(() => String)
-  @IsNotEmpty({ each: true })
-  @IsMongoId()
-  @IsOptional()
-  seriesId?: string
+export class GetAllPostsDto {
+  filter: PostsFilter
+  pagination: Pagination
+  isPublished?: boolean
 }

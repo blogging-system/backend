@@ -1,11 +1,10 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common'
-import { GetAllPostsFilter, CreatePostDto, DeletePostDto } from '../dtos'
+import { CreatePostDto, DeletePostDto, GetPostBySlug, GetAllPostsDto } from '../dtos'
 import { KeywordService } from '../../keyword/services'
 import { SeriesService } from '../../series/services'
 import { ResultMessage } from 'src/shared/types'
 import { PostRepository } from '../repositories'
 import { TagService } from '../../tag/services'
-import { Pagination } from 'src/shared/dtos'
 import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 
@@ -64,8 +63,14 @@ export class PostService {
     })
   }
 
-  async getPostBySlug(slug: string): Promise<Post> {
-    const isPostFound = await this.postRepo.findOne({ slug })
+  async getPostBySlug({ slug, isPublished }: GetPostBySlug): Promise<Post> {
+    const query: GetPostBySlug = {
+      slug,
+    }
+
+    if (isPublished) query.isPublished = isPublished
+
+    const isPostFound = await this.postRepo.findOne(query)
 
     if (!isPostFound) throw new NotFoundException(MESSAGES.POST_NOT_FOUND)
 
@@ -76,11 +81,7 @@ export class PostService {
     return await this.postRepo.findOneById(postId)
   }
 
-  async getAllPosts(
-    filter: GetAllPostsFilter,
-    pagination: Pagination,
-    isPublished?: boolean,
-  ): Promise<Post[]> {
-    return await this.postRepo.findMany(filter, pagination, isPublished)
+  async getAllPosts({ filter, pagination, isPublished }: GetAllPostsDto): Promise<Post[]> {
+    return await this.postRepo.findMany({ filter, pagination, isPublished })
   }
 }

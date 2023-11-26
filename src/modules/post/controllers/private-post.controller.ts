@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
-import { CreatePostDto, DeletePostDto, GetAllPostsFilter } from '../dtos'
+import { CreatePostDto, DeletePostDto, PostsFilter } from '../dtos'
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
 import { ResultMessage } from 'src/shared/types'
 import { Post as BlogPost } from '../schemas'
@@ -38,14 +38,14 @@ export class PrivatePostController {
 
   @Get(':slug')
   async getPostBySlug(@Param('slug') slug: string): Promise<BlogPost> {
-    return await this.postService.getPostBySlug(slug)
+    return await this.postService.getPostBySlug({ slug })
   }
 
   @Get()
   async getAllPosts(@Query() query: Pagination): Promise<BlogPost[]> {
     const { tagId, seriesId, ...pagination } = query
-    const filter = { tagId, seriesId }
+    const filter = { tagId, seriesId } as PostsFilter
 
-    return await this.postService.getAllPosts(filter as GetAllPostsFilter, pagination as Pagination)
+    return await this.postService.getAllPosts({ filter, pagination })
   }
 }
