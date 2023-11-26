@@ -3,8 +3,8 @@ import { ProtectResourceInterceptor } from 'src/shared/interceptors'
 import { CurrentUser } from 'src/modules/user/decorators'
 import { User } from 'src/modules/user/schemas'
 import { SessionService } from '../services'
-import { Session } from '../schemas'
 import { CustomRequest } from 'express'
+import { Session } from '../schemas'
 
 @Controller('/admin/sessions')
 @UseInterceptors(ProtectResourceInterceptor)
@@ -13,7 +13,7 @@ export class SessionController {
 
   @Delete('/:sessionId')
   async revokeSession(@Param('sessionId') sessionId: string) {
-    return await this.sessionService.revokeSession(sessionId, false)
+    return await this.sessionService.revokeSession(sessionId)
   }
 
   @Delete()

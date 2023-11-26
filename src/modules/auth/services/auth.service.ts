@@ -41,6 +41,6 @@ export class AuthService {
   async logOut(currentAccessToken: string): Promise<ResultMessage> {
     const foundSession = await this.sessionService.getSession(currentAccessToken)
 
-    return await this.sessionService.revokeSession(foundSession._id, true)
+    return await this.sessionService.deleteSession(foundSession._id)
   }
 }
