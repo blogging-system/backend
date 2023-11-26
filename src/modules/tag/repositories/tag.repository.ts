@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
-import { CreateTagDto, DeleteTagDto } from '../dtos'
 import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
+import { CreateTagDto } from '../dtos'
 import { MESSAGES } from '../constants'
-import { Tag } from '../schemas'
 import { Model, Types } from 'mongoose'
+import { Tag } from '../schemas'
 
 @Injectable()
 export class TagRepository {
@@ -46,5 +46,13 @@ export class TagRepository {
 
   async findOne(query: any): Promise<Tag> {
     return await this.tagModel.findOne(query).lean()
+  }
+
+  async findMany(): Promise<Tag[]> {
+    const areTagsFound = await this.tagModel.find().lean()
+
+    if (areTagsFound.length === 0) throw new NotFoundException(MESSAGES.TAGS_NOT_FOUND)
+
+    return areTagsFound
   }
 }

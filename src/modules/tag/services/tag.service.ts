@@ -37,4 +37,8 @@ export class TagService {
 
     if (!areTagsAvailable) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
   }
+
+  async getAllTags(): Promise<Tag[]> {
+    return await this.tagRepo.findMany()
+  }
 }
