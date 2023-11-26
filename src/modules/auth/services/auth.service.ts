@@ -1,10 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { UserService } from '../../user/services/user.service'
 import { TokenHelper } from 'src/shared/helpers/token.helper'
+import { SessionService } from '../../session/services'
+import { ResultMessage } from 'src/shared/types'
 import { LoginDto, LoginResponse } from '../dtos'
 import { HashHelper } from 'src/shared/helpers'
 import { MESSAGES } from '../constants'
-import { SessionService } from '../../session/services'
 
 @Injectable()
 export class AuthService {
@@ -35,5 +36,11 @@ export class AuthService {
       accessToken,
       refreshToken,
     }
+  }
+
+  async logOut(currentAccessToken: string): Promise<ResultMessage> {
+    const foundSession = await this.sessionService.getSession(currentAccessToken)
+
+    return await this.sessionService.revokeSession(foundSession._id, true)
   }
 }

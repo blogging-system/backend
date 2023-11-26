@@ -1,12 +1,12 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common'
+import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common'
 import { MESSAGES as AUTH_MESSAGES } from '../../auth/constants'
-import { MESSAGES } from './../../../shared/constants'
 import { SessionRepository } from '../repositories'
 import { CreateSessionDto, IsSessionValidDto } from '../dtos'
 import { Session } from '../schemas'
 import { Types } from 'mongoose'
 import { ResultMessage } from 'src/shared/types'
 import { setMaxIdleHTTPParsers } from 'http'
+import { MESSAGES } from '../constants'
 
 @Injectable()
 export class SessionService {
@@ -16,12 +16,20 @@ export class SessionService {
     return await this.sessionRepo.createOne(data)
   }
 
-  async revokeSession(sessionId: string): Promise<ResultMessage> {
-    return await this.sessionRepo.deleteOne(sessionId)
+  async revokeSession(sessionId: string, logOut: boolean): Promise<ResultMessage> {
+    return await this.sessionRepo.deleteOne(sessionId, logOut)
   }
 
   async revokeAllSessions(currentAccessToken: string): Promise<ResultMessage> {
     return await this.sessionRepo.deleteMany(currentAccessToken)
+  }
+
+  async getSession(accessToken: string): Promise<Session> {
+    const isSessionFound = await this.sessionRepo.findOne({ accessToken })
+
+    if (!isSessionFound) throw new BadRequestException(MESSAGES.SESSION_NOT_FOUND)
+
+    return isSessionFound
   }
 
   async getAllUserSessions(userId: string): Promise<Session[]> {

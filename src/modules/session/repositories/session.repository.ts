@@ -3,6 +3,7 @@ import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { CreateSessionDto } from '../dtos'
 import { MESSAGES } from '../constants'
+import { MESSAGES as AUTH_MESSAGES } from './../../auth/constants'
 import { Model, Types } from 'mongoose'
 import { Session } from '../schemas'
 
@@ -18,13 +19,13 @@ export class SessionRepository {
     return isSessionCreated
   }
 
-  async deleteOne(sessionId: string): Promise<ResultMessage> {
+  async deleteOne(sessionId: string, logOut?: boolean): Promise<ResultMessage> {
     const isSessionDeleted = await this.sessionModel.deleteOne({ _id: new Types.ObjectId(sessionId) })
 
     if (isSessionDeleted.deletedCount === 0) throw new BadRequestException(MESSAGES.SESSION_NOT_FOUND)
 
     return {
-      message: MESSAGES.DELETED_SUCCESSFULLY,
+      message: logOut ? MESSAGES.DELETED_SUCCESSFULLY : AUTH_MESSAGES.LOGGED_OUT_SUCCESSFULLY,
     }
   }
 
