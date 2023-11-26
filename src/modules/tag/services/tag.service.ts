@@ -13,18 +13,21 @@ export class TagService {
     return await this.tagRepo.createOne(data)
   }
 
-  async deleteTag(data: DeleteTagDto): Promise<ResultMessage> {
-    const isTagAvailable = await this.isTagAvailable(data.tagId)
+  async updateTag(tagId: string, payload: CreateTagDto): Promise<Tag> {
+    await this.isTagAvailable(tagId)
 
-    if (!isTagAvailable) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
-
-    return await this.tagRepo.deleteOne(data)
+    return await this.tagRepo.updateOne(tagId, payload)
   }
 
-  async isTagAvailable(tagId: string): Promise<boolean> {
-    const isTagFound = await this.tagRepo.findOne({ _id: tagId })
+  async deleteTag(tagId: string): Promise<ResultMessage> {
+    await this.isTagAvailable(tagId)
 
-    return !!isTagFound
+    // TODO: Check if it's associated to any posts!
+    return await this.tagRepo.deleteOne(tagId)
+  }
+
+  async isTagAvailable(tagId: string): Promise<Tag> {
+    return await this.tagRepo.findOneById(tagId)
   }
 
   async areTagsAvailable(tagIds: string[]): Promise<void> {

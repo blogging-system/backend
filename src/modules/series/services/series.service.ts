@@ -21,7 +21,7 @@ export class SeriesService {
 
   async deleteSeries(data: DeleteSeriesDto): Promise<ResultMessage> {
     await this.isSeriesAvailable(data.seriesId)
-
+    // TODO: check if it's attached to any posts!
     return await this.seriesRepo.deleteOne(data)
   }
 
