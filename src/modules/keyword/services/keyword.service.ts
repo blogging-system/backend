@@ -13,6 +13,12 @@ export class KeywordService {
     return await this.keywordRepo.createOne(data)
   }
 
+  async updateKeyword(keywordId: string, payload: CreateKeywordDto): Promise<Keyword> {
+    await this.isKeywordAvailable(keywordId)
+
+    return await this.keywordRepo.updateOne(keywordId, payload)
+  }
+
   async deleteKeyword(keywordId: string): Promise<ResultMessage> {
     await this.isKeywordAvailable(keywordId)
 

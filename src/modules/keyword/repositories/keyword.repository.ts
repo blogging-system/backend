@@ -18,6 +18,14 @@ export class KeywordRepository {
     return isKeywordCreated
   }
 
+  async updateOne(keywordId: string, payload: CreateKeywordDto): Promise<Keyword> {
+    const isKeywordUpdated = await this.keywordModel.findByIdAndUpdate(keywordId, payload, { new: true })
+
+    if (!isKeywordUpdated) throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED)
+
+    return isKeywordUpdated
+  }
+
   async deleteOne(keywordId: string): Promise<ResultMessage> {
     const isKeywordDeleted = await this.keywordModel.deleteOne({
       _id: new Types.ObjectId(keywordId),
