@@ -1,18 +1,19 @@
 import {
   CallHandler,
-  ExecutionContext,
   Injectable,
   NestInterceptor,
+  ExecutionContext,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
-import { MESSAGES } from 'src/modules/auth/constants'
 import { TokenHelper } from '../helpers'
+import { MESSAGES } from 'src/modules/auth/constants'
+import { SessionService } from 'src/modules/session/services'
 
 @Injectable()
 export class ProtectResourceInterceptor implements NestInterceptor {
-  constructor() {}
+  constructor(private readonly sessionService: SessionService) {}
 
   async intercept(context: ExecutionContext, next: CallHandler<any>): Promise<Observable<any>> {
     const req = context.switchToHttp().getRequest()
@@ -25,7 +26,8 @@ export class ProtectResourceInterceptor implements NestInterceptor {
       const { _id } = await TokenHelper.verifyAccessToken(accessToken)
 
       req.currentUser = { _id }
-      req.session = { accessToken }
+
+      await this.sessionService.isSessionValid(accessToken)
 
       return next.handle()
     } catch (error) {

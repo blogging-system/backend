@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer'
 
-export class TokensSessionDto {
+export class SessionContentDto {
   @Expose()
   accessToken: string
 

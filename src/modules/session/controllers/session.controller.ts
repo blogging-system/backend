@@ -1,14 +1,10 @@
 import { Controller, Delete, Get, Param, Req } from '@nestjs/common'
 import { CurrentUser } from 'src/modules/user/decorators'
-import { Serialize } from 'src/shared/decorators'
 import { User } from 'src/modules/user/schemas'
 import { SessionService } from '../services'
-import { PublicSessionDto } from '../dtos'
 import { Session } from '../schemas'
-import { CustomRequest } from 'express'
 
-@Controller('sessions')
-@Serialize(PublicSessionDto)
+@Controller('/admin/sessions')
 export class SessionController {
   constructor(private readonly sessionService: SessionService) {}
 
@@ -23,7 +19,7 @@ export class SessionController {
   }
 
   @Get()
-  async getAllUserSessions(@CurrentUser() user: User): Promise<Session[]> {
+  async getAllSessions(@CurrentUser() user: User): Promise<Session[]> {
     return await this.sessionService.getAllUserSessions(user._id)
   }
 }

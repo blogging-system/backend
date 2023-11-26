@@ -6,7 +6,7 @@ import { UserService } from '../../user/services/user.service'
 import { Body, Controller, Get, Post } from '@nestjs/common'
 import { LoginDto, LoginResponse } from '../dtos'
 import { PublicUserDto } from 'src/modules/user/dtos'
-import { TokensSessionDto } from 'src/modules/session/dtos'
+import { SessionContentDto } from 'src/modules/session/dtos'
 
 @Controller('auth')
 export class AuthController {
@@ -16,7 +16,7 @@ export class AuthController {
   ) {}
 
   @Post('/login')
-  @Serialize(TokensSessionDto)
+  @Serialize(SessionContentDto)
   async login(
     @Body() data: LoginDto,
     @IpAddress() ipAddress: string,
