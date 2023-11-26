@@ -56,10 +56,11 @@ export class PostRepository {
 
   async findMany(filter, { pageNumber, pageSize, sort }, populate: string[]): Promise<Post[]> {
     const query = {
-      tags: filter.tagId,
-      series: filter.seriesId,
       isPublished: true,
     }
+
+    if (filter.tagId) (query as any).tags = filter.tagId
+    if (filter.seriesId) (query as any).tags = filter.seriesId
 
     const foundPosts = await this.postModel
       .find(query)

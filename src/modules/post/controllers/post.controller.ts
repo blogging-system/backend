@@ -49,6 +49,6 @@ export class PostController {
     const { tagId, seriesId, ...pagination } = query
     const filter = { tagId, seriesId }
 
-    return this.postService.getAllPosts(filter as GetAllPosts, pagination as Pagination)
+    return await this.postService.getAllPosts(filter as GetAllPosts, pagination as Pagination)
   }
 }
