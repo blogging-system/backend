@@ -20,7 +20,7 @@ export class SeriesRepository {
     return isSeriesCreated
   }
 
-  async updateOne(seriesId: string, payload: SeriesManipulationDto): Promise<Series> {
+  async updateOne(seriesId: string, payload: Partial<SeriesManipulationDto>): Promise<Series> {
     const isSeriesUpdated = await this.seriesModel.findByIdAndUpdate(
       seriesId,
       { ...payload, slug: slugify(payload.title) },
@@ -56,7 +56,7 @@ export class SeriesRepository {
 
   async findMany({ pageNumber, pageSize }: Partial<Pagination>) {
     const foundSeries = await this.seriesModel
-      .find()
+      .find({ isPublished: true })
       .skip((pageNumber - 1) * Number(pageSize))
       .limit(pageSize)
       .sort()

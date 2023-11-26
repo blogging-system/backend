@@ -1,9 +1,10 @@
+import { IsMongoId, IsNotEmpty, IsString } from 'class-validator'
 import { Type } from 'class-transformer'
-import { IsNotEmpty, IsString } from 'class-validator'
 
 export class DeletePostDto {
   @Type(() => String)
   @IsString()
   @IsNotEmpty()
+  @IsMongoId()
   postId: string
 }

@@ -14,6 +14,15 @@ export class Series extends BaseSchema {
 
   @Prop({})
   description: string
+
+  @Prop({ default: false })
+  isPublished: boolean
+
+  @Prop({})
+  isPublishedAt: Date
+
+  @Prop({})
+  isUnPublishedAt: Date
 }
 
 export const SeriesSchema = SchemaFactory.createForClass(Series)

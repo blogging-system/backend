@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common'
-import { GetAllPosts, CreatePostDto, DeletePostDto } from '../dtos'
+import { GetAllPostsFilter, CreatePostDto, DeletePostDto } from '../dtos'
 import { KeywordService } from '../../keyword/services'
 import { SeriesService } from '../../series/services'
 import { ResultMessage } from 'src/shared/types'
@@ -43,31 +43,25 @@ export class PostService {
   }
 
   async publishPost(postId: string): Promise<Post> {
-    const foundPost = await this.postRepo.findOneById(postId)
+    const foundPost = await this.isPostAvailable(postId)
 
     if (foundPost.isPublished) throw new BadRequestException(MESSAGES.ALREADY_PUBLISHED)
 
     return await this.postRepo.updateOne(postId, {
-      title: foundPost.title,
       isPublished: true,
       isPublishedAt: new Date(Date.now()),
     })
   }
 
   async unPublishPost(postId: string): Promise<Post> {
-    const foundPost = await this.postRepo.findOneById(postId)
+    const foundPost = await this.isPostAvailable(postId)
 
     if (!foundPost.isPublished) throw new BadRequestException(MESSAGES.ALREADY_UNPUBLISHED)
 
     return await this.postRepo.updateOne(postId, {
-      title: foundPost.title,
       isPublished: false,
-      isPublishedAt: new Date(Date.now()),
+      isUnPublishedAt: new Date(Date.now()),
     })
-  }
-
-  async getPostById(postId: string): Promise<Post> {
-    return await this.postRepo.findOneById(postId)
   }
 
   async getPostBySlug(slug: string): Promise<Post> {
@@ -79,14 +73,14 @@ export class PostService {
   }
 
   async isPostAvailable(postId: string): Promise<Post> {
-    const isPostAvailable = await this.postRepo.findOne({ _id: postId })
-
-    if (!isPostAvailable) throw new BadRequestException(MESSAGES.POST_NOT_AVAILABLE)
-
-    return isPostAvailable
+    return await this.postRepo.findOneById(postId)
   }
 
-  async getAllPosts(filter: GetAllPosts, pagination: Pagination): Promise<Post[]> {
-    return await this.postRepo.findMany(filter, pagination, ['tags', 'keywords', 'series'])
+  async getAllPosts(
+    filter: GetAllPostsFilter,
+    pagination: Pagination,
+    isPublished?: boolean,
+  ): Promise<Post[]> {
+    return await this.postRepo.findMany(filter, pagination, isPublished)
   }
 }

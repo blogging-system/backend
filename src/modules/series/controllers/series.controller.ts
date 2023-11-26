@@ -24,6 +24,16 @@ export class SeriesController {
     return await this.seriesService.deleteSeries(data)
   }
 
+  @Post('/publish/:seriesId')
+  async publishSeries(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+    return await this.seriesService.publishSeries(seriesId)
+  }
+
+  @Post('/unpublish/:seriesId')
+  async unPublishSeries(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+    return await this.seriesService.unPublishSeries(seriesId)
+  }
+
   @Get(':slug')
   async getSeriesBySlug(@Param('slug') slug: string): Promise<Series> {
     return await this.seriesService.getSeriesBySlug(slug)

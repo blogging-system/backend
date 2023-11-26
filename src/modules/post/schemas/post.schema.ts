@@ -35,6 +35,9 @@ export class Post extends BaseSchema {
 
   @Prop({})
   isPublishedAt: Date
+
+  @Prop({})
+  isUnPublishedAt: Date
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post)

@@ -1,5 +1,9 @@
 import { CreatePostDto } from './create-post.dto'
-import { PublishPostDto } from './publish-post.dto'
-import { UnPublishPostDto } from './unpublish-post.dto'
 
-export type PostManipulationDto = CreatePostDto | PublishPostDto | UnPublishPostDto
+export class PostManipulationDto extends CreatePostDto {
+  _id: string
+  slug?: string
+  isPublished?: boolean
+  isPublishedAt?: Date
+  isUnPublishedAt?: Date
+}

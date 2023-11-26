@@ -1,12 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common'
-import { CreatePostDto, DeletePostDto, GetAllPosts } from '../dtos'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
+import { CreatePostDto, DeletePostDto, GetAllPostsFilter } from '../dtos'
+import { ProtectResourceInterceptor } from 'src/shared/interceptors'
 import { ResultMessage } from 'src/shared/types'
 import { Post as BlogPost } from '../schemas'
 import { Pagination } from 'src/shared/dtos'
 import { PostService } from '../services'
 
-@Controller('posts')
-export class PostController {
+@Controller('/admin/posts')
+@UseInterceptors(ProtectResourceInterceptor)
+export class PrivatePostController {
   constructor(private postService: PostService) {}
 
   @Post()
@@ -19,6 +21,11 @@ export class PostController {
     return await this.postService.updatePost(postId, payload)
   }
 
+  @Delete(':postId')
+  async deletePost(@Param() data: DeletePostDto): Promise<ResultMessage> {
+    return await this.postService.deletePost(data)
+  }
+
   @Post('/publish/:postId')
   async publishPost(@Param('postId') postId: string): Promise<BlogPost> {
     return await this.postService.publishPost(postId)
@@ -29,19 +36,9 @@ export class PostController {
     return await this.postService.unPublishPost(postId)
   }
 
-  @Delete(':postId')
-  async deletePost(@Param() data: DeletePostDto): Promise<ResultMessage> {
-    return await this.postService.deletePost(data)
-  }
-
   @Get(':slug')
   async getPostBySlug(@Param('slug') slug: string): Promise<BlogPost> {
     return await this.postService.getPostBySlug(slug)
-  }
-
-  @Get(':postId')
-  async getPostById(@Param('postId') postId: string): Promise<BlogPost> {
-    return await this.postService.getPostById(postId)
   }
 
   @Get()
@@ -49,6 +46,6 @@ export class PostController {
     const { tagId, seriesId, ...pagination } = query
     const filter = { tagId, seriesId }
 
-    return await this.postService.getAllPosts(filter as GetAllPosts, pagination as Pagination)
+    return await this.postService.getAllPosts(filter as GetAllPostsFilter, pagination as Pagination)
   }
 }

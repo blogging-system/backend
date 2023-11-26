@@ -1,10 +1,10 @@
+import { PublicPostController, PrivatePostController } from './controllers'
 import { KeywordModule } from '../keyword/keyword.module'
 import { SeriesModule } from '../series/series.module'
 import { KeywordService } from '../keyword/services'
 import { SeriesService } from '../series/services'
 import { MongooseModule } from '@nestjs/mongoose'
 import { PostRepository } from './repositories'
-import { PostController } from './controllers'
 import { TagModule } from '../tag/tag.module'
 import { Post, PostSchema } from './schemas'
 import { TagService } from '../tag/services'
@@ -19,6 +19,6 @@ import { Module } from '@nestjs/common'
     SeriesModule,
   ],
   providers: [PostRepository, PostService, TagService, KeywordService, SeriesService],
-  controllers: [PostController],
+  controllers: [PublicPostController, PrivatePostController],
 })
 export class PostModule {}

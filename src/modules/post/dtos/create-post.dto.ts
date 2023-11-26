@@ -5,30 +5,27 @@ export class CreatePostDto {
   @Type(() => String)
   @IsString()
   @IsNotEmpty()
-  title?: string
+  title: string
 
   @Type(() => String)
   @IsString()
   @IsNotEmpty()
-  description?: string
+  description: string
 
   @Type(() => String)
   @IsString()
   @IsNotEmpty()
-  content?: string
+  content: string
 
-  @Type(() => String)
   @IsNotEmpty({ each: true })
   @IsMongoId({ each: true })
-  keywords?: string[]
+  keywords: string[]
 
-  @Type(() => String)
   @IsNotEmpty({ each: true })
   @IsMongoId({ each: true })
-  tags?: string[]
+  tags: string[]
 
-  @Type(() => String)
   @IsNotEmpty({ each: true })
   @IsMongoId({ each: true })
-  series?: string[]
+  series: string[]
 }

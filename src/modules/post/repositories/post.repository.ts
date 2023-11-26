@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
-import { CreatePostDto, DeletePostDto, PostManipulationDto } from '../dtos'
+import { CreatePostDto, DeletePostDto, GetAllPostsFilter, PostManipulationDto } from '../dtos'
 import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
+import { Pagination } from 'src/shared/dtos'
 
 @Injectable()
 export class PostRepository {
@@ -22,12 +23,12 @@ export class PostRepository {
     return isPostCreated
   }
 
-  async updateOne(postId: string, payload: PostManipulationDto): Promise<Post> {
-    const isPostUpdated = await this.postModel.findByIdAndUpdate(
-      postId,
-      { ...payload, slug: slugify(payload.title) },
-      { new: true },
-    )
+  async updateOne(postId: string, payload: Partial<PostManipulationDto>): Promise<Post> {
+    const query: Partial<PostManipulationDto> = { ...payload }
+
+    if (payload.title) query.slug = slugify(payload.title)
+
+    const isPostUpdated = await this.postModel.findByIdAndUpdate(postId, query, { new: true })
 
     if (!isPostUpdated) throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED)
 
@@ -37,7 +38,8 @@ export class PostRepository {
   async deleteOne(data: DeletePostDto): Promise<ResultMessage> {
     const isPostDeleted = await this.postModel.deleteOne({ _id: data.postId })
 
-    if (isPostDeleted.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
+    if (isPostDeleted.deletedCount === 0)
+      throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
 
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
@@ -51,24 +53,28 @@ export class PostRepository {
   }
 
   async findOne(query: any): Promise<Post> {
-    return await this.postModel.findOne(query).lean()
+    return await this.postModel.findOne(query).populate(['tags', 'keywords', 'series']).lean()
   }
 
-  async findMany(filter, { pageNumber, pageSize, sort }, populate: string[]): Promise<Post[]> {
-    const query = {
-      isPublished: true,
-    }
+  async findMany(
+    filter: GetAllPostsFilter,
+    pagination: Pagination,
+    isPublished?: boolean,
+  ): Promise<Post[]> {
+    const { pageNumber, pageSize, sort } = pagination
+    const query: { tags?: string; series?: string; isPublished?: boolean } = {}
 
-    if (filter.tagId) (query as any).tags = filter.tagId
-    if (filter.seriesId) (query as any).tags = filter.seriesId
+    if (filter.tagId) query.tags = filter.tagId
+    if (filter.seriesId) query.series = filter.seriesId
+    if (isPublished) query.isPublished = isPublished
 
     const foundPosts = await this.postModel
       .find(query)
-      .skip((pageNumber - 1) * Number(pageSize))
+      .skip((pageNumber - 1) * pageSize)
       .limit(pageSize)
       .sort(sort == 1 ? 'isPublishedAt' : '-isPublishedAt')
+      .populate(['tags', 'keywords', 'series'])
       .lean()
-      .populate(populate)
 
     if (foundPosts.length === 0) throw new NotFoundException(MESSAGES.POSTS_NOT_FOUND)
 

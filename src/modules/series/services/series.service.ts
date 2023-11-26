@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateSeriesDto, DeleteSeriesDto } from '../dtos'
 import { SeriesRepository } from '../repositories'
 import { ResultMessage } from 'src/shared/types'
+import { Pagination } from 'src/shared/dtos'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
-import { Pagination } from 'src/shared/dtos'
 
 @Injectable()
 export class SeriesService {
@@ -28,8 +28,28 @@ export class SeriesService {
     return await this.seriesRepo.deleteOne(data)
   }
 
-  async getSeriesById(seriesId: string): Promise<Series> {
-    return await this.seriesRepo.findOneById(seriesId)
+  async publishSeries(seriesId: string): Promise<ResultMessage> {
+    const isSeriesFound = await this.seriesRepo.findOneById(seriesId)
+
+    await this.seriesRepo.updateOne(seriesId, {
+      ...isSeriesFound,
+      isPublished: true,
+      isPublishedAt: new Date(Date.now()),
+    })
+
+    return { message: MESSAGES.PUBLISHED_SUCCESSFULLY }
+  }
+
+  async unPublishSeries(seriesId: string): Promise<ResultMessage> {
+    const isSeriesFound = await this.seriesRepo.findOneById(seriesId)
+
+    await this.seriesRepo.updateOne(seriesId, {
+      ...isSeriesFound,
+      isPublished: false,
+      isUnPublishedAt: new Date(Date.now()),
+    })
+
+    return { message: MESSAGES.UNPUBLISHED_SUCCESSFULLY }
   }
 
   async getSeriesBySlug(slug: string): Promise<Series> {
@@ -44,7 +64,7 @@ export class SeriesService {
     return await this.seriesRepo.findMany(pagination)
   }
 
-  async isSeriesAvailable(seriesId: string): Promise<boolean> {
+  private async isSeriesAvailable(seriesId: string): Promise<boolean> {
     const isSeriesFound = await this.seriesRepo.findOne({ _id: seriesId })
 
     return !!isSeriesFound
