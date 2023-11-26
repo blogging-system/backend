@@ -38,4 +38,8 @@ export class KeywordService {
       throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
     }
   }
+
+  async getAllKeywords(): Promise<Keyword[]> {
+    return await this.keywordRepo.findMany()
+  }
 }
