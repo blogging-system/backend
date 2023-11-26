@@ -1,10 +1,11 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { CreateSeriesDto, DeleteSeriesDto } from '../dtos'
+import { CreateSeriesDto, DeleteSeriesDto, SeriesManipulationDto } from '../dtos'
 import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
 import { Model } from 'mongoose'
+import slugify from 'slugify'
 
 @Injectable()
 export class SeriesRepository {
@@ -16,6 +17,18 @@ export class SeriesRepository {
     if (!isSeriesCreated) throw new InternalServerErrorException(MESSAGES.CREATION_FAILED)
 
     return isSeriesCreated
+  }
+
+  async updateOne(seriesId: string, payload: SeriesManipulationDto): Promise<Series> {
+    const isSeriesUpdated = await this.seriesModel.findByIdAndUpdate(
+      seriesId,
+      { ...payload, slug: slugify(payload.title) },
+      { new: true },
+    )
+
+    if (!isSeriesUpdated) throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED)
+
+    return isSeriesUpdated
   }
 
   async deleteOne(data: DeleteSeriesDto): Promise<ResultMessage> {

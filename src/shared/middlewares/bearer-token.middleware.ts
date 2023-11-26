@@ -6,10 +6,6 @@ import { TokenHelper } from '../helpers/token.helper'
 @Injectable()
 export class BearerTokenMiddleware implements NestMiddleware {
   async use(req: CustomRequest, res: Response, next: NextFunction): Promise<void> {
-    const excludeRoutes = ['/auth/login', '/ping']
-
-    if (excludeRoutes.includes(req.url) || req.url === '/') return next()
-
     try {
       const accessToken = req?.headers['authorization']?.split(' ')[1] || null
 
@@ -22,7 +18,6 @@ export class BearerTokenMiddleware implements NestMiddleware {
 
       return next()
     } catch (error) {
-      console.log({ error })
       throw new UnauthorizedException(MESSAGES.INVALID_TOKEN)
     }
   }

@@ -13,6 +13,12 @@ export class SeriesService {
     return await this.seriesRepo.createOne(data)
   }
 
+  async updateSeries(seriesId: string, payload: CreateSeriesDto): Promise<Series> {
+    await this.seriesRepo.findOneById(seriesId)
+
+    return await this.seriesRepo.updateOne(seriesId, payload)
+  }
+
   async deleteSeries(data: DeleteSeriesDto): Promise<ResultMessage> {
     const isSeriesAvailable = await this.isSeriesAvailable(data.seriesId)
 

@@ -56,6 +56,6 @@ import { appConfig } from './shared/config'
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(BearerTokenMiddleware).forRoutes('*')
+    consumer.apply(BearerTokenMiddleware).exclude('/auth/login', '/ping', '/').forRoutes('*')
   }
 }

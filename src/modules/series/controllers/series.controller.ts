@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common'
 import { CreateSeriesDto, DeleteSeriesDto } from '../dtos'
 import { ResultMessage } from 'src/shared/types'
 import { SeriesService } from '../services'
@@ -11,6 +11,11 @@ export class SeriesController {
   @Post()
   async createTag(@Body() data: CreateSeriesDto): Promise<Series> {
     return await this.seriesService.createSeries(data)
+  }
+
+  @Patch(':seriesId')
+  async updatePost(@Param('seriesId') seriesId: string, @Body() payload: CreateSeriesDto): Promise<Series> {
+    return await this.seriesService.updateSeries(seriesId, payload)
   }
 
   @Delete(':seriesId')
