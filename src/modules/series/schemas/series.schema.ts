@@ -6,10 +6,10 @@ export type SeriesDocument = HydratedDocument<Series>
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Series extends BaseSchema {
-  @Prop({ index: true, unique: true })
+  @Prop({ unique: true })
   title: string
 
-  @Prop({})
+  @Prop({ index: true })
   slug: string
 
   @Prop({})

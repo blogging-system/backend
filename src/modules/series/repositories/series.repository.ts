@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { CreateSeriesDto, DeleteSeriesDto, SeriesManipulationDto } from '../dtos'
+import { CreateSeriesDto, DeleteSeriesDto, GetAllSeriesDto, SeriesManipulationDto } from '../dtos'
 import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
@@ -21,11 +21,11 @@ export class SeriesRepository {
   }
 
   async updateOne(seriesId: string, payload: Partial<SeriesManipulationDto>): Promise<Series> {
-    const isSeriesUpdated = await this.seriesModel.findByIdAndUpdate(
-      seriesId,
-      { ...payload, slug: slugify(payload.title) },
-      { new: true },
-    )
+    const query: Partial<SeriesManipulationDto> = { ...payload }
+
+    if (payload.title) query.slug = slugify(payload.title)
+
+    const isSeriesUpdated = await this.seriesModel.findByIdAndUpdate(seriesId, query, { new: true })
 
     if (!isSeriesUpdated) throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED)
 
@@ -54,12 +54,16 @@ export class SeriesRepository {
     return await this.seriesModel.findOne(query).lean()
   }
 
-  async findMany({ pageNumber, pageSize }: Partial<Pagination>) {
+  async findMany({ pagination: { pageNumber, pageSize, sort }, isPublished }: GetAllSeriesDto) {
+    const query: { isPublished?: boolean } = {}
+
+    if (isPublished) query.isPublished = isPublished
+
     const foundSeries = await this.seriesModel
-      .find({ isPublished: true })
+      .find(query)
       .skip((pageNumber - 1) * Number(pageSize))
       .limit(pageSize)
-      .sort()
+      .sort(sort == 1 ? 'isPublishedAt' : '-isPublishedAt')
       .lean()
 
     if (foundSeries.length === 0) throw new NotFoundException(MESSAGES.SERIES_ARE_NOT_FOUND)

@@ -1,8 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
-import { CreateSeriesDto, DeleteSeriesDto } from '../dtos'
+import { CreateSeriesDto, DeleteSeriesDto, GetAllSeriesDto, GetSeriesBySlug } from '../dtos'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { SeriesRepository } from '../repositories'
 import { ResultMessage } from 'src/shared/types'
-import { Pagination } from 'src/shared/dtos'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
 
@@ -15,24 +14,23 @@ export class SeriesService {
   }
 
   async updateSeries(seriesId: string, payload: CreateSeriesDto): Promise<Series> {
-    await this.seriesRepo.findOneById(seriesId)
+    await this.isSeriesAvailable(seriesId)
 
     return await this.seriesRepo.updateOne(seriesId, payload)
   }
 
   async deleteSeries(data: DeleteSeriesDto): Promise<ResultMessage> {
-    const isSeriesAvailable = await this.isSeriesAvailable(data.seriesId)
-
-    if (!isSeriesAvailable) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
+    await this.isSeriesAvailable(data.seriesId)
 
     return await this.seriesRepo.deleteOne(data)
   }
 
   async publishSeries(seriesId: string): Promise<ResultMessage> {
-    const isSeriesFound = await this.seriesRepo.findOneById(seriesId)
+    const isSeriesFound = await this.isSeriesAvailable(seriesId)
+
+    if (isSeriesFound.isPublished) throw new BadRequestException(MESSAGES.ALREADY_PUBLISHED)
 
     await this.seriesRepo.updateOne(seriesId, {
-      ...isSeriesFound,
       isPublished: true,
       isPublishedAt: new Date(Date.now()),
     })
@@ -41,10 +39,11 @@ export class SeriesService {
   }
 
   async unPublishSeries(seriesId: string): Promise<ResultMessage> {
-    const isSeriesFound = await this.seriesRepo.findOneById(seriesId)
+    const isSeriesFound = await this.isSeriesAvailable(seriesId)
+
+    if (!isSeriesFound.isPublished) throw new BadRequestException(MESSAGES.ALREADY_UNPUBLISHED)
 
     await this.seriesRepo.updateOne(seriesId, {
-      ...isSeriesFound,
       isPublished: false,
       isUnPublishedAt: new Date(Date.now()),
     })
@@ -52,22 +51,8 @@ export class SeriesService {
     return { message: MESSAGES.UNPUBLISHED_SUCCESSFULLY }
   }
 
-  async getSeriesBySlug(slug: string): Promise<Series> {
-    const isSeriesFound = await this.seriesRepo.findOne({ slug })
-
-    if (!isSeriesFound) throw new NotFoundException(MESSAGES.SERIES_NOT_FOUND)
-
-    return isSeriesFound
-  }
-
-  async getAllSeries(pagination: Partial<Pagination>): Promise<Series[]> {
-    return await this.seriesRepo.findMany(pagination)
-  }
-
-  private async isSeriesAvailable(seriesId: string): Promise<boolean> {
-    const isSeriesFound = await this.seriesRepo.findOne({ _id: seriesId })
-
-    return !!isSeriesFound
+  private async isSeriesAvailable(seriesId: string): Promise<Series> {
+    return await this.seriesRepo.findOneById(seriesId)
   }
 
   async areSeriesAvailable(seriesIds: string[]): Promise<void> {
@@ -76,5 +61,23 @@ export class SeriesService {
     const areTagsAvailable = array.every((available) => available)
 
     if (!areTagsAvailable) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
+  }
+
+  async getSeriesBySlug({ slug, isPublished }: GetSeriesBySlug): Promise<Series> {
+    const query: GetSeriesBySlug = {
+      slug,
+    }
+
+    if (isPublished) query.isPublished = isPublished
+
+    const isSeriesFound = await this.seriesRepo.findOne(query)
+
+    if (!isSeriesFound) throw new NotFoundException(MESSAGES.SERIES_NOT_FOUND)
+
+    return isSeriesFound
+  }
+
+  async getAllSeries({ pagination, isPublished }: GetAllSeriesDto): Promise<Series[]> {
+    return await this.seriesRepo.findMany({ pagination, isPublished })
   }
 }

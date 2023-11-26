@@ -1,14 +1,14 @@
-import { SeriesController } from './controllers/series.controller'
+import { PublicSeriesController, PrivateSeriesController } from './controllers'
 import { Series, SeriesSchema } from './schemas/series.schema'
 import { SeriesService } from './services/series.service'
 import { MongooseModule } from '@nestjs/mongoose'
-import { Module } from '@nestjs/common'
 import { SeriesRepository } from './repositories'
+import { Module } from '@nestjs/common'
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: Series.name, schema: SeriesSchema }])],
-  providers: [SeriesService, SeriesRepository],
-  controllers: [SeriesController],
   exports: [SeriesService, SeriesRepository],
+  providers: [SeriesService, SeriesRepository],
+  controllers: [PublicSeriesController, PrivateSeriesController],
 })
 export class SeriesModule {}

@@ -6,18 +6,18 @@ export class Pagination {
   @IsNumber()
   @IsPositive()
   @Min(1)
-  pageNumber: number = 1
+  pageNumber?: number = 1
 
   @Type(() => Number)
   @IsNumber()
   @IsPositive()
-  @Max(20)
-  pageSize: number = 20
+  @Max(30)
+  pageSize?: number = 10
 
   @Type(() => Number)
   @IsNumber()
   @IsIn([1, -1], { message: 'Sort value must be 1 or -1.' })
-  sort: number = 1
+  sort?: number = 1
 
   @IsOptional()
   @Type(() => String)

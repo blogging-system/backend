@@ -1,26 +1,28 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
+import { ProtectResourceInterceptor } from 'src/shared/interceptors'
 import { CreateSeriesDto, DeleteSeriesDto } from '../dtos'
 import { ResultMessage } from 'src/shared/types'
+import { Pagination } from 'src/shared/dtos'
 import { SeriesService } from '../services'
 import { Series } from '../schemas'
-import { Pagination } from 'src/shared/dtos'
 
-@Controller('series')
-export class SeriesController {
+@Controller('/admin/series')
+@UseInterceptors(ProtectResourceInterceptor)
+export class PrivateSeriesController {
   constructor(private seriesService: SeriesService) {}
 
   @Post()
-  async createTag(@Body() data: CreateSeriesDto): Promise<Series> {
+  async createSeries(@Body() data: CreateSeriesDto): Promise<Series> {
     return await this.seriesService.createSeries(data)
   }
 
   @Patch(':seriesId')
-  async updatePost(@Param('seriesId') seriesId: string, @Body() payload: CreateSeriesDto): Promise<Series> {
+  async updateSeries(@Param('seriesId') seriesId: string, @Body() payload: CreateSeriesDto): Promise<Series> {
     return await this.seriesService.updateSeries(seriesId, payload)
   }
 
   @Delete(':seriesId')
-  async deleteTag(@Param() data: DeleteSeriesDto): Promise<ResultMessage> {
+  async deleteSeries(@Param() data: DeleteSeriesDto): Promise<ResultMessage> {
     return await this.seriesService.deleteSeries(data)
   }
 
@@ -36,11 +38,11 @@ export class SeriesController {
 
   @Get(':slug')
   async getSeriesBySlug(@Param('slug') slug: string): Promise<Series> {
-    return await this.seriesService.getSeriesBySlug(slug)
+    return await this.seriesService.getSeriesBySlug({ slug })
   }
 
   @Get()
   async getAllSeries(@Query() query: Pagination): Promise<Series[]> {
-    return this.seriesService.getAllSeries(query as Pagination)
+    return this.seriesService.getAllSeries({ pagination: query })
   }
 }
