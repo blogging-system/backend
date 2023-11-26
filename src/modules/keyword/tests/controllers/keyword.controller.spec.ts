@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { KeywordController } from '../../controllers/keyword.controller'
+import { KeywordController } from '../../controllers/private-keyword.controller'
 
 describe('KeywordController', () => {
   let controller: KeywordController

@@ -13,8 +13,16 @@ export class KeywordService {
     return await this.keywordRepo.createOne(data)
   }
 
-  async deleteKeyword(data: DeleteKeywordDto): Promise<ResultMessage> {
-    return await this.keywordRepo.deleteOne(data)
+  async deleteKeyword(keywordId: string): Promise<ResultMessage> {
+    await this.isKeywordAvailable(keywordId)
+
+    // TODO:// check if it's associated to post or not!
+
+    return await this.keywordRepo.deleteOne(keywordId)
+  }
+
+  async isKeywordAvailable(keywordId: string): Promise<Keyword> {
+    return await this.keywordRepo.findOneById(keywordId)
   }
 
   async areKeywordsAvailable(tags: string[]): Promise<void> {
