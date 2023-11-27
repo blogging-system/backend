@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Patch, Post, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
 import { CreateTagDto, DeleteTagDto } from '../dtos'
 import { ResultMessage } from 'src/shared/types'
@@ -23,5 +23,10 @@ export class PrivateTagController {
   @Delete(':tagId')
   async deleteTag(@Param('tagId') tagId: string): Promise<ResultMessage> {
     return await this.tagService.deleteTag(tagId)
+  }
+
+  @Get('/count')
+  async getAllTagsCount() {
+    return await this.tagService.getAllTagsCount()
   }
 }

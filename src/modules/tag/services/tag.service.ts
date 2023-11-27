@@ -51,4 +51,8 @@ export class TagService {
   async getAllTags(): Promise<Tag[]> {
     return await this.tagRepo.findMany()
   }
+
+  async getAllTagsCount(): Promise<ResultMessage> {
+    return await this.tagRepo.countDocuments()
+  }
 }

@@ -55,4 +55,10 @@ export class TagRepository {
 
     return areTagsFound
   }
+
+  async countDocuments(): Promise<ResultMessage> {
+    const count = await this.tagModel.countDocuments().lean()
+
+    return { count }
+  }
 }
