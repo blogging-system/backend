@@ -1,13 +1,13 @@
-import { CreatePostDto, DeletePostDto, PostManipulationDto, GetAllPostsDto } from '../dtos'
+import { CreatePostDto, DeletePostDto, PostManipulationDto, GetAllPostsDto, GetAllPostsQuery } from '../dtos'
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
+import { CountDocumentsDto, CountDocumentsQuery } from 'src/shared/dtos/count-document.dto'
 import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
-import { CountDocumentsDto, CountDocumentsQuery } from 'src/shared/dtos/count-document.dto'
-import { SortFieldOptions } from 'src/shared/enums'
+import { Entities } from 'src/shared/enums'
 
 @Injectable()
 export class PostRepository {
@@ -53,12 +53,12 @@ export class PostRepository {
   }
 
   async findOne(query: any): Promise<Post> {
-    return await this.postModel.findOne(query).populate(['tags', 'keywords', 'series']).lean()
+    return await this.postModel.findOne(query).populate([Entities.TAGS, Entities.KEYWORDS, Entities.SERIES]).lean()
   }
 
   async findMany({ pagination, filter, isPublished, sortCondition }: GetAllPostsDto): Promise<Post[]> {
     const { pageNumber, pageSize } = pagination
-    const query: { tags?: string; series?: string; isPublished?: boolean } = {}
+    const query: GetAllPostsQuery = {}
 
     if (filter?.tagId) query.tags = filter.tagId
     if (filter?.seriesId) query.series = filter.seriesId
@@ -69,7 +69,7 @@ export class PostRepository {
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize)
       .sort(sortCondition)
-      .populate(['tags', 'keywords', 'series'])
+      .populate([Entities.TAGS, Entities.KEYWORDS, Entities.SERIES])
       .lean()
 
     if (foundPosts.length === 0) throw new NotFoundException(MESSAGES.POSTS_NOT_FOUND)

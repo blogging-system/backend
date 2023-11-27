@@ -8,3 +8,9 @@ export class GetAllPostsDto {
   sortCondition?: string
   sortValue?: number
 }
+
+export class GetAllPostsQuery {
+  tags?: string
+  series?: string
+  isPublished?: boolean
+}
