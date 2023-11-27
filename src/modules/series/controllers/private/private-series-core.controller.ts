@@ -51,6 +51,16 @@ export class PrivateSeriesCoreController {
     return this.seriesService.getUnPublishedSeries({ pagination })
   }
 
+  @Get('/popular')
+  async getPopularSeries(@Query() pagination: Pagination): Promise<Series[]> {
+    return this.seriesService.getPopularSeries({ pagination })
+  }
+
+  @Get('/unpopular')
+  async getUnPopularSeries(@Query() pagination: Pagination): Promise<Series[]> {
+    return this.seriesService.getUnPopularSeries({ pagination })
+  }
+
   @Get(':slug')
   async getSeriesBySlug(@Param('slug') slug: string): Promise<Series> {
     return await this.seriesService.getSeriesBySlug({ slug })

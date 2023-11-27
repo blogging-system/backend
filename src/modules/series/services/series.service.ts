@@ -121,6 +121,20 @@ export class SeriesService {
     })
   }
 
+  async getPopularSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+    return await this.seriesRepo.findMany({
+      pagination,
+      sortCondition: `-${SortFieldOptions.VIEWS}`,
+    })
+  }
+
+  async getUnPopularSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+    return await this.seriesRepo.findMany({
+      pagination,
+      sortCondition: `+${SortFieldOptions.VIEWS}`,
+    })
+  }
+
   //===============================
   async getAllSeriesCount() {
     return await this.seriesRepo.countDocuments({})
