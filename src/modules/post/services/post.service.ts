@@ -1,4 +1,3 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common'
 import {
   CreatePostDto,
   DeletePostDto,
@@ -7,6 +6,7 @@ import {
   ArePostsAvailableForGivenEntitiesIdsDto,
   ArePostsAvailableForGivenEntitiesIdsQuery,
 } from '../dtos'
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common'
 import { SortFieldOptions, SortValueOptions } from 'src/shared/enums'
 import { KeywordService } from '../../keyword/services'
 import { SeriesService } from '../../series/services'

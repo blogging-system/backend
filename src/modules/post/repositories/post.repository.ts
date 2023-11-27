@@ -1,13 +1,13 @@
 import { CreatePostDto, DeletePostDto, PostManipulationDto, GetAllPostsDto, GetAllPostsQuery } from '../dtos'
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
-import { CountDocumentsDto, CountDocumentsQuery } from 'src/shared/dtos/count-document.dto'
+import { CountDocumentsDto, CountDocumentsQuery } from 'src/shared/dtos'
 import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
+import { Entities } from 'src/shared/enums'
 import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
-import { Entities } from 'src/shared/enums'
 
 @Injectable()
 export class PostRepository {
