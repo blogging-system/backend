@@ -1,5 +1,12 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common'
-import { CreatePostDto, DeletePostDto, GetPostBySlug, GetAllPostsDto } from '../dtos'
+import {
+  CreatePostDto,
+  DeletePostDto,
+  GetPostBySlug,
+  GetAllPostsDto,
+  ArePostsAvailableForGivenEntitiesIdsDto,
+  ArePostsAvailableForGivenEntitiesIdsQuery,
+} from '../dtos'
 import { KeywordService } from '../../keyword/services'
 import { SeriesService } from '../../series/services'
 import { ResultMessage } from 'src/shared/types'
@@ -61,6 +68,22 @@ export class PostService {
       isPublished: false,
       isUnPublishedAt: new Date(Date.now()),
     })
+  }
+
+  async arePostsAvailableForGivenEntitiesIds({
+    tagId,
+    keywordId,
+    seriesId,
+  }: ArePostsAvailableForGivenEntitiesIdsDto): Promise<boolean> {
+    const query: ArePostsAvailableForGivenEntitiesIdsQuery = {}
+
+    if (tagId) query.tags = tagId
+    if (keywordId) query.keywords = keywordId
+    if (seriesId) query.series = seriesId
+
+    const isPostFound = await this.postRepo.findOne(query)
+
+    return !!isPostFound
   }
 
   async getPostBySlug({ slug, isPublished }: GetPostBySlug): Promise<Post> {

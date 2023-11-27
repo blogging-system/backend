@@ -1,16 +1,20 @@
-import { PrivateTagController } from './controllers/private-tag.controller'
-import { TagRepository } from './repositories/tag.repository'
+import { PublicTagController, PrivateTagController } from './controllers'
 import { SessionModule } from '../session/session.module'
-import { Tag, TagSchema } from './schemas/tag.schema'
-import { TagService } from './services/tag.service'
-import { PublicTagController } from './controllers'
+import { Module, forwardRef } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
-import { Module } from '@nestjs/common'
+import { PostModule } from '../post/post.module'
+import { TagRepository } from './repositories'
+import { Tag, TagSchema } from './schemas'
+import { TagService } from './services'
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Tag.name, schema: TagSchema }]), SessionModule],
+  imports: [
+    MongooseModule.forFeature([{ name: Tag.name, schema: TagSchema }]),
+    forwardRef(() => PostModule),
+    SessionModule,
+  ],
+  exports: [TagService, TagRepository],
   controllers: [PublicTagController, PrivateTagController],
   providers: [TagService, TagRepository],
-  exports: [TagService, TagRepository],
 })
 export class TagModule {}

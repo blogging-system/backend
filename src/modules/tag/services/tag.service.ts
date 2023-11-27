@@ -1,13 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
-import { CreateTagDto, DeleteTagDto } from '../dtos'
+import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common'
+import { PostService } from 'src/modules/post/services'
 import { ResultMessage } from 'src/shared/types'
 import { TagRepository } from '../repositories'
 import { MESSAGES } from '../constants'
+import { CreateTagDto } from '../dtos'
 import { Tag } from '../schemas'
 
 @Injectable()
 export class TagService {
-  constructor(private readonly tagRepo: TagRepository) {}
+  constructor(
+    private readonly tagRepo: TagRepository,
+    @Inject(forwardRef(() => PostService)) private readonly postService: PostService,
+  ) {}
 
   async createTag(data: CreateTagDto): Promise<Tag> {
     return await this.tagRepo.createOne(data)
@@ -21,13 +25,19 @@ export class TagService {
 
   async deleteTag(tagId: string): Promise<ResultMessage> {
     await this.isTagAvailable(tagId)
+    await this.isTagAssociatedToPosts(tagId)
 
-    // TODO: Check if it's associated to any posts!
     return await this.tagRepo.deleteOne(tagId)
   }
 
   async isTagAvailable(tagId: string): Promise<Tag> {
     return await this.tagRepo.findOneById(tagId)
+  }
+
+  async isTagAssociatedToPosts(tagId: string): Promise<void> {
+    const isTagAssociated = await this.postService.arePostsAvailableForGivenEntitiesIds({ tagId })
+
+    if (isTagAssociated) throw new BadRequestException(MESSAGES.POST_ASSOCIATED_TO_POST)
   }
 
   async areTagsAvailable(tagIds: string[]): Promise<void> {
