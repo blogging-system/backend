@@ -116,7 +116,7 @@ export class PostService {
     return await this.postRepo.countDocuments({ isPublished: true })
   }
 
-  async getAllUPublishedPostsCount(): Promise<ResultMessage> {
+  async getAllUnPublishedPostsCount(): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ isPublished: false })
   }
 }
