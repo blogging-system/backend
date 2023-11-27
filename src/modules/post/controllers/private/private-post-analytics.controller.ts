@@ -24,21 +24,21 @@ export class PrivateAnalyticsPostController {
   }
   //==========================
 
-  // @Get('/published/count/keywords/:keywordId')
-  // async getAllPublishedPostsCountForGivenKeywordId(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
-  //   return await this.postService.getAllPublishedPostsCountWithGivenKeywordId(keywordId)
-  // }
+  @Get('/published/count/keywords/:keywordId')
+  async getAllPublishedPostsCountForGivenKeywordId(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
+    return await this.postService.getAllPublishedPostsCountWithGivenKeywordId(keywordId)
+  }
 
-  // @Get('/unpublished/count/keywords/:keywordId')
-  // async getAllUnPublishedPostsCountForGivenKeywordId(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
-  //   return await this.postService.getAllUnPublishedPostsCountWithGivenKeywordId(keywordId)
-  // }
+  @Get('/unpublished/count/keywords/:keywordId')
+  async getAllUnPublishedPostsCountForGivenKeywordId(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
+    return await this.postService.getAllUnPublishedPostsCountWithGivenKeywordId(keywordId)
+  }
 
-  // @Get('/count/keywords/:tagId')
-  // async getAllPostsCountForGivenKeywordId(@Param('tagId') tagId: string): Promise<ResultMessage> {
-  //   return await this.postService.getAllPostsCountWithGivenkeywordId(tagId)
-  // }
-  // //==========================
+  @Get('/count/keywords/:tagId')
+  async getAllPostsCountForGivenKeywordId(@Param('tagId') tagId: string): Promise<ResultMessage> {
+    return await this.postService.getAllPostsCountWithGivenkeywordId(tagId)
+  }
+  //==========================
 
   @Get('/published/count')
   async getAllPublishedPostsCount(): Promise<ResultMessage> {
