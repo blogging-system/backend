@@ -1,10 +1,10 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common'
-import { CreateKeywordDto, DeleteKeywordDto } from '../dtos'
+import { PostService } from 'src/modules/post/services'
 import { KeywordRepository } from '../repositories'
 import { ResultMessage } from 'src/shared/types'
+import { CreateKeywordDto } from '../dtos'
 import { MESSAGES } from '../constants'
 import { Keyword } from '../schemas'
-import { PostService } from 'src/modules/post/services'
 
 @Injectable()
 export class KeywordService {
@@ -31,9 +31,9 @@ export class KeywordService {
   }
 
   async isKeywordAssociatedToPosts(keywordId: string): Promise<void> {
-    const isTagAssociated = await this.postService.arePostsAvailableForGivenEntitiesIds({ keywordId })
+    const isKeywordAssociated = await this.postService.arePostsAvailableForGivenEntitiesIds({ keywordId })
 
-    if (isTagAssociated) throw new BadRequestException(MESSAGES.KEYWORD_ASSOCIATED_TO_POST)
+    if (isKeywordAssociated) throw new BadRequestException(MESSAGES.KEYWORD_ASSOCIATED_TO_POST)
   }
 
   async isKeywordAvailable(keywordId: string): Promise<Keyword> {

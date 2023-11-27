@@ -1,5 +1,6 @@
+import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common'
 import { CreateSeriesDto, DeleteSeriesDto, GetAllSeriesDto, GetSeriesBySlug } from '../dtos'
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
+import { PostService } from 'src/modules/post/services'
 import { SeriesRepository } from '../repositories'
 import { ResultMessage } from 'src/shared/types'
 import { MESSAGES } from '../constants'
@@ -7,7 +8,10 @@ import { Series } from '../schemas'
 
 @Injectable()
 export class SeriesService {
-  constructor(private readonly seriesRepo: SeriesRepository) {}
+  constructor(
+    private readonly seriesRepo: SeriesRepository,
+    @Inject(forwardRef(() => PostService)) private readonly postService: PostService,
+  ) {}
 
   async createSeries(data: CreateSeriesDto): Promise<Series> {
     return await this.seriesRepo.createOne(data)
@@ -21,7 +25,8 @@ export class SeriesService {
 
   async deleteSeries(data: DeleteSeriesDto): Promise<ResultMessage> {
     await this.isSeriesAvailable(data.seriesId)
-    // TODO: check if it's attached to any posts!
+    await this.isSeriesAssociatedToPosts(data.seriesId)
+
     return await this.seriesRepo.deleteOne(data)
   }
 
@@ -49,6 +54,12 @@ export class SeriesService {
     })
 
     return { message: MESSAGES.UNPUBLISHED_SUCCESSFULLY }
+  }
+
+  async isSeriesAssociatedToPosts(seriesId: string): Promise<void> {
+    const isSeriesAssociated = await this.postService.arePostsAvailableForGivenEntitiesIds({ seriesId })
+
+    if (isSeriesAssociated) throw new BadRequestException(MESSAGES.SERIES_ASSOCIATED_TO_POST)
   }
 
   private async isSeriesAvailable(seriesId: string): Promise<Series> {

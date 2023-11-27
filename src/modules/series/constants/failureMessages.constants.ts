@@ -7,4 +7,5 @@ export const failureMessages = {
   NOT_AVAILABLE: 'One or more series do not exist',
   ALREADY_PUBLISHED: 'The series is already published!',
   ALREADY_UNPUBLISHED: 'The series is already unpublished!',
+  SERIES_ASSOCIATED_TO_POST: 'You need to unassign the series from all the associated posts first!',
 }
