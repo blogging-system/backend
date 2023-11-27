@@ -61,6 +61,11 @@ export class PrivatePostCoreController {
     return await this.postService.getUnPopularPosts({ pagination })
   }
 
+  @Get('/trending')
+  async getTrendingPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
+    return await this.postService.getTrendingPosts({ pagination })
+  }
+
   @Get(':slug')
   async getPostBySlug(@Param('slug') slug: string): Promise<BlogPost> {
     return await this.postService.getPostBySlug({ slug })

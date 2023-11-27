@@ -7,6 +7,7 @@ import {
   ArePostsAvailableForGivenEntitiesIdsDto,
   ArePostsAvailableForGivenEntitiesIdsQuery,
 } from '../dtos'
+import { SortFieldOptions, SortValueOptions } from 'src/shared/enums'
 import { KeywordService } from '../../keyword/services'
 import { SeriesService } from '../../series/services'
 import { ResultMessage } from 'src/shared/types'
@@ -14,7 +15,6 @@ import { PostRepository } from '../repositories'
 import { TagService } from '../../tag/services'
 import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
-import { SortFieldOptions, SortValueOptions } from 'src/shared/enums'
 
 @Injectable()
 export class PostService {
@@ -98,7 +98,9 @@ export class PostService {
 
     if (!isPostFound) throw new NotFoundException(MESSAGES.POST_NOT_FOUND)
 
-    return isPostFound
+    await this.postRepo.updateOne(isPostFound._id, { views: isPostFound.views + 1 })
+
+    return Object.assign(isPostFound, { views: isPostFound.views + 1 })
   }
 
   async isPostAvailable(postId: string): Promise<Post> {
@@ -149,6 +151,13 @@ export class PostService {
     return await this.postRepo.findMany({
       pagination,
       sortCondition: `+${SortFieldOptions.VIEWS}`,
+    })
+  }
+
+  async getTrendingPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
+    return await this.postRepo.findMany({
+      pagination,
+      sortCondition: { [SortFieldOptions.PUBLISHED_AT]: SortValueOptions.DESC, views: SortValueOptions.DESC },
     })
   }
 

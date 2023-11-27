@@ -5,7 +5,7 @@ export class GetAllPostsDto {
   filter?: PostsFilter
   pagination: Pagination
   isPublished?: boolean
-  sortCondition?: string
+  sortCondition?: string | { [key: string]: 1 | -1 }
   sortValue?: number
 }
 
