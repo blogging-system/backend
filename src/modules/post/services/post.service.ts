@@ -122,6 +122,22 @@ export class PostService {
     })
   }
 
+  async getPublishedPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
+    return await this.postRepo.findMany({
+      pagination,
+      isPublished: true,
+      sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
+    })
+  }
+
+  async getUnPublishedPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
+    return await this.postRepo.findMany({
+      pagination,
+      isPublished: false,
+      sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
+    })
+  }
+
   //==========================
   async getAllPostsCount(): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({})
