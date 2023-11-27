@@ -61,6 +61,11 @@ export class PrivateSeriesCoreController {
     return this.seriesService.getUnPopularSeries({ pagination })
   }
 
+  @Get('/trending')
+  async getTrendingSeries(@Query() pagination: Pagination): Promise<Series[]> {
+    return this.seriesService.getTrendingSeries({ pagination })
+  }
+
   @Get(':slug')
   async getSeriesBySlug(@Param('slug') slug: string): Promise<Series> {
     return await this.seriesService.getSeriesBySlug({ slug })

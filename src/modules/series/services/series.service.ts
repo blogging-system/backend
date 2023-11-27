@@ -5,7 +5,7 @@ import { SeriesRepository } from '../repositories'
 import { ResultMessage } from 'src/shared/types'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
-import { SortFieldOptions } from 'src/shared/enums'
+import { SortFieldOptions, SortValueOptions } from 'src/shared/enums'
 
 @Injectable()
 export class SeriesService {
@@ -132,6 +132,13 @@ export class SeriesService {
     return await this.seriesRepo.findMany({
       pagination,
       sortCondition: `+${SortFieldOptions.VIEWS}`,
+    })
+  }
+
+  async getTrendingSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+    return await this.seriesRepo.findMany({
+      pagination,
+      sortCondition: { [SortFieldOptions.PUBLISHED_AT]: SortValueOptions.DESC, views: SortValueOptions.DESC },
     })
   }
 
