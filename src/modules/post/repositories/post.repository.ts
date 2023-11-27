@@ -7,6 +7,7 @@ import { Post } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
 import { CountDocumentsDto, CountDocumentsQuery } from 'src/shared/dtos/count-document.dto'
+import { SortFieldOptions } from 'src/shared/enums'
 
 @Injectable()
 export class PostRepository {
@@ -55,19 +56,19 @@ export class PostRepository {
     return await this.postModel.findOne(query).populate(['tags', 'keywords', 'series']).lean()
   }
 
-  async findMany({ pagination, filter, isPublished }: GetAllPostsDto): Promise<Post[]> {
-    const { pageNumber, pageSize, sort } = pagination
+  async findMany({ pagination, filter, isPublished, sortCondition }: GetAllPostsDto): Promise<Post[]> {
+    const { pageNumber, pageSize } = pagination
     const query: { tags?: string; series?: string; isPublished?: boolean } = {}
 
-    if (filter.tagId) query.tags = filter.tagId
-    if (filter.seriesId) query.series = filter.seriesId
+    if (filter?.tagId) query.tags = filter.tagId
+    if (filter?.seriesId) query.series = filter.seriesId
     if (isPublished) query.isPublished = isPublished
 
     const foundPosts = await this.postModel
       .find(query)
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize)
-      .sort(sort == 1 ? 'isPublishedAt' : '-isPublishedAt')
+      .sort(sortCondition)
       .populate(['tags', 'keywords', 'series'])
       .lean()
 

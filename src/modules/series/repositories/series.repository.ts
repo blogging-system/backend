@@ -64,7 +64,7 @@ export class SeriesRepository {
       .find(query)
       .skip((pageNumber - 1) * Number(pageSize))
       .limit(pageSize)
-      .sort(sort == 1 ? 'isPublishedAt' : '-isPublishedAt')
+      .sort(sort == 1 ? 'publishedAt' : '-publishedAt')
       .lean()
 
     if (foundSeries.length === 0) throw new NotFoundException(MESSAGES.SERIES_ARE_NOT_FOUND)

@@ -36,6 +36,11 @@ export class PrivatePostCoreController {
     return await this.postService.unPublishPost(postId)
   }
 
+  @Get('/latest')
+  async getLatestPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
+    return await this.postService.getLatestPosts({ pagination, sortValue: -1 })
+  }
+
   @Get(':slug')
   async getPostBySlug(@Param('slug') slug: string): Promise<BlogPost> {
     return await this.postService.getPostBySlug({ slug })
@@ -46,6 +51,6 @@ export class PrivatePostCoreController {
     const { tagId, seriesId, ...pagination } = query
     const filter = { tagId, seriesId } as PostsFilter
 
-    return await this.postService.getAllPosts({ filter, pagination })
+    return await this.postService.getAllPosts({ filter, pagination, sortValue: pagination.sort })
   }
 }

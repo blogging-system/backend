@@ -14,6 +14,7 @@ import { PostRepository } from '../repositories'
 import { TagService } from '../../tag/services'
 import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
+import { SortFieldOptions, SortValueOptions } from 'src/shared/enums'
 
 @Injectable()
 export class PostService {
@@ -55,7 +56,7 @@ export class PostService {
 
     return await this.postRepo.updateOne(postId, {
       isPublished: true,
-      isPublishedAt: new Date(Date.now()),
+      publishedAt: new Date(Date.now()),
     })
   }
 
@@ -66,7 +67,7 @@ export class PostService {
 
     return await this.postRepo.updateOne(postId, {
       isPublished: false,
-      isUnPublishedAt: new Date(Date.now()),
+      unPublishedAt: new Date(Date.now()),
     })
   }
 
@@ -104,8 +105,21 @@ export class PostService {
     return await this.postRepo.findOneById(postId)
   }
 
-  async getAllPosts({ filter, pagination, isPublished }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.findMany({ filter, pagination, isPublished })
+  async getAllPosts({ filter, pagination, isPublished, sortValue }: GetAllPostsDto): Promise<Post[]> {
+    return await this.postRepo.findMany({
+      filter,
+      pagination,
+      isPublished,
+      sortCondition: sortValue == 1 ? `${SortFieldOptions.PUBLISHED_AT}` : `-${SortFieldOptions.PUBLISHED_AT}`,
+    })
+  }
+
+  async getLatestPosts({ pagination, isPublished }: GetAllPostsDto): Promise<Post[]> {
+    return await this.postRepo.findMany({
+      pagination,
+      isPublished,
+      sortCondition: `-${SortFieldOptions.CREATED_AT}`,
+    })
   }
 
   //==========================

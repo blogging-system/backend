@@ -37,10 +37,10 @@ export class Post extends BaseSchema {
   isPublished: boolean
 
   @Prop({})
-  isPublishedAt: Date
+  publishedAt: Date
 
   @Prop({})
-  isUnPublishedAt: Date
+  unPublishedAt: Date
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post)

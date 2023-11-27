@@ -22,10 +22,10 @@ export class Series extends BaseSchema {
   isPublished: boolean
 
   @Prop({})
-  isPublishedAt: Date
+  publishedAt: Date
 
   @Prop({})
-  isUnPublishedAt: Date
+  unPublishedAt: Date
 }
 
 export const SeriesSchema = SchemaFactory.createForClass(Series)

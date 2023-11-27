@@ -4,6 +4,6 @@ export class SeriesManipulationDto extends CreateSeriesDto {
   _id: string
   slug?: string
   isPublished?: boolean
-  isPublishedAt?: Date
-  isUnPublishedAt?: Date
+  publishedAt?: Date
+  unPublishedAt?: Date
 }

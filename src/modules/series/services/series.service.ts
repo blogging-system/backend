@@ -37,7 +37,7 @@ export class SeriesService {
 
     await this.seriesRepo.updateOne(seriesId, {
       isPublished: true,
-      isPublishedAt: new Date(Date.now()),
+      publishedAt: new Date(Date.now()),
     })
 
     return { message: MESSAGES.PUBLISHED_SUCCESSFULLY }
@@ -50,7 +50,7 @@ export class SeriesService {
 
     await this.seriesRepo.updateOne(seriesId, {
       isPublished: false,
-      isUnPublishedAt: new Date(Date.now()),
+      unPublishedAt: new Date(Date.now()),
     })
 
     return { message: MESSAGES.UNPUBLISHED_SUCCESSFULLY }
