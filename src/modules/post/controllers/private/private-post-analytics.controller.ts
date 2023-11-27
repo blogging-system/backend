@@ -40,6 +40,22 @@ export class PrivateAnalyticsPostController {
   }
   //==========================
 
+  @Get('/published/count/series/:seriesId')
+  async getAllPublishedPostsCountForGivenSeriesId(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+    return await this.postService.getAllPublishedPostsCountWithGivenKeywordId(seriesId)
+  }
+
+  @Get('/unpublished/count/series/:seriesId')
+  async getAllUnPublishedPostsCountForGivenSeriesId(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+    return await this.postService.getAllUnPublishedPostsCountWithGivenKeywordId(seriesId)
+  }
+
+  @Get('/count/series/:seriesId')
+  async getAllPostsCountForGivenSeriesId(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+    return await this.postService.getAllPostsCountWithGivenKeywordId(seriesId)
+  }
+  //==========================
+
   @Get('/published/count')
   async getAllPublishedPostsCount(): Promise<ResultMessage> {
     return await this.postService.getAllPublishedPostsCount()

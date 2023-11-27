@@ -146,4 +146,17 @@ export class PostService {
   async getAllUnPublishedPostsCountWithGivenKeywordId(keywordId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ isPublished: false, keywordId })
   }
+
+  //==========================
+  async getAllPostsCountWithGivenSeriesId(seriesId: string): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({ seriesId })
+  }
+
+  async getAllPublishedPostsCountWithGivenSeriesId(seriesId: string): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({ isPublished: true, seriesId })
+  }
+
+  async getAllUnPublishedPostsCountWithGivenSeriesId(seriesId: string): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({ isPublished: false, seriesId })
+  }
 }
