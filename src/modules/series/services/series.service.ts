@@ -97,6 +97,30 @@ export class SeriesService {
     })
   }
 
+  async getLatestSeries({ pagination, isPublished }: GetAllSeriesDto): Promise<Series[]> {
+    return await this.seriesRepo.findMany({
+      pagination,
+      isPublished,
+      sortCondition: `-${SortFieldOptions.CREATED_AT}`,
+    })
+  }
+
+  async getPublishedSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+    return await this.seriesRepo.findMany({
+      pagination,
+      isPublished: true,
+      sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
+    })
+  }
+
+  async getUnPublishedSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+    return await this.seriesRepo.findMany({
+      pagination,
+      isPublished: false,
+      sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
+    })
+  }
+
   //===============================
   async getAllSeriesCount() {
     return await this.seriesRepo.countDocuments({})

@@ -61,7 +61,7 @@ export class SeriesRepository {
 
     if (isPublished) query.isPublished = isPublished
     if (isPublished !== undefined) query.isPublished = isPublished
-    console.log({ query, sortCondition })
+
     const foundSeries = await this.seriesModel
       .find(query)
       .skip((pageNumber - 1) * Number(pageSize))

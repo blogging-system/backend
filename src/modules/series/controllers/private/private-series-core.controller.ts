@@ -36,6 +36,21 @@ export class PrivateSeriesCoreController {
     return await this.seriesService.unPublishSeries(seriesId)
   }
 
+  @Get('/latest')
+  async getLatestSeries(@Query() pagination: Pagination): Promise<Series[]> {
+    return this.seriesService.getAllSeries({ pagination, sortValue: -1 })
+  }
+
+  @Get('/published')
+  async getPublishedSeries(@Query() pagination: Pagination): Promise<Series[]> {
+    return this.seriesService.getPublishedSeries({ pagination })
+  }
+
+  @Get('/unpublished')
+  async getUnPublishedSeries(@Query() pagination: Pagination): Promise<Series[]> {
+    return this.seriesService.getUnPublishedSeries({ pagination })
+  }
+
   @Get(':slug')
   async getSeriesBySlug(@Param('slug') slug: string): Promise<Series> {
     return await this.seriesService.getSeriesBySlug({ slug })
