@@ -51,4 +51,8 @@ export class KeywordService {
   async getAllKeywords(): Promise<Keyword[]> {
     return await this.keywordRepo.findMany()
   }
+
+  async getAllKeywordsCount(): Promise<ResultMessage> {
+    return await this.keywordRepo.countDocuments()
+  }
 }

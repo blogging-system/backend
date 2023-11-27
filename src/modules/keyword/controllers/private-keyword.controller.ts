@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Patch, Post, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
 import { CreateKeywordDto, DeleteKeywordDto } from '../dtos'
 import { ResultMessage } from 'src/shared/types'
@@ -23,5 +23,10 @@ export class PrivateKeywordController {
   @Delete(':keywordId')
   async deleteKeyword(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
     return await this.keywordService.deleteKeyword(keywordId)
+  }
+
+  @Get('/count')
+  async getAllKeywordsCount(): Promise<ResultMessage> {
+    return await this.keywordService.getAllKeywordsCount()
   }
 }

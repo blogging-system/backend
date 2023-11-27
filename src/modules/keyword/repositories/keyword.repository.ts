@@ -55,4 +55,10 @@ export class KeywordRepository {
 
     return areTagsFound
   }
+
+  async countDocuments(): Promise<ResultMessage> {
+    const count = await this.keywordModel.countDocuments().lean()
+
+    return { count }
+  }
 }
