@@ -141,14 +141,14 @@ export class PostService {
   async getPopularPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.findMany({
       pagination,
-      sortCondition: `+${SortFieldOptions.VIEWS}`,
+      sortCondition: `-${SortFieldOptions.VIEWS}`,
     })
   }
 
   async getUnPopularPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.findMany({
       pagination,
-      sortCondition: `-${SortFieldOptions.VIEWS}`,
+      sortCondition: `+${SortFieldOptions.VIEWS}`,
     })
   }
 
