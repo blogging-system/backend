@@ -34,9 +34,9 @@ export class PrivateAnalyticsPostController {
     return await this.postService.getAllUnPublishedPostsCountWithGivenKeywordId(keywordId)
   }
 
-  @Get('/count/keywords/:tagId')
-  async getAllPostsCountForGivenKeywordId(@Param('tagId') tagId: string): Promise<ResultMessage> {
-    return await this.postService.getAllPostsCountWithGivenkeywordId(tagId)
+  @Get('/count/keywords/:keywordId')
+  async getAllPostsCountForGivenKeywordId(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
+    return await this.postService.getAllPostsCountWithGivenKeywordId(keywordId)
   }
   //==========================
 
