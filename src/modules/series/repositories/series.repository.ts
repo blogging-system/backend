@@ -7,6 +7,7 @@ import { Series } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
 import { Pagination } from 'src/shared/dtos'
+import { CountDocumentsDto, CountDocumentsQuery } from 'src/shared/dtos/count-document.dto'
 
 @Injectable()
 export class SeriesRepository {
@@ -69,5 +70,16 @@ export class SeriesRepository {
     if (foundSeries.length === 0) throw new NotFoundException(MESSAGES.SERIES_ARE_NOT_FOUND)
 
     return foundSeries
+  }
+
+  async countDocuments({ isPublished }: CountDocumentsDto): Promise<ResultMessage> {
+    const query: CountDocumentsQuery = {}
+
+    if (isPublished) query.isPublished = isPublished
+    if (isPublished !== undefined) query.isPublished = isPublished
+
+    const count = await this.seriesModel.countDocuments(query).lean()
+
+    return { count }
   }
 }

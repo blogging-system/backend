@@ -1,4 +1,4 @@
-import { PublicSeriesController, PrivateSeriesController } from './controllers'
+import { PublicSeriesController, PrivateSeriesCoreController, PrivateSeriesAnalyticsController } from './controllers'
 import { Series, SeriesSchema } from './schemas/series.schema'
 import { SeriesService } from './services/series.service'
 import { SessionModule } from '../session/session.module'
@@ -15,6 +15,6 @@ import { PostModule } from '../post/post.module'
   ],
   exports: [SeriesService, SeriesRepository],
   providers: [SeriesService, SeriesRepository],
-  controllers: [PublicSeriesController, PrivateSeriesController],
+  controllers: [PublicSeriesController, PrivateSeriesCoreController, PrivateSeriesAnalyticsController],
 })
 export class SeriesModule {}

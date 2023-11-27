@@ -91,4 +91,17 @@ export class SeriesService {
   async getAllSeries({ pagination, isPublished }: GetAllSeriesDto): Promise<Series[]> {
     return await this.seriesRepo.findMany({ pagination, isPublished })
   }
+
+  //===============================
+  async getAllSeriesCount() {
+    return await this.seriesRepo.countDocuments({})
+  }
+
+  async getAllPublishedSeriesCount() {
+    return await this.seriesRepo.countDocuments({ isPublished: true })
+  }
+
+  async getAllUnPublishedSeriesCount() {
+    return await this.seriesRepo.countDocuments({ isPublished: false })
+  }
 }

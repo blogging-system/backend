@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { SeriesController } from '../../controllers/private-series.controller'
+import { SeriesController } from '../../controllers/private/private-series-analytics.controller'
 
 describe('SeriesController', () => {
   let controller: SeriesController

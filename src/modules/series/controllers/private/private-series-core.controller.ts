@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
-import { CreateSeriesDto, DeleteSeriesDto } from '../dtos'
+import { CreateSeriesDto, DeleteSeriesDto } from '../../dtos'
 import { ResultMessage } from 'src/shared/types'
 import { Pagination } from 'src/shared/dtos'
-import { SeriesService } from '../services'
-import { Series } from '../schemas'
+import { SeriesService } from '../../services'
+import { Series } from '../../schemas'
 
 @Controller('/admin/series')
 @UseInterceptors(ProtectResourceInterceptor)
-export class PrivateSeriesController {
+export class PrivateSeriesCoreController {
   constructor(private seriesService: SeriesService) {}
 
   @Post()

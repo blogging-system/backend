@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { Pagination } from 'src/shared/dtos'
-import { SeriesService } from '../services'
-import { Series } from '../schemas'
+import { SeriesService } from '../../services'
+import { Series } from '../../schemas'
 
 @Controller('series')
 export class PublicSeriesController {
