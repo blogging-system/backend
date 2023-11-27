@@ -63,6 +63,7 @@ export class PostRepository {
     if (filter?.tagId) query.tags = filter.tagId
     if (filter?.seriesId) query.series = filter.seriesId
     if (isPublished) query.isPublished = isPublished
+    if (isPublished !== undefined) query.isPublished = isPublished
 
     const foundPosts = await this.postModel
       .find(query)

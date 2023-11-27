@@ -42,7 +42,7 @@ export class PrivateSeriesCoreController {
   }
 
   @Get()
-  async getAllSeries(@Query() query: Pagination): Promise<Series[]> {
-    return this.seriesService.getAllSeries({ pagination: query })
+  async getAllSeries(@Query() pagination: Pagination): Promise<Series[]> {
+    return this.seriesService.getAllSeries({ pagination, sortValue: pagination.sort })
   }
 }

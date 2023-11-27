@@ -55,16 +55,18 @@ export class SeriesRepository {
     return await this.seriesModel.findOne(query).lean()
   }
 
-  async findMany({ pagination: { pageNumber, pageSize, sort }, isPublished }: GetAllSeriesDto) {
+  async findMany({ pagination, isPublished, sortCondition }: GetAllSeriesDto) {
+    const { pageNumber, pageSize } = pagination
     const query: { isPublished?: boolean } = {}
 
     if (isPublished) query.isPublished = isPublished
-
+    if (isPublished !== undefined) query.isPublished = isPublished
+    console.log({ query, sortCondition })
     const foundSeries = await this.seriesModel
       .find(query)
       .skip((pageNumber - 1) * Number(pageSize))
       .limit(pageSize)
-      .sort(sort == 1 ? 'publishedAt' : '-publishedAt')
+      .sort(sortCondition)
       .lean()
 
     if (foundSeries.length === 0) throw new NotFoundException(MESSAGES.SERIES_ARE_NOT_FOUND)

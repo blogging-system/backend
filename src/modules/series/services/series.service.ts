@@ -5,6 +5,7 @@ import { SeriesRepository } from '../repositories'
 import { ResultMessage } from 'src/shared/types'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
+import { SortFieldOptions } from 'src/shared/enums'
 
 @Injectable()
 export class SeriesService {
@@ -88,8 +89,12 @@ export class SeriesService {
     return isSeriesFound
   }
 
-  async getAllSeries({ pagination, isPublished }: GetAllSeriesDto): Promise<Series[]> {
-    return await this.seriesRepo.findMany({ pagination, isPublished })
+  async getAllSeries({ pagination, isPublished, sortValue }: GetAllSeriesDto): Promise<Series[]> {
+    return await this.seriesRepo.findMany({
+      pagination,
+      isPublished,
+      sortCondition: sortValue == 1 ? `${SortFieldOptions.PUBLISHED_AT}` : `-${SortFieldOptions.PUBLISHED_AT}`,
+    })
   }
 
   //===============================
