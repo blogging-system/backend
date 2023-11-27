@@ -1,4 +1,4 @@
-import { IsMongoId, IsNotEmpty, IsString } from 'class-validator'
+import { IsMongoId, IsNotEmpty, IsString, IsUrl } from 'class-validator'
 import { Type } from 'class-transformer'
 
 export class CreatePostDto {
@@ -16,6 +16,10 @@ export class CreatePostDto {
   @IsString()
   @IsNotEmpty()
   content: string
+
+  @Type(() => String)
+  @IsUrl()
+  imageUrl: string
 
   @IsNotEmpty({ each: true })
   @IsMongoId({ each: true })

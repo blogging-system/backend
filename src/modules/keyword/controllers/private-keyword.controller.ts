@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
-import { CreateKeywordDto, DeleteKeywordDto } from '../dtos'
 import { ResultMessage } from 'src/shared/types'
 import { KeywordService } from '../services'
+import { CreateKeywordDto } from '../dtos'
 import { Keyword } from '../schemas'
 
 @Controller('/admin/keywords')

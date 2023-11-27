@@ -21,6 +21,9 @@ export class Post extends BaseSchema {
   @Prop({})
   content: string
 
+  @Prop({})
+  imageUrl: string
+
   @Prop({ type: [Types.ObjectId], ref: Tag.name })
   tags: Tag[]
 
