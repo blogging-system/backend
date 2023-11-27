@@ -15,6 +15,9 @@ export class Series extends BaseSchema {
   @Prop({})
   description: string
 
+  @Prop({})
+  imageUrl: string
+
   @Prop({ default: false })
   isPublished: boolean
 

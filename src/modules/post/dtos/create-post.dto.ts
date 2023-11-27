@@ -18,6 +18,8 @@ export class CreatePostDto {
   content: string
 
   @Type(() => String)
+  @IsNotEmpty()
+  @IsString()
   @IsUrl()
   imageUrl: string
 

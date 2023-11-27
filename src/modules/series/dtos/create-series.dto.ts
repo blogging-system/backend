@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator'
+import { IsNotEmpty, IsString, IsUrl } from 'class-validator'
 import { Type } from 'class-transformer'
 
 export class CreateSeriesDto {
@@ -11,4 +11,10 @@ export class CreateSeriesDto {
   @IsString()
   @IsNotEmpty()
   description: string
+
+  @Type(() => String)
+  @IsNotEmpty()
+  @IsString()
+  @IsUrl()
+  imageUrl: string
 }
