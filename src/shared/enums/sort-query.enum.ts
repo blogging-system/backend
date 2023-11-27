@@ -1,6 +1,7 @@
 export enum SortFieldOptions {
   CREATED_AT = 'createdAt',
   PUBLISHED_AT = 'publishedAt',
+  VIEWS = 'views',
 }
 
 export enum SortValueOptions {

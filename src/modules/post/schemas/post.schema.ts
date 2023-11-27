@@ -33,6 +33,9 @@ export class Post extends BaseSchema {
   @Prop({ type: [Types.ObjectId], ref: Series.name })
   series: Series[]
 
+  @Prop({ index: true, default: 0 })
+  views: number
+
   @Prop({ default: false })
   isPublished: boolean
 
