@@ -36,6 +36,21 @@ export class PrivatePostController {
     return await this.postService.unPublishPost(postId)
   }
 
+  @Get('/published/count')
+  async getAllPublishedPostsCount(): Promise<ResultMessage> {
+    return await this.postService.getAllPublishedPostsCount()
+  }
+
+  @Get('/unpublished/count')
+  async getAllUnPublishedPostsCount(): Promise<ResultMessage> {
+    return await this.postService.getAllUnPublishedPostsCount()
+  }
+
+  @Get('/count')
+  async getAllPostsCount(): Promise<ResultMessage> {
+    return await this.postService.getAllPostsCount()
+  }
+
   @Get(':slug')
   async getPostBySlug(@Param('slug') slug: string): Promise<BlogPost> {
     return await this.postService.getPostBySlug({ slug })

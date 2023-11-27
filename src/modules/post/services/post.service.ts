@@ -107,4 +107,16 @@ export class PostService {
   async getAllPosts({ filter, pagination, isPublished }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.findMany({ filter, pagination, isPublished })
   }
+
+  async getAllPostsCount(): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({})
+  }
+
+  async getAllPublishedPostsCount(): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({ isPublished: true })
+  }
+
+  async getAllUPublishedPostsCount(): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({ isPublished: false })
+  }
 }

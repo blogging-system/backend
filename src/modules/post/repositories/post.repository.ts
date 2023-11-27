@@ -6,6 +6,7 @@ import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
+import { CountDocumentsDto } from 'src/shared/dtos/count-document.dto'
 
 @Injectable()
 export class PostRepository {
@@ -73,5 +74,15 @@ export class PostRepository {
     if (foundPosts.length === 0) throw new NotFoundException(MESSAGES.POSTS_NOT_FOUND)
 
     return foundPosts
+  }
+
+  async countDocuments({ isPublished }: CountDocumentsDto): Promise<ResultMessage> {
+    const query: CountDocumentsDto = {}
+
+    if (isPublished) query.isPublished = isPublished
+
+    const count = await this.postModel.countDocuments(query).lean()
+
+    return { count }
   }
 }

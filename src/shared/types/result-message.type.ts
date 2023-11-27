@@ -1,3 +1,4 @@
 export type ResultMessage = {
-  message: string
+  message?: string
+  count?: number
 }
