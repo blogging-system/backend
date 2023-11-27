@@ -1,8 +1,8 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { Pagination } from 'src/shared/dtos'
-import { PostService } from '../services'
-import { PostsFilter } from '../dtos'
-import { Post } from '../schemas'
+import { PostService } from '../../services'
+import { PostsFilter } from '../../dtos'
+import { Post } from '../../schemas'
 
 @Controller('posts')
 export class PublicPostController {

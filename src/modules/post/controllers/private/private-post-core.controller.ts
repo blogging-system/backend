@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
-import { CreatePostDto, DeletePostDto, PostsFilter } from '../dtos'
+import { CreatePostDto, DeletePostDto, PostsFilter } from '../../dtos'
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
 import { ResultMessage } from 'src/shared/types'
-import { Post as BlogPost } from '../schemas'
+import { Post as BlogPost } from '../../schemas'
 import { Pagination } from 'src/shared/dtos'
-import { PostService } from '../services'
+import { PostService } from '../../services'
 
 @Controller('/admin/posts')
 @UseInterceptors(ProtectResourceInterceptor)
-export class PrivatePostController {
+export class PrivatePostCoreController {
   constructor(private postService: PostService) {}
 
   @Post()
@@ -34,21 +34,6 @@ export class PrivatePostController {
   @Post('/unpublish/:postId')
   async unPublishPost(@Param('postId') postId: string): Promise<BlogPost> {
     return await this.postService.unPublishPost(postId)
-  }
-
-  @Get('/published/count')
-  async getAllPublishedPostsCount(): Promise<ResultMessage> {
-    return await this.postService.getAllPublishedPostsCount()
-  }
-
-  @Get('/unpublished/count')
-  async getAllUnPublishedPostsCount(): Promise<ResultMessage> {
-    return await this.postService.getAllUnPublishedPostsCount()
-  }
-
-  @Get('/count')
-  async getAllPostsCount(): Promise<ResultMessage> {
-    return await this.postService.getAllPostsCount()
   }
 
   @Get(':slug')

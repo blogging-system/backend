@@ -1,4 +1,4 @@
-import { PublicPostController, PrivatePostController } from './controllers'
+import { PublicPostController, PrivatePostCoreController, PrivateAnalyticsPostController } from './controllers'
 import { SessionModule } from '../session/session.module'
 import { KeywordModule } from '../keyword/keyword.module'
 import { SeriesModule } from '../series/series.module'
@@ -18,7 +18,7 @@ import { Module } from '@nestjs/common'
     TagModule,
   ],
   exports: [PostService, PostRepository],
-  controllers: [PublicPostController, PrivatePostController],
+  controllers: [PublicPostController, PrivatePostCoreController, PrivateAnalyticsPostController],
   providers: [PostService, PostRepository],
 })
 export class PostModule {}

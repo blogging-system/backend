@@ -108,6 +108,7 @@ export class PostService {
     return await this.postRepo.findMany({ filter, pagination, isPublished })
   }
 
+  //==========================
   async getAllPostsCount(): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({})
   }
@@ -118,5 +119,31 @@ export class PostService {
 
   async getAllUnPublishedPostsCount(): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ isPublished: false })
+  }
+
+  //==========================
+  async getAllPostsCountWithGivenTagId(tagId: string): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({ tagId })
+  }
+
+  async getAllPublishedPostsCountWithGivenTagId(tagId: string): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({ isPublished: true, tagId })
+  }
+
+  async getAllUnPublishedPostsCountWithGivenTagId(tagId: string): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({ isPublished: false, tagId })
+  }
+
+  //==========================
+  async getAllPostsCountWithGivenKeywordId(keywordId: string): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({ keywordId })
+  }
+
+  async getAllPublishedPostsCountWithGivenKeywordId(keywordId: string): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({ isPublished: true, keywordId })
+  }
+
+  async getAllUnPublishedPostsCountWithGivenKeywordId(keywordId: string): Promise<ResultMessage> {
+    return await this.postRepo.countDocuments({ isPublished: false, keywordId })
   }
 }

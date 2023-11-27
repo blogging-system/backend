@@ -6,7 +6,7 @@ import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
-import { CountDocumentsDto } from 'src/shared/dtos/count-document.dto'
+import { CountDocumentsDto, CountDocumentsQuery } from 'src/shared/dtos/count-document.dto'
 
 @Injectable()
 export class PostRepository {
@@ -76,10 +76,13 @@ export class PostRepository {
     return foundPosts
   }
 
-  async countDocuments({ isPublished }: CountDocumentsDto): Promise<ResultMessage> {
-    const query: CountDocumentsDto = {}
+  async countDocuments({ isPublished, tagId, keywordId, seriesId }: CountDocumentsDto): Promise<ResultMessage> {
+    const query: CountDocumentsQuery = {}
 
     if (isPublished) query.isPublished = isPublished
+    if (tagId) query.tags = tagId
+    if (keywordId) query.keywords = keywordId
+    if (seriesId) query.series = seriesId
 
     const count = await this.postModel.countDocuments(query).lean()
 
