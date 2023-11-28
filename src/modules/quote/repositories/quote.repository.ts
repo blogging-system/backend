@@ -50,7 +50,7 @@ export class QuoteRepository {
       .find()
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize)
-      .sort(sort == 0 ? 'createdAt' : '-createdAt')
+      .sort(sort == 1 ? 'createdAt' : '-createdAt')
       .lean()
 
     if (areQuotesFound.length === 0) throw new NotFoundException(MESSAGES.QUOTES_NOT_FOUND)

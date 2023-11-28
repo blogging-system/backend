@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Param, Patch, Post, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
 import { QuoteService } from '../../services'
 import { CreateQuoteDto } from '../../dtos'
 import { Quote } from '../../schemas'
 import { ResultMessage } from 'src/shared/types'
+import { Pagination } from 'src/shared/dtos'
 
 @Controller('/admin/quotes')
 @UseInterceptors(ProtectResourceInterceptor)
@@ -23,5 +24,10 @@ export class PrivateQuoteController {
   @Delete(':quoteId')
   async deleteQuote(@Param('quoteId') quoteId: string): Promise<ResultMessage> {
     return await this.quoteService.deleteQuote(quoteId)
+  }
+
+  @Get()
+  async GetAllQuotes(@Query() pagination: Pagination): Promise<Quote[]> {
+    return await this.quoteService.getAllQuotes(pagination)
   }
 }
