@@ -2,13 +2,13 @@ import { Controller, Delete, Get, Param, Req, UseInterceptors } from '@nestjs/co
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
 import { CurrentUser } from 'src/modules/user/decorators'
 import { User } from 'src/modules/user/schemas'
-import { SessionService } from '../services'
+import { SessionService } from '../../services'
 import { CustomRequest } from 'express'
-import { Session } from '../schemas'
+import { Session } from '../../schemas'
 
 @Controller('/admin/sessions')
 @UseInterceptors(ProtectResourceInterceptor)
-export class SessionController {
+export class PrivateSessionController {
   constructor(private readonly sessionService: SessionService) {}
 
   @Delete('/:sessionId')

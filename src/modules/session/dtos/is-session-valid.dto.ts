@@ -6,4 +6,7 @@ export class IsSessionValidDto {
 
   @Type(() => String)
   accessToken?: string
+
+  @Type(() => String)
+  refreshToken?: string
 }

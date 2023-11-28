@@ -1,7 +1,7 @@
+import { PublicSessionController, PrivateSessionController } from './controllers'
 import { SessionRepository } from './repositories'
 import { Session, SessionSchema } from './schemas'
 import { MongooseModule } from '@nestjs/mongoose'
-import { SessionController } from './controllers'
 import { SessionService } from './services'
 import { Module } from '@nestjs/common'
 
@@ -9,6 +9,6 @@ import { Module } from '@nestjs/common'
   imports: [MongooseModule.forFeature([{ name: Session.name, schema: SessionSchema }])],
   exports: [SessionService, SessionRepository],
   providers: [SessionService, SessionRepository],
-  controllers: [SessionController],
+  controllers: [PublicSessionController, PrivateSessionController],
 })
 export class SessionModule {}
