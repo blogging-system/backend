@@ -2,8 +2,8 @@ import { BadRequestException, Injectable, InternalServerErrorException, Unauthor
 import { MESSAGES as AUTH_MESSAGES } from '../../auth/constants'
 import { CreateSessionDto, IsSessionValidDto } from '../dtos'
 import { SessionRepository } from '../repositories'
-import { TokenUtil } from 'src/shared/utils'
 import { ResultMessage } from 'src/shared/types'
+import { TokenUtil } from 'src/shared/utils'
 import { MESSAGES } from '../constants'
 import { Session } from '../schemas'
 
@@ -16,16 +16,16 @@ export class SessionService {
   }
 
   public async regenerateSession(refreshToken: string): Promise<Session> {
-    const validSession = await this.isSessionValid({ refreshToken })
+    const { _id: userId, device, ipAddress } = await this.getSession({ refreshToken })
 
-    await this.revokeSession(validSession._id)
+    await this.revokeSession(userId)
 
     const payload = {
-      userId: validSession._id,
-      device: validSession.device,
-      ipAddress: validSession.ipAddress,
-      accessToken: await TokenUtil.generateAccessToken({ _id: validSession._id }),
-      refreshToken: await TokenUtil.generateRefreshToken({ _id: validSession._id }),
+      userId,
+      device,
+      ipAddress,
+      accessToken: await TokenUtil.generateAccessToken({ _id: userId }),
+      refreshToken: await TokenUtil.generateRefreshToken({ _id: userId }),
     }
 
     return await this.sessionRepo.createOne(payload)
@@ -51,19 +51,7 @@ export class SessionService {
     return await this.sessionRepo.deleteMany(currentAccessToken)
   }
 
-  public async getSession(accessToken: string): Promise<Session> {
-    const isSessionFound = await this.sessionRepo.findOne({ accessToken })
-
-    if (!isSessionFound) throw new BadRequestException(MESSAGES.SESSION_NOT_FOUND)
-
-    return isSessionFound
-  }
-
-  public async getAllUserSessions(userId: string): Promise<Session[]> {
-    return await this.sessionRepo.findMany(userId)
-  }
-
-  public async isSessionValid({ accessToken, refreshToken, sessionId }: IsSessionValidDto): Promise<Session> {
+  public async getSession({ accessToken, refreshToken, sessionId }: IsSessionValidDto): Promise<Session> {
     const query: IsSessionValidDto = {}
 
     if (accessToken) query.accessToken = accessToken
@@ -75,5 +63,9 @@ export class SessionService {
     if (!isSessionFound) throw new UnauthorizedException(AUTH_MESSAGES.INVOKED_TOKEN)
 
     return isSessionFound
+  }
+
+  public async getAllUserSessions(userId: string): Promise<Session[]> {
+    return await this.sessionRepo.findMany(userId)
   }
 }

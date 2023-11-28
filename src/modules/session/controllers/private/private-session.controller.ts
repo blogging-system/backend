@@ -12,17 +12,17 @@ export class PrivateSessionController {
   constructor(private readonly sessionService: SessionService) {}
 
   @Delete('/:sessionId')
-  public async revokeSession(@Param('sessionId') sessionId: string) {
-    return await this.sessionService.revokeSession(sessionId)
+  public revokeSession(@Param('sessionId') sessionId: string) {
+    return this.sessionService.revokeSession(sessionId)
   }
 
   @Delete()
-  public async revokeAllSession(@Req() req: CustomRequest) {
-    return await this.sessionService.revokeAllSessions(req.session.accessToken)
+  public revokeAllSession(@Req() req: CustomRequest) {
+    return this.sessionService.revokeAllSessions(req.session.accessToken)
   }
 
   @Get()
-  public async getAllSessions(@CurrentUser() user: User): Promise<Session[]> {
-    return await this.sessionService.getAllUserSessions(user._id)
+  public getAllSessions(@CurrentUser() user: User): Promise<Session[]> {
+    return this.sessionService.getAllUserSessions(user._id)
   }
 }

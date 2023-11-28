@@ -7,7 +7,7 @@ export class PublicSessionController {
   constructor(private readonly sessionService: SessionService) {}
 
   @Post('regenerate')
-  public async regenerateSession(@Body() data: RegenerateSessionDto) {
-    return await this.sessionService.regenerateSession(data.refreshToken)
+  public regenerateSession(@Body() data: RegenerateSessionDto) {
+    return this.sessionService.regenerateSession(data.refreshToken)
   }
 }
