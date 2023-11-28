@@ -13,7 +13,7 @@ import { SeriesModule } from './modules/series/series.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { SessionModule } from './modules/session/session.module'
 import { appConfig } from './shared/config'
-import { QuoteModule } from './quote/quote.module'
+import { QuoteModule } from './modules/quote/quote.module'
 
 @Module({
   imports: [

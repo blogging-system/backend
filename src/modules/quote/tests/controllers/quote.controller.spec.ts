@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { QuoteController } from '../../controllers/quote.controller'
+import { PublicQuoteController } from '../../controllers/public/public-quote.controller'
 
 describe('QuoteController', () => {
-  let controller: QuoteController
+  let controller: PublicQuoteController
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [QuoteController],
+      controllers: [PublicQuoteController],
     }).compile()
 
-    controller = module.get<QuoteController>(QuoteController)
+    controller = module.get<PublicQuoteController>(PublicQuoteController)
   })
 
   it('should be defined', () => {
