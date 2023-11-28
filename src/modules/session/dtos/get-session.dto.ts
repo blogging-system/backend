@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer'
 
-export class IsSessionValidDto {
+export class GetSessionDto {
   @Type(() => String)
   sessionId?: string
 
@@ -10,3 +10,5 @@ export class IsSessionValidDto {
   @Type(() => String)
   refreshToken?: string
 }
+
+export class GetSessionQuery extends GetSessionDto {}

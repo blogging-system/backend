@@ -5,6 +5,7 @@ import { User } from '../../../user/schemas/user.schema'
 import { CurrentUser } from '../../../user/decorators'
 import { PublicUserDto } from 'src/modules/user/dtos'
 import { Serialize } from 'src/shared/decorators'
+import { ResultMessage } from 'src/shared/types'
 import { AuthService } from '../../services'
 import { CustomRequest } from 'express'
 
@@ -18,12 +19,12 @@ export class PrivateAuthController {
 
   @Get('/whoami')
   @Serialize(PublicUserDto)
-  public async whoAmI(@CurrentUser() user: User): Promise<User> {
-    return await this.userService.findUserById(user._id)
+  public whoAmI(@CurrentUser() user: User): Promise<User> {
+    return this.userService.findUserById(user._id)
   }
 
   @Post('/logout')
-  public async logOut(@Req() req: CustomRequest) {
-    return await this.authService.logOut(req.session.accessToken)
+  public logOut(@Req() req: CustomRequest): Promise<ResultMessage> {
+    return this.authService.logOut(req.session.accessToken)
   }
 }

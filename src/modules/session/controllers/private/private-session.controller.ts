@@ -1,7 +1,6 @@
 import { Controller, Delete, Get, Param, Req, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
-import { CurrentUser } from 'src/modules/user/decorators'
-import { User } from 'src/modules/user/schemas'
+import { ResultMessage } from 'src/shared/types'
 import { SessionService } from '../../services'
 import { CustomRequest } from 'express'
 import { Session } from '../../schemas'
@@ -12,17 +11,17 @@ export class PrivateSessionController {
   constructor(private readonly sessionService: SessionService) {}
 
   @Delete('/:sessionId')
-  public revokeSession(@Param('sessionId') sessionId: string) {
+  public revokeSession(@Param('sessionId') sessionId: string): Promise<ResultMessage> {
     return this.sessionService.revokeSession(sessionId)
   }
 
   @Delete()
-  public revokeAllSession(@Req() req: CustomRequest) {
+  public revokeAllSession(@Req() req: CustomRequest): Promise<ResultMessage> {
     return this.sessionService.revokeAllSessions(req.session.accessToken)
   }
 
   @Get()
-  public getAllSessions(@CurrentUser() user: User): Promise<Session[]> {
-    return this.sessionService.getAllUserSessions(user._id)
+  public getAllSessions(): Promise<Session[]> {
+    return this.sessionService.getAllSessions()
   }
 }

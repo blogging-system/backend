@@ -15,22 +15,22 @@ export class AuthService {
   ) {}
 
   public async login(data: LoginDto, ipAddress: string, device: Record<string, unknown>): Promise<LoginResponse> {
-    const isUserFound = await this.userService.findUserByEmail(data.email)
+    const user = await this.userService.findUserByEmail(data.email)
 
-    if (!isUserFound) throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
+    if (!user) throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
 
-    const isPasswordMatch = await HashUtil.verifyHash(data.password, isUserFound.password)
+    const isPasswordMatch = await HashUtil.verifyHash(data.password, user.password)
 
     if (!isPasswordMatch) throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
 
     const tokenPayload = {
-      _id: isUserFound._id,
+      _id: user._id,
     }
 
     const accessToken = await TokenUtil.generateAccessToken(tokenPayload)
     const refreshToken = await TokenUtil.generateRefreshToken(tokenPayload)
 
-    await this.sessionService.createSession({ userId: isUserFound._id, accessToken, refreshToken, ipAddress, device })
+    await this.sessionService.createSession({ accessToken, refreshToken, ipAddress, device })
 
     return {
       accessToken,
@@ -38,9 +38,9 @@ export class AuthService {
     }
   }
 
-  public async logOut(currentAccessToken: string): Promise<ResultMessage> {
-    const foundSession = await this.sessionService.getSession({ accessToken: currentAccessToken })
+  public async logOut(accessToken: string): Promise<ResultMessage> {
+    const { _id } = await this.sessionService.getSession({ accessToken })
 
-    return await this.sessionService.deleteSession(foundSession._id)
+    return await this.sessionService.deleteSession(_id)
   }
 }

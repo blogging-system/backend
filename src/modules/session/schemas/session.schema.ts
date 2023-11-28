@@ -8,9 +8,6 @@ export type SessionDocument = HydratedDocument<Session>
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Session extends BaseSchema {
-  @Prop({ type: Types.ObjectId, ref: User.name, index: true })
-  userId: string
-
   @Prop()
   accessToken: string
 

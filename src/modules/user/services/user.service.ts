@@ -19,6 +19,10 @@ export class UserService {
     return await this.userRepo.findOneById(userId)
   }
 
+  public async findRootUser(): Promise<User> {
+    return await this.userRepo.findOne({})
+  }
+
   public async isUserFound(email: string): Promise<boolean> {
     const isUserFound = await this.userRepo.findOne({ email })
 
