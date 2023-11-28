@@ -13,6 +13,7 @@ import { SeriesModule } from './modules/series/series.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { SessionModule } from './modules/session/session.module'
 import { appConfig } from './shared/config'
+import { QuoteModule } from './quote/quote.module'
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { appConfig } from './shared/config'
     SeriesModule,
     AuthModule,
     SessionModule,
+    QuoteModule,
   ],
   controllers: [AppController],
   providers: [

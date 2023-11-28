@@ -84,9 +84,11 @@ export class SeriesService {
 
     const isSeriesFound = await this.seriesRepo.findOne(query)
 
+    await this.seriesRepo.updateOne(isSeriesFound._id, { views: isSeriesFound.views + 1 })
+
     if (!isSeriesFound) throw new NotFoundException(MESSAGES.SERIES_NOT_FOUND)
 
-    return isSeriesFound
+    return Object.assign(isSeriesFound, { views: isSeriesFound.views + 1 })
   }
 
   async getAllSeries({ pagination, isPublished, sortValue }: GetAllSeriesDto): Promise<Series[]> {
