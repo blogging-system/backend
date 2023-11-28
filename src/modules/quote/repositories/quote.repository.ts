@@ -5,6 +5,7 @@ import { CreateQuoteDto } from '../dtos'
 import { Model, Types } from 'mongoose'
 import { MESSAGES } from '../constants'
 import { Quote } from '../schemas'
+import { Pagination } from 'src/shared/dtos'
 
 @Injectable()
 export class QuoteRepository {
@@ -44,7 +45,22 @@ export class QuoteRepository {
     return isQuoteFound
   }
 
-  async findOne(query: any): Promise<Quote> {
-    return await this.quoteModel.findOne(query).lean()
+  async findMany({ pageNumber, pageSize, sort }: Pagination): Promise<Quote[]> {
+    const areQuotesFound = await this.quoteModel
+      .find()
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize)
+      .sort(sort == 0 ? 'createdAt' : '-createdAt')
+      .lean()
+
+    if (areQuotesFound.length === 0) throw new NotFoundException(MESSAGES.QUOTES_NOT_FOUND)
+
+    return areQuotesFound
+  }
+
+  async countDocuments(): Promise<ResultMessage> {
+    const count = await this.quoteModel.countDocuments().lean()
+
+    return { count }
   }
 }
