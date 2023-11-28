@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
 import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
-import { CreateTagDto } from '../dtos'
 import { MESSAGES } from '../constants'
 import { Model, Types } from 'mongoose'
+import { CreateTagDto } from '../dtos'
 import { Tag } from '../schemas'
 
 @Injectable()
@@ -42,10 +42,6 @@ export class TagRepository {
     if (!isTagFound) throw new NotFoundException(MESSAGES.TAG_NOT_FOUND)
 
     return isTagFound
-  }
-
-  public async findOne(query: any): Promise<Tag> {
-    return await this.tagModel.findOne(query).lean()
   }
 
   public async findMany(): Promise<Tag[]> {

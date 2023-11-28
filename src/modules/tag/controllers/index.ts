@@ -1,2 +1,2 @@
-export * from './private-tag.controller'
-export * from './public-tag.controller'
+export * from './private/private-tag.controller'
+export * from './public/public-tag.controller'

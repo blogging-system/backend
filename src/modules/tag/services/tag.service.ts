@@ -18,19 +18,19 @@ export class TagService {
   }
 
   public async updateTag(tagId: string, payload: CreateTagDto): Promise<Tag> {
-    await this.isTagAvailable(tagId)
+    await this.getTag(tagId)
 
     return await this.tagRepo.updateOne(tagId, payload)
   }
 
   public async deleteTag(tagId: string): Promise<ResultMessage> {
-    await this.isTagAvailable(tagId)
+    await this.getTag(tagId)
     await this.isTagAssociatedToPosts(tagId)
 
     return await this.tagRepo.deleteOne(tagId)
   }
 
-  public async isTagAvailable(tagId: string): Promise<Tag> {
+  public async getTag(tagId: string): Promise<Tag> {
     return await this.tagRepo.findOneById(tagId)
   }
 
@@ -41,7 +41,7 @@ export class TagService {
   }
 
   public async areTagsAvailable(tagIds: string[]): Promise<void> {
-    const array = await Promise.all(tagIds.map((id) => this.isTagAvailable(id)))
+    const array = await Promise.all(tagIds.map((id) => this.getTag(id)))
 
     const areTagsAvailable = array.every((available) => available)
 

@@ -44,10 +44,6 @@ export class KeywordRepository {
     return isPostFound
   }
 
-  public async findOne(query: any): Promise<Keyword> {
-    return await this.keywordModel.findOne(query).lean()
-  }
-
   public async findMany(): Promise<Keyword[]> {
     const areTagsFound = await this.keywordModel.find().lean()
 

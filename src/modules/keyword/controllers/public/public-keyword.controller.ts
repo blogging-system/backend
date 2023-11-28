@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common'
-import { KeywordService } from '../services'
-import { Keyword } from '../schemas'
+import { KeywordService } from '../../services'
+import { Keyword } from '../../schemas'
 
 @Controller('keywords')
 export class PublicKeywordController {
