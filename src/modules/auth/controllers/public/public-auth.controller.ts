@@ -1,8 +1,9 @@
-import { AuthService } from '../services/auth.service'
 import { DeviceInfo, IpAddress, Serialize } from 'src/shared/decorators'
-import { Body, Controller, Get, Post } from '@nestjs/common'
-import { LoginDto, LoginResponse } from '../dtos'
 import { SessionContentDto } from 'src/modules/session/dtos'
+import { AuthService } from '../../services/auth.service'
+import { Body, Controller, Post } from '@nestjs/common'
+import { LoginResponse } from '../../types'
+import { LoginDto } from '../../dtos'
 
 @Controller('auth')
 export class PublicAuthController {

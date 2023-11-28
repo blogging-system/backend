@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Req, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
-import { UserService } from '../../user/services/user.service'
+import { UserService } from '../../../user/services/user.service'
+import { User } from '../../../user/schemas/user.schema'
+import { CurrentUser } from '../../../user/decorators'
 import { PublicUserDto } from 'src/modules/user/dtos'
-import { User } from '../../user/schemas/user.schema'
-import { CurrentUser } from '../../user/decorators'
 import { Serialize } from 'src/shared/decorators'
-import { AuthService } from '../services'
+import { AuthService } from '../../services'
 import { CustomRequest } from 'express'
 
 @Controller('/admin/auth')

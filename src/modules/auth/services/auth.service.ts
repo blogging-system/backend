@@ -3,8 +3,9 @@ import { UserService } from '../../user/services/user.service'
 import { SessionService } from '../../session/services'
 import { HashUtil, TokenUtil } from 'src/shared/utils'
 import { ResultMessage } from 'src/shared/types'
-import { LoginDto, LoginResponse } from '../dtos'
+import { LoginResponse } from '../types'
 import { MESSAGES } from '../constants'
+import { LoginDto } from '../dtos'
 
 @Injectable()
 export class AuthService {
