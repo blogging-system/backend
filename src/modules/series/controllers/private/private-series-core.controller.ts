@@ -12,67 +12,67 @@ export class PrivateSeriesCoreController {
   constructor(private seriesService: SeriesService) {}
 
   @Post()
-  public async createSeries(@Body() data: CreateSeriesDto): Promise<Series> {
-    return await this.seriesService.createSeries(data)
+  public createSeries(@Body() data: CreateSeriesDto): Promise<Series> {
+    return this.seriesService.createSeries(data)
   }
 
   @Patch(':seriesId')
-  public async updateSeries(@Param('seriesId') seriesId: string, @Body() payload: CreateSeriesDto): Promise<Series> {
-    return await this.seriesService.updateSeries(seriesId, payload)
+  public updateSeries(@Param('seriesId') seriesId: string, @Body() payload: CreateSeriesDto): Promise<Series> {
+    return this.seriesService.updateSeries(seriesId, payload)
   }
 
   @Delete(':seriesId')
-  public async deleteSeries(@Param() data: DeleteSeriesDto): Promise<ResultMessage> {
-    return await this.seriesService.deleteSeries(data)
+  public deleteSeries(@Param() data: DeleteSeriesDto): Promise<ResultMessage> {
+    return this.seriesService.deleteSeries(data)
   }
 
   @Post('/publish/:seriesId')
-  public async publishSeries(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
-    return await this.seriesService.publishSeries(seriesId)
+  public publishSeries(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+    return this.seriesService.publishSeries(seriesId)
   }
 
   @Post('/unpublish/:seriesId')
-  public async unPublishSeries(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
-    return await this.seriesService.unPublishSeries(seriesId)
+  public unPublishSeries(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+    return this.seriesService.unPublishSeries(seriesId)
   }
 
   @Get('/latest')
-  public async getLatestSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  public getLatestSeries(@Query() pagination: Pagination): Promise<Series[]> {
     return this.seriesService.getLatestSeries({ pagination, isPublished: true })
   }
 
   @Get('/published')
-  public async getPublishedSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  public getPublishedSeries(@Query() pagination: Pagination): Promise<Series[]> {
     return this.seriesService.getPublishedSeries({ pagination })
   }
 
   @Get('/unpublished')
-  public async getUnPublishedSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  public getUnPublishedSeries(@Query() pagination: Pagination): Promise<Series[]> {
     return this.seriesService.getUnPublishedSeries({ pagination })
   }
 
   @Get('/popular')
-  public async getPopularSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  public getPopularSeries(@Query() pagination: Pagination): Promise<Series[]> {
     return this.seriesService.getPopularSeries({ pagination })
   }
 
   @Get('/unpopular')
-  public async getUnPopularSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  public getUnPopularSeries(@Query() pagination: Pagination): Promise<Series[]> {
     return this.seriesService.getUnPopularSeries({ pagination })
   }
 
   @Get('/trending')
-  public async getTrendingSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  public getTrendingSeries(@Query() pagination: Pagination): Promise<Series[]> {
     return this.seriesService.getTrendingSeries({ pagination })
   }
 
   @Get(':slug')
-  public async getSeriesBySlug(@Param('slug') slug: string): Promise<Series> {
-    return await this.seriesService.getSeriesBySlug({ slug })
+  public getSeriesBySlug(@Param('slug') slug: string): Promise<Series> {
+    return this.seriesService.getSeriesBySlug({ slug })
   }
 
   @Get()
-  public async getAllSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  public getAllSeries(@Query() pagination: Pagination): Promise<Series[]> {
     return this.seriesService.getAllSeries({ pagination, sortValue: pagination.sort })
   }
 }

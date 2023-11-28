@@ -19,20 +19,20 @@ export class SeriesService {
   }
 
   public async updateSeries(seriesId: string, payload: CreateSeriesDto): Promise<Series> {
-    await this.isSeriesAvailable(seriesId)
+    await this.getSeries(seriesId)
 
     return await this.seriesRepo.updateOne(seriesId, payload)
   }
 
   public async deleteSeries(data: DeleteSeriesDto): Promise<ResultMessage> {
-    await this.isSeriesAvailable(data.seriesId)
+    await this.getSeries(data.seriesId)
     await this.isSeriesAssociatedToPosts(data.seriesId)
 
     return await this.seriesRepo.deleteOne(data)
   }
 
   public async publishSeries(seriesId: string): Promise<ResultMessage> {
-    const isSeriesFound = await this.isSeriesAvailable(seriesId)
+    const isSeriesFound = await this.getSeries(seriesId)
 
     if (isSeriesFound.isPublished) throw new BadRequestException(MESSAGES.ALREADY_PUBLISHED)
 
@@ -45,7 +45,7 @@ export class SeriesService {
   }
 
   public async unPublishSeries(seriesId: string): Promise<ResultMessage> {
-    const isSeriesFound = await this.isSeriesAvailable(seriesId)
+    const isSeriesFound = await this.getSeries(seriesId)
 
     if (!isSeriesFound.isPublished) throw new BadRequestException(MESSAGES.ALREADY_UNPUBLISHED)
 
@@ -63,12 +63,12 @@ export class SeriesService {
     if (isSeriesAssociated) throw new BadRequestException(MESSAGES.SERIES_ASSOCIATED_TO_POST)
   }
 
-  private async isSeriesAvailable(seriesId: string): Promise<Series> {
+  private async getSeries(seriesId: string): Promise<Series> {
     return await this.seriesRepo.findOneById(seriesId)
   }
 
   public async areSeriesAvailable(seriesIds: string[]): Promise<void> {
-    const array = await Promise.all(seriesIds.map((id) => this.isSeriesAvailable(id)))
+    const array = await Promise.all(seriesIds.map((id) => this.getSeries(id)))
 
     const areTagsAvailable = array.every((available) => available)
 
@@ -144,16 +144,15 @@ export class SeriesService {
     })
   }
 
-  //===============================
-  public async getAllSeriesCount() {
+  public async getAllSeriesCount(): Promise<ResultMessage> {
     return await this.seriesRepo.countDocuments({})
   }
 
-  public async getAllPublishedSeriesCount() {
+  public async getAllPublishedSeriesCount(): Promise<ResultMessage> {
     return await this.seriesRepo.countDocuments({ isPublished: true })
   }
 
-  public async getAllUnPublishedSeriesCount() {
+  public async getAllUnPublishedSeriesCount(): Promise<ResultMessage> {
     return await this.seriesRepo.countDocuments({ isPublished: false })
   }
 }

@@ -1,13 +1,12 @@
+import { CreateSeriesDto, DeleteSeriesDto, GetAllSeriesDto, GetAllSeriesQuery, SeriesManipulationDto } from '../dtos'
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { CreateSeriesDto, DeleteSeriesDto, GetAllSeriesDto, SeriesManipulationDto } from '../dtos'
+import { CountDocumentsDto, CountDocumentsQuery } from 'src/shared/dtos/count-document.dto'
 import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
-import { Pagination } from 'src/shared/dtos'
-import { CountDocumentsDto, CountDocumentsQuery } from 'src/shared/dtos/count-document.dto'
 
 @Injectable()
 export class SeriesRepository {
@@ -55,9 +54,8 @@ export class SeriesRepository {
     return await this.seriesModel.findOne(query).lean()
   }
 
-  public async findMany({ pagination, isPublished, sortCondition }: GetAllSeriesDto) {
-    const { pageNumber, pageSize } = pagination
-    const query: { isPublished?: boolean } = {}
+  public async findMany({ pagination: { pageNumber, pageSize }, isPublished, sortCondition }: GetAllSeriesDto) {
+    const query: GetAllSeriesQuery = {}
 
     if (isPublished) query.isPublished = isPublished
     if (isPublished !== undefined) query.isPublished = isPublished
