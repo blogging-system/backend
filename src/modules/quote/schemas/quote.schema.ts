@@ -6,7 +6,7 @@ export type QuoteDocument = HydratedDocument<Quote>
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Quote extends BaseSchema {
-  @Prop()
+  @Prop({ unique: true })
   text: string
 
   @Prop()

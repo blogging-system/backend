@@ -58,6 +58,14 @@ export class QuoteRepository {
     return areQuotesFound
   }
 
+  async aggregate(): Promise<Quote[]> {
+    const areQuotesFound = await this.quoteModel.aggregate([{ $sample: { size: 10 } }])
+
+    if (areQuotesFound.length == 0) throw new NotFoundException(MESSAGES.QUOTES_NOT_FOUND)
+
+    return areQuotesFound
+  }
+
   async countDocuments(): Promise<ResultMessage> {
     const count = await this.quoteModel.countDocuments().lean()
 

@@ -30,6 +30,10 @@ export class QuoteService {
     return await this.quoteRepo.findMany(pagination)
   }
 
+  async getRandomQuotes(): Promise<Quote[]> {
+    return await this.quoteRepo.aggregate()
+  }
+
   private async isQuoteAvailable(quoteId: string): Promise<Quote> {
     return await this.quoteRepo.findOneById(quoteId)
   }
