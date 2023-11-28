@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Param, Patch, Post, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
 import { QuoteService } from '../../services'
 import { CreateQuoteDto } from '../../dtos'
@@ -12,5 +12,10 @@ export class PrivateQuoteController {
   @Post()
   async createQuote(@Body() data: CreateQuoteDto): Promise<Quote> {
     return await this.quoteService.createQuote(data)
+  }
+
+  @Patch(':quoteId')
+  async updateQuote(@Param('quoteId') quoteId: string, @Body() data: CreateQuoteDto): Promise<Quote> {
+    return await this.quoteService.updateQuote(quoteId, data)
   }
 }
