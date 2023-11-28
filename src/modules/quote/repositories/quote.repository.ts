@@ -1,11 +1,11 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { ResultMessage } from 'src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
+import { Pagination } from 'src/shared/dtos'
 import { CreateQuoteDto } from '../dtos'
 import { Model, Types } from 'mongoose'
 import { MESSAGES } from '../constants'
 import { Quote } from '../schemas'
-import { Pagination } from 'src/shared/dtos'
 
 @Injectable()
 export class QuoteRepository {

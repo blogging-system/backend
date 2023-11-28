@@ -1,12 +1,13 @@
 import { Controller, Get } from '@nestjs/common'
 import { QuoteService } from '../../services'
+import { Quote } from '../../schemas'
 
 @Controller('quotes')
 export class PublicQuoteController {
   constructor(private readonly quoteService: QuoteService) {}
 
   @Get('random')
-  public async getRandomQuotes() {
-    return await this.quoteService.getRandomQuotes()
+  public getRandomQuotes(): Promise<Quote[]> {
+    return this.quoteService.getRandomQuotes()
   }
 }

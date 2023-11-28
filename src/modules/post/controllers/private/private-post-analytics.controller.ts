@@ -9,71 +9,62 @@ export class PrivateAnalyticsPostController {
   constructor(private postService: PostService) {}
 
   @Get('/published/count/tags/:tagId')
-  public async getAllPublishedPostsCountForGivenTagId(@Param('tagId') tagId: string): Promise<ResultMessage> {
-    return await this.postService.getAllPublishedPostsCountWithGivenTagId(tagId)
+  public getAllPublishedPostsCountForGivenTagId(@Param('tagId') tagId: string): Promise<ResultMessage> {
+    return this.postService.getAllPublishedPostsCountWithGivenTagId(tagId)
   }
 
   @Get('/unpublished/count/tags/:tagId')
-  public async getAllUnPublishedPostsCountForGivenTagId(@Param('tagId') tagId: string): Promise<ResultMessage> {
-    return await this.postService.getAllUnPublishedPostsCountWithGivenTagId(tagId)
+  public getAllUnPublishedPostsCountForGivenTagId(@Param('tagId') tagId: string): Promise<ResultMessage> {
+    return this.postService.getAllUnPublishedPostsCountWithGivenTagId(tagId)
   }
 
   @Get('/count/tags/:tagId')
-  public async getAllPostsCountForGivenTagId(@Param('tagId') tagId: string): Promise<ResultMessage> {
-    return await this.postService.getAllPostsCountWithGivenTagId(tagId)
+  public getAllPostsCountForGivenTagId(@Param('tagId') tagId: string): Promise<ResultMessage> {
+    return this.postService.getAllPostsCountWithGivenTagId(tagId)
   }
-  //==========================
 
   @Get('/published/count/keywords/:keywordId')
-  public async getAllPublishedPostsCountForGivenKeywordId(
-    @Param('keywordId') keywordId: string,
-  ): Promise<ResultMessage> {
-    return await this.postService.getAllPublishedPostsCountWithGivenKeywordId(keywordId)
+  public getAllPublishedPostsCountForGivenKeywordId(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
+    return this.postService.getAllPublishedPostsCountWithGivenKeywordId(keywordId)
   }
 
   @Get('/unpublished/count/keywords/:keywordId')
-  public async getAllUnPublishedPostsCountForGivenKeywordId(
-    @Param('keywordId') keywordId: string,
-  ): Promise<ResultMessage> {
-    return await this.postService.getAllUnPublishedPostsCountWithGivenKeywordId(keywordId)
+  public getAllUnPublishedPostsCountForGivenKeywordId(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
+    return this.postService.getAllUnPublishedPostsCountWithGivenKeywordId(keywordId)
   }
 
   @Get('/count/keywords/:keywordId')
-  public async getAllPostsCountForGivenKeywordId(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
-    return await this.postService.getAllPostsCountWithGivenKeywordId(keywordId)
+  public getAllPostsCountForGivenKeywordId(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
+    return this.postService.getAllPostsCountWithGivenKeywordId(keywordId)
   }
-  //==========================
 
   @Get('/published/count/series/:seriesId')
-  public async getAllPublishedPostsCountForGivenSeriesId(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
-    return await this.postService.getAllPublishedPostsCountWithGivenKeywordId(seriesId)
+  public getAllPublishedPostsCountForGivenSeriesId(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+    return this.postService.getAllPublishedPostsCountWithGivenKeywordId(seriesId)
   }
 
   @Get('/unpublished/count/series/:seriesId')
-  public async getAllUnPublishedPostsCountForGivenSeriesId(
-    @Param('seriesId') seriesId: string,
-  ): Promise<ResultMessage> {
-    return await this.postService.getAllUnPublishedPostsCountWithGivenKeywordId(seriesId)
+  public getAllUnPublishedPostsCountForGivenSeriesId(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+    return this.postService.getAllUnPublishedPostsCountWithGivenKeywordId(seriesId)
   }
 
   @Get('/count/series/:seriesId')
-  public async getAllPostsCountForGivenSeriesId(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
-    return await this.postService.getAllPostsCountWithGivenKeywordId(seriesId)
+  public getAllPostsCountForGivenSeriesId(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+    return this.postService.getAllPostsCountWithGivenKeywordId(seriesId)
   }
-  //==========================
 
   @Get('/published/count')
-  public async getAllPublishedPostsCount(): Promise<ResultMessage> {
-    return await this.postService.getAllPublishedPostsCount()
+  public getAllPublishedPostsCount(): Promise<ResultMessage> {
+    return this.postService.getAllPublishedPostsCount()
   }
 
   @Get('/unpublished/count')
-  public async getAllUnPublishedPostsCount(): Promise<ResultMessage> {
-    return await this.postService.getAllUnPublishedPostsCount()
+  public getAllUnPublishedPostsCount(): Promise<ResultMessage> {
+    return this.postService.getAllUnPublishedPostsCount()
   }
 
   @Get('/count')
-  public async getAllPostsCount(): Promise<ResultMessage> {
-    return await this.postService.getAllPostsCount()
+  public getAllPostsCount(): Promise<ResultMessage> {
+    return this.postService.getAllPostsCount()
   }
 }

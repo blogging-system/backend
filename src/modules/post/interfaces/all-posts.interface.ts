@@ -1,7 +1,7 @@
-import { PostsFilter } from './posts-filter.dto'
+import { PostsFilter } from './posts-filter.interface'
 import { Pagination } from 'src/shared/dtos'
 
-export class GetAllPostsDto {
+export interface GetAllPostsDto {
   filter?: PostsFilter
   pagination: Pagination
   isPublished?: boolean
@@ -9,7 +9,7 @@ export class GetAllPostsDto {
   sortValue?: number
 }
 
-export class GetAllPostsQuery {
+export interface GetAllPostsQuery {
   tags?: string
   series?: string
   isPublished?: boolean

@@ -1,10 +1,10 @@
-export class ArePostsAvailableForGivenEntitiesIdsDto {
+export interface ArePostsAvailableForGivenEntitiesIds {
   seriesId?: string
   tagId?: string
   keywordId?: string
 }
 
-export class ArePostsAvailableForGivenEntitiesIdsQuery {
+export interface ArePostsAvailableForGivenEntitiesIdsQuery {
   series?: string
   tags?: string
   keywords?: string

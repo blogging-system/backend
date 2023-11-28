@@ -1,4 +1,4 @@
-import { CreatePostDto, DeletePostDto, PostManipulationDto, GetAllPostsDto, GetAllPostsQuery } from '../dtos'
+import { CreatePostDto, DeletePostDto } from '../dtos'
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
 import { CountDocumentsDto, CountDocumentsQuery } from 'src/shared/dtos'
 import { ResultMessage } from 'src/shared/types'
@@ -8,6 +8,7 @@ import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
+import { GetAllPostsDto, GetAllPostsQuery, PostManipulation } from '../interfaces'
 
 @Injectable()
 export class PostRepository {
@@ -24,8 +25,8 @@ export class PostRepository {
     return isPostCreated
   }
 
-  public async updateOne(postId: string, payload: Partial<PostManipulationDto>): Promise<Post> {
-    const query: Partial<PostManipulationDto> = { ...payload }
+  public async updateOne(postId: string, payload: Partial<PostManipulation>): Promise<Post> {
+    const query: Partial<PostManipulation> = { ...payload }
 
     if (payload.title) query.slug = slugify(payload.title)
 

@@ -1,6 +1,6 @@
-import { CreatePostDto } from './create-post.dto'
+import { CreatePostDto } from '../dtos/create-post.dto'
 
-export class PostManipulationDto extends CreatePostDto {
+export interface PostManipulation extends CreatePostDto {
   _id: string
   slug?: string
   views?: number

@@ -1,20 +1,19 @@
-import {
-  CreatePostDto,
-  DeletePostDto,
-  GetPostBySlug,
-  GetAllPostsDto,
-  ArePostsAvailableForGivenEntitiesIdsDto,
-  ArePostsAvailableForGivenEntitiesIdsQuery,
-} from '../dtos'
 import { Injectable, BadRequestException, NotFoundException, Inject, forwardRef } from '@nestjs/common'
 import { SortFieldOptions, SortValueOptions } from 'src/shared/enums'
 import { KeywordService } from '../../keyword/services'
+import { CreatePostDto, DeletePostDto } from '../dtos'
 import { SeriesService } from '../../series/services'
 import { ResultMessage } from 'src/shared/types'
 import { PostRepository } from '../repositories'
 import { TagService } from '../../tag/services'
+import { GetAllPostsDto } from '../interfaces'
 import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
+import {
+  GetPostBySlug,
+  ArePostsAvailableForGivenEntitiesIds,
+  ArePostsAvailableForGivenEntitiesIdsQuery,
+} from '../interfaces'
 
 @Injectable()
 export class PostService {
@@ -75,7 +74,7 @@ export class PostService {
     tagId,
     keywordId,
     seriesId,
-  }: ArePostsAvailableForGivenEntitiesIdsDto): Promise<boolean> {
+  }: ArePostsAvailableForGivenEntitiesIds): Promise<boolean> {
     const query: ArePostsAvailableForGivenEntitiesIdsQuery = {}
 
     if (tagId) query.tags = tagId
@@ -161,7 +160,6 @@ export class PostService {
     })
   }
 
-  //==========================
   public async getAllPostsCount(): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({})
   }
@@ -174,7 +172,6 @@ export class PostService {
     return await this.postRepo.countDocuments({ isPublished: false })
   }
 
-  //==========================
   public async getAllPostsCountWithGivenTagId(tagId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ tagId })
   }
@@ -187,7 +184,6 @@ export class PostService {
     return await this.postRepo.countDocuments({ isPublished: false, tagId })
   }
 
-  //==========================
   public async getAllPostsCountWithGivenKeywordId(keywordId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ keywordId })
   }
@@ -200,7 +196,6 @@ export class PostService {
     return await this.postRepo.countDocuments({ isPublished: false, keywordId })
   }
 
-  //==========================
   public async getAllPostsCountWithGivenSeriesId(seriesId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ seriesId })
   }
