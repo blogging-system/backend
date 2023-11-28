@@ -6,8 +6,11 @@ export type QuoteDocument = HydratedDocument<Quote>
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Quote extends BaseSchema {
-  @Prop({ index: true, unique: true })
-  name: string
+  @Prop()
+  text: string
+
+  @Prop()
+  author: string
 }
 
 export const QuoteSchema = SchemaFactory.createForClass(Quote)
