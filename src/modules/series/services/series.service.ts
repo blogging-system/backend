@@ -14,24 +14,24 @@ export class SeriesService {
     @Inject(forwardRef(() => PostService)) private readonly postService: PostService,
   ) {}
 
-  async createSeries(data: CreateSeriesDto): Promise<Series> {
+  public async createSeries(data: CreateSeriesDto): Promise<Series> {
     return await this.seriesRepo.createOne(data)
   }
 
-  async updateSeries(seriesId: string, payload: CreateSeriesDto): Promise<Series> {
+  public async updateSeries(seriesId: string, payload: CreateSeriesDto): Promise<Series> {
     await this.isSeriesAvailable(seriesId)
 
     return await this.seriesRepo.updateOne(seriesId, payload)
   }
 
-  async deleteSeries(data: DeleteSeriesDto): Promise<ResultMessage> {
+  public async deleteSeries(data: DeleteSeriesDto): Promise<ResultMessage> {
     await this.isSeriesAvailable(data.seriesId)
     await this.isSeriesAssociatedToPosts(data.seriesId)
 
     return await this.seriesRepo.deleteOne(data)
   }
 
-  async publishSeries(seriesId: string): Promise<ResultMessage> {
+  public async publishSeries(seriesId: string): Promise<ResultMessage> {
     const isSeriesFound = await this.isSeriesAvailable(seriesId)
 
     if (isSeriesFound.isPublished) throw new BadRequestException(MESSAGES.ALREADY_PUBLISHED)
@@ -44,7 +44,7 @@ export class SeriesService {
     return { message: MESSAGES.PUBLISHED_SUCCESSFULLY }
   }
 
-  async unPublishSeries(seriesId: string): Promise<ResultMessage> {
+  public async unPublishSeries(seriesId: string): Promise<ResultMessage> {
     const isSeriesFound = await this.isSeriesAvailable(seriesId)
 
     if (!isSeriesFound.isPublished) throw new BadRequestException(MESSAGES.ALREADY_UNPUBLISHED)
@@ -57,7 +57,7 @@ export class SeriesService {
     return { message: MESSAGES.UNPUBLISHED_SUCCESSFULLY }
   }
 
-  async isSeriesAssociatedToPosts(seriesId: string): Promise<void> {
+  public async isSeriesAssociatedToPosts(seriesId: string): Promise<void> {
     const isSeriesAssociated = await this.postService.arePostsAvailableForGivenEntitiesIds({ seriesId })
 
     if (isSeriesAssociated) throw new BadRequestException(MESSAGES.SERIES_ASSOCIATED_TO_POST)
@@ -67,7 +67,7 @@ export class SeriesService {
     return await this.seriesRepo.findOneById(seriesId)
   }
 
-  async areSeriesAvailable(seriesIds: string[]): Promise<void> {
+  public async areSeriesAvailable(seriesIds: string[]): Promise<void> {
     const array = await Promise.all(seriesIds.map((id) => this.isSeriesAvailable(id)))
 
     const areTagsAvailable = array.every((available) => available)
@@ -75,7 +75,7 @@ export class SeriesService {
     if (!areTagsAvailable) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
   }
 
-  async getSeriesBySlug({ slug, isPublished }: GetSeriesBySlug): Promise<Series> {
+  public async getSeriesBySlug({ slug, isPublished }: GetSeriesBySlug): Promise<Series> {
     const query: GetSeriesBySlug = {
       slug,
     }
@@ -91,7 +91,7 @@ export class SeriesService {
     return Object.assign(isSeriesFound, { views: isSeriesFound.views + 1 })
   }
 
-  async getAllSeries({ pagination, isPublished, sortValue }: GetAllSeriesDto): Promise<Series[]> {
+  public async getAllSeries({ pagination, isPublished, sortValue }: GetAllSeriesDto): Promise<Series[]> {
     return await this.seriesRepo.findMany({
       pagination,
       isPublished,
@@ -99,7 +99,7 @@ export class SeriesService {
     })
   }
 
-  async getLatestSeries({ pagination, isPublished }: GetAllSeriesDto): Promise<Series[]> {
+  public async getLatestSeries({ pagination, isPublished }: GetAllSeriesDto): Promise<Series[]> {
     return await this.seriesRepo.findMany({
       pagination,
       isPublished,
@@ -107,7 +107,7 @@ export class SeriesService {
     })
   }
 
-  async getPublishedSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+  public async getPublishedSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
     return await this.seriesRepo.findMany({
       pagination,
       isPublished: true,
@@ -115,7 +115,7 @@ export class SeriesService {
     })
   }
 
-  async getUnPublishedSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+  public async getUnPublishedSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
     return await this.seriesRepo.findMany({
       pagination,
       isPublished: false,
@@ -123,21 +123,21 @@ export class SeriesService {
     })
   }
 
-  async getPopularSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+  public async getPopularSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
     return await this.seriesRepo.findMany({
       pagination,
       sortCondition: `-${SortFieldOptions.VIEWS}`,
     })
   }
 
-  async getUnPopularSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+  public async getUnPopularSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
     return await this.seriesRepo.findMany({
       pagination,
       sortCondition: `+${SortFieldOptions.VIEWS}`,
     })
   }
 
-  async getTrendingSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+  public async getTrendingSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
     return await this.seriesRepo.findMany({
       pagination,
       sortCondition: { [SortFieldOptions.PUBLISHED_AT]: SortValueOptions.DESC, views: SortValueOptions.DESC },
@@ -145,15 +145,15 @@ export class SeriesService {
   }
 
   //===============================
-  async getAllSeriesCount() {
+  public async getAllSeriesCount() {
     return await this.seriesRepo.countDocuments({})
   }
 
-  async getAllPublishedSeriesCount() {
+  public async getAllPublishedSeriesCount() {
     return await this.seriesRepo.countDocuments({ isPublished: true })
   }
 
-  async getAllUnPublishedSeriesCount() {
+  public async getAllUnPublishedSeriesCount() {
     return await this.seriesRepo.countDocuments({ isPublished: false })
   }
 }

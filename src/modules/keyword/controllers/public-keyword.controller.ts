@@ -7,7 +7,7 @@ export class PublicKeywordController {
   constructor(private keywordService: KeywordService) {}
 
   @Get()
-  async getAllKeywords(): Promise<Keyword[]> {
+  public async getAllKeywords(): Promise<Keyword[]> {
     return await this.keywordService.getAllKeywords()
   }
 }

@@ -11,22 +11,22 @@ export class PrivateTagController {
   constructor(private tagService: TagService) {}
 
   @Post()
-  async createTag(@Body() data: CreateTagDto): Promise<Tag> {
+  public async createTag(@Body() data: CreateTagDto): Promise<Tag> {
     return await this.tagService.createTag(data)
   }
 
   @Patch(':tagId')
-  async updateTag(@Param('tagId') tagId: string, @Body() data: CreateTagDto): Promise<Tag> {
+  public async updateTag(@Param('tagId') tagId: string, @Body() data: CreateTagDto): Promise<Tag> {
     return await this.tagService.updateTag(tagId, data)
   }
 
   @Delete(':tagId')
-  async deleteTag(@Param('tagId') tagId: string): Promise<ResultMessage> {
+  public async deleteTag(@Param('tagId') tagId: string): Promise<ResultMessage> {
     return await this.tagService.deleteTag(tagId)
   }
 
   @Get('/count')
-  async getAllTagsCount() {
+  public async getAllTagsCount() {
     return await this.tagService.getAllTagsCount()
   }
 }

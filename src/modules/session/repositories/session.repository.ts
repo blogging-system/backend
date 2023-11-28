@@ -10,7 +10,7 @@ import { Session } from '../schemas'
 export class SessionRepository {
   constructor(@InjectModel(Session.name) private sessionModel: Model<Session>) {}
 
-  async createOne(data: CreateSessionDto): Promise<Session> {
+  public async createOne(data: CreateSessionDto): Promise<Session> {
     const isSessionCreated = await this.sessionModel.create(data)
 
     if (!isSessionCreated) throw new InternalServerErrorException(MESSAGES.CREATION_FAILED)
@@ -18,11 +18,11 @@ export class SessionRepository {
     return isSessionCreated
   }
 
-  async deleteOne(sessionId: string): Promise<{ deletedCount: number }> {
+  public async deleteOne(sessionId: string): Promise<{ deletedCount: number }> {
     return await this.sessionModel.deleteOne({ _id: new Types.ObjectId(sessionId) })
   }
 
-  async deleteMany(currentAccessToken: string): Promise<ResultMessage> {
+  public async deleteMany(currentAccessToken: string): Promise<ResultMessage> {
     const areSessionsRevoked = await this.sessionModel.deleteMany({ accessToken: { $ne: currentAccessToken } })
 
     if (!areSessionsRevoked) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
@@ -30,7 +30,7 @@ export class SessionRepository {
     return { message: MESSAGES.ALL_DELETED_SUCCESSFULLY }
   }
 
-  async findOneById(sessionId: string): Promise<Session> {
+  public async findOneById(sessionId: string): Promise<Session> {
     const isSessionFound = await this.sessionModel.findOne({ _id: new Types.ObjectId(sessionId) }).lean()
 
     if (!isSessionFound) throw new NotFoundException(MESSAGES.SESSION_NOT_FOUND)
@@ -38,7 +38,7 @@ export class SessionRepository {
     return isSessionFound
   }
 
-  async findOneByUserId(userId: string): Promise<Session> {
+  public async findOneByUserId(userId: string): Promise<Session> {
     const isSessionFound = await this.sessionModel.findOne({ userId: new Types.ObjectId(userId) }).lean()
 
     if (!isSessionFound) throw new NotFoundException(MESSAGES.SESSION_NOT_FOUND)
@@ -46,11 +46,11 @@ export class SessionRepository {
     return isSessionFound
   }
 
-  async findOne(query: any): Promise<Session> {
+  public async findOne(query: any): Promise<Session> {
     return await this.sessionModel.findOne(query).lean()
   }
 
-  async findMany(userId: string): Promise<Session[]> {
+  public async findMany(userId: string): Promise<Session[]> {
     const areSessionsFound = await this.sessionModel.find({ userId: new Types.ObjectId(userId) }).lean()
 
     if (areSessionsFound.length === 0) throw new NotFoundException(MESSAGES.SESSIONS_NOT_FOUND)

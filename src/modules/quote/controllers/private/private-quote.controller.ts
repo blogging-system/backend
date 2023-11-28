@@ -12,22 +12,22 @@ export class PrivateQuoteController {
   constructor(private readonly quoteService: QuoteService) {}
 
   @Post()
-  async createQuote(@Body() data: CreateQuoteDto): Promise<Quote> {
+  public async createQuote(@Body() data: CreateQuoteDto): Promise<Quote> {
     return await this.quoteService.createQuote(data)
   }
 
   @Patch(':quoteId')
-  async updateQuote(@Param('quoteId') quoteId: string, @Body() data: CreateQuoteDto): Promise<Quote> {
+  public async updateQuote(@Param('quoteId') quoteId: string, @Body() data: CreateQuoteDto): Promise<Quote> {
     return await this.quoteService.updateQuote(quoteId, data)
   }
 
   @Delete(':quoteId')
-  async deleteQuote(@Param('quoteId') quoteId: string): Promise<ResultMessage> {
+  public async deleteQuote(@Param('quoteId') quoteId: string): Promise<ResultMessage> {
     return await this.quoteService.deleteQuote(quoteId)
   }
 
   @Get()
-  async GetAllQuotes(@Query() pagination: Pagination): Promise<Quote[]> {
+  public async GetAllQuotes(@Query() pagination: Pagination): Promise<Quote[]> {
     return await this.quoteService.getAllQuotes(pagination)
   }
 }

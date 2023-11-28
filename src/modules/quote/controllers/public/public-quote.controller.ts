@@ -6,7 +6,7 @@ export class PublicQuoteController {
   constructor(private readonly quoteService: QuoteService) {}
 
   @Get('random')
-  async getRandomQuotes() {
+  public async getRandomQuotes() {
     return await this.quoteService.getRandomQuotes()
   }
 }

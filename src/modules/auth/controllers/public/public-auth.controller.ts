@@ -11,7 +11,7 @@ export class PublicAuthController {
 
   @Post('/login')
   @Serialize(SessionContentDto)
-  async login(
+  public async login(
     @Body() data: LoginDto,
     @IpAddress() ipAddress: string,
     @DeviceInfo() device: any,

@@ -11,7 +11,7 @@ import { Pagination } from 'src/shared/dtos'
 export class QuoteRepository {
   constructor(@InjectModel(Quote.name) private quoteModel: Model<Quote>) {}
 
-  async createOne(data: CreateQuoteDto): Promise<Quote> {
+  public async createOne(data: CreateQuoteDto): Promise<Quote> {
     const isQuoteCreated = await this.quoteModel.create(data)
 
     if (!isQuoteCreated) throw new InternalServerErrorException(MESSAGES.CREATION_FAILED)
@@ -19,7 +19,7 @@ export class QuoteRepository {
     return isQuoteCreated
   }
 
-  async updateOne(quoteId: string, payload: CreateQuoteDto): Promise<Quote> {
+  public async updateOne(quoteId: string, payload: CreateQuoteDto): Promise<Quote> {
     const isQuoteUpdated = await this.quoteModel.findByIdAndUpdate(quoteId, payload, { new: true })
 
     if (!isQuoteUpdated) throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED)
@@ -27,7 +27,7 @@ export class QuoteRepository {
     return isQuoteUpdated
   }
 
-  async deleteOne(quoteId: string): Promise<ResultMessage> {
+  public async deleteOne(quoteId: string): Promise<ResultMessage> {
     const isQuoteDeleted = await this.quoteModel.deleteOne({
       _id: new Types.ObjectId(quoteId),
     })
@@ -37,7 +37,7 @@ export class QuoteRepository {
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
-  async findOneById(quoteId: string): Promise<Quote> {
+  public async findOneById(quoteId: string): Promise<Quote> {
     const isQuoteFound = await this.quoteModel.findOne({ _id: new Types.ObjectId(quoteId) }).lean()
 
     if (!isQuoteFound) throw new NotFoundException(MESSAGES.QUOTE_NOT_FOUND)
@@ -45,7 +45,7 @@ export class QuoteRepository {
     return isQuoteFound
   }
 
-  async findMany({ pageNumber, pageSize, sort }: Pagination): Promise<Quote[]> {
+  public async findMany({ pageNumber, pageSize, sort }: Pagination): Promise<Quote[]> {
     const areQuotesFound = await this.quoteModel
       .find()
       .skip((pageNumber - 1) * pageSize)
@@ -58,7 +58,7 @@ export class QuoteRepository {
     return areQuotesFound
   }
 
-  async aggregate(): Promise<Quote[]> {
+  public async aggregate(): Promise<Quote[]> {
     const areQuotesFound = await this.quoteModel.aggregate([{ $sample: { size: 10 } }])
 
     if (areQuotesFound.length == 0) throw new NotFoundException(MESSAGES.QUOTES_NOT_FOUND)
@@ -66,7 +66,7 @@ export class QuoteRepository {
     return areQuotesFound
   }
 
-  async countDocuments(): Promise<ResultMessage> {
+  public async countDocuments(): Promise<ResultMessage> {
     const count = await this.quoteModel.countDocuments().lean()
 
     return { count }

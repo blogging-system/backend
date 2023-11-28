@@ -13,7 +13,7 @@ import slugify from 'slugify'
 export class PostRepository {
   constructor(@InjectModel(Post.name) private postModel: Model<Post>) {}
 
-  async createOne(data: CreatePostDto): Promise<Post> {
+  public async createOne(data: CreatePostDto): Promise<Post> {
     const isPostCreated = await this.postModel.create({
       ...data,
       slug: slugify(data.title),
@@ -24,7 +24,7 @@ export class PostRepository {
     return isPostCreated
   }
 
-  async updateOne(postId: string, payload: Partial<PostManipulationDto>): Promise<Post> {
+  public async updateOne(postId: string, payload: Partial<PostManipulationDto>): Promise<Post> {
     const query: Partial<PostManipulationDto> = { ...payload }
 
     if (payload.title) query.slug = slugify(payload.title)
@@ -36,7 +36,7 @@ export class PostRepository {
     return isPostUpdated
   }
 
-  async deleteOne(data: DeletePostDto): Promise<ResultMessage> {
+  public async deleteOne(data: DeletePostDto): Promise<ResultMessage> {
     const isPostDeleted = await this.postModel.deleteOne({ _id: data.postId })
 
     if (isPostDeleted.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
@@ -44,7 +44,7 @@ export class PostRepository {
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
-  async findOneById(postId: string): Promise<Post> {
+  public async findOneById(postId: string): Promise<Post> {
     const isPostFound = await this.postModel.findOne({ _id: postId }).lean()
 
     if (!isPostFound) throw new NotFoundException(MESSAGES.POST_NOT_FOUND)
@@ -52,11 +52,11 @@ export class PostRepository {
     return isPostFound
   }
 
-  async findOne(query: any): Promise<Post> {
+  public async findOne(query: any): Promise<Post> {
     return await this.postModel.findOne(query).populate([Entities.TAGS, Entities.KEYWORDS, Entities.SERIES]).lean()
   }
 
-  async findMany({ pagination, filter, isPublished, sortCondition }: GetAllPostsDto): Promise<Post[]> {
+  public async findMany({ pagination, filter, isPublished, sortCondition }: GetAllPostsDto): Promise<Post[]> {
     const { pageNumber, pageSize } = pagination
     const query: GetAllPostsQuery = {}
 
@@ -78,7 +78,7 @@ export class PostRepository {
     return foundPosts
   }
 
-  async countDocuments({ isPublished, tagId, keywordId, seriesId }: CountDocumentsDto): Promise<ResultMessage> {
+  public async countDocuments({ isPublished, tagId, keywordId, seriesId }: CountDocumentsDto): Promise<ResultMessage> {
     const query: CountDocumentsQuery = {}
 
     if (isPublished) query.isPublished = isPublished

@@ -10,7 +10,7 @@ import { Tag } from '../schemas'
 export class TagRepository {
   constructor(@InjectModel(Tag.name) private readonly tagModel: Model<Tag>) {}
 
-  async createOne(data: CreateTagDto): Promise<Tag> {
+  public async createOne(data: CreateTagDto): Promise<Tag> {
     const isTagCreated = await this.tagModel.create(data)
 
     if (!isTagCreated) throw new InternalServerErrorException(MESSAGES.CREATION_FAILED)
@@ -18,7 +18,7 @@ export class TagRepository {
     return isTagCreated
   }
 
-  async updateOne(tagId: string, payload: CreateTagDto): Promise<Tag> {
+  public async updateOne(tagId: string, payload: CreateTagDto): Promise<Tag> {
     const isTagUpdated = await this.tagModel.findByIdAndUpdate(tagId, payload, { new: true })
 
     if (!isTagUpdated) throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED)
@@ -26,7 +26,7 @@ export class TagRepository {
     return isTagUpdated
   }
 
-  async deleteOne(tagId: string): Promise<ResultMessage> {
+  public async deleteOne(tagId: string): Promise<ResultMessage> {
     const isTagDeleted = await this.tagModel.deleteOne({
       _id: new Types.ObjectId(tagId),
     })
@@ -36,7 +36,7 @@ export class TagRepository {
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
-  async findOneById(tagId: string): Promise<Tag> {
+  public async findOneById(tagId: string): Promise<Tag> {
     const isTagFound = await this.tagModel.findOne({ _id: tagId }).lean()
 
     if (!isTagFound) throw new NotFoundException(MESSAGES.TAG_NOT_FOUND)
@@ -44,11 +44,11 @@ export class TagRepository {
     return isTagFound
   }
 
-  async findOne(query: any): Promise<Tag> {
+  public async findOne(query: any): Promise<Tag> {
     return await this.tagModel.findOne(query).lean()
   }
 
-  async findMany(): Promise<Tag[]> {
+  public async findMany(): Promise<Tag[]> {
     const areTagsFound = await this.tagModel.find().lean()
 
     if (areTagsFound.length === 0) throw new NotFoundException(MESSAGES.TAGS_NOT_FOUND)
@@ -56,7 +56,7 @@ export class TagRepository {
     return areTagsFound
   }
 
-  async countDocuments(): Promise<ResultMessage> {
+  public async countDocuments(): Promise<ResultMessage> {
     const count = await this.tagModel.countDocuments().lean()
 
     return { count }

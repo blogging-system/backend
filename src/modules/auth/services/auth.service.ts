@@ -14,7 +14,7 @@ export class AuthService {
     private readonly sessionService: SessionService,
   ) {}
 
-  async login(data: LoginDto, ipAddress: string, device: Record<string, unknown>): Promise<LoginResponse> {
+  public async login(data: LoginDto, ipAddress: string, device: Record<string, unknown>): Promise<LoginResponse> {
     const isUserFound = await this.userService.findUserByEmail(data.email)
 
     if (!isUserFound) throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
@@ -38,7 +38,7 @@ export class AuthService {
     }
   }
 
-  async logOut(currentAccessToken: string): Promise<ResultMessage> {
+  public async logOut(currentAccessToken: string): Promise<ResultMessage> {
     const foundSession = await this.sessionService.getSession(currentAccessToken)
 
     return await this.sessionService.deleteSession(foundSession._id)

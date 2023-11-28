@@ -10,7 +10,7 @@ import { User } from '../schemas'
 export class UserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async createOne(data: CreateUserDto): Promise<User> {
+  public async createOne(data: CreateUserDto): Promise<User> {
     const isUserCreated = await this.userModel.create({
       ...data,
       password: await HashUtil.generateHash(data.password),
@@ -21,7 +21,7 @@ export class UserRepository {
     return isUserCreated
   }
 
-  async findOneByEmail(email: string): Promise<User> {
+  public async findOneByEmail(email: string): Promise<User> {
     const isUserFound = await this.userModel.findOne({ email }).lean()
 
     if (!isUserFound) throw new NotFoundException(MESSAGES.USER_NOT_FOUND)
@@ -29,7 +29,7 @@ export class UserRepository {
     return isUserFound
   }
 
-  async findOneById(userId: string): Promise<User> {
+  public async findOneById(userId: string): Promise<User> {
     const isUserFound = await this.userModel.findOne({ _id: new Types.ObjectId(userId) }).lean()
 
     if (!isUserFound) throw new NotFoundException(MESSAGES.USER_NOT_FOUND)
@@ -37,7 +37,7 @@ export class UserRepository {
     return isUserFound
   }
 
-  async findOne(query): Promise<User> {
+  public async findOne(query): Promise<User> {
     return await this.userModel.findOne(query).lean()
   }
 }

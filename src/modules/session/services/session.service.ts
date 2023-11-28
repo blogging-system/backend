@@ -11,11 +11,11 @@ import { Session } from '../schemas'
 export class SessionService {
   constructor(private readonly sessionRepo: SessionRepository) {}
 
-  async createSession(data: CreateSessionDto): Promise<Session> {
+  public async createSession(data: CreateSessionDto): Promise<Session> {
     return await this.sessionRepo.createOne(data)
   }
 
-  async regenerateSession(refreshToken: string): Promise<Session> {
+  public async regenerateSession(refreshToken: string): Promise<Session> {
     const validSession = await this.isSessionValid({ refreshToken })
 
     await this.revokeSession(validSession._id)
@@ -31,7 +31,7 @@ export class SessionService {
     return await this.sessionRepo.createOne(payload)
   }
 
-  async revokeSession(sessionId: string): Promise<ResultMessage> {
+  public async revokeSession(sessionId: string): Promise<ResultMessage> {
     const isSessionRevoked = await this.sessionRepo.deleteOne(sessionId)
 
     if (isSessionRevoked.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
@@ -39,7 +39,7 @@ export class SessionService {
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
-  async deleteSession(sessionId: string): Promise<ResultMessage> {
+  public async deleteSession(sessionId: string): Promise<ResultMessage> {
     const isSessionDeleted = await this.sessionRepo.deleteOne(sessionId)
 
     if (isSessionDeleted.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
@@ -47,11 +47,11 @@ export class SessionService {
     return { message: AUTH_MESSAGES.LOGGED_OUT_SUCCESSFULLY }
   }
 
-  async revokeAllSessions(currentAccessToken: string): Promise<ResultMessage> {
+  public async revokeAllSessions(currentAccessToken: string): Promise<ResultMessage> {
     return await this.sessionRepo.deleteMany(currentAccessToken)
   }
 
-  async getSession(accessToken: string): Promise<Session> {
+  public async getSession(accessToken: string): Promise<Session> {
     const isSessionFound = await this.sessionRepo.findOne({ accessToken })
 
     if (!isSessionFound) throw new BadRequestException(MESSAGES.SESSION_NOT_FOUND)
@@ -59,11 +59,11 @@ export class SessionService {
     return isSessionFound
   }
 
-  async getAllUserSessions(userId: string): Promise<Session[]> {
+  public async getAllUserSessions(userId: string): Promise<Session[]> {
     return await this.sessionRepo.findMany(userId)
   }
 
-  async isSessionValid({ accessToken, refreshToken, sessionId }: IsSessionValidDto): Promise<Session> {
+  public async isSessionValid({ accessToken, refreshToken, sessionId }: IsSessionValidDto): Promise<Session> {
     const query: IsSessionValidDto = {}
 
     if (accessToken) query.accessToken = accessToken

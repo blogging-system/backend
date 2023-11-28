@@ -18,12 +18,12 @@ export class PrivateAuthController {
 
   @Get('/whoami')
   @Serialize(PublicUserDto)
-  async whoAmI(@CurrentUser() user: User): Promise<User> {
+  public async whoAmI(@CurrentUser() user: User): Promise<User> {
     return await this.userService.findUserById(user._id)
   }
 
   @Post('/logout')
-  async logOut(@Req() req: CustomRequest) {
+  public async logOut(@Req() req: CustomRequest) {
     return await this.authService.logOut(req.session.accessToken)
   }
 }

@@ -6,7 +6,7 @@ import { CreateUserDto } from '../dtos'
 export class UserSeederService {
   constructor(private readonly userService: UserService) {}
 
-  async seedRootUser(data: CreateUserDto): Promise<void> {
+  public async seedRootUser(data: CreateUserDto): Promise<void> {
     const isUserFound = await this.userService.isUserFound(data.email)
 
     if (isUserFound) return

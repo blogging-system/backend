@@ -9,13 +9,13 @@ export class PublicPostController {
   constructor(private postService: PostService) {}
 
   @Get(':slug')
-  async getPostBySlug(@Param('slug') slug: string): Promise<Post> {
+  public async getPostBySlug(@Param('slug') slug: string): Promise<Post> {
     const query = { slug, isPublished: true }
     return await this.postService.getPostBySlug(query)
   }
 
   @Get()
-  async getAllPosts(@Query() query: Pagination): Promise<Post[]> {
+  public async getAllPosts(@Query() query: Pagination): Promise<Post[]> {
     const { tagId, seriesId, ...pagination } = query
     const filter = { tagId, seriesId } as PostsFilter
 

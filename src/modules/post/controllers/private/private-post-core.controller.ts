@@ -12,67 +12,67 @@ export class PrivatePostCoreController {
   constructor(private postService: PostService) {}
 
   @Post()
-  async createPost(@Body() data: CreatePostDto): Promise<BlogPost> {
+  public async createPost(@Body() data: CreatePostDto): Promise<BlogPost> {
     return await this.postService.createPost(data)
   }
 
   @Patch(':postId')
-  async updatePost(@Param('postId') postId: string, @Body() payload: CreatePostDto): Promise<BlogPost> {
+  public async updatePost(@Param('postId') postId: string, @Body() payload: CreatePostDto): Promise<BlogPost> {
     return await this.postService.updatePost(postId, payload)
   }
 
   @Delete(':postId')
-  async deletePost(@Param() data: DeletePostDto): Promise<ResultMessage> {
+  public async deletePost(@Param() data: DeletePostDto): Promise<ResultMessage> {
     return await this.postService.deletePost(data)
   }
 
   @Post('/publish/:postId')
-  async publishPost(@Param('postId') postId: string): Promise<BlogPost> {
+  public async publishPost(@Param('postId') postId: string): Promise<BlogPost> {
     return await this.postService.publishPost(postId)
   }
 
   @Post('/unpublish/:postId')
-  async unPublishPost(@Param('postId') postId: string): Promise<BlogPost> {
+  public async unPublishPost(@Param('postId') postId: string): Promise<BlogPost> {
     return await this.postService.unPublishPost(postId)
   }
 
   @Get('/latest')
-  async getLatestPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
+  public async getLatestPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
     return await this.postService.getLatestPosts({ pagination, sortValue: -1 })
   }
 
   @Get('/published')
-  async getPublishedPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
+  public async getPublishedPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
     return await this.postService.getPublishedPosts({ pagination })
   }
 
   @Get('/unpublished')
-  async getUnPublishedPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
+  public async getUnPublishedPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
     return await this.postService.getUnPublishedPosts({ pagination })
   }
 
   @Get('/popular')
-  async getPopularPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
+  public async getPopularPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
     return await this.postService.getPopularPosts({ pagination })
   }
 
   @Get('/unpopular')
-  async getUnPopular(@Query() pagination: Pagination): Promise<BlogPost[]> {
+  public async getUnPopular(@Query() pagination: Pagination): Promise<BlogPost[]> {
     return await this.postService.getUnPopularPosts({ pagination })
   }
 
   @Get('/trending')
-  async getTrendingPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
+  public async getTrendingPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
     return await this.postService.getTrendingPosts({ pagination })
   }
 
   @Get(':slug')
-  async getPostBySlug(@Param('slug') slug: string): Promise<BlogPost> {
+  public async getPostBySlug(@Param('slug') slug: string): Promise<BlogPost> {
     return await this.postService.getPostBySlug({ slug })
   }
 
   @Get()
-  async getAllPosts(@Query() query: Pagination): Promise<BlogPost[]> {
+  public async getAllPosts(@Query() query: Pagination): Promise<BlogPost[]> {
     const { tagId, seriesId, ...pagination } = query
     const filter = { tagId, seriesId } as PostsFilter
 

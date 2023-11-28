@@ -13,46 +13,46 @@ export class KeywordService {
     @Inject(forwardRef(() => PostService)) private readonly postService: PostService,
   ) {}
 
-  async createKeyword(data: CreateKeywordDto): Promise<Keyword> {
+  public async createKeyword(data: CreateKeywordDto): Promise<Keyword> {
     return await this.keywordRepo.createOne(data)
   }
 
-  async updateKeyword(keywordId: string, payload: CreateKeywordDto): Promise<Keyword> {
+  public async updateKeyword(keywordId: string, payload: CreateKeywordDto): Promise<Keyword> {
     await this.isKeywordAvailable(keywordId)
 
     return await this.keywordRepo.updateOne(keywordId, payload)
   }
 
-  async deleteKeyword(keywordId: string): Promise<ResultMessage> {
+  public async deleteKeyword(keywordId: string): Promise<ResultMessage> {
     await this.isKeywordAvailable(keywordId)
     await this.isKeywordAssociatedToPosts(keywordId)
 
     return await this.keywordRepo.deleteOne(keywordId)
   }
 
-  async isKeywordAssociatedToPosts(keywordId: string): Promise<void> {
+  public async isKeywordAssociatedToPosts(keywordId: string): Promise<void> {
     const isKeywordAssociated = await this.postService.arePostsAvailableForGivenEntitiesIds({ keywordId })
 
     if (isKeywordAssociated) throw new BadRequestException(MESSAGES.KEYWORD_ASSOCIATED_TO_POST)
   }
 
-  async isKeywordAvailable(keywordId: string): Promise<Keyword> {
+  public async isKeywordAvailable(keywordId: string): Promise<Keyword> {
     return await this.keywordRepo.findOneById(keywordId)
   }
 
-  async areKeywordsAvailable(tags: string[]): Promise<void> {
+  public async areKeywordsAvailable(tags: string[]): Promise<void> {
     try {
-      await Promise.all(tags.map((tag) => this.keywordRepo.findOneById(tag)))
+      await Promise.all(tags.map((tag) => this.isKeywordAvailable(tag)))
     } catch (error) {
       throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
     }
   }
 
-  async getAllKeywords(): Promise<Keyword[]> {
+  public async getAllKeywords(): Promise<Keyword[]> {
     return await this.keywordRepo.findMany()
   }
 
-  async getAllKeywordsCount(): Promise<ResultMessage> {
+  public async getAllKeywordsCount(): Promise<ResultMessage> {
     return await this.keywordRepo.countDocuments()
   }
 }

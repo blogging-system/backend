@@ -8,17 +8,17 @@ export class PrivateSeriesAnalyticsController {
   constructor(private seriesService: SeriesService) {}
 
   @Get('/published/count')
-  async getAllPublishedSeriesCount() {
+  public async getAllPublishedSeriesCount() {
     return await this.seriesService.getAllPublishedSeriesCount()
   }
 
   @Get('/unpublished/count')
-  async getAllUnPublishedSeriesCount() {
+  public async getAllUnPublishedSeriesCount() {
     return await this.seriesService.getAllUnPublishedSeriesCount()
   }
 
   @Get('/count')
-  async getAllSeriesCount() {
+  public async getAllSeriesCount() {
     return await this.seriesService.getAllSeriesCount()
   }
 }

@@ -10,27 +10,27 @@ import { Pagination } from 'src/shared/dtos'
 export class QuoteService {
   constructor(private readonly quoteRepo: QuoteRepository) {}
 
-  async createQuote(data: CreateQuoteDto): Promise<Quote> {
+  public async createQuote(data: CreateQuoteDto): Promise<Quote> {
     return await this.quoteRepo.createOne(data)
   }
 
-  async updateQuote(quoteId: string, payload: CreateQuoteDto): Promise<Quote> {
+  public async updateQuote(quoteId: string, payload: CreateQuoteDto): Promise<Quote> {
     await this.isQuoteAvailable(quoteId)
 
     return await this.quoteRepo.updateOne(quoteId, payload)
   }
 
-  async deleteQuote(quoteId: string): Promise<ResultMessage> {
+  public async deleteQuote(quoteId: string): Promise<ResultMessage> {
     await this.isQuoteAvailable(quoteId)
 
     return await this.quoteRepo.deleteOne(quoteId)
   }
 
-  async getAllQuotes(pagination: Pagination): Promise<Quote[]> {
+  public async getAllQuotes(pagination: Pagination): Promise<Quote[]> {
     return await this.quoteRepo.findMany(pagination)
   }
 
-  async getRandomQuotes(): Promise<Quote[]> {
+  public async getRandomQuotes(): Promise<Quote[]> {
     return await this.quoteRepo.aggregate()
   }
 

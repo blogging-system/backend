@@ -13,34 +13,34 @@ export class TagService {
     @Inject(forwardRef(() => PostService)) private readonly postService: PostService,
   ) {}
 
-  async createTag(data: CreateTagDto): Promise<Tag> {
+  public async createTag(data: CreateTagDto): Promise<Tag> {
     return await this.tagRepo.createOne(data)
   }
 
-  async updateTag(tagId: string, payload: CreateTagDto): Promise<Tag> {
+  public async updateTag(tagId: string, payload: CreateTagDto): Promise<Tag> {
     await this.isTagAvailable(tagId)
 
     return await this.tagRepo.updateOne(tagId, payload)
   }
 
-  async deleteTag(tagId: string): Promise<ResultMessage> {
+  public async deleteTag(tagId: string): Promise<ResultMessage> {
     await this.isTagAvailable(tagId)
     await this.isTagAssociatedToPosts(tagId)
 
     return await this.tagRepo.deleteOne(tagId)
   }
 
-  async isTagAvailable(tagId: string): Promise<Tag> {
+  public async isTagAvailable(tagId: string): Promise<Tag> {
     return await this.tagRepo.findOneById(tagId)
   }
 
-  async isTagAssociatedToPosts(tagId: string): Promise<void> {
+  public async isTagAssociatedToPosts(tagId: string): Promise<void> {
     const isTagAssociated = await this.postService.arePostsAvailableForGivenEntitiesIds({ tagId })
 
     if (isTagAssociated) throw new BadRequestException(MESSAGES.POST_ASSOCIATED_TO_POST)
   }
 
-  async areTagsAvailable(tagIds: string[]): Promise<void> {
+  public async areTagsAvailable(tagIds: string[]): Promise<void> {
     const array = await Promise.all(tagIds.map((id) => this.isTagAvailable(id)))
 
     const areTagsAvailable = array.every((available) => available)
@@ -48,11 +48,11 @@ export class TagService {
     if (!areTagsAvailable) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
   }
 
-  async getAllTags(): Promise<Tag[]> {
+  public async getAllTags(): Promise<Tag[]> {
     return await this.tagRepo.findMany()
   }
 
-  async getAllTagsCount(): Promise<ResultMessage> {
+  public async getAllTagsCount(): Promise<ResultMessage> {
     return await this.tagRepo.countDocuments()
   }
 }

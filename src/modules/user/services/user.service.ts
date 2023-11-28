@@ -7,19 +7,19 @@ import { User } from '../schemas'
 export class UserService {
   constructor(private readonly userRepo: UserRepository) {}
 
-  async createUser(data: CreateUserDto): Promise<User> {
+  public async createUser(data: CreateUserDto): Promise<User> {
     return await this.userRepo.createOne(data)
   }
 
-  async findUserByEmail(email: string): Promise<User> {
+  public async findUserByEmail(email: string): Promise<User> {
     return await this.userRepo.findOneByEmail(email)
   }
 
-  async findUserById(userId: string): Promise<User> {
+  public async findUserById(userId: string): Promise<User> {
     return await this.userRepo.findOneById(userId)
   }
 
-  async isUserFound(email: string): Promise<boolean> {
+  public async isUserFound(email: string): Promise<boolean> {
     const isUserFound = await this.userRepo.findOne({ email })
 
     return !!isUserFound

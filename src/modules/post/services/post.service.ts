@@ -25,7 +25,7 @@ export class PostService {
     @Inject(forwardRef(() => KeywordService)) private readonly keywordService: KeywordService,
   ) {}
 
-  async createPost(data: CreatePostDto): Promise<Post> {
+  public async createPost(data: CreatePostDto): Promise<Post> {
     await this.tagService.areTagsAvailable(data.tags)
     await this.keywordService.areKeywordsAvailable(data.keywords)
     await this.seriesService.areSeriesAvailable(data.series)
@@ -33,7 +33,7 @@ export class PostService {
     return await this.postRepo.createOne(data)
   }
 
-  async updatePost(postId: string, payload: CreatePostDto): Promise<Post> {
+  public async updatePost(postId: string, payload: CreatePostDto): Promise<Post> {
     await this.isPostAvailable(postId)
 
     await this.tagService.areTagsAvailable(payload.tags)
@@ -43,13 +43,13 @@ export class PostService {
     return await this.postRepo.updateOne(postId, payload)
   }
 
-  async deletePost(data: DeletePostDto): Promise<ResultMessage> {
+  public async deletePost(data: DeletePostDto): Promise<ResultMessage> {
     await this.isPostAvailable(data.postId)
 
     return await this.postRepo.deleteOne(data)
   }
 
-  async publishPost(postId: string): Promise<Post> {
+  public async publishPost(postId: string): Promise<Post> {
     const foundPost = await this.isPostAvailable(postId)
 
     if (foundPost.isPublished) throw new BadRequestException(MESSAGES.ALREADY_PUBLISHED)
@@ -60,7 +60,7 @@ export class PostService {
     })
   }
 
-  async unPublishPost(postId: string): Promise<Post> {
+  public async unPublishPost(postId: string): Promise<Post> {
     const foundPost = await this.isPostAvailable(postId)
 
     if (!foundPost.isPublished) throw new BadRequestException(MESSAGES.ALREADY_UNPUBLISHED)
@@ -71,7 +71,7 @@ export class PostService {
     })
   }
 
-  async arePostsAvailableForGivenEntitiesIds({
+  public async arePostsAvailableForGivenEntitiesIds({
     tagId,
     keywordId,
     seriesId,
@@ -87,7 +87,7 @@ export class PostService {
     return !!isPostFound
   }
 
-  async getPostBySlug({ slug, isPublished }: GetPostBySlug): Promise<Post> {
+  public async getPostBySlug({ slug, isPublished }: GetPostBySlug): Promise<Post> {
     const query: GetPostBySlug = {
       slug,
     }
@@ -103,11 +103,11 @@ export class PostService {
     return Object.assign(isPostFound, { views: isPostFound.views + 1 })
   }
 
-  async isPostAvailable(postId: string): Promise<Post> {
+  public async isPostAvailable(postId: string): Promise<Post> {
     return await this.postRepo.findOneById(postId)
   }
 
-  async getAllPosts({ filter, pagination, isPublished, sortValue }: GetAllPostsDto): Promise<Post[]> {
+  public async getAllPosts({ filter, pagination, isPublished, sortValue }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.findMany({
       filter,
       pagination,
@@ -116,7 +116,7 @@ export class PostService {
     })
   }
 
-  async getLatestPosts({ pagination, isPublished }: GetAllPostsDto): Promise<Post[]> {
+  public async getLatestPosts({ pagination, isPublished }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.findMany({
       pagination,
       isPublished,
@@ -124,7 +124,7 @@ export class PostService {
     })
   }
 
-  async getPublishedPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
+  public async getPublishedPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.findMany({
       pagination,
       isPublished: true,
@@ -132,7 +132,7 @@ export class PostService {
     })
   }
 
-  async getUnPublishedPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
+  public async getUnPublishedPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.findMany({
       pagination,
       isPublished: false,
@@ -140,21 +140,21 @@ export class PostService {
     })
   }
 
-  async getPopularPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
+  public async getPopularPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.findMany({
       pagination,
       sortCondition: `-${SortFieldOptions.VIEWS}`,
     })
   }
 
-  async getUnPopularPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
+  public async getUnPopularPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.findMany({
       pagination,
       sortCondition: `+${SortFieldOptions.VIEWS}`,
     })
   }
 
-  async getTrendingPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
+  public async getTrendingPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.findMany({
       pagination,
       sortCondition: { [SortFieldOptions.PUBLISHED_AT]: SortValueOptions.DESC, views: SortValueOptions.DESC },
@@ -162,54 +162,54 @@ export class PostService {
   }
 
   //==========================
-  async getAllPostsCount(): Promise<ResultMessage> {
+  public async getAllPostsCount(): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({})
   }
 
-  async getAllPublishedPostsCount(): Promise<ResultMessage> {
+  public async getAllPublishedPostsCount(): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ isPublished: true })
   }
 
-  async getAllUnPublishedPostsCount(): Promise<ResultMessage> {
+  public async getAllUnPublishedPostsCount(): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ isPublished: false })
   }
 
   //==========================
-  async getAllPostsCountWithGivenTagId(tagId: string): Promise<ResultMessage> {
+  public async getAllPostsCountWithGivenTagId(tagId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ tagId })
   }
 
-  async getAllPublishedPostsCountWithGivenTagId(tagId: string): Promise<ResultMessage> {
+  public async getAllPublishedPostsCountWithGivenTagId(tagId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ isPublished: true, tagId })
   }
 
-  async getAllUnPublishedPostsCountWithGivenTagId(tagId: string): Promise<ResultMessage> {
+  public async getAllUnPublishedPostsCountWithGivenTagId(tagId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ isPublished: false, tagId })
   }
 
   //==========================
-  async getAllPostsCountWithGivenKeywordId(keywordId: string): Promise<ResultMessage> {
+  public async getAllPostsCountWithGivenKeywordId(keywordId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ keywordId })
   }
 
-  async getAllPublishedPostsCountWithGivenKeywordId(keywordId: string): Promise<ResultMessage> {
+  public async getAllPublishedPostsCountWithGivenKeywordId(keywordId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ isPublished: true, keywordId })
   }
 
-  async getAllUnPublishedPostsCountWithGivenKeywordId(keywordId: string): Promise<ResultMessage> {
+  public async getAllUnPublishedPostsCountWithGivenKeywordId(keywordId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ isPublished: false, keywordId })
   }
 
   //==========================
-  async getAllPostsCountWithGivenSeriesId(seriesId: string): Promise<ResultMessage> {
+  public async getAllPostsCountWithGivenSeriesId(seriesId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ seriesId })
   }
 
-  async getAllPublishedPostsCountWithGivenSeriesId(seriesId: string): Promise<ResultMessage> {
+  public async getAllPublishedPostsCountWithGivenSeriesId(seriesId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ isPublished: true, seriesId })
   }
 
-  async getAllUnPublishedPostsCountWithGivenSeriesId(seriesId: string): Promise<ResultMessage> {
+  public async getAllUnPublishedPostsCountWithGivenSeriesId(seriesId: string): Promise<ResultMessage> {
     return await this.postRepo.countDocuments({ isPublished: false, seriesId })
   }
 }

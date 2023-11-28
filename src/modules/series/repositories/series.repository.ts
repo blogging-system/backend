@@ -13,7 +13,7 @@ import { CountDocumentsDto, CountDocumentsQuery } from 'src/shared/dtos/count-do
 export class SeriesRepository {
   constructor(@InjectModel(Series.name) private seriesModel: Model<Series>) {}
 
-  async createOne(data: CreateSeriesDto): Promise<Series> {
+  public async createOne(data: CreateSeriesDto): Promise<Series> {
     const isSeriesCreated = await this.seriesModel.create({ ...data, slug: slugify(data.title) })
 
     if (!isSeriesCreated) throw new InternalServerErrorException(MESSAGES.CREATION_FAILED)
@@ -21,7 +21,7 @@ export class SeriesRepository {
     return isSeriesCreated
   }
 
-  async updateOne(seriesId: string, payload: Partial<SeriesManipulationDto>): Promise<Series> {
+  public async updateOne(seriesId: string, payload: Partial<SeriesManipulationDto>): Promise<Series> {
     const query: Partial<SeriesManipulationDto> = { ...payload }
 
     if (payload.title) query.slug = slugify(payload.title)
@@ -33,7 +33,7 @@ export class SeriesRepository {
     return isSeriesUpdated
   }
 
-  async deleteOne(data: DeleteSeriesDto): Promise<ResultMessage> {
+  public async deleteOne(data: DeleteSeriesDto): Promise<ResultMessage> {
     const isSeriesDeleted = await this.seriesModel.deleteOne({
       _id: data.seriesId,
     })
@@ -43,7 +43,7 @@ export class SeriesRepository {
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
-  async findOneById(seriesId: string): Promise<Series> {
+  public async findOneById(seriesId: string): Promise<Series> {
     const isSeriesFound = await this.seriesModel.findOne({ _id: seriesId }).lean()
 
     if (!isSeriesFound) throw new NotFoundException(MESSAGES.SERIES_NOT_FOUND)
@@ -51,11 +51,11 @@ export class SeriesRepository {
     return isSeriesFound
   }
 
-  async findOne(query: any): Promise<Series> {
+  public async findOne(query: any): Promise<Series> {
     return await this.seriesModel.findOne(query).lean()
   }
 
-  async findMany({ pagination, isPublished, sortCondition }: GetAllSeriesDto) {
+  public async findMany({ pagination, isPublished, sortCondition }: GetAllSeriesDto) {
     const { pageNumber, pageSize } = pagination
     const query: { isPublished?: boolean } = {}
 
@@ -74,7 +74,7 @@ export class SeriesRepository {
     return foundSeries
   }
 
-  async countDocuments({ isPublished }: CountDocumentsDto): Promise<ResultMessage> {
+  public async countDocuments({ isPublished }: CountDocumentsDto): Promise<ResultMessage> {
     const query: CountDocumentsQuery = {}
 
     if (isPublished) query.isPublished = isPublished
