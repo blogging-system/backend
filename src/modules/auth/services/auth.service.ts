@@ -1,10 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { UserService } from '../../user/services/user.service'
-import { TokenHelper } from 'src/shared/helpers/token.helper'
 import { SessionService } from '../../session/services'
+import { HashUtil, TokenUtil } from 'src/shared/utils'
 import { ResultMessage } from 'src/shared/types'
 import { LoginDto, LoginResponse } from '../dtos'
-import { HashHelper } from 'src/shared/helpers'
 import { MESSAGES } from '../constants'
 
 @Injectable()
@@ -19,7 +18,7 @@ export class AuthService {
 
     if (!isUserFound) throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
 
-    const isPasswordMatch = await HashHelper.verifyHash(data.password, isUserFound.password)
+    const isPasswordMatch = await HashUtil.verifyHash(data.password, isUserFound.password)
 
     if (!isPasswordMatch) throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
 
@@ -27,8 +26,8 @@ export class AuthService {
       _id: isUserFound._id,
     }
 
-    const accessToken = await TokenHelper.generateAccessToken(tokenPayload)
-    const refreshToken = await TokenHelper.generateRefreshToken(tokenPayload)
+    const accessToken = await TokenUtil.generateAccessToken(tokenPayload)
+    const refreshToken = await TokenUtil.generateRefreshToken(tokenPayload)
 
     await this.sessionService.createSession({ userId: isUserFound._id, accessToken, refreshToken, ipAddress, device })
 

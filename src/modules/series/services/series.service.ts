@@ -1,11 +1,11 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common'
 import { CreateSeriesDto, DeleteSeriesDto, GetAllSeriesDto, GetSeriesBySlug } from '../dtos'
+import { SortFieldOptions, SortValueOptions } from 'src/shared/enums'
 import { PostService } from 'src/modules/post/services'
 import { SeriesRepository } from '../repositories'
 import { ResultMessage } from 'src/shared/types'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
-import { SortFieldOptions, SortValueOptions } from 'src/shared/enums'
 
 @Injectable()
 export class SeriesService {
@@ -38,7 +38,7 @@ export class SeriesService {
 
     await this.seriesRepo.updateOne(seriesId, {
       isPublished: true,
-      publishedAt: new Date(Date.now()),
+      publishedAt: new Date(),
     })
 
     return { message: MESSAGES.PUBLISHED_SUCCESSFULLY }
@@ -51,7 +51,7 @@ export class SeriesService {
 
     await this.seriesRepo.updateOne(seriesId, {
       isPublished: false,
-      unPublishedAt: new Date(Date.now()),
+      unPublishedAt: new Date(),
     })
 
     return { message: MESSAGES.UNPUBLISHED_SUCCESSFULLY }

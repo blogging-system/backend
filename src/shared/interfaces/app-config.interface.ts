@@ -1,4 +1,4 @@
-import { EnvironmentType } from '../constants'
+import { EnvironmentType } from '../enums'
 
 export interface AppConfig {
   environment: {
@@ -6,7 +6,13 @@ export interface AppConfig {
   }
   server: { host: string; port: number }
   storage: {
-    database: { mongodb: { uri: string } }
+    database: {
+      mongodb: { uri: string }
+      redis: {
+        url: string
+        port: number
+      }
+    }
   }
   clients: {
     portfolio: string

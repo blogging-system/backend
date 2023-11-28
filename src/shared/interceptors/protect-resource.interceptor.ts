@@ -7,7 +7,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
-import { TokenHelper } from '../helpers'
+import { TokenUtil } from '../utils'
 import { MESSAGES } from 'src/modules/auth/constants'
 import { SessionService } from 'src/modules/session/services'
 
@@ -19,11 +19,11 @@ export class ProtectResourceInterceptor implements NestInterceptor {
     const req = context.switchToHttp().getRequest()
 
     try {
-      const accessToken = req?.headers['authorization']?.split(' ')[1] || null
+      const accessToken = req?.headers['authorization']?.split(' ')[1]
 
       if (!accessToken) throw new NotFoundException(MESSAGES.ACCESS_TOKEN_NOT_FOUND)
 
-      const { _id } = await TokenHelper.verifyAccessToken(accessToken)
+      const { _id } = await TokenUtil.verifyAccessToken(accessToken)
 
       req.currentUser = { _id }
       req.session = { accessToken }

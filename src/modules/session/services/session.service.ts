@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, InternalServerErrorException, Unauthor
 import { MESSAGES as AUTH_MESSAGES } from '../../auth/constants'
 import { CreateSessionDto, IsSessionValidDto } from '../dtos'
 import { SessionRepository } from '../repositories'
-import { TokenHelper } from 'src/shared/helpers'
+import { TokenUtil } from 'src/shared/utils'
 import { ResultMessage } from 'src/shared/types'
 import { MESSAGES } from '../constants'
 import { Session } from '../schemas'
@@ -24,8 +24,8 @@ export class SessionService {
       userId: validSession._id,
       device: validSession.device,
       ipAddress: validSession.ipAddress,
-      accessToken: await TokenHelper.generateAccessToken({ _id: validSession._id }),
-      refreshToken: await TokenHelper.generateRefreshToken({ _id: validSession._id }),
+      accessToken: await TokenUtil.generateAccessToken({ _id: validSession._id }),
+      refreshToken: await TokenUtil.generateRefreshToken({ _id: validSession._id }),
     }
 
     return await this.sessionRepo.createOne(payload)

@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { HashHelper } from 'src/shared/helpers'
+import { HashUtil } from 'src/shared/utils'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
 import { CreateUserDto } from '../dtos'
@@ -13,7 +13,7 @@ export class UserRepository {
   async createOne(data: CreateUserDto): Promise<User> {
     const isUserCreated = await this.userModel.create({
       ...data,
-      password: await HashHelper.generateHash(data.password),
+      password: await HashUtil.generateHash(data.password),
     })
 
     if (!isUserCreated) throw new InternalServerErrorException(MESSAGES.CREATION_FAILED)

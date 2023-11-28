@@ -2,8 +2,8 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseIntercepto
 import { ProtectResourceInterceptor } from 'src/shared/interceptors'
 import { CreateSeriesDto, DeleteSeriesDto } from '../../dtos'
 import { ResultMessage } from 'src/shared/types'
-import { Pagination } from 'src/shared/dtos'
 import { SeriesService } from '../../services'
+import { Pagination } from 'src/shared/dtos'
 import { Series } from '../../schemas'
 
 @Controller('/admin/series')
@@ -38,7 +38,7 @@ export class PrivateSeriesCoreController {
 
   @Get('/latest')
   async getLatestSeries(@Query() pagination: Pagination): Promise<Series[]> {
-    return this.seriesService.getAllSeries({ pagination, sortValue: -1 })
+    return this.seriesService.getLatestSeries({ pagination, isPublished: true })
   }
 
   @Get('/published')

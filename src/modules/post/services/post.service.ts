@@ -6,7 +6,7 @@ import {
   ArePostsAvailableForGivenEntitiesIdsDto,
   ArePostsAvailableForGivenEntitiesIdsQuery,
 } from '../dtos'
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common'
+import { Injectable, BadRequestException, NotFoundException, Inject, forwardRef } from '@nestjs/common'
 import { SortFieldOptions, SortValueOptions } from 'src/shared/enums'
 import { KeywordService } from '../../keyword/services'
 import { SeriesService } from '../../series/services'
@@ -20,9 +20,9 @@ import { Post } from '../schemas'
 export class PostService {
   constructor(
     private readonly postRepo: PostRepository,
-    private readonly tagService: TagService,
-    private readonly seriesService: SeriesService,
-    private readonly keywordService: KeywordService,
+    @Inject(forwardRef(() => TagService)) private readonly tagService: TagService,
+    @Inject(forwardRef(() => SeriesService)) private readonly seriesService: SeriesService,
+    @Inject(forwardRef(() => KeywordService)) private readonly keywordService: KeywordService,
   ) {}
 
   async createPost(data: CreatePostDto): Promise<Post> {
@@ -56,7 +56,7 @@ export class PostService {
 
     return await this.postRepo.updateOne(postId, {
       isPublished: true,
-      publishedAt: new Date(Date.now()),
+      publishedAt: new Date(),
     })
   }
 
@@ -67,7 +67,7 @@ export class PostService {
 
     return await this.postRepo.updateOne(postId, {
       isPublished: false,
-      unPublishedAt: new Date(Date.now()),
+      unPublishedAt: new Date(),
     })
   }
 

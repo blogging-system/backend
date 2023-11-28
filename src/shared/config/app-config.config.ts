@@ -1,7 +1,6 @@
-import * as dotenv from 'dotenv'
+import { EnvironmentType, ExpiryDuration } from '../enums'
 import { AppConfig } from '../interfaces'
-import { EnvironmentType } from '../constants'
-import { ExpiryDuration } from '../enums'
+import * as dotenv from 'dotenv'
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
@@ -14,7 +13,10 @@ export const appConfig: AppConfig = {
   },
   server: { host: 'http://localhost', port: 3000 },
   storage: {
-    database: { mongodb: { uri: process.env.MONGO_URI } },
+    database: {
+      mongodb: { uri: process.env.MONGO_URI },
+      redis: { url: process.env.REDIS_URL, port: +process.env.REDIS_PORT },
+    },
   },
   clients: {
     portfolio: 'https://www.ahmedelgaidi.com',

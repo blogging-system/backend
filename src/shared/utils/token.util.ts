@@ -2,9 +2,9 @@ import { appConfig } from '../config'
 import * as jwt from 'jsonwebtoken'
 
 /**
- * Helper class for generating and managing tokens.
+ * A util class for generating and managing tokens.
  */
-export class TokenHelper {
+export class TokenUtil {
   /**
    * Generates an access token using the provided payload.
    *
@@ -12,7 +12,7 @@ export class TokenHelper {
    * @returns {string} - The generated access token.
    */
   public static generateAccessToken(payload: any): string {
-    return TokenHelper.generateToken(
+    return this.generateToken(
       payload,
       appConfig.tokenSecrets.accessToken.secret,
       appConfig.tokenSecrets.accessToken.expiresIn,
@@ -26,7 +26,7 @@ export class TokenHelper {
    * @returns {any} - The verified token payload.
    */
   public static verifyAccessToken(token: string): any {
-    return TokenHelper.verifyToken(token, appConfig.tokenSecrets.accessToken.secret)
+    return this.verifyToken(token, appConfig.tokenSecrets.accessToken.secret)
   }
 
   /**
@@ -36,7 +36,7 @@ export class TokenHelper {
    * @returns {string} - The generated refresh token.
    */
   public static generateRefreshToken(payload: any): string {
-    return TokenHelper.generateToken(
+    return this.generateToken(
       payload,
       appConfig.tokenSecrets.refreshToken.secret,
       appConfig.tokenSecrets.refreshToken.expiresIn,
@@ -50,7 +50,7 @@ export class TokenHelper {
    * @returns {any} - The verified token payload.
    */
   public static verifyRefreshToken(token: string): any {
-    return TokenHelper.verifyToken(token, appConfig.tokenSecrets.refreshToken.secret)
+    return this.verifyToken(token, appConfig.tokenSecrets.refreshToken.secret)
   }
 
   /**

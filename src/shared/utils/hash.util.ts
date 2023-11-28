@@ -1,9 +1,9 @@
 import * as bcrypt from 'bcrypt'
 
 /**
- * A helper class for generating and verifying hashes using bcrypt.
+ * A util class for generating and verifying hashes using bcrypt.
  */
-export class HashHelper {
+export class HashUtil {
   /**
    * Generates a hash for the given plain text password.
    *
