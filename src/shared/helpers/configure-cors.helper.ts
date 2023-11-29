@@ -9,6 +9,7 @@ export const configureCors = (app: INestApplication): void => {
         origin: appConfig.allowedOrigins,
         allowedHeaders: 'Authorization, Content-Type',
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        preflightContinue: false,
         maxAge: 86400,
         credentials: true,
       })
