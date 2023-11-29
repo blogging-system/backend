@@ -8,17 +8,9 @@ export interface AppConfig {
   storage: {
     database: {
       mongodb: { uri: string }
-      redis: {
-        url: string
-        port: number
-      }
     }
   }
-  clients: {
-    portfolio: string
-    blog: string
-    admin: string
-  }
+  allowedOrigins: string[]
   encryptionKeys: { otp: string }
   tokenSecrets: {
     accessToken: {

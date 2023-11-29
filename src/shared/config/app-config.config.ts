@@ -15,14 +15,9 @@ export const appConfig: AppConfig = {
   storage: {
     database: {
       mongodb: { uri: process.env.MONGO_URI },
-      redis: { url: process.env.REDIS_URL, port: +process.env.REDIS_PORT },
     },
   },
-  clients: {
-    portfolio: 'https://www.ahmedelgaidi.com',
-    blog: 'https://blog.ahmedelgaidi.com',
-    admin: 'https://dashboard.ahmedelgaidi.com',
-  },
+  allowedOrigins: ['https://www.ahmedelgaidi.com', 'https://blog.ahmedelgaidi.com', 'https://admin.ahmedelgaidi.com'],
   encryptionKeys: { otp: process.env.OTP_ENCRYPTION_KEY },
   tokenSecrets: {
     accessToken: {
