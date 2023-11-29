@@ -10,7 +10,7 @@ export interface AppConfig {
       mongodb: { uri: string }
     }
   }
-  allowedOrigins: string[]
+  allowedOrigin: string
   encryptionKeys: { otp: string }
   tokenSecrets: {
     accessToken: {
