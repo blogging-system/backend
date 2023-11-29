@@ -7,6 +7,7 @@ export const configureCors = (app: INestApplication): void => {
     ? app.enableCors()
     : app.enableCors({
         origin: appConfig.allowedOrigins,
+        allowedHeaders: 'Authorization, Content-Type',
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         maxAge: 86400,
         credentials: true,
