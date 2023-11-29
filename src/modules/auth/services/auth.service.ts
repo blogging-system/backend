@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { UserService } from '../../user/services/user.service'
+import { LoginAttemptService } from './login-attempt.service'
 import { SessionService } from '../../session/services'
 import { HashUtil, TokenUtil } from 'src/shared/utils'
 import { ResultMessage } from 'src/shared/types'
@@ -12,16 +13,26 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly sessionService: SessionService,
+    private readonly loginAttemptService: LoginAttemptService,
   ) {}
 
   public async login(data: LoginDto, ipAddress: string, device: Record<string, unknown>): Promise<LoginResponse> {
+    await this.loginAttemptService.isFailedLoginAttemptsExceeded()
+
     const user = await this.userService.findUserByEmail(data.email)
 
-    if (!user) throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
+    if (!user) {
+      await this.loginAttemptService.incrementFailedLoginAttemptsCount()
 
+      throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
+    }
     const isPasswordMatch = await HashUtil.verifyHash(data.password, user.password)
 
-    if (!isPasswordMatch) throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
+    if (!isPasswordMatch) {
+      await this.loginAttemptService.incrementFailedLoginAttemptsCount()
+
+      throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
+    }
 
     const tokenPayload = {
       _id: user._id,
