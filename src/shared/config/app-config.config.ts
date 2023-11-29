@@ -17,7 +17,7 @@ export const appConfig: AppConfig = {
       mongodb: { uri: process.env.MONGO_URI },
     },
   },
-  allowedOrigin: 'https://*.ahmedelgaidi.com',
+  allowedOrigins: ['https://*.ahmedelgaidi.com', 'https://blog.ahmedelgaidi.com', 'https://admin.ahmedelgaidi.com'],
   encryptionKeys: { otp: process.env.OTP_ENCRYPTION_KEY },
   tokenSecrets: {
     accessToken: {
