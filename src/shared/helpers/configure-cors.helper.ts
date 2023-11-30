@@ -13,6 +13,7 @@ export const configureCors = (app: INestApplication): void => {
           }
         },
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+
         credentials: true,
       })
     : app.enableCors()
