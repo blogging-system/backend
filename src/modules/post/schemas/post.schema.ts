@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { HydratedDocument, Types } from 'mongoose'
-import { BaseSchema } from 'src/shared/schemas'
+import { BaseSchema } from '@src/shared/schemas'
 import { Keyword } from '../../keyword/schemas'
 import { Series } from '../../series/schemas'
 import { Tag } from '../../tag/schemas'

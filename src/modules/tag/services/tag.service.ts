@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common'
-import { PostService } from 'src/modules/post/services'
-import { ResultMessage } from 'src/shared/types'
+import { PostService } from '@src/modules/post/services'
+import { ResultMessage } from '@src/shared/types'
 import { TagRepository } from '../repositories'
 import { MESSAGES } from '../constants'
 import { CreateTagDto } from '../dtos'

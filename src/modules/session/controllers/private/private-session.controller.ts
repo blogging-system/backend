@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, Param, Req, UseInterceptors } from '@nestjs/common'
-import { ProtectResourceInterceptor } from 'src/shared/interceptors'
-import { ResultMessage } from 'src/shared/types'
+import { ProtectResourceInterceptor } from '@src/shared/interceptors'
+import { ResultMessage } from '@src/shared/types'
 import { SessionService } from '../../services'
 import { CustomRequest } from 'express'
 import { Session } from '../../schemas'

@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { HashUtil } from 'src/shared/utils'
+import { HashUtil } from '@src/shared/utils'
 import { MESSAGES } from '../constants'
 import { CreateUserDto } from '../dtos'
 import { Model, Types } from 'mongoose'

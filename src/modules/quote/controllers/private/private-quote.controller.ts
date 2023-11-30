@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
-import { ProtectResourceInterceptor } from 'src/shared/interceptors'
-import { ResultMessage } from 'src/shared/types'
+import { ProtectResourceInterceptor } from '@src/shared/interceptors'
+import { ResultMessage } from '@src/shared/types'
 import { QuoteService } from '../../services'
-import { Pagination } from 'src/shared/dtos'
+import { Pagination } from '@src/shared/dtos'
 import { CreateQuoteDto } from '../../dtos'
 import { Quote } from '../../schemas'
 

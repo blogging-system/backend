@@ -1,15 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { AuthController } from '../../controllers/public/public-auth.controller'
+import { PublicAuthController } from '../../controllers'
+import { AuthService } from '../../services'
 
-describe('AuthController', () => {
-  let controller: AuthController
+describe('PublicAuthController', () => {
+  let controller: PublicAuthController
 
   beforeEach(async () => {
+    const fakeAuthService: Partial<AuthService> = {
+      // login = () => {},
+      // logOut = () => {},
+    }
+
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController],
+      controllers: [PublicAuthController],
+      providers: [{ provide: AuthService, useValue: fakeAuthService }],
     }).compile()
 
-    controller = module.get<AuthController>(AuthController)
+    controller = module.get<PublicAuthController>(PublicAuthController)
   })
 
   it('should be defined', () => {

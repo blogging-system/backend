@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
-import { ResultMessage } from 'src/shared/types'
+import { ResultMessage } from '@src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
 import { Model, Types } from 'mongoose'

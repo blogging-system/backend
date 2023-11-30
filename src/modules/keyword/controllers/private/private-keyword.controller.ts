@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common'
-import { ProtectResourceInterceptor } from 'src/shared/interceptors'
-import { ResultMessage } from 'src/shared/types'
+import { ProtectResourceInterceptor } from '@src/shared/interceptors'
+import { ResultMessage } from '@src/shared/types'
 import { KeywordService } from '../../services'
 import { CreateKeywordDto } from '../../dtos'
 import { Keyword } from '../../schemas'

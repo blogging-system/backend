@@ -8,8 +8,8 @@ import {
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { TokenUtil } from '../utils'
-import { MESSAGES } from 'src/modules/auth/constants'
-import { SessionService } from 'src/modules/session/services'
+import { MESSAGES } from '@src/modules/auth/constants'
+import { SessionService } from '@src/modules/session/services'
 
 @Injectable()
 export class ProtectResourceInterceptor implements NestInterceptor {

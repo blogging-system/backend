@@ -1,6 +1,6 @@
-import { ResultMessage } from 'src/shared/types'
+import { ResultMessage } from '@src/shared/types'
 import { QuoteRepository } from '../repositories'
-import { Pagination } from 'src/shared/dtos'
+import { Pagination } from '@src/shared/dtos'
 import { Injectable } from '@nestjs/common'
 import { CreateQuoteDto } from '../dtos'
 import { Quote } from '../schemas'

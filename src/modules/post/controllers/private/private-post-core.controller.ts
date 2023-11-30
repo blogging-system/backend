@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
-import { ProtectResourceInterceptor } from 'src/shared/interceptors'
+import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { CreatePostDto, DeletePostDto } from '../../dtos'
-import { ResultMessage } from 'src/shared/types'
+import { ResultMessage } from '@src/shared/types'
 import { Post as BlogPost } from '../../schemas'
 import { PostsFilter } from '../../interfaces'
-import { Pagination } from 'src/shared/dtos'
+import { Pagination } from '@src/shared/dtos'
 import { PostService } from '../../services'
 
 @Controller('/admin/posts')

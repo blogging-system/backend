@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common'
-import { ProtectResourceInterceptor } from 'src/shared/interceptors'
-import { ResultMessage } from 'src/shared/types'
+import { ProtectResourceInterceptor } from '@src/shared/interceptors'
+import { ResultMessage } from '@src/shared/types'
 import { TagService } from '../../services'
 import { CreateTagDto } from '../../dtos'
 import { Tag } from '../../schemas'

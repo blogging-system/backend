@@ -1,5 +1,5 @@
-import { DeviceInfo, IpAddress, Serialize } from 'src/shared/decorators'
-import { PublicSessionDto } from 'src/modules/session/dtos'
+import { DeviceInfo, IpAddress, Serialize } from '@src/shared/decorators'
+import { PublicSessionDto } from '@src/modules/session/dtos'
 import { AuthService } from '../../services/auth.service'
 import { Body, Controller, Post } from '@nestjs/common'
 import { LoginResponse } from '../../types'

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { BaseSchema } from 'src/shared/schemas'
+import { BaseSchema } from '@src/shared/schemas'
 import { HydratedDocument } from 'mongoose'
 
 export type QuoteDocument = HydratedDocument<Quote>

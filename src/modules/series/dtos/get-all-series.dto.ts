@@ -1,4 +1,4 @@
-import { Pagination } from 'src/shared/dtos'
+import { Pagination } from '@src/shared/dtos'
 
 export class GetAllSeriesQuery {
   isPublished?: boolean

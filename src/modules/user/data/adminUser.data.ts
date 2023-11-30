@@ -1,4 +1,4 @@
-import { appConfig } from 'src/shared/config'
+import { appConfig } from '@src/shared/config'
 import { CreateUserDto } from '../dtos'
 
 export const adminUser: CreateUserDto = {

@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { PostsFilter } from '../../interfaces'
-import { Pagination } from 'src/shared/dtos'
+import { Pagination } from '@src/shared/dtos'
 import { PostService } from '../../services'
 import { Post } from '../../schemas'
 

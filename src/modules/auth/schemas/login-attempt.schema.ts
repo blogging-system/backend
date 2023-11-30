@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { ExpiryDuration } from 'src/shared/enums'
-import { BaseSchema } from 'src/shared/schemas'
+import { ExpiryDuration } from '@src/shared/enums'
+import { BaseSchema } from '@src/shared/schemas'
 import { HydratedDocument } from 'mongoose'
 
 export type LoginAttemptDocument = HydratedDocument<LoginAttempt>

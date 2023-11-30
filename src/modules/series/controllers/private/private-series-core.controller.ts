@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
-import { ProtectResourceInterceptor } from 'src/shared/interceptors'
+import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { CreateSeriesDto, DeleteSeriesDto } from '../../dtos'
-import { ResultMessage } from 'src/shared/types'
+import { ResultMessage } from '@src/shared/types'
 import { SeriesService } from '../../services'
-import { Pagination } from 'src/shared/dtos'
+import { Pagination } from '@src/shared/dtos'
 import { Series } from '../../schemas'
 
 @Controller('/admin/series')

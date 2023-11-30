@@ -1,10 +1,10 @@
 import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common'
 import { CreateSessionDto, GetSessionDto, GetSessionQuery } from '../dtos'
 import { MESSAGES as AUTH_MESSAGES } from '../../auth/constants'
-import { UserService } from 'src/modules/user/services'
+import { UserService } from '../../user/services'
 import { SessionRepository } from '../repositories'
-import { ResultMessage } from 'src/shared/types'
-import { TokenUtil } from 'src/shared/utils'
+import { ResultMessage } from '@src/shared/types'
+import { TokenUtil } from '@src/shared/utils'
 import { MESSAGES } from '../constants'
 import { Session } from '../schemas'
 

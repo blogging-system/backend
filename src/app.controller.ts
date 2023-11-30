@@ -1,6 +1,6 @@
 import { AppService, WelcomeResponse } from './app.service'
 import { Controller, Get } from '@nestjs/common'
-import { ResultMessage } from './shared/types'
+import { ResultMessage } from '@src/shared/types'
 
 @Controller()
 export class AppController {
