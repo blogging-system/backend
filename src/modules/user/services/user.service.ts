@@ -1,13 +1,31 @@
-import { InjectModel } from '@nestjs/mongoose';
-import { User } from '../schemas/user.schema';
-import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { UserRepository } from '../repositories'
+import { Injectable } from '@nestjs/common'
+import { CreateUserDto } from '../dtos'
+import { User } from '../schemas'
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(private readonly userRepo: UserRepository) {}
 
-  async createUser(firstName: string, lastName: string) {
-    return await this.userModel.create({ firstName, lastName });
+  public async createUser(data: CreateUserDto): Promise<User> {
+    return await this.userRepo.createOne(data)
+  }
+
+  public async findUserByEmail(email: string): Promise<User> {
+    return await this.userRepo.findOneByEmail(email)
+  }
+
+  public async findUserById(userId: string): Promise<User> {
+    return await this.userRepo.findOneById(userId)
+  }
+
+  public async findRootUser(): Promise<User> {
+    return await this.userRepo.findOne({})
+  }
+
+  public async isUserFound(email: string): Promise<boolean> {
+    const isUserFound = await this.userRepo.findOne({ email })
+
+    return !!isUserFound
   }
 }
