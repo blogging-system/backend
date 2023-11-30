@@ -13,8 +13,6 @@ export const configureCors = (app: INestApplication): void => {
           }
         },
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        preflightContinue: false,
-        maxAge: 86400,
         credentials: true,
       })
     : app.enableCors()
