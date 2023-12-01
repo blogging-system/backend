@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
-import { PostsFilter } from '../../interfaces'
+import { GetPostBySlug, PostsFilter } from '../../interfaces'
 import { Pagination } from '@src/shared/dtos'
 import { PostService } from '../../services'
 import { Post } from '../../schemas'
@@ -9,7 +9,7 @@ export class PublicPostController {
   constructor(private postService: PostService) {}
 
   @Get(':slug')
-  public getPostBySlug(@Param('slug') slug: string): Promise<Post> {
+  public getPostBySlug(@Param() { slug }: GetPostBySlug): Promise<Post> {
     return this.postService.getPostBySlug({ slug, isPublished: true })
   }
 

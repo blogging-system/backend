@@ -1,8 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/types'
+import { PrivateAnalyticsPostController } from '../private-post-analytics.controller'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { PostService } from '@src/modules/post/services'
-import { PrivateAnalyticsPostController } from '../private-post-analytics.controller'
+import { Test, TestingModule } from '@nestjs/testing'
+import { ResultMessage } from '@src/shared/types'
 
 describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
   let privateAnalyticsPostController: PrivateAnalyticsPostController
@@ -41,7 +41,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     postService = module.get<PostService>(PostService)
   })
 
-  describe('getAllPublishedPostsCountForGivenTagId', () => {
+  describe('getAllPublishedPostsCountForGivenTagId method', () => {
     it('should return count of published posts for a given tag', async () => {
       const tagId = 'tag123'
       const expectedResult: ResultMessage = { message: 'Count: 10' }
@@ -55,7 +55,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     })
   })
 
-  describe('getAllUnPublishedPostsCountForGivenTagId', () => {
+  describe('getAllUnPublishedPostsCountForGivenTagId method', () => {
     it('should return count of unpublished posts for a given tag', async () => {
       const tagId = 'tag123'
       const expectedResult: ResultMessage = { message: 'Count: 5' }
@@ -69,7 +69,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     })
   })
 
-  describe('getAllPostsCountForGivenTagId', () => {
+  describe('getAllPostsCountForGivenTagId method', () => {
     it('should return count of all posts for a given tag', async () => {
       const tagId = 'tag123'
       const expectedResult: ResultMessage = { message: 'Count: 15' }
@@ -83,7 +83,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     })
   })
 
-  describe('getAllPublishedPostsCountForGivenKeywordId', () => {
+  describe('getAllPublishedPostsCountForGivenKeywordId method', () => {
     it('should return count of published posts for a given keyword', async () => {
       const keywordId = 'keyword123'
       const expectedResult: ResultMessage = { message: 'Count: 8' }
@@ -97,7 +97,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     })
   })
 
-  describe('getAllUnPublishedPostsCountForGivenKeywordId', () => {
+  describe('getAllUnPublishedPostsCountForGivenKeywordId method', () => {
     it('should return count of unpublished posts for a given keyword', async () => {
       const keywordId = 'keyword123'
       const expectedResult: ResultMessage = { message: 'Count: 3' }
@@ -111,7 +111,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     })
   })
 
-  describe('getAllPostsCountForGivenKeywordId', () => {
+  describe('getAllPostsCountForGivenKeywordId method', () => {
     it('should return count of all posts for a given keyword', async () => {
       const keywordId = 'keyword123'
       const expectedResult: ResultMessage = { message: 'Count: 11' }
@@ -125,7 +125,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     })
   })
 
-  describe('getAllPublishedPostsCountForGivenSeriesId', () => {
+  describe('getAllPublishedPostsCountForGivenSeriesId method', () => {
     it('should return count of published posts for a given series', async () => {
       const seriesId = 'series123'
       const expectedResult: ResultMessage = { message: 'Count: 7' }
@@ -139,7 +139,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     })
   })
 
-  describe('getAllUnPublishedPostsCountForGivenSeriesId', () => {
+  describe('getAllUnPublishedPostsCountForGivenSeriesId method', () => {
     it('should return count of unpublished posts for a given series', async () => {
       const seriesId = 'series123'
       const expectedResult: ResultMessage = { message: 'Count: 4' }
@@ -153,7 +153,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     })
   })
 
-  describe('getAllPostsCountForGivenSeriesId', () => {
+  describe('getAllPostsCountForGivenSeriesId method', () => {
     it('should return count of all posts for a given series', async () => {
       const seriesId = 'series123'
       const expectedResult: ResultMessage = { message: 'Count: 9' }
@@ -167,7 +167,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     })
   })
 
-  describe('getAllPublishedPostsCount', () => {
+  describe('getAllPublishedPostsCount method', () => {
     it('should return count of all published posts', async () => {
       const expectedResult: ResultMessage = { message: 'Count: 20' }
 
@@ -180,7 +180,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     })
   })
 
-  describe('getAllUnPublishedPostsCount', () => {
+  describe('getAllUnPublishedPostsCount method', () => {
     it('should return count of all unpublished posts', async () => {
       const expectedResult: ResultMessage = { message: 'Count: 12' }
 
@@ -193,7 +193,7 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     })
   })
 
-  describe('getAllPostsCount', () => {
+  describe('getAllPostsCount method', () => {
     it('should return count of all posts', async () => {
       const expectedResult: ResultMessage = { message: 'Count: 30' }
 
