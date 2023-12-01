@@ -8,6 +8,7 @@ describe('PublicAuthController', () => {
   beforeEach(async () => {
     const fakeAuthService: Partial<AuthService> = {
       // login = () => {},
+      
       // logOut = () => {},
     }
 
