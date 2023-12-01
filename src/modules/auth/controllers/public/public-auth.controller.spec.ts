@@ -5,7 +5,7 @@ import { BadRequestException } from '@nestjs/common'
 import { LoginResponse } from '../../types'
 import { LoginDto } from '../../dtos'
 
-describe('🏠PublicAuthController | Controller layer', () => {
+describe('🏠PublicAuthController | Controllers layer', () => {
   let publicAuthController: PublicAuthController
   let fakeAuthService: Partial<AuthService>
 
