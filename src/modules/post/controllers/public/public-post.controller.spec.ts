@@ -1,10 +1,10 @@
 import { PublicPostController } from './public-post.controller'
 import { Test, TestingModule } from '@nestjs/testing'
+import { BadRequestException } from '@nestjs/common'
 import { PostsFilter } from '../../interfaces'
 import { Pagination } from '@src/shared/dtos'
 import { PostService } from '../../services'
 import { Post } from '../../schemas'
-import { BadRequestException } from '@nestjs/common'
 
 describe('🏠PublicPostController | Controller Layer', () => {
   let publicPostController: PublicPostController
