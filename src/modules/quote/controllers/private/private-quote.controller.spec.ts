@@ -42,11 +42,7 @@ describe('🏠PrivateQuoteController | Controller Layer', () => {
         text: 'This is a new quote.',
         author: 'Anonymous',
       }
-      const createdQuote: Quote = {
-        _id: '1',
-        text: 'This is a new quote.',
-        author: 'Anonymous',
-      }
+      const createdQuote: Quote = Object.assign(createQuoteDto, { _id: '1' })
 
       ;(quoteService.createQuote as jest.Mock).mockResolvedValueOnce(createdQuote)
 
@@ -64,11 +60,10 @@ describe('🏠PrivateQuoteController | Controller Layer', () => {
         text: 'Updated quote content.',
         author: 'Updated Author',
       }
-      const updatedQuote: Quote = {
+
+      const updatedQuote: Quote = Object.assign(updateQuoteDto, {
         _id: quoteId,
-        text: 'Updated quote content.',
-        author: 'Updated Author',
-      }
+      })
 
       ;(quoteService.updateQuote as jest.Mock).mockResolvedValueOnce(updatedQuote)
 
