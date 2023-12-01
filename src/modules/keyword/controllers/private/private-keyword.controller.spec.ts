@@ -6,7 +6,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { ResultMessage } from '@src/shared/types'
 import { CreateKeywordDto } from '../../dtos'
 
-describe('PrivateKeywordController', () => {
+describe('🏠PrivateKeywordController | Controller Layer', () => {
   let privateKeywordController: PrivateKeywordController
   let keywordService: Partial<KeywordService>
 
