@@ -7,8 +7,8 @@ describe('PublicAuthController', () => {
 
   beforeEach(async () => {
     const fakeAuthService: Partial<AuthService> = {
-      login = () => {},
-      logOut = () => {},
+      // login = () => {},
+      // logOut = () => {},
     }
 
     const module: TestingModule = await Test.createTestingModule({
