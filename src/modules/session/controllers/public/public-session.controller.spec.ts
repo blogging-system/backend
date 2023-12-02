@@ -26,6 +26,10 @@ describe('🏠PublicSessionController | Controller Layer', () => {
     sessionService = module.get<SessionService>(SessionService)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('regenerateSession method', () => {
     it('should regenerate a session with the provided refresh token', async () => {
       const refreshToken = 'refreshToken123'

@@ -56,6 +56,13 @@ describe('🏠PrivatePostCoreController | Controller Layer', () => {
     privatePostCoreController = module.get<PrivatePostCoreController>(PrivatePostCoreController)
   })
 
+
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+
   describe('createPost method', () => {
     it('should create a new post successfully', async () => {
       const postData: Partial<CreatePostDto> = { title: 'New Post', content: 'Post content' }

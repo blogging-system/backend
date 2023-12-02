@@ -23,6 +23,10 @@ describe('🏠PublicQuoteController | Controller Layer', () => {
     quoteService = module.get<QuoteService>(QuoteService)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('getRandomQuotes method', () => {
     it('should return random quotes', async () => {
       const expectedResult: {}[] = [

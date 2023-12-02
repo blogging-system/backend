@@ -36,6 +36,11 @@ describe('🏠PrivateKeywordController | Controller Layer', () => {
     privateKeywordController = module.get<PrivateKeywordController>(PrivateKeywordController)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+
   describe('createKeyword method', () => {
     it('should create a keyword successfully', async () => {
       const createKeywordDto: CreateKeywordDto = { name: 'Test Keyword' }

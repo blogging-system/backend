@@ -27,6 +27,11 @@ describe('🏠PublicSeriesController | Controller Layer', () => {
     seriesService = module.get<SeriesService>(SeriesService)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+
   describe('getSeriesBySlug method', () => {
     it('should return a series by slug', async () => {
       const slug = 'sample-series'
