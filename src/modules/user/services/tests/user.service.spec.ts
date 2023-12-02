@@ -28,6 +28,10 @@ describe('🏠UserService | Service Layer', () => {
     userRepository = module.get<UserRepository>(UserRepository)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('createUser method', () => {
     it('should create a user successfully', async () => {
       const createUserDto: Partial<CreateUserDto> = { email: 'test@example.com', password: 'password' }
