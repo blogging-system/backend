@@ -28,6 +28,10 @@ describe('🏠PublicPostController | Controller Layer', () => {
     postService = module.get<PostService>(PostService)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('getPostBySlug method', () => {
     it('should return a post by slug', async () => {
       const slug = 'sample-post'

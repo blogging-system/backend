@@ -24,6 +24,10 @@ describe('🌐 PublicTagController | Controller Layer', () => {
     tagService = module.get<TagService>(TagService)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('getAllTags method', () => {
     it('should return all tags', async () => {
       const expectedResult: Tag[] = [

@@ -25,6 +25,10 @@ describe('🏠PublicKeywordController | Controller Layer', () => {
     publicKeywordController = module.get<PublicKeywordController>(PublicKeywordController)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('getAllKeywords', () => {
     it('should get all keywords successfully', async () => {
       const keywords: Keyword[] = [

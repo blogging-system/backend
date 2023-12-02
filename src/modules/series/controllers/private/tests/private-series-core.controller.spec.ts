@@ -46,6 +46,10 @@ describe('🏠PrivateSeriesCoreController | Controller Layer', () => {
     seriesService = module.get<SeriesService>(SeriesService)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('createSeries method', () => {
     it('should create a new series', async () => {
       const data = { title: 'New Series', description: 'Description for the new series' }

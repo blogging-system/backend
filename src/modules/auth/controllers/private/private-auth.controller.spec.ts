@@ -41,6 +41,10 @@ describe('🏠PrivateAuthController | Controllers Layer', () => {
     privateAuthController = module.get<PrivateAuthController>(PrivateAuthController)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('should be defined', () => {
     expect(privateAuthController).toBeDefined()
   })

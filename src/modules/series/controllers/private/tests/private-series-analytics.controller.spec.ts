@@ -32,6 +32,10 @@ describe('🏠PrivateSeriesAnalyticsController | Controller Layer', () => {
     seriesService = module.get<SeriesService>(SeriesService)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('getAllPublishedSeriesCount method', () => {
     it('should return the count of all published series', async () => {
       const expectedResult: ResultMessage = { message: 'Count of published series: 10' }

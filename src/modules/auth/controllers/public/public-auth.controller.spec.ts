@@ -27,6 +27,10 @@ describe('🏠PublicAuthController | Controllers layer', () => {
     publicAuthController = module.get<PublicAuthController>(PublicAuthController)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('should be defined', () => {
     expect(publicAuthController).toBeDefined()
   })

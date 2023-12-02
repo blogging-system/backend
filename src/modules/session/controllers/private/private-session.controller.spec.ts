@@ -33,6 +33,11 @@ describe('🏠PrivateSessionController | Controller Layer', () => {
     sessionService = module.get<SessionService>(SessionService)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+
   describe('revokeSession method', () => {
     it('should revoke a session by sessionId', async () => {
       const sessionId = 'session123'

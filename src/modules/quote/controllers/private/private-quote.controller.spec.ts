@@ -36,6 +36,12 @@ describe('🏠PrivateQuoteController | Controller Layer', () => {
     quoteService = module.get<QuoteService>(QuoteService)
   })
 
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+
   describe('createQuote method', () => {
     it('should create a new quote', async () => {
       const createQuoteDto: CreateQuoteDto = {
