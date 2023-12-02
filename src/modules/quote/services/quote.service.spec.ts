@@ -37,6 +37,10 @@ describe('🏠QuoteService | Service Layer', () => {
     quoteRepository = module.get<QuoteRepository>(QuoteRepository)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('createQuote method', () => {
     it('should create a quote successfully', async () => {
       const createQuoteDto: Partial<CreateQuoteDto> = {}
