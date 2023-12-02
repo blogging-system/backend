@@ -19,7 +19,7 @@ export class PrivateAuthController {
 
   @Get('/whoami')
   @Serialize(PublicUserDto)
-  public whoAmI(@CurrentUser() user: User): Promise<User> {
+  public whoAmI(@CurrentUser() user: Partial<User>): Promise<User> {
     return this.userService.findUserById(user._id)
   }
 

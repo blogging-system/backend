@@ -1,10 +1,10 @@
 import { IsNotEmpty, IsString, Length } from 'class-validator'
 import { Type } from 'class-transformer'
 
-export class RegenerateSessionDto {
+export class GetPostBySlugDto {
   @Type(() => String)
-  @IsString()
   @IsNotEmpty()
-  @Length(1, 500)
-  refreshToken: string
+  @IsString()
+  @Length(3, 50, { message: 'Slug must be between 3 and 50 characters' })
+  slug: string
 }

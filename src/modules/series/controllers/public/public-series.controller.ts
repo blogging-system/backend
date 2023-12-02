@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { SeriesService } from '../../services'
 import { Pagination } from '@src/shared/dtos'
+import { GetSeriesBySlug } from '../../dtos'
 import { Series } from '../../schemas'
 
 @Controller('series')
@@ -8,7 +9,7 @@ export class PublicSeriesController {
   constructor(private seriesService: SeriesService) {}
 
   @Get(':slug')
-  public getSeriesBySlug(@Param('slug') slug: string): Promise<Series> {
+  public getSeriesBySlug(@Param() { slug }: GetSeriesBySlug): Promise<Series> {
     const query = { slug, isPublished: true }
 
     return this.seriesService.getSeriesBySlug(query)
