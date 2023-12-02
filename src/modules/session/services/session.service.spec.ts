@@ -5,11 +5,11 @@ import { SessionRepository } from '../repositories'
 import { SessionService } from './session.service'
 import { UserService } from '../../user/services'
 import { ResultMessage } from '@src/shared/types'
-import { Session } from '../schemas'
-import { CreateSessionDto } from '../dtos'
-import { TokenUtil } from '@src/shared/utils'
-import { MESSAGES } from '../constants'
 import { User } from '@src/modules/user/schemas'
+import { TokenUtil } from '@src/shared/utils'
+import { CreateSessionDto } from '../dtos'
+import { MESSAGES } from '../constants'
+import { Session } from '../schemas'
 
 describe('🏠SessionService | Service Layer', () => {
   let sessionService: SessionService
