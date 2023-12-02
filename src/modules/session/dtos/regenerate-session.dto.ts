@@ -1,5 +1,5 @@
+import { IsNotEmpty, IsString, Length } from 'class-validator'
 import { Type } from 'class-transformer'
-import { IsNotEmpty, IsString, Length, Max } from 'class-validator'
 
 export class RegenerateSessionDto {
   @Type(() => String)
