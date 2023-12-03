@@ -13,7 +13,7 @@ export class SeriesRepository {
   constructor(@InjectModel(Series.name) private seriesModel: Model<Series>) {}
 
   public async createOne(data: CreateSeriesDto): Promise<Series> {
-    const isSeriesCreated = await this.seriesModel.create({ ...data, slug: slugify(data.title) })
+    const isSeriesCreated = await this.seriesModel.create({ ...data, slug: slugify(data.title, { lower: true }) })
 
     if (!isSeriesCreated) throw new InternalServerErrorException(MESSAGES.CREATION_FAILED)
 
@@ -23,7 +23,7 @@ export class SeriesRepository {
   public async updateOne(seriesId: string, payload: Partial<SeriesManipulationDto>): Promise<Series> {
     const query: Partial<SeriesManipulationDto> = { ...payload }
 
-    if (payload.title) query.slug = slugify(payload.title)
+    if (payload.title) query.slug = slugify(payload.title, { lower: true })
 
     const isSeriesUpdated = await this.seriesModel.findByIdAndUpdate(seriesId, query, { new: true })
 

@@ -1,6 +1,7 @@
-import { CreatePostDto, DeletePostDto } from '../dtos'
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
+import { GetAllPostsDto, GetAllPostsQuery, PostManipulation } from '../interfaces'
 import { CountDocumentsDto, CountDocumentsQuery } from '@src/shared/dtos'
+import { CreatePostDto, DeletePostDto } from '../dtos'
 import { ResultMessage } from '@src/shared/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { Entities } from '@src/shared/enums'
@@ -8,7 +9,6 @@ import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 import { Model } from 'mongoose'
 import slugify from 'slugify'
-import { GetAllPostsDto, GetAllPostsQuery, PostManipulation } from '../interfaces'
 
 @Injectable()
 export class PostRepository {
@@ -17,7 +17,7 @@ export class PostRepository {
   public async createOne(data: CreatePostDto): Promise<Post> {
     const isPostCreated = await this.postModel.create({
       ...data,
-      slug: slugify(data.title),
+      slug: slugify(data.title, { lower: true }),
     })
 
     if (!isPostCreated) throw new InternalServerErrorException(MESSAGES.CREATION_FAILED)
@@ -28,7 +28,7 @@ export class PostRepository {
   public async updateOne(postId: string, payload: Partial<PostManipulation>): Promise<Post> {
     const query: Partial<PostManipulation> = { ...payload }
 
-    if (payload.title) query.slug = slugify(payload.title)
+    if (payload.title) query.slug = slugify(payload.title, { lower: true })
 
     const isPostUpdated = await this.postModel.findByIdAndUpdate(postId, query, { new: true })
 
@@ -71,8 +71,8 @@ export class PostRepository {
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize)
       .sort(sortCondition)
-      .populate([Entities.TAGS, Entities.KEYWORDS, Entities.SERIES])
       .lean()
+      .populate([Entities.TAGS, Entities.KEYWORDS, Entities.SERIES])
 
     if (foundPosts.length === 0) throw new NotFoundException(MESSAGES.POSTS_NOT_FOUND)
 

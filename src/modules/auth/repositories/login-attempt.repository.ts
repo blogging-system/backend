@@ -29,7 +29,7 @@ export class LoginAttemptRepository {
   }
 
   public async findOne(): Promise<LoginAttempt> {
-    const allDocs = await this.LoginAttemptModel.find().lean()
+    const allDocs = await this.LoginAttemptModel.find()
     return allDocs[0]
   }
 }
