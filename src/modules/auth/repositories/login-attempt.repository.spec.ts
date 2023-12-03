@@ -36,8 +36,10 @@ describe('LoginAttemptRepository', () => {
     jest.clearAllMocks()
   })
 
-  it('should be defined', () => {
-    expect(repository).toBeDefined()
+  describe('Layer Setup', () => {
+    it('should be defined', () => {
+      expect(repository).toBeDefined()
+    })
   })
 
   describe('createOne', () => {

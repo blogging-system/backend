@@ -59,6 +59,12 @@ describe('QuoteRepository', () => {
     jest.clearAllMocks()
   })
 
+  describe('Layer Setup', () => {
+    it('should be defined', () => {
+      expect(quoteRepository).toBeDefined()
+    })
+  })
+
   describe('createOne', () => {
     it('should create a quote successfully', async () => {
       const createQuoteDto: Partial<CreateQuoteDto> = {}

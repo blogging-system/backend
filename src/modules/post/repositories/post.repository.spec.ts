@@ -8,19 +8,18 @@ import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 import { Model } from 'mongoose'
 
-const mockPostModel = {
-  create: jest.fn(),
-  findByIdAndUpdate: jest.fn(),
-  deleteOne: jest.fn(),
-  findOne: jest.fn(),
-  find: jest.fn(),
-  countDocuments: jest.fn(),
-}
-
 describe('PostRepository', () => {
   let postRepository: PostRepository
   let postModel: Model<Post>
 
+  const mockPostModel = {
+    create: jest.fn(),
+    findByIdAndUpdate: jest.fn(),
+    deleteOne: jest.fn(),
+    findOne: jest.fn(),
+    find: jest.fn(),
+    countDocuments: jest.fn(),
+  }
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -44,6 +43,12 @@ describe('PostRepository', () => {
 
   afterEach(() => {
     jest.clearAllMocks()
+  })
+
+  describe('Layer Setup', () => {
+    it('should be defined', () => {
+      expect(postRepository).toBeDefined()
+    })
   })
 
   describe('createOne', () => {

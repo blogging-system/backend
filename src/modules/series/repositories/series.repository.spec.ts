@@ -59,6 +59,12 @@ describe('SeriesRepository', () => {
     jest.clearAllMocks()
   })
 
+  describe('Layer Setup', () => {
+    it('should be defined', () => {
+      expect(seriesRepository).toBeDefined()
+    })
+  })
+
   describe('createOne', () => {
     it('should create a series successfully', async () => {
       const createSeriesDto: Partial<CreateSeriesDto> = { title: 'new series' }
