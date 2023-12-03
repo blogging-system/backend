@@ -11,6 +11,7 @@ describe('LoginAttemptRepository', () => {
     create: jest.fn(),
     findByIdAndUpdate: jest.fn(),
     find: jest.fn(),
+    findOne: jest.fn(),
   }
 
   beforeEach(async () => {
@@ -25,6 +26,10 @@ describe('LoginAttemptRepository', () => {
     }).compile()
 
     repository = module.get<LoginAttemptRepository>(LoginAttemptRepository)
+
+    mockModel.find.mockReturnValueOnce({
+      lean: jest.fn().mockReturnValueOnce([{}]),
+    })
   })
 
   afterEach(() => {
@@ -75,7 +80,7 @@ describe('LoginAttemptRepository', () => {
 
   describe('findOne', () => {
     it('should find a login attempt', async () => {
-      const expectedResult = {} as LoginAttempt
+      const expectedResult: Partial<LoginAttempt> = {}
       mockModel.find.mockResolvedValueOnce([expectedResult])
 
       const result = await repository.findOne()
