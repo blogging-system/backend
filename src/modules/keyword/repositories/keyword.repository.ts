@@ -37,7 +37,7 @@ export class KeywordRepository {
   }
 
   public async findOneById(keywordId: string): Promise<Keyword> {
-    const isPostFound = await this.keywordModel.findOne({ _id: keywordId }).lean()
+    const isPostFound = await this.keywordModel.findOne({ _id: keywordId })
 
     if (!isPostFound) throw new NotFoundException(MESSAGES.KEYWORD_NOT_FOUND)
 
@@ -45,15 +45,14 @@ export class KeywordRepository {
   }
 
   public async findMany(): Promise<Keyword[]> {
-    const areTagsFound = await this.keywordModel.find().lean()
-
+    const areTagsFound = await this.keywordModel.find()
     if (areTagsFound.length === 0) throw new NotFoundException(MESSAGES.KEYWORDS_NOT_FOUND)
 
     return areTagsFound
   }
 
   public async countDocuments(): Promise<ResultMessage> {
-    const count = await this.keywordModel.countDocuments().lean()
+    const count = await this.keywordModel.countDocuments()
 
     return { count }
   }
