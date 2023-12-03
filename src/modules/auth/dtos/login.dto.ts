@@ -13,7 +13,7 @@ export class LoginDto {
   @Type(() => String)
   @IsString()
   @IsNotEmpty()
-  @MinLength(6, { message: 'Password must be at least 6 characters long' })
+  @MinLength(4, { message: 'Password must be at least 4 characters long' })
   @MaxLength(30, { message: 'Password cannot be longer than 30 characters' })
   password: string
 }
