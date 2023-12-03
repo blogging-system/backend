@@ -6,19 +6,19 @@ import { Model, Types } from 'mongoose'
 import { MESSAGES } from '../constants'
 import { Keyword } from '../schemas'
 
-const mockKeywordModel = {
-  create: jest.fn(),
-  findByIdAndUpdate: jest.fn(),
-  deleteOne: jest.fn(),
-  findOneById: jest.fn(),
-  findOne: jest.fn(),
-  find: jest.fn(),
-  countDocuments: jest.fn(),
-}
-
 describe('KeywordRepository', () => {
   let keywordRepository: KeywordRepository
   let keywordModel: Model<Keyword>
+
+  const mockKeywordModel = {
+    create: jest.fn(),
+    findByIdAndUpdate: jest.fn(),
+    deleteOne: jest.fn(),
+    findOneById: jest.fn(),
+    findOne: jest.fn(),
+    find: jest.fn(),
+    countDocuments: jest.fn(),
+  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -51,8 +51,10 @@ describe('KeywordRepository', () => {
     jest.clearAllMocks()
   })
 
-  it('should be defined', () => {
-    expect(keywordRepository).toBeDefined()
+  describe('Layer Setup', () => {
+    it('should be defined', () => {
+      expect(keywordRepository).toBeDefined()
+    })
   })
 
   describe('createOne', () => {

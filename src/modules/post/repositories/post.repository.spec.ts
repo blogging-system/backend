@@ -178,7 +178,7 @@ describe('PostRepository', () => {
   describe('findMany', () => {
     it('should find multiple posts', async () => {
       const pagination = { pageNumber: 1, pageSize: 10 }
-      const foundPosts = [{}, {}] // Mocked result
+      const foundPosts = [{}, {}]
 
       mockPostModel.find.mockReturnValueOnce({
         skip: jest.fn().mockReturnValueOnce({
