@@ -1,12 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { getModelToken } from '@nestjs/mongoose'
-import { QuoteRepository } from './quote.repository'
-import { CreateQuoteDto } from '../dtos'
-import { MESSAGES } from '../constants'
 import { InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { Quote } from '../schemas'
-import { Model, Types } from 'mongoose'
+import { Test, TestingModule } from '@nestjs/testing'
+import { QuoteRepository } from './quote.repository'
+import { getModelToken } from '@nestjs/mongoose'
 import { Pagination } from '@src/shared/dtos'
+import { CreateQuoteDto } from '../dtos'
+import { Model, Types } from 'mongoose'
+import { MESSAGES } from '../constants'
+import { Quote } from '../schemas'
 
 describe('QuoteRepository', () => {
   let quoteRepository: QuoteRepository
@@ -53,6 +53,10 @@ describe('QuoteRepository', () => {
     mockQuoteModel.countDocuments.mockReturnValueOnce({
       lean: jest.fn().mockReturnValueOnce(5),
     })
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
   describe('createOne', () => {
