@@ -23,11 +23,12 @@ describe('🏠 Auth Module (E2E Tests)', () => {
     it(`Should return 201 and created session tokens`, async () => {
       const loginPayload = { email: appConfig.seeders.rootUser.email, password: appConfig.seeders.rootUser.password }
 
-      const result = await request(app.getHttpServer()).post(path).send(loginPayload)
+      const { status, body } = await request(app.getHttpServer()).post(path).send(loginPayload)
 
-      expect(result.status).toBe(201)
-      expect(result.body.accessToken).toBeDefined()
-      expect(result.body.refreshToken).toBeDefined()
+      expect(status).toBe(201)
+      expect(body.accessToken).toBeDefined()
+      expect(body.refreshToken).toBeDefined()
+      expect(Object.keys(body).length).toBe(2)
     })
 
     it(`Should throw UnAuthorizedException for invalid email`, async () => {
@@ -43,6 +44,18 @@ describe('🏠 Auth Module (E2E Tests)', () => {
 
       const result = await request(app.getHttpServer()).post(path).send(loginPayload)
       expect(result.status).toBe(401)
+    })
+
+    it(`Should throw TooManyRequestException for invalid password`, async () => {
+      const loginPayload = { email: appConfig.seeders.rootUser.email, password: 'invalidPassword' }
+
+      for (let i = 0; i < 5; i++) {
+        await request(app.getHttpServer()).post(path).send(loginPayload)
+      }
+
+      const { status, body } = await request(app.getHttpServer()).post(path).send(loginPayload)
+
+      expect(status).toBe(429)
     })
 
     it(`Should throw BadRequestException if the credentials aren't given`, async () => {

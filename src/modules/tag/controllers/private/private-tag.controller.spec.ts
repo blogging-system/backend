@@ -34,7 +34,7 @@ describe('🏠PrivateTagController | Controller Layer', () => {
     privateTagController = module.get<PrivateTagController>(PrivateTagController)
     tagService = module.get<TagService>(TagService)
   })
-  
+
   afterEach(() => {
     jest.clearAllMocks()
   })

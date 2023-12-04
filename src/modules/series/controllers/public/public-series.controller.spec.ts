@@ -31,7 +31,6 @@ describe('🏠PublicSeriesController | Controller Layer', () => {
     jest.clearAllMocks()
   })
 
-
   describe('getSeriesBySlug method', () => {
     it('should return a series by slug', async () => {
       const slug = 'sample-series'
