@@ -1619,22 +1619,22 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
           tags: [createdTag._id],
         } as CreatePostDto)
 
-    //   const { status, body } = await request(app.getHttpServer())
-    //     .patch(updatePostPath + `/${createdPost._id}`)
-    //     .set('Authorization', `Bearer ${accessToken}`)
-    //     .send({
-    //       title: 'updatedTitle'.repeat(10),
-    //       description: 'description'.repeat(20),
-    //       content: 'content'.repeat(1000),
-    //       imageUrl: 'https://example.com',
-    //       keywords: [createdKeyword._id],
-    //       series: [createdSeries._id],
-    //       tags: [createdTag._id],
-    //     } as CreatePostDto)
+      const { status, body } = await request(app.getHttpServer())
+        .patch(updatePostPath + `/${createdPost._id}`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({
+          title: 'updatedTitle'.repeat(10),
+          description: 'description'.repeat(20),
+          content: 'content'.repeat(1000),
+          imageUrl: 'https://example.com',
+          keywords: [createdKeyword._id],
+          series: [createdSeries._id],
+          tags: [createdTag._id],
+        } as CreatePostDto)
 
-    //   expect(status).toBe(200)
-    //   expect(Object.keys(body).length).toBe(13)
-    //   expect(body.title).toBe('updatedTitle'.repeat(10))
-    // })
+      expect(status).toBe(200)
+      expect(Object.keys(body).length).toBe(13)
+      expect(body.title).toBe('updatedTitle'.repeat(10))
+    })
   })
 })
