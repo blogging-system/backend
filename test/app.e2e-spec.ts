@@ -1,10 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
+import { AppModule } from '@src/app.module'
 import * as request from 'supertest'
-import { AppModule } from './.@src/app.module'
 
-describe('AppController (e2e)', () => {
+describe('🏠 AppController (e2e Tests)', () => {
   let app: INestApplication
+
+  let sayHelloPath: string = '/',
+    pingPath: string = '/ping'
+
+  let sayHelloMethod: string = 'GET',
+    pingMethod: string = 'GET'
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -15,7 +21,19 @@ describe('AppController (e2e)', () => {
     await app.init()
   })
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer()).get('/').expect(200).expect('Hello World!')
+  describe(`➡ "${sayHelloPath}" (${sayHelloMethod})`, () => {
+    it('Should return 200 status code', async () => {
+      const { status } = await request(app.getHttpServer()).get(sayHelloPath)
+
+      expect(status).toBe(200)
+    })
+  })
+
+  describe(`➡ "${pingPath}" (${pingMethod})`, () => {
+    it('Should return 200 status code)', async () => {
+      const { status } = await request(app.getHttpServer()).get(pingPath)
+
+      expect(status).toBe(200)
+    })
   })
 })

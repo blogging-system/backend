@@ -1,4 +1,5 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
+import { Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import { MESSAGES as AUTH_MESSAGES } from './../../auth/constants'
 import { InjectModel } from '@nestjs/mongoose'
 import { HashUtil } from '@src/shared/utils'
 import { MESSAGES } from '../constants'
@@ -24,7 +25,7 @@ export class UserRepository {
   public async findOneByEmail(email: string): Promise<User> {
     const isUserFound = await this.userModel.findOne({ email }).lean()
 
-    if (!isUserFound) throw new NotFoundException(MESSAGES.USER_NOT_FOUND)
+    if (!isUserFound) throw new UnauthorizedException(AUTH_MESSAGES.WRONG_EMAIL_OR_PASSWORD)
 
     return isUserFound
   }

@@ -41,14 +41,9 @@ describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
     postService = module.get<PostService>(PostService)
   })
 
-
-
-
-
   afterEach(() => {
     jest.clearAllMocks()
   })
-
 
   describe('getAllPublishedPostsCountForGivenTagId method', () => {
     it('should return count of published posts for a given tag', async () => {

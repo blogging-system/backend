@@ -18,7 +18,8 @@
     "test:cov": "cross-env NODE_ENV=test jest --coverage",
     "test:summary": "cross-env NODE_ENV=test jest --coverage --coverageReporters=text-summary",
     "test:debug": "cross-env NODE_ENV=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json"
+    "test:e2e": "cross-env NODE_ENV=test jest --config ./test/config/jest-e2e.json --detectOpenHandles --verbose --max-old-space-size=8096",
+    "test:e2e:watch": "cross-env NODE_ENV=test jest --watch --config ./test/config/jest-e2e.json --detectOpenHandles"
   },
   "dependencies": {
     "@nestjs/cache-manager": "^2.1.1",
@@ -49,6 +50,7 @@
     "slugify": "^1.6.6"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
