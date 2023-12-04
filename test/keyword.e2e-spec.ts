@@ -268,7 +268,7 @@ describe('🏠 Auth Module (E2E Tests)', () => {
     })
   })
 
-  describe.only(`➡ "${deleteKeywordPath}" (${deleteKeywordMethod})`, () => {
+  describe(`➡ "${deleteKeywordPath}" (${deleteKeywordMethod})`, () => {
     it(`Should be a private endpoint`, async () => {
       const { status } = await request(app.getHttpServer()).delete(deleteKeywordPath + '/1')
 
@@ -358,6 +358,49 @@ describe('🏠 Auth Module (E2E Tests)', () => {
         .set('Authorization', `Bearer ${accessToken}`)
 
       expect(status).toBe(400)
+    })
+  })
+
+  describe.only(`➡ "${getAllKeywordsCountPath}" (${getAllKeywordsCountPath})`, () => {
+    it(`Should be a private endpoint`, async () => {
+      const { status } = await request(app.getHttpServer()).delete(getAllKeywordsCountPath)
+
+      expect(status).toBe(401)
+    })
+
+    it(`Should return 200 and count result message`, async () => {
+      const loginPayload = { email: appConfig.seeders.rootUser.email, password: appConfig.seeders.rootUser.password }
+
+      const {
+        body: { accessToken },
+      } = await request(app.getHttpServer()).post(loginPath).send(loginPayload)
+
+      const { body: createdKeyword } = await request(app.getHttpServer())
+        .post(createKeywordPath)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ name: 'test' } as CreateKeywordDto)
+
+      const { status, body } = await request(app.getHttpServer())
+        .get(getAllKeywordsCountPath)
+        .set('Authorization', `Bearer ${accessToken}`)
+
+      expect(status).toBe(200)
+      expect(body.count).toBe(1)
+    })
+
+    it(`Should throw NotFoundEXception if not keywords are found`, async () => {
+      const loginPayload = { email: appConfig.seeders.rootUser.email, password: appConfig.seeders.rootUser.password }
+
+      const {
+        body: { accessToken },
+      } = await request(app.getHttpServer()).post(loginPath).send(loginPayload)
+
+      const { status, body } = await request(app.getHttpServer())
+        .get(getAllKeywordsCountPath)
+        .set('Authorization', `Bearer ${accessToken}`)
+
+      expect(status).toBe(200)
+      expect(body.count).toBe(0)
     })
   })
 })
