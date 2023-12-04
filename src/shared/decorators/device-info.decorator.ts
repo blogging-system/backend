@@ -6,7 +6,7 @@ const detector = new DeviceDetector()
 export const DeviceInfo = createParamDecorator((data: never, context: ExecutionContext) => {
   const req = context.switchToHttp().getRequest()
 
-  const userAgent = req.headers['user-agent']
+  const userAgent = req.headers['user-agent'] || ''
 
   return detector.detect(userAgent)
 })
