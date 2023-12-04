@@ -20,7 +20,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
     createSeriesPath: string = '/admin/series',
     createTagPath: string = '/admin/tags'
 
-  let createKeywordMethod: string = 'GET',
+  let createKeywordMethod: string = 'POST',
     updateKeywordMethod: string = 'PATCH',
     deleteKeywordMethod: string = 'DELETE',
     getAllKeywordsCountMethod: string = 'GET',
