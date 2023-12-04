@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { ResultMessage } from '@src/shared/types'
 import { KeywordService } from '../../services'
@@ -21,6 +32,7 @@ export class PrivateKeywordController {
   }
 
   @Delete(':keywordId')
+  @HttpCode(200)
   public deleteKeyword(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
     return this.keywordService.deleteKeyword(keywordId)
   }

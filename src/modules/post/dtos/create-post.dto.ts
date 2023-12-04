@@ -1,4 +1,16 @@
-import { IsMongoId, IsNotEmpty, IsString, IsUrl } from 'class-validator'
+import {
+  ArrayNotEmpty,
+  ArrayUnique,
+  IsArray,
+  IsMongoId,
+  IsNotEmpty,
+  IsString,
+  IsUrl,
+  ValidateIf,
+  ValidateNested,
+  arrayNotEmpty,
+  arrayUnique,
+} from 'class-validator'
 import { Type } from 'class-transformer'
 
 export class CreatePostDto {
@@ -23,15 +35,24 @@ export class CreatePostDto {
   @IsUrl()
   imageUrl: string
 
-  @IsNotEmpty({ each: true })
   @IsMongoId({ each: true })
+  @IsString({ each: true })
+  @IsArray()
+  @ArrayNotEmpty()
+  @ArrayUnique()
   keywords: string[]
 
-  @IsNotEmpty({ each: true })
   @IsMongoId({ each: true })
+  @IsString({ each: true })
+  @IsArray()
+  @ArrayNotEmpty()
+  @ArrayUnique()
   tags: string[]
 
-  @IsNotEmpty({ each: true })
   @IsMongoId({ each: true })
+  @IsString({ each: true })
+  @IsArray()
+  @ArrayNotEmpty()
+  @ArrayUnique()
   series: string[]
 }
