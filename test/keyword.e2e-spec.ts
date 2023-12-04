@@ -1,14 +1,14 @@
+import { CreateKeywordDto } from '@src/modules/keyword/dtos'
+import { CreateSeriesDto } from '@src/modules/series/dtos'
+import { CreatePostDto } from '@src/modules/post/dtos'
 import { Test, TestingModule } from '@nestjs/testing'
+import { CreateTagDto } from '@src/modules/tag/dtos'
 import { INestApplication } from '@nestjs/common'
 import { appConfig } from '@src/shared/config'
 import { AppModule } from '@src/app.module'
 import * as request from 'supertest'
-import { CreateKeywordDto } from '@src/modules/keyword/dtos'
-import { CreatePostDto } from '@src/modules/post/dtos'
-import { CreateSeriesDto } from '@src/modules/series/dtos'
-import { CreateTagDto } from '@src/modules/tag/dtos'
 
-describe('🏠 Auth Module (E2E Tests)', () => {
+describe('🏠 Keyword Module (E2E Tests)', () => {
   let app: INestApplication
   let loginPath: string = '/auth/login',
     createKeywordPath: string = '/admin/keywords',
@@ -361,7 +361,7 @@ describe('🏠 Auth Module (E2E Tests)', () => {
     })
   })
 
-  describe.only(`➡ "${getAllKeywordsCountPath}" (${getAllKeywordsCountPath})`, () => {
+  describe(`➡ "${getAllKeywordsCountPath}" (${getAllKeywordsCountMethod})`, () => {
     it(`Should be a private endpoint`, async () => {
       const { status } = await request(app.getHttpServer()).delete(getAllKeywordsCountPath)
 
@@ -375,7 +375,7 @@ describe('🏠 Auth Module (E2E Tests)', () => {
         body: { accessToken },
       } = await request(app.getHttpServer()).post(loginPath).send(loginPayload)
 
-      const { body: createdKeyword } = await request(app.getHttpServer())
+      await request(app.getHttpServer())
         .post(createKeywordPath)
         .set('Authorization', `Bearer ${accessToken}`)
         .send({ name: 'test' } as CreateKeywordDto)
@@ -401,6 +401,37 @@ describe('🏠 Auth Module (E2E Tests)', () => {
 
       expect(status).toBe(200)
       expect(body.count).toBe(0)
+    })
+  })
+
+  describe(`➡ "${getAllKeywordsPath}" (${getAllKeywordsMethod})`, () => {
+    it(`Should return 200 and array of found keywords`, async () => {
+      const loginPayload = { email: appConfig.seeders.rootUser.email, password: appConfig.seeders.rootUser.password }
+
+      const {
+        body: { accessToken },
+      } = await request(app.getHttpServer()).post(loginPath).send(loginPayload)
+
+      await request(app.getHttpServer())
+        .post(createKeywordPath)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ name: 'test1' } as CreateKeywordDto)
+
+      await request(app.getHttpServer())
+        .post(createKeywordPath)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ name: 'test2' } as CreateKeywordDto)
+
+      const { status, body } = await request(app.getHttpServer()).get(getAllKeywordsPath)
+
+      expect(status).toBe(200)
+      expect(body.length).toBe(2)
+    })
+
+    it(`Should throw NotFoundException if no keywords are found`, async () => {
+      const { status } = await request(app.getHttpServer()).get(getAllKeywordsPath)
+
+      expect(status).toBe(404)
     })
   })
 })
