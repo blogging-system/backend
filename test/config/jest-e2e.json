@@ -1,15 +1,15 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
+  "rootDir": "./../",
   "testRegex": ".*\\.e2e-spec\\.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "collectCoverageFrom": ["**/*.(t|j)s"],
+  "collectCoverageFrom": ["**/**/*.(t|j)s"],
   "coverageDirectory": "../coverage",
   "testEnvironment": "node",
   "moduleNameMapper": {
     "^@src/(.*)$": "<rootDir>/../src/$1"
   },
-  "setupFilesAfterEnv": ["./jest.setup.ts"]
+  "setupFilesAfterEnv": ["<rootDir>/config/jest.setup.ts"]
 }
