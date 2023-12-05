@@ -1,9 +1,9 @@
+import { HttpStatus, INestApplication } from '@nestjs/common'
 import { CreateKeywordDto } from '@src/modules/keyword/dtos'
 import { CreateSeriesDto } from '@src/modules/series/dtos'
 import { CreatePostDto } from '@src/modules/post/dtos'
 import { Test, TestingModule } from '@nestjs/testing'
 import { CreateTagDto } from '@src/modules/tag/dtos'
-import { INestApplication } from '@nestjs/common'
 import { appConfig } from '@src/shared/config'
 import { AppModule } from '@src/app.module'
 import * as request from 'supertest'
@@ -34,6 +34,10 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
     app = moduleFixture.createNestApplication()
 
     await app.init()
+  })
+
+  afterEach(async () => {
+    await app.close()
   })
 
   describe(`➡ "${createKeywordPath}" (${createKeywordMethod})`, () => {
@@ -163,7 +167,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
         .set('Authorization', `Bearer ${accessToken}`)
         .send({ name: 'updated' } as CreateKeywordDto)
 
-      expect(status).toBe(200)
+      expect(status).toBe(HttpStatus.OK)
       expect(body.name).toBe('updated')
       expect(Object.keys(body).length).toBe(4)
     })
@@ -291,7 +295,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
         .delete(deleteKeywordPath + `/${response.body._id}`)
         .set('Authorization', `Bearer ${accessToken}`)
 
-      expect(status).toBe(200)
+      expect(status).toBe(HttpStatus.OK)
       expect(body.message).toBeDefined()
     })
 
@@ -384,7 +388,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
         .get(getAllKeywordsCountPath)
         .set('Authorization', `Bearer ${accessToken}`)
 
-      expect(status).toBe(200)
+      expect(status).toBe(HttpStatus.OK)
       expect(body.count).toBe(1)
     })
 
@@ -399,7 +403,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
         .get(getAllKeywordsCountPath)
         .set('Authorization', `Bearer ${accessToken}`)
 
-      expect(status).toBe(200)
+      expect(status).toBe(HttpStatus.OK)
       expect(body.count).toBe(0)
     })
   })
@@ -424,7 +428,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
 
       const { status, body } = await request(app.getHttpServer()).get(getAllKeywordsPath)
 
-      expect(status).toBe(200)
+      expect(status).toBe(HttpStatus.OK)
       expect(body.length).toBe(2)
     })
 

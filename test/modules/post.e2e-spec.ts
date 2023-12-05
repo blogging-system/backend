@@ -1,9 +1,9 @@
+import { HttpStatus, INestApplication } from '@nestjs/common'
 import { CreateKeywordDto } from '@src/modules/keyword/dtos'
 import { CreateSeriesDto } from '@src/modules/series/dtos'
 import { CreatePostDto } from '@src/modules/post/dtos'
 import { Test, TestingModule } from '@nestjs/testing'
 import { CreateTagDto } from '@src/modules/tag/dtos'
-import { INestApplication } from '@nestjs/common'
 import { appConfig } from '@src/shared/config'
 import { AppModule } from '@src/app.module'
 import * as request from 'supertest'
@@ -55,6 +55,10 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
     app = moduleFixture.createNestApplication()
 
     await app.init()
+  })
+
+  afterEach(async () => {
+    await app.close()
   })
 
   describe(`➡ "${createPostPath}" (${createPostMethod})`, () => {
@@ -1632,7 +1636,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
           tags: [createdTag._id],
         } as CreatePostDto)
 
-      expect(status).toBe(200)
+      expect(status).toBe(HttpStatus.OK)
       expect(Object.keys(body).length).toBe(13)
       expect(body.title).toBe('updatedTitle'.repeat(10))
     })
@@ -1735,7 +1739,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
         .delete(deletePostPath + `/${createdPost._id}`)
         .set('Authorization', `Bearer ${accessToken}`)
 
-      expect(status).toBe(200)
+      expect(status).toBe(HttpStatus.OK)
       expect(body.message).toBeDefined()
     })
 

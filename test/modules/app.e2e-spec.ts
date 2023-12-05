@@ -1,5 +1,5 @@
+import { HttpStatus, INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
 import { AppModule } from '@src/app.module'
 import * as request from 'supertest'
 
@@ -21,11 +21,15 @@ describe('🏠 AppController (e2e Tests)', () => {
     await app.init()
   })
 
+  afterEach(async () => {
+    await app.close()
+  })
+
   describe(`➡ "${sayHelloPath}" (${sayHelloMethod})`, () => {
     it('Should return 200 status code', async () => {
       const { status } = await request(app.getHttpServer()).get(sayHelloPath)
 
-      expect(status).toBe(200)
+      expect(status).toBe(HttpStatus.OK)
     })
   })
 
@@ -33,7 +37,7 @@ describe('🏠 AppController (e2e Tests)', () => {
     it('Should return 200 status code)', async () => {
       const { status } = await request(app.getHttpServer()).get(pingPath)
 
-      expect(status).toBe(200)
+      expect(status).toBe(HttpStatus.OK)
     })
   })
 })

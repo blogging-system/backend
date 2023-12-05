@@ -32,7 +32,7 @@ export class PrivateKeywordController {
   }
 
   @Delete(':keywordId')
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   public deleteKeyword(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
     return this.keywordService.deleteKeyword(keywordId)
   }
