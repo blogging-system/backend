@@ -1689,7 +1689,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
     })
   })
 
-  describe.only(`➡ "${deletePostPath}" (${deletePostMethod})`, () => {
+  describe(`➡ "${deletePostPath}" (${deletePostMethod})`, () => {
     it(`Should be a private endpoint`, async () => {
       const { status } = await request(app.getHttpServer()).delete(deletePostPath + '/1')
 
@@ -1740,46 +1740,46 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
     })
 
     it(`Should throw NotFoundException if the post is not found`, async () => {
-        const loginPayload = { email: appConfig.seeders.rootUser.email, password: appConfig.seeders.rootUser.password }
-  
-        const {
-          body: { accessToken },
-        } = await request(app.getHttpServer()).post(loginPath).send(loginPayload)
-  
-        const { body: createdTag } = await request(app.getHttpServer())
-          .post(createTagPath)
-          .set('Authorization', `Bearer ${accessToken}`)
-          .send({ name: 'test' } as CreateTagDto)
-  
-        const { body: createdKeyword } = await request(app.getHttpServer())
-          .post(createKeywordPath)
-          .set('Authorization', `Bearer ${accessToken}`)
-          .send({ name: 'test' } as CreateKeywordDto)
-  
-        const { body: createdSeries } = await request(app.getHttpServer())
-          .post(createSeriesPath)
-          .set('Authorization', `Bearer ${accessToken}`)
-          .send({ title: 'title', description: 'description', imageUrl: 'https://example.com' } as CreateSeriesDto)
-  
-        const { body: createdPost } = await request(app.getHttpServer())
-          .post(createPostPath)
-          .set('Authorization', `Bearer ${accessToken}`)
-          .send({
-            title: 'title'.repeat(10),
-            description: 'description'.repeat(20),
-            content: 'content'.repeat(1000),
-            imageUrl: 'https://example.com',
-            keywords: [createdKeyword._id],
-            series: [createdSeries._id],
-            tags: [createdTag._id],
-          } as CreatePostDto)
-  
-        const { status, body } = await request(app.getHttpServer())
-          .delete(deletePostPath + `/${createdKeyword._id}`)
-          .set('Authorization', `Bearer ${accessToken}`)
-  
-        expect(status).toBe(404)
-        expect(body.message).toBeDefined()
-      })
+      const loginPayload = { email: appConfig.seeders.rootUser.email, password: appConfig.seeders.rootUser.password }
+
+      const {
+        body: { accessToken },
+      } = await request(app.getHttpServer()).post(loginPath).send(loginPayload)
+
+      const { body: createdTag } = await request(app.getHttpServer())
+        .post(createTagPath)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ name: 'test' } as CreateTagDto)
+
+      const { body: createdKeyword } = await request(app.getHttpServer())
+        .post(createKeywordPath)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ name: 'test' } as CreateKeywordDto)
+
+      const { body: createdSeries } = await request(app.getHttpServer())
+        .post(createSeriesPath)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ title: 'title', description: 'description', imageUrl: 'https://example.com' } as CreateSeriesDto)
+
+      const { body: createdPost } = await request(app.getHttpServer())
+        .post(createPostPath)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({
+          title: 'title'.repeat(10),
+          description: 'description'.repeat(20),
+          content: 'content'.repeat(1000),
+          imageUrl: 'https://example.com',
+          keywords: [createdKeyword._id],
+          series: [createdSeries._id],
+          tags: [createdTag._id],
+        } as CreatePostDto)
+
+      const { status, body } = await request(app.getHttpServer())
+        .delete(deletePostPath + `/${createdKeyword._id}`)
+        .set('Authorization', `Bearer ${accessToken}`)
+
+      expect(status).toBe(404)
+      expect(body.message).toBeDefined()
+    })
   })
 })
