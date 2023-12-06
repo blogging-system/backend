@@ -2,7 +2,7 @@ import { PublicPostController } from './public-post.controller'
 import { Test, TestingModule } from '@nestjs/testing'
 import { BadRequestException } from '@nestjs/common'
 import { PostsFilter } from '../../interfaces'
-import { Pagination } from '@src/shared/data/dtos'
+import { Pagination } from '@src/shared/contracts/dtos'
 import { PostService } from '../../services'
 import { Post } from '../../schemas'
 

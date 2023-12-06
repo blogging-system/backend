@@ -2,7 +2,7 @@ import { PublicSeriesController } from './public-series.controller'
 import { Test, TestingModule } from '@nestjs/testing'
 import { BadRequestException } from '@nestjs/common'
 import { SeriesService } from '../../services'
-import { Pagination } from '@src/shared/data/dtos'
+import { Pagination } from '@src/shared/contracts/dtos'
 import { Series } from '../../schemas'
 
 describe('🏠PublicSeriesController | Controller Layer', () => {

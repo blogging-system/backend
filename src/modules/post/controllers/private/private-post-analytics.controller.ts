@@ -1,6 +1,6 @@
 import { Controller, Get, Param, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { ResultMessage } from '@src/shared/data/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 import { PostService } from '../../services'
 
 @Controller('/admin/posts/analytics')

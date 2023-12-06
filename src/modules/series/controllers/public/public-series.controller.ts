@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { SeriesService } from '../../services'
-import { Pagination } from '@src/shared/data/dtos'
+import { Pagination } from '@src/shared/contracts/dtos'
 import { GetSeriesBySlug } from '../../dtos'
 import { Series } from '../../schemas'
 

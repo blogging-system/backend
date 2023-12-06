@@ -1,4 +1,4 @@
-import { EnvironmentType } from '@src/shared/data/enums'
+import { EnvironmentType } from '@src/shared/contracts/enums'
 import { INestApplication } from '@nestjs/common'
 import { appConfig } from '@src/shared/config'
 

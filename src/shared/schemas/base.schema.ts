@@ -1,4 +1,4 @@
-import { DocumentIdType } from '@src/shared/data/types'
+import { DocumentIdType } from '@src/shared/contracts/types'
 import { Prop, Schema } from '@nestjs/mongoose'
 import { Types } from 'mongoose'
 

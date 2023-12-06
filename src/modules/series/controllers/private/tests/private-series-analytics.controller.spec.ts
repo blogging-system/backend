@@ -1,8 +1,8 @@
 import { PrivateSeriesAnalyticsController } from '../private-series-analytics.controller'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { SeriesService } from '@src/app/series/services'
+import { SeriesService } from '@src/modules/series/services'
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/data/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 
 describe('🏠PrivateSeriesAnalyticsController | Controller Layer', () => {
   let privateSeriesAnalyticsController: PrivateSeriesAnalyticsController

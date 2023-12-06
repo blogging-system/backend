@@ -1,6 +1,6 @@
 import { FilterQuery, Model, PipelineStage, PopulateOptions, Query, Types, UpdateQuery } from 'mongoose'
 import { InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { ResultMessage } from '@src/shared/data/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 import { BaseSchema } from '../schemas'
 
 export abstract class BaseRepository<TDocument extends BaseSchema> {

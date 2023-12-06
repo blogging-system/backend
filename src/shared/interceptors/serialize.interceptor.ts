@@ -1,5 +1,5 @@
 import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common'
-import { ClassConstructor } from '@src/shared/data/interfaces'
+import { ClassConstructor } from '@src/shared/contracts/interfaces'
 import { plainToInstance } from 'class-transformer'
 import { Observable, map } from 'rxjs'
 

@@ -3,8 +3,8 @@ import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { PostService } from '../../../services/post.service'
 import { CreatePostDto, DeletePostDto } from '../../../dtos'
 import { Test, TestingModule } from '@nestjs/testing'
-import { DocumentIdType, ResultMessage } from '@src/shared/data/types'
-import { Pagination } from '@src/shared/data/dtos'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
+import { Pagination } from '@src/shared/contracts/dtos'
 import { Types } from 'mongoose'
 
 interface BlogPost {

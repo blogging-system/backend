@@ -1,9 +1,9 @@
 import { HttpStatus, INestApplication } from '@nestjs/common'
-import { CreateKeywordDto } from '@src/app/keyword/dtos'
-import { CreateSeriesDto } from '@src/app/series/dtos'
-import { CreatePostDto } from '@src/app/post/dtos'
+import { CreateKeywordDto } from '@src/modules/keyword/dtos'
+import { CreateSeriesDto } from '@src/modules/series/dtos'
+import { CreatePostDto } from '@src/modules/post/dtos'
 import { Test, TestingModule } from '@nestjs/testing'
-import { CreateTagDto } from '@src/app/tag/dtos'
+import { CreateTagDto } from '@src/modules/tag/dtos'
 import { appConfig } from '@src/shared/config'
 import { AppModule } from '@src/app.module'
 import * as request from 'supertest'
@@ -1157,7 +1157,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
           content: 'content'.repeat(1000),
           imageUrl: `https://${'1'.repeat(500)}.com`,
           series: [createdSeries._id],
-          keywords: ['assdfasdf'],
+          keywords: ['assdfasdf' as any],
           tags: [createdTag._id],
         } as CreatePostDto)
 
@@ -1345,7 +1345,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
           description: 'description'.repeat(300),
           content: 'content'.repeat(1000),
           imageUrl: `https://${'1'.repeat(500)}.com`,
-          series: ['asfasdf'],
+          series: ['asfasdf' as any],
           keywords: [createdKeyword._id],
           tags: [createdTag._id],
         } as CreatePostDto)
@@ -1536,7 +1536,7 @@ describe('🏠 Keyword Module (E2E Tests)', () => {
           imageUrl: `https://${'1'.repeat(500)}.com`,
           series: [createdSeries._id],
           keywords: [createdKeyword._id],
-          tags: ['sfsdf'],
+          tags: ['sfsdf' as any],
         } as CreatePostDto)
 
       expect(status).toBe(400)

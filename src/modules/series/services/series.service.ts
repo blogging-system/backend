@@ -1,9 +1,9 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common'
 import { CreateSeriesDto, DeleteSeriesDto, GetAllSeriesDto, GetSeriesBySlug } from '../dtos'
-import { SortFieldOptions, SortValueOptions } from '@src/shared/data/enums'
-import { PostService } from '@src/app/post/services'
+import { SortFieldOptions, SortValueOptions } from '@src/shared/contracts/enums'
+import { PostService } from '@src/modules/post/services'
 import { SeriesRepository } from '../repositories'
-import { DocumentIdType, ResultMessage } from '@src/shared/data/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
 

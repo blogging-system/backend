@@ -1,7 +1,7 @@
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { Controller, Get, UseInterceptors } from '@nestjs/common'
 import { SeriesService } from '../../services'
-import { ResultMessage } from '@src/shared/data/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 
 @Controller('/admin/series/analytics')
 @UseInterceptors(ProtectResourceInterceptor)

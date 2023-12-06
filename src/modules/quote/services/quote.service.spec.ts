@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { NotFoundException } from '@nestjs/common'
 import { QuoteRepository } from '../repositories'
-import { ResultMessage } from '@src/shared/data/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 import { QuoteService } from './quote.service'
-import { Pagination } from '@src/shared/data/dtos'
+import { Pagination } from '@src/shared/contracts/dtos'
 import { CreateQuoteDto } from '../dtos'
 import { Quote } from '../schemas'
 

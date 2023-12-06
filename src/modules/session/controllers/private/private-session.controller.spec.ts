@@ -1,7 +1,7 @@
 import { PrivateSessionController } from './private-session.controller'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/data/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 import { SessionService } from '../../services'
 import { Session } from '../../schemas'
 import { Types } from 'mongoose'

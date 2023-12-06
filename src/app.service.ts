@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { ResultMessage } from '@src/shared/data/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 
 interface ApiLinks {
   linkedIn: string

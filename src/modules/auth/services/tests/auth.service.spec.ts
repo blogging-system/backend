@@ -1,6 +1,6 @@
-import { SessionService } from '@src/app/session/services'
+import { SessionService } from '@src/modules/session/services'
 import { LoginAttemptService } from '../login-attempt.service'
-import { UserService } from '@src/app/user/services'
+import { UserService } from '@src/modules/user/services'
 import { HashUtil, TokenUtil } from '@src/shared/utils'
 import { UnauthorizedException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'

@@ -1,6 +1,6 @@
 import { IsMongoId, IsNotEmpty, IsString } from 'class-validator'
 import { Type } from 'class-transformer'
-import { DocumentIdType } from '@src/shared/data/types'
+import { DocumentIdType } from '@src/shared/contracts/types'
 
 export class DeletePostDto {
   @IsString()

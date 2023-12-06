@@ -2,7 +2,7 @@ import { CreateSeriesDto, DeleteSeriesDto, GetAllSeriesDto, SeriesManipulationDt
 import { InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { SeriesRepository } from './series.repository'
 import { Test, TestingModule } from '@nestjs/testing'
-import { CountDocumentsDto } from '@src/shared/data/dtos'
+import { CountDocumentsDto } from '@src/shared/contracts/dtos'
 import { getModelToken } from '@nestjs/mongoose'
 import { SeriesService } from '../services'
 import { MESSAGES } from '../constants'

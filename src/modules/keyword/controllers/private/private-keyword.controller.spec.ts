@@ -3,7 +3,7 @@ import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { KeywordService } from '../../services/keyword.service'
 import { Keyword } from '../../schemas/keyword.schema'
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/data/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 import { CreateKeywordDto } from '../../dtos'
 import { Types } from 'mongoose'
 

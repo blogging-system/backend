@@ -1,8 +1,8 @@
 import { PrivateAnalyticsPostController } from '../private-post-analytics.controller'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { PostService } from '@src/app/post/services'
+import { PostService } from '@src/modules/post/services'
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/data/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 
 describe('🏠PrivateAnalyticsPostController | Controller Layer', () => {
   let privateAnalyticsPostController: PrivateAnalyticsPostController

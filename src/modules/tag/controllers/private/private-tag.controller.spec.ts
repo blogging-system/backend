@@ -1,7 +1,7 @@
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { PrivateTagController } from './private-tag.controller'
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/data/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 import { TagService } from '../../services'
 import { CreateTagDto } from '../../dtos'
 import { Tag } from '../../schemas'

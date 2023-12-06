@@ -1,4 +1,4 @@
-import { DocumentIdType } from '@src/shared/data/types'
+import { DocumentIdType } from '@src/shared/contracts/types'
 
 export interface ArePostsAvailableForGivenEntitiesIds {
   seriesId?: DocumentIdType

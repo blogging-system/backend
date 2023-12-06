@@ -1,4 +1,4 @@
-import { ClassConstructor } from '@src/shared/data/interfaces'
+import { ClassConstructor } from '@src/shared/contracts/interfaces'
 import { SerializeInterceptor } from '../interceptors'
 import { UseInterceptors } from '@nestjs/common'
 

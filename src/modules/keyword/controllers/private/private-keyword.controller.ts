@@ -11,7 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { DocumentIdType, ResultMessage } from '@src/shared/data/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { KeywordService } from '../../services'
 import { CreateKeywordDto } from '../../dtos'
 import { Keyword } from '../../schemas'
