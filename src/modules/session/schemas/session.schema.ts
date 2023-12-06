@@ -5,6 +5,7 @@ import { BaseSchema } from '@src/shared/schemas'
 
 export type SessionDocument = HydratedDocument<Session>
 
+
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Session extends BaseSchema {
   @Prop()

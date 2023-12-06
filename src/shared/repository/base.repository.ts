@@ -6,13 +6,8 @@ import { BaseSchema } from '../schemas'
 export abstract class BaseRepository<TDocument extends BaseSchema> {
   constructor(protected readonly model: Model<TDocument>) {}
 
-  public async createOne(payload: Omit<TDocument, '_id'>): Promise<TDocument> {
-    const documentInstance = new this.model({
-      _id: new Types.ObjectId(),
-      ...payload,
-    })
-
-    const createdDocument = (await documentInstance.save()) as TDocument
+  public async createOne(payload: Omit<Partial<TDocument>, '_id'>): Promise<TDocument> {
+    const createdDocument: TDocument = await this.model.create(payload)
 
     if (!createdDocument)
       throw new InternalServerErrorException(
@@ -48,6 +43,10 @@ export abstract class BaseRepository<TDocument extends BaseSchema> {
     if (!document) throw new NotFoundException(`The ${this.model.modelName.toLowerCase()} is not found!`)
 
     return document
+  }
+
+  public async isFound(filterQuery: FilterQuery<TDocument>): Promise<boolean> {
+    return !!(await this.model.findOne(filterQuery).lean<TDocument>(true))
   }
 
   public async find(

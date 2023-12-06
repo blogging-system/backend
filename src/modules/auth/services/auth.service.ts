@@ -26,6 +26,7 @@ export class AuthService {
 
       throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD)
     }
+
     const isPasswordMatch = await HashUtil.verifyHash(data.password, user.password)
 
     if (!isPasswordMatch) {
@@ -37,12 +38,12 @@ export class AuthService {
     const tokenPayload = {
       _id: user._id,
     }
-
+    console.log({ tokenPayload })
     const accessToken = await TokenUtil.generateAccessToken(tokenPayload)
     const refreshToken = await TokenUtil.generateRefreshToken(tokenPayload)
 
     await this.sessionService.createSession({ accessToken, refreshToken, ipAddress, device })
-
+    console.log({ accessToken, refreshToken })
     return {
       accessToken,
       refreshToken,

@@ -4,6 +4,7 @@ import { HydratedDocument } from 'mongoose'
 
 export type TagDocument = HydratedDocument<Tag>
 
+
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Tag extends BaseSchema {
   @Prop({ index: true, unique: true })

@@ -4,6 +4,7 @@ import { HydratedDocument } from 'mongoose'
 
 export type SeriesDocument = HydratedDocument<Series>
 
+
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Series extends BaseSchema {
   @Prop({ unique: true })

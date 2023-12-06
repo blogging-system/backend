@@ -3,7 +3,7 @@ import { Module, OnModuleInit } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { UserRepository } from './repositories'
 import { User, UserSchema } from './schemas'
-import { adminUser } from './data'
+import { adminUserPayload } from './data'
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
@@ -14,6 +14,6 @@ export class UserModule implements OnModuleInit {
   constructor(private readonly userSeederService: UserSeederService) {}
 
   async onModuleInit(): Promise<void> {
-    await this.userSeederService.seedRootUser(adminUser)
+    await this.userSeederService.seedRootUser(adminUserPayload)
   }
 }

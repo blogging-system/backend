@@ -16,5 +16,5 @@ export class CreateSessionDto {
 
   @Type(() => Object)
   @IsNotEmpty()
-  device: object
+  device: Record<string, unknown>
 }
