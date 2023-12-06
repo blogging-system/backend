@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, Param, Req, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { SessionService } from '../../services'
 import { CustomRequest } from 'express'
 import { Session } from '../../schemas'
@@ -11,7 +11,7 @@ export class PrivateSessionController {
   constructor(private readonly sessionService: SessionService) {}
 
   @Delete('/:sessionId')
-  public revokeSession(@Param('sessionId') sessionId: string): Promise<ResultMessage> {
+  public revokeSession(@Param('sessionId') sessionId: DocumentIdType): Promise<ResultMessage> {
     return this.sessionService.revokeSession(sessionId)
   }
 

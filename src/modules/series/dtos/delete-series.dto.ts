@@ -1,9 +1,8 @@
 import { IsNotEmpty, IsString } from 'class-validator'
-import { Type } from 'class-transformer'
+import { DocumentIdType } from '@src/shared/contracts/types'
 
 export class DeleteSeriesDto {
-  @Type(() => String)
   @IsString()
   @IsNotEmpty()
-  seriesId: string
+  seriesId: DocumentIdType
 }

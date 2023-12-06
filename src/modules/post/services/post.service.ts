@@ -1,9 +1,9 @@
 import { Injectable, BadRequestException, NotFoundException, Inject, forwardRef } from '@nestjs/common'
-import { SortFieldOptions, SortValueOptions } from '@src/shared/enums'
+import { SortFieldOptions, SortValueOptions } from '@src/shared/contracts/enums'
 import { KeywordService } from '../../keyword/services'
 import { CreatePostDto, DeletePostDto } from '../dtos'
 import { SeriesService } from '../../series/services'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { PostRepository } from '../repositories'
 import { TagService } from '../../tag/services'
 import { GetAllPostsDto } from '../interfaces'
@@ -32,7 +32,7 @@ export class PostService {
     return await this.postRepo.createOne(data)
   }
 
-  public async updatePost(postId: string, payload: CreatePostDto): Promise<Post> {
+  public async updatePost(postId: DocumentIdType, payload: CreatePostDto): Promise<Post> {
     await this.isPostAvailable(postId)
 
     await this.tagService.areTagsAvailable(payload.tags)
@@ -48,7 +48,7 @@ export class PostService {
     return await this.postRepo.deleteOne(data)
   }
 
-  public async publishPost(postId: string): Promise<Post> {
+  public async publishPost(postId: DocumentIdType): Promise<Post> {
     const foundPost = await this.isPostAvailable(postId)
 
     if (foundPost.isPublished) throw new BadRequestException(MESSAGES.ALREADY_PUBLISHED)
@@ -59,7 +59,7 @@ export class PostService {
     })
   }
 
-  public async unPublishPost(postId: string): Promise<Post> {
+  public async unPublishPost(postId: DocumentIdType): Promise<Post> {
     const foundPost = await this.isPostAvailable(postId)
 
     if (!foundPost.isPublished) throw new BadRequestException(MESSAGES.ALREADY_UNPUBLISHED)
@@ -77,9 +77,9 @@ export class PostService {
   }: ArePostsAvailableForGivenEntitiesIds): Promise<boolean> {
     const query: ArePostsAvailableForGivenEntitiesIdsQuery = {}
 
-    if (tagId) query.tags = tagId
-    if (keywordId) query.keywords = keywordId
-    if (seriesId) query.series = seriesId
+    if (tagId) query.tags = tagId.toString()
+    if (keywordId) query.keywords = keywordId.toString()
+    if (seriesId) query.series = seriesId.toString()
 
     const isPostFound = await this.postRepo.findOne(query)
 
@@ -102,7 +102,7 @@ export class PostService {
     return Object.assign(isPostFound, { views: isPostFound.views + 1 })
   }
 
-  public async isPostAvailable(postId: string): Promise<Post> {
+  public async isPostAvailable(postId: DocumentIdType): Promise<Post> {
     return await this.postRepo.findOneById(postId)
   }
 

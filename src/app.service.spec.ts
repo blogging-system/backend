@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { AppService, WelcomeResponse } from './app.service'
+import { AppService, WelcomeResponse } from './modules.service'
 
 describe('🏠AppService | Service Layer', () => {
   let appService: AppService

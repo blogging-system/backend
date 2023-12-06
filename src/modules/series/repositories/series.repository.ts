@@ -1,7 +1,7 @@
 import { CreateSeriesDto, DeleteSeriesDto, GetAllSeriesDto, GetAllSeriesQuery, SeriesManipulationDto } from '../dtos'
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { CountDocumentsDto, CountDocumentsQuery } from '@src/shared/dtos/count-document.dto'
-import { ResultMessage } from '@src/shared/types'
+import { CountDocumentsDto, CountDocumentsQuery } from '@src/shared/contracts/dtos/count-document.dto'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
@@ -20,7 +20,7 @@ export class SeriesRepository {
     return isSeriesCreated
   }
 
-  public async updateOne(seriesId: string, payload: Partial<SeriesManipulationDto>): Promise<Series> {
+  public async updateOne(seriesId: DocumentIdType, payload: Partial<SeriesManipulationDto>): Promise<Series> {
     const query: Partial<SeriesManipulationDto> = { ...payload }
 
     if (payload.title) query.slug = slugify(payload.title, { lower: true })
@@ -42,7 +42,7 @@ export class SeriesRepository {
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
-  public async findOneById(seriesId: string): Promise<Series> {
+  public async findOneById(seriesId: DocumentIdType): Promise<Series> {
     const isSeriesFound = await this.seriesModel.findOne({ _id: seriesId }).lean()
 
     if (!isSeriesFound) throw new NotFoundException(MESSAGES.SERIES_NOT_FOUND)

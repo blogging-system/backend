@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { CreateKeywordDto } from '../dtos'
 import { MESSAGES } from '../constants'
@@ -18,7 +18,7 @@ export class KeywordRepository {
     return isKeywordCreated
   }
 
-  public async updateOne(keywordId: string, payload: CreateKeywordDto): Promise<Keyword> {
+  public async updateOne(keywordId: DocumentIdType, payload: CreateKeywordDto): Promise<Keyword> {
     const isKeywordUpdated = await this.keywordModel.findByIdAndUpdate(keywordId, payload, { new: true })
 
     if (!isKeywordUpdated) throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED)
@@ -26,7 +26,7 @@ export class KeywordRepository {
     return isKeywordUpdated
   }
 
-  public async deleteOne(keywordId: string): Promise<ResultMessage> {
+  public async deleteOne(keywordId: DocumentIdType): Promise<ResultMessage> {
     const isKeywordDeleted = await this.keywordModel.deleteOne({
       _id: new Types.ObjectId(keywordId),
     })
@@ -36,7 +36,7 @@ export class KeywordRepository {
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
-  public async findOneById(keywordId: string): Promise<Keyword> {
+  public async findOneById(keywordId: DocumentIdType): Promise<Keyword> {
     const isPostFound = await this.keywordModel.findOne({ _id: keywordId }).lean()
 
     if (!isPostFound) throw new NotFoundException(MESSAGES.KEYWORD_NOT_FOUND)

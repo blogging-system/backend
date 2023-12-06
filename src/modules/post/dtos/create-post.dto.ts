@@ -10,6 +10,7 @@ import {
   MinLength,
 } from 'class-validator'
 import { Type } from 'class-transformer'
+import { DocumentIdType } from '@src/shared/contracts/types'
 
 export class CreatePostDto {
   @Type(() => String)
@@ -33,7 +34,6 @@ export class CreatePostDto {
   @MaxLength(10000, { message: 'content cannot be longer than 10_000 characters' })
   content: string
 
-  @Type(() => String)
   @IsNotEmpty()
   @IsUrl()
   @MaxLength(1000, { message: 'imageUrl cannot be longer than 1000 characters' })
@@ -44,19 +44,19 @@ export class CreatePostDto {
   @IsArray()
   @ArrayNotEmpty()
   @ArrayUnique()
-  keywords: string[]
+  keywords: DocumentIdType[]
 
   @IsMongoId({ each: true })
   @IsString({ each: true })
   @IsArray()
   @ArrayNotEmpty()
   @ArrayUnique()
-  tags: string[]
+  tags: DocumentIdType[]
 
   @IsMongoId({ each: true })
   @IsString({ each: true })
   @IsArray()
   @ArrayNotEmpty()
   @ArrayUnique()
-  series: string[]
+  series: DocumentIdType[]
 }

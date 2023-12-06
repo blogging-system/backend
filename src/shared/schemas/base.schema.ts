@@ -1,3 +1,9 @@
+import { DocumentIdType } from '@src/shared/contracts/types'
+import { Prop, Schema } from '@nestjs/mongoose'
+import { Types } from 'mongoose'
+
+@Schema()
 export class BaseSchema {
-  _id: string
+  @Prop({ type: Types.ObjectId })
+  _id: DocumentIdType
 }

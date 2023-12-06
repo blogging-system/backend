@@ -1,7 +1,9 @@
+import { DocumentIdType } from '@src/shared/contracts/types'
+
 export interface ArePostsAvailableForGivenEntitiesIds {
-  seriesId?: string
-  tagId?: string
-  keywordId?: string
+  seriesId?: DocumentIdType
+  tagId?: DocumentIdType
+  keywordId?: DocumentIdType
 }
 
 export interface ArePostsAvailableForGivenEntitiesIdsQuery {

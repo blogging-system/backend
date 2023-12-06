@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common'
-import { MESSAGES as AUTH_MESSAGES } from './../../auth/constants'
+import { MESSAGES as AUTH_MESSAGES } from '../../auth/constants'
 import { InjectModel } from '@nestjs/mongoose'
 import { HashUtil } from '@src/shared/utils'
 import { MESSAGES } from '../constants'
@@ -30,7 +30,7 @@ export class UserRepository {
     return isUserFound
   }
 
-  public async findOneById(userId: string): Promise<User> {
+  public async findOneById(userId: Types.ObjectId): Promise<User> {
     const isUserFound = await this.userModel.findOne({ _id: new Types.ObjectId(userId) }).lean()
 
     if (!isUserFound) throw new NotFoundException(MESSAGES.USER_NOT_FOUND)

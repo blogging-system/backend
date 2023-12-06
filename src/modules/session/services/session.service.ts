@@ -3,7 +3,7 @@ import { CreateSessionDto, GetSessionDto, GetSessionQuery } from '../dtos'
 import { MESSAGES as AUTH_MESSAGES } from '../../auth/constants'
 import { UserService } from '../../user/services'
 import { SessionRepository } from '../repositories'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { TokenUtil } from '@src/shared/utils'
 import { MESSAGES } from '../constants'
 import { Session } from '../schemas'
@@ -36,7 +36,7 @@ export class SessionService {
     return await this.sessionRepo.createOne(payload)
   }
 
-  public async revokeSession(sessionId: string): Promise<ResultMessage> {
+  public async revokeSession(sessionId: DocumentIdType): Promise<ResultMessage> {
     const isSessionRevoked = await this.sessionRepo.deleteOne(sessionId)
 
     if (isSessionRevoked.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
@@ -44,7 +44,7 @@ export class SessionService {
     return { message: MESSAGES.REVOKED_SUCCESSFULLY }
   }
 
-  public async deleteSession(sessionId: string): Promise<ResultMessage> {
+  public async deleteSession(sessionId: DocumentIdType): Promise<ResultMessage> {
     const isSessionDeleted = await this.sessionRepo.deleteOne(sessionId)
 
     if (isSessionDeleted.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)

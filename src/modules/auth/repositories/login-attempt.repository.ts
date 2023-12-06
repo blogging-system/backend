@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { LoginAttempt } from '../schemas'
 import { MESSAGES } from '../constants'
-import { Model } from 'mongoose'
+import { Model, ObjectId, Types } from 'mongoose'
 
 Injectable()
 export class LoginAttemptRepository {
@@ -16,7 +16,7 @@ export class LoginAttemptRepository {
     return isLoginAttemptCreated
   }
 
-  public async updateOne(id: string): Promise<LoginAttempt> {
+  public async updateOne(id: Types.ObjectId): Promise<LoginAttempt> {
     const isLoginAttemptUpdated = await this.LoginAttemptModel.findByIdAndUpdate(
       id,
       { $inc: { attemptsCount: 1 } },

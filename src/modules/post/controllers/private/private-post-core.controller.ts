@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { CreatePostDto, DeletePostDto } from '../../dtos'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { Post as BlogPost } from '../../schemas'
 import { PostsFilter } from '../../interfaces'
-import { Pagination } from '@src/shared/dtos'
+import { Pagination } from '@src/shared/contracts/dtos'
 import { PostService } from '../../services'
 
 @Controller('/admin/posts')
@@ -18,7 +18,7 @@ export class PrivatePostCoreController {
   }
 
   @Patch(':postId')
-  public updatePost(@Param('postId') postId: string, @Body() payload: CreatePostDto): Promise<BlogPost> {
+  public updatePost(@Param('postId') postId: DocumentIdType, @Body() payload: CreatePostDto): Promise<BlogPost> {
     return this.postService.updatePost(postId, payload)
   }
 
@@ -28,12 +28,12 @@ export class PrivatePostCoreController {
   }
 
   @Post('/publish/:postId')
-  public publishPost(@Param('postId') postId: string): Promise<BlogPost> {
+  public publishPost(@Param('postId') postId: DocumentIdType): Promise<BlogPost> {
     return this.postService.publishPost(postId)
   }
 
   @Post('/unpublish/:postId')
-  public unPublishPost(@Param('postId') postId: string): Promise<BlogPost> {
+  public unPublishPost(@Param('postId') postId: DocumentIdType): Promise<BlogPost> {
     return this.postService.unPublishPost(postId)
   }
 

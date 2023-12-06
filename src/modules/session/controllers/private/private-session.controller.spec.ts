@@ -1,9 +1,10 @@
 import { PrivateSessionController } from './private-session.controller'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 import { SessionService } from '../../services'
 import { Session } from '../../schemas'
+import { Types } from 'mongoose'
 
 describe('🏠PrivateSessionController | Controller Layer', () => {
   let privateSessionController: PrivateSessionController
@@ -39,7 +40,7 @@ describe('🏠PrivateSessionController | Controller Layer', () => {
 
   describe('revokeSession method', () => {
     it('should revoke a session by sessionId', async () => {
-      const sessionId = 'session123'
+      const sessionId = new Types.ObjectId()
       const expectedResult: ResultMessage = { message: 'Session revoked successfully' }
 
       ;(sessionService.revokeSession as jest.Mock).mockResolvedValueOnce(expectedResult)
@@ -70,8 +71,8 @@ describe('🏠PrivateSessionController | Controller Layer', () => {
   describe('getAllSessions method', () => {
     it('should return all sessions', async () => {
       const expectedSessions: Partial<Session>[] = [
-        { _id: '1', createdAt: new Date() },
-        { _id: '2', createdAt: new Date() },
+        { _id: new Types.ObjectId(), createdAt: new Date() },
+        { _id: new Types.ObjectId(), createdAt: new Date() },
       ]
 
       ;(sessionService.getAllSessions as jest.Mock).mockResolvedValueOnce(expectedSessions)

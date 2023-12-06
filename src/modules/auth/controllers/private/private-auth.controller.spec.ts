@@ -4,6 +4,7 @@ import { UserService } from '../../../user/services/user.service'
 import { AuthService } from '../../services/auth.service'
 import { User } from '../../../user/schemas/user.schema'
 import { Test, TestingModule } from '@nestjs/testing'
+import { Types } from 'mongoose'
 
 describe('🏠PrivateAuthController | Controllers Layer', () => {
   let privateAuthController: PrivateAuthController
@@ -51,7 +52,7 @@ describe('🏠PrivateAuthController | Controllers Layer', () => {
 
   describe('whoAmI method', () => {
     it('Should return the user information', async () => {
-      const mockUser: Partial<User> = { _id: 'ID' }
+      const mockUser: Partial<User> = { _id: new Types.ObjectId() }
 
       ;(fakeUserService.findUserById as jest.Mock).mockResolvedValueOnce(mockUser)
 

@@ -7,7 +7,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
-import { TokenUtil } from '../utils'
+import { TokenUtil } from '@src/shared/utils'
 import { MESSAGES } from '@src/modules/auth/constants'
 import { SessionService } from '@src/modules/session/services'
 

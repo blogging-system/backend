@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { QuoteService } from '../../services'
-import { Pagination } from '@src/shared/dtos'
+import { Pagination } from '@src/shared/contracts/dtos'
 import { CreateQuoteDto } from '../../dtos'
 import { Quote } from '../../schemas'
 
@@ -17,12 +17,12 @@ export class PrivateQuoteController {
   }
 
   @Patch(':quoteId')
-  public updateQuote(@Param('quoteId') quoteId: string, @Body() data: CreateQuoteDto): Promise<Quote> {
+  public updateQuote(@Param('quoteId') quoteId: DocumentIdType, @Body() data: CreateQuoteDto): Promise<Quote> {
     return this.quoteService.updateQuote(quoteId, data)
   }
 
   @Delete(':quoteId')
-  public deleteQuote(@Param('quoteId') quoteId: string): Promise<ResultMessage> {
+  public deleteQuote(@Param('quoteId') quoteId: DocumentIdType): Promise<ResultMessage> {
     return this.quoteService.deleteQuote(quoteId)
   }
 

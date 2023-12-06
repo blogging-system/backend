@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
 import { GetAllPostsDto, GetAllPostsQuery, PostManipulation } from '../interfaces'
-import { CountDocumentsDto, CountDocumentsQuery } from '@src/shared/dtos'
+import { CountDocumentsDto, CountDocumentsQuery } from '@src/shared/contracts/dtos'
 import { CreatePostDto, DeletePostDto } from '../dtos'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { InjectModel } from '@nestjs/mongoose'
-import { Entities } from '@src/shared/enums'
+import { Entities } from '@src/shared/contracts/enums'
 import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 import { Model } from 'mongoose'
@@ -25,7 +25,7 @@ export class PostRepository {
     return isPostCreated
   }
 
-  public async updateOne(postId: string, payload: Partial<PostManipulation>): Promise<Post> {
+  public async updateOne(postId: DocumentIdType, payload: Partial<PostManipulation>): Promise<Post> {
     const query: Partial<PostManipulation> = { ...payload }
 
     if (payload.title) query.slug = slugify(payload.title, { lower: true })
@@ -45,7 +45,7 @@ export class PostRepository {
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
-  public async findOneById(postId: string): Promise<Post> {
+  public async findOneById(postId: DocumentIdType): Promise<Post> {
     const isPostFound = await this.postModel.findOne({ _id: postId }).lean()
 
     if (!isPostFound) throw new NotFoundException(MESSAGES.POST_NOT_FOUND)

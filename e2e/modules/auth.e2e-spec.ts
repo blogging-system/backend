@@ -1,5 +1,5 @@
+import { HttpStatus, INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
 import { appConfig } from '@src/shared/config'
 import { AppModule } from '@src/app.module'
 import * as request from 'supertest'
@@ -22,6 +22,10 @@ describe('🏠 Auth Module (E2E Tests)', () => {
     app = moduleFixture.createNestApplication()
 
     await app.init()
+  })
+
+  afterEach(async () => {
+    await app.close()
   })
 
   describe(`➡ "${loginPath}" (${loginMethod})`, () => {
@@ -144,7 +148,7 @@ describe('🏠 Auth Module (E2E Tests)', () => {
         .get(whoAmIPath)
         .set('Authorization', `Bearer ${accessToken}`)
 
-      expect(status).toBe(200)
+      expect(status).toBe(HttpStatus.OK)
       expect(Object.keys(body).length).toBe(4)
     })
   })
@@ -167,7 +171,7 @@ describe('🏠 Auth Module (E2E Tests)', () => {
         .post(logOutPath)
         .set('Authorization', `Bearer ${accessToken}`)
 
-      expect(status).toBe(200)
+      expect(status).toBe(HttpStatus.OK)
       expect(body.message).toBeDefined()
     })
   })

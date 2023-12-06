@@ -1,9 +1,9 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common'
 import { CreateSeriesDto, DeleteSeriesDto, GetAllSeriesDto, GetSeriesBySlug } from '../dtos'
-import { SortFieldOptions, SortValueOptions } from '@src/shared/enums'
+import { SortFieldOptions, SortValueOptions } from '@src/shared/contracts/enums'
 import { PostService } from '@src/modules/post/services'
 import { SeriesRepository } from '../repositories'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { MESSAGES } from '../constants'
 import { Series } from '../schemas'
 
@@ -18,7 +18,7 @@ export class SeriesService {
     return await this.seriesRepo.createOne(data)
   }
 
-  public async updateSeries(seriesId: string, payload: CreateSeriesDto): Promise<Series> {
+  public async updateSeries(seriesId: DocumentIdType, payload: CreateSeriesDto): Promise<Series> {
     await this.getSeries(seriesId)
 
     return await this.seriesRepo.updateOne(seriesId, payload)
@@ -31,7 +31,7 @@ export class SeriesService {
     return await this.seriesRepo.deleteOne(data)
   }
 
-  public async publishSeries(seriesId: string): Promise<ResultMessage> {
+  public async publishSeries(seriesId: DocumentIdType): Promise<ResultMessage> {
     const isSeriesFound = await this.getSeries(seriesId)
 
     if (isSeriesFound.isPublished) throw new BadRequestException(MESSAGES.ALREADY_PUBLISHED)
@@ -44,7 +44,7 @@ export class SeriesService {
     return { message: MESSAGES.PUBLISHED_SUCCESSFULLY }
   }
 
-  public async unPublishSeries(seriesId: string): Promise<ResultMessage> {
+  public async unPublishSeries(seriesId: DocumentIdType): Promise<ResultMessage> {
     const isSeriesFound = await this.getSeries(seriesId)
 
     if (!isSeriesFound.isPublished) throw new BadRequestException(MESSAGES.ALREADY_UNPUBLISHED)
@@ -57,17 +57,17 @@ export class SeriesService {
     return { message: MESSAGES.UNPUBLISHED_SUCCESSFULLY }
   }
 
-  public async isSeriesAssociatedToPosts(seriesId: string): Promise<void> {
+  public async isSeriesAssociatedToPosts(seriesId: DocumentIdType): Promise<void> {
     const isSeriesAssociated = await this.postService.arePostsAvailableForGivenEntitiesIds({ seriesId })
 
     if (isSeriesAssociated) throw new BadRequestException(MESSAGES.SERIES_ASSOCIATED_TO_POST)
   }
 
-  private async getSeries(seriesId: string): Promise<Series> {
+  private async getSeries(seriesId: DocumentIdType): Promise<Series> {
     return await this.seriesRepo.findOneById(seriesId)
   }
 
-  public async areSeriesAvailable(seriesIds: string[]): Promise<void> {
+  public async areSeriesAvailable(seriesIds: DocumentIdType[]): Promise<void> {
     const array = await Promise.all(seriesIds.map((id) => this.getSeries(id)))
 
     const areTagsAvailable = array.every((available) => available)

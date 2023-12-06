@@ -1,7 +1,7 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common'
 import { PostService } from '@src/modules/post/services'
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 import { TagRepository } from '../repositories'
 import { TagService } from './tag.service'
 import { CreateTagDto } from '../dtos'

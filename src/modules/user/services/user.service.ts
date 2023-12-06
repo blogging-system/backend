@@ -2,6 +2,7 @@ import { UserRepository } from '../repositories'
 import { Injectable } from '@nestjs/common'
 import { CreateUserDto } from '../dtos'
 import { User } from '../schemas'
+import { Types } from 'mongoose'
 
 @Injectable()
 export class UserService {
@@ -15,7 +16,7 @@ export class UserService {
     return await this.userRepo.findOneByEmail(email)
   }
 
-  public async findUserById(userId: string): Promise<User> {
+  public async findUserById(userId: Types.ObjectId): Promise<User> {
     return await this.userRepo.findOneById(userId)
   }
 

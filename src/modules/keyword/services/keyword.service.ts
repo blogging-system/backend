@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common'
 import { PostService } from '@src/modules/post/services'
 import { KeywordRepository } from '../repositories'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { CreateKeywordDto } from '../dtos'
 import { MESSAGES } from '../constants'
 import { Keyword } from '../schemas'
@@ -17,30 +17,30 @@ export class KeywordService {
     return await this.keywordRepo.createOne(data)
   }
 
-  public async updateKeyword(keywordId: string, payload: CreateKeywordDto): Promise<Keyword> {
+  public async updateKeyword(keywordId: DocumentIdType, payload: CreateKeywordDto): Promise<Keyword> {
     await this.isKeywordAvailable(keywordId)
 
     return await this.keywordRepo.updateOne(keywordId, payload)
   }
 
-  public async deleteKeyword(keywordId: string): Promise<ResultMessage> {
+  public async deleteKeyword(keywordId: DocumentIdType): Promise<ResultMessage> {
     await this.isKeywordAvailable(keywordId)
     await this.isKeywordAssociatedToPosts(keywordId)
 
     return await this.keywordRepo.deleteOne(keywordId)
   }
 
-  public async isKeywordAssociatedToPosts(keywordId: string): Promise<void> {
+  public async isKeywordAssociatedToPosts(keywordId: DocumentIdType): Promise<void> {
     const isKeywordAssociated = await this.postService.arePostsAvailableForGivenEntitiesIds({ keywordId })
 
     if (isKeywordAssociated) throw new BadRequestException(MESSAGES.KEYWORD_ASSOCIATED_TO_POST)
   }
 
-  public async isKeywordAvailable(keywordId: string): Promise<Keyword> {
+  public async isKeywordAvailable(keywordId: DocumentIdType): Promise<Keyword> {
     return await this.keywordRepo.findOneById(keywordId)
   }
 
-  public async areKeywordsAvailable(tags: string[]): Promise<void> {
+  public async areKeywordsAvailable(tags: DocumentIdType[]): Promise<void> {
     try {
       await Promise.all(tags.map((tag) => this.isKeywordAvailable(tag)))
     } catch (error) {

@@ -11,7 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { KeywordService } from '../../services'
 import { CreateKeywordDto } from '../../dtos'
 import { Keyword } from '../../schemas'
@@ -27,13 +27,16 @@ export class PrivateKeywordController {
   }
 
   @Patch(':keywordId')
-  public updateKeyword(@Param('keywordId') keywordId: string, @Body() data: CreateKeywordDto): Promise<Keyword> {
+  public updateKeyword(
+    @Param('keywordId') keywordId: DocumentIdType,
+    @Body() data: CreateKeywordDto,
+  ): Promise<Keyword> {
     return this.keywordService.updateKeyword(keywordId, data)
   }
 
   @Delete(':keywordId')
-  @HttpCode(200)
-  public deleteKeyword(@Param('keywordId') keywordId: string): Promise<ResultMessage> {
+  @HttpCode(HttpStatus.OK)
+  public deleteKeyword(@Param('keywordId') keywordId: DocumentIdType): Promise<ResultMessage> {
     return this.keywordService.deleteKeyword(keywordId)
   }
 

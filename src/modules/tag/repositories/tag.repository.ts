@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { MESSAGES } from '../constants'
 import { Model, Types } from 'mongoose'
@@ -18,7 +18,7 @@ export class TagRepository {
     return isTagCreated
   }
 
-  public async updateOne(tagId: string, payload: CreateTagDto): Promise<Tag> {
+  public async updateOne(tagId: DocumentIdType, payload: CreateTagDto): Promise<Tag> {
     const isTagUpdated = await this.tagModel.findByIdAndUpdate(tagId, payload, { new: true })
 
     if (!isTagUpdated) throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED)
@@ -26,7 +26,7 @@ export class TagRepository {
     return isTagUpdated
   }
 
-  public async deleteOne(tagId: string): Promise<ResultMessage> {
+  public async deleteOne(tagId: DocumentIdType): Promise<ResultMessage> {
     const isTagDeleted = await this.tagModel.deleteOne({
       _id: new Types.ObjectId(tagId),
     })
@@ -36,7 +36,7 @@ export class TagRepository {
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
-  public async findOneById(tagId: string): Promise<Tag> {
+  public async findOneById(tagId: DocumentIdType): Promise<Tag> {
     const isTagFound = await this.tagModel.findOne({ _id: tagId }).lean()
 
     if (!isTagFound) throw new NotFoundException(MESSAGES.TAG_NOT_FOUND)

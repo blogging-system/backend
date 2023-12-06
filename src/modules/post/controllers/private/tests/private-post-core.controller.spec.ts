@@ -3,18 +3,19 @@ import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { PostService } from '../../../services/post.service'
 import { CreatePostDto, DeletePostDto } from '../../../dtos'
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/types'
-import { Pagination } from '@src/shared/dtos'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
+import { Pagination } from '@src/shared/contracts/dtos'
+import { Types } from 'mongoose'
 
 interface BlogPost {
-  _id: string
+  _id: DocumentIdType
   title?: string
   description?: string
   content?: string
   imageUrl?: string
-  tags?: string[]
-  keywords?: string[]
-  series?: string[]
+  tags?: DocumentIdType[]
+  keywords?: DocumentIdType[]
+  series?: DocumentIdType[]
 }
 
 describe('🏠PrivatePostCoreController | Controller Layer', () => {
@@ -63,7 +64,7 @@ describe('🏠PrivatePostCoreController | Controller Layer', () => {
   describe('createPost method', () => {
     it('should create a new post successfully', async () => {
       const postData: Partial<CreatePostDto> = { title: 'New Post', content: 'Post content' }
-      const createdPost: Partial<BlogPost> = { _id: '1', ...postData }
+      const createdPost = { _id: String(new Types.ObjectId()), ...postData }
 
       ;(postService.createPost as jest.Mock).mockResolvedValueOnce(createdPost)
 
@@ -76,7 +77,7 @@ describe('🏠PrivatePostCoreController | Controller Layer', () => {
 
   describe('updatePost method', () => {
     it('should update an existing post successfully', async () => {
-      const postId = '1'
+      const postId = new Types.ObjectId()
       const updateData: Partial<CreatePostDto> = { title: 'Updated Post', content: 'Updated content' }
       const updatedPost: Partial<BlogPost> = { _id: postId, ...updateData }
 
@@ -91,7 +92,7 @@ describe('🏠PrivatePostCoreController | Controller Layer', () => {
 
   describe('deletePost method', () => {
     it('should delete a post successfully', async () => {
-      const deleteData: DeletePostDto = { postId: '1' }
+      const deleteData: DeletePostDto = { postId: new Types.ObjectId() }
       const expectedResult: ResultMessage = { message: 'Post deleted successfully' }
 
       ;(postService.deletePost as jest.Mock).mockResolvedValueOnce(expectedResult)
@@ -105,8 +106,12 @@ describe('🏠PrivatePostCoreController | Controller Layer', () => {
 
   describe('publishPost method', () => {
     it('should publish a post successfully', async () => {
-      const postId = '1'
-      const publishedPost: Partial<BlogPost> = { _id: postId, title: 'Published Post', content: 'Published content' }
+      const postId = new Types.ObjectId()
+      const publishedPost: Partial<BlogPost> = {
+        _id: postId,
+        title: 'Published Post',
+        content: 'Published content',
+      }
 
       ;(postService.publishPost as jest.Mock).mockResolvedValueOnce(publishedPost)
 
@@ -119,7 +124,7 @@ describe('🏠PrivatePostCoreController | Controller Layer', () => {
 
   describe('unPublishPost method', () => {
     it('should unpublish a post successfully', async () => {
-      const postId = '1'
+      const postId = new Types.ObjectId()
       const unpublishedPost: Partial<BlogPost> = {
         _id: postId,
         title: 'Unpublished Post',
@@ -138,7 +143,9 @@ describe('🏠PrivatePostCoreController | Controller Layer', () => {
   describe('getLatestPosts method', () => {
     it('should get the latest posts successfully', async () => {
       const pagination: Pagination = {}
-      const latestPosts: Partial<BlogPost>[] = [{ _id: '1', title: 'Latest Post', content: 'Latest content' }]
+      const latestPosts: Partial<BlogPost>[] = [
+        { _id: new Types.ObjectId(), title: 'Latest Post', content: 'Latest content' },
+      ]
 
       ;(postService.getLatestPosts as jest.Mock).mockResolvedValueOnce(latestPosts)
 

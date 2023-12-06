@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { CreateSeriesDto, DeleteSeriesDto } from '../../dtos'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { SeriesService } from '../../services'
-import { Pagination } from '@src/shared/dtos'
+import { Pagination } from '@src/shared/contracts/dtos'
 import { Series } from '../../schemas'
 
 @Controller('/admin/series')
@@ -17,7 +17,7 @@ export class PrivateSeriesCoreController {
   }
 
   @Patch(':seriesId')
-  public updateSeries(@Param('seriesId') seriesId: string, @Body() payload: CreateSeriesDto): Promise<Series> {
+  public updateSeries(@Param('seriesId') seriesId: DocumentIdType, @Body() payload: CreateSeriesDto): Promise<Series> {
     return this.seriesService.updateSeries(seriesId, payload)
   }
 
@@ -27,12 +27,12 @@ export class PrivateSeriesCoreController {
   }
 
   @Post('/publish/:seriesId')
-  public publishSeries(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+  public publishSeries(@Param('seriesId') seriesId: DocumentIdType): Promise<ResultMessage> {
     return this.seriesService.publishSeries(seriesId)
   }
 
   @Post('/unpublish/:seriesId')
-  public unPublishSeries(@Param('seriesId') seriesId: string): Promise<ResultMessage> {
+  public unPublishSeries(@Param('seriesId') seriesId: DocumentIdType): Promise<ResultMessage> {
     return this.seriesService.unPublishSeries(seriesId)
   }
 

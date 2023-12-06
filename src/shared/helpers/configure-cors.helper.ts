@@ -1,6 +1,6 @@
+import { EnvironmentType } from '@src/shared/contracts/enums'
 import { INestApplication } from '@nestjs/common'
-import { EnvironmentType } from '../enums'
-import { appConfig } from '../config'
+import { appConfig } from '@src/shared/config'
 
 export const configureCors = (app: INestApplication): void => {
   appConfig.environment.env === EnvironmentType.PRODUCTION

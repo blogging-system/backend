@@ -1,4 +1,4 @@
-import { appConfig } from '../config'
+import { appConfig } from '@src/shared/config'
 import * as jwt from 'jsonwebtoken'
 
 /**

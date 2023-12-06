@@ -3,7 +3,7 @@ import { SeriesService } from '../../../series/services'
 import { Test, TestingModule } from '@nestjs/testing'
 import { PostRepository } from '../../repositories'
 import { TagService } from '../../../tag/services'
-import { ResultMessage } from '@src/shared/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 import { PostService } from '../post.service'
 
 describe('🏠PostService | Service Layer', () => {

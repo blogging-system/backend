@@ -1,11 +1,12 @@
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { PrivateQuoteController } from './private-quote.controller'
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/types'
-import { Pagination } from '@src/shared/dtos'
+import { ResultMessage } from '@src/shared/contracts/types'
+import { Pagination } from '@src/shared/contracts/dtos'
 import { QuoteService } from '../../services'
 import { CreateQuoteDto } from '../../dtos'
 import { Quote } from '../../schemas'
+import { Types } from 'mongoose'
 
 describe('🏠PrivateQuoteController | Controller Layer', () => {
   let privateQuoteController: PrivateQuoteController
@@ -46,7 +47,7 @@ describe('🏠PrivateQuoteController | Controller Layer', () => {
         text: 'This is a new quote.',
         author: 'Anonymous',
       }
-      const createdQuote: Quote = Object.assign(createQuoteDto, { _id: '1' })
+      const createdQuote: Quote = Object.assign(createQuoteDto, { _id: new Types.ObjectId() })
 
       ;(quoteService.createQuote as jest.Mock).mockResolvedValueOnce(createdQuote)
 
@@ -59,7 +60,7 @@ describe('🏠PrivateQuoteController | Controller Layer', () => {
 
   describe('updateQuote method', () => {
     it('should update an existing quote', async () => {
-      const quoteId = '1'
+      const quoteId = new Types.ObjectId()
       const updateQuoteDto: CreateQuoteDto = {
         text: 'Updated quote content.',
         author: 'Updated Author',
@@ -80,7 +81,7 @@ describe('🏠PrivateQuoteController | Controller Layer', () => {
 
   describe('deleteQuote method', () => {
     it('should delete an existing quote', async () => {
-      const quoteId = '1'
+      const quoteId = new Types.ObjectId()
       const expectedResult: ResultMessage = { message: 'Quote deleted successfully.' }
 
       ;(quoteService.deleteQuote as jest.Mock).mockResolvedValueOnce(expectedResult)
@@ -96,8 +97,8 @@ describe('🏠PrivateQuoteController | Controller Layer', () => {
     it('should return all quotes with pagination', async () => {
       const pagination: Pagination = {}
       const expectedQuotes: Quote[] = [
-        { _id: '1', text: 'Quote 1', author: 'Author 1' },
-        { _id: '2', text: 'Quote 2', author: 'Author 2' },
+        { _id: new Types.ObjectId(), text: 'Quote 1', author: 'Author 1' },
+        { _id: new Types.ObjectId(), text: 'Quote 2', author: 'Author 2' },
       ]
 
       ;(quoteService.getAllQuotes as jest.Mock).mockResolvedValueOnce(expectedQuotes)

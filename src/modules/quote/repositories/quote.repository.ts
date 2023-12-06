@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { InjectModel } from '@nestjs/mongoose'
-import { Pagination } from '@src/shared/dtos'
+import { Pagination } from '@src/shared/contracts/dtos'
 import { CreateQuoteDto } from '../dtos'
 import { Model, Types } from 'mongoose'
 import { MESSAGES } from '../constants'
@@ -19,7 +19,7 @@ export class QuoteRepository {
     return isQuoteCreated
   }
 
-  public async updateOne(quoteId: string, payload: CreateQuoteDto): Promise<Quote> {
+  public async updateOne(quoteId: DocumentIdType, payload: CreateQuoteDto): Promise<Quote> {
     const isQuoteUpdated = await this.quoteModel.findByIdAndUpdate(quoteId, payload, { new: true })
 
     if (!isQuoteUpdated) throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED)
@@ -27,7 +27,7 @@ export class QuoteRepository {
     return isQuoteUpdated
   }
 
-  public async deleteOne(quoteId: string): Promise<ResultMessage> {
+  public async deleteOne(quoteId: DocumentIdType): Promise<ResultMessage> {
     const isQuoteDeleted = await this.quoteModel.deleteOne({
       _id: new Types.ObjectId(quoteId),
     })
@@ -37,7 +37,7 @@ export class QuoteRepository {
     return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
-  public async findOneById(quoteId: string): Promise<Quote> {
+  public async findOneById(quoteId: DocumentIdType): Promise<Quote> {
     const isQuoteFound = await this.quoteModel.findOne({ _id: new Types.ObjectId(quoteId) }).lean()
 
     if (!isQuoteFound) throw new NotFoundException(MESSAGES.QUOTE_NOT_FOUND)

@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { ResultMessage } from '@src/shared/types'
+import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { InjectModel } from '@nestjs/mongoose'
 import { CreateSessionDto } from '../dtos'
 import { MESSAGES } from '../constants'
@@ -18,7 +18,7 @@ export class SessionRepository {
     return isSessionCreated
   }
 
-  public async deleteOne(sessionId: string): Promise<{ deletedCount: number }> {
+  public async deleteOne(sessionId: DocumentIdType): Promise<{ deletedCount: number }> {
     return await this.sessionModel.deleteOne({ _id: new Types.ObjectId(sessionId) })
   }
 

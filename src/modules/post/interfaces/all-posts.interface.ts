@@ -1,5 +1,5 @@
 import { PostsFilter } from './posts-filter.interface'
-import { Pagination } from '@src/shared/dtos'
+import { Pagination } from '@src/shared/contracts/dtos'
 
 export interface GetAllPostsDto {
   filter?: PostsFilter

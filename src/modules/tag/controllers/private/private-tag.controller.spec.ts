@@ -1,10 +1,11 @@
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { PrivateTagController } from './private-tag.controller'
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 import { TagService } from '../../services'
 import { CreateTagDto } from '../../dtos'
 import { Tag } from '../../schemas'
+import { Types } from 'mongoose'
 
 describe('🏠PrivateTagController | Controller Layer', () => {
   let privateTagController: PrivateTagController
@@ -45,7 +46,7 @@ describe('🏠PrivateTagController | Controller Layer', () => {
         name: 'New Tag',
       }
       const expectedResult: Tag = {
-        _id: 'tag123',
+        _id: new Types.ObjectId(),
         name: 'New Tag',
       }
 
@@ -60,7 +61,7 @@ describe('🏠PrivateTagController | Controller Layer', () => {
 
   describe('updateTag method', () => {
     it('should update an existing tag', async () => {
-      const tagId = 'tag123'
+      const tagId = new Types.ObjectId()
       const updateTagDto: CreateTagDto = {
         name: 'Updated Tag',
       }
@@ -80,7 +81,7 @@ describe('🏠PrivateTagController | Controller Layer', () => {
 
   describe('deleteTag method', () => {
     it('should delete an existing tag', async () => {
-      const tagId = 'tag123'
+      const tagId = new Types.ObjectId()
       const expectedResult: ResultMessage = {
         message: 'Tag deleted successfully',
       }

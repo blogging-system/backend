@@ -3,8 +3,9 @@ import { ProtectResourceInterceptor } from '@src/shared/interceptors'
 import { KeywordService } from '../../services/keyword.service'
 import { Keyword } from '../../schemas/keyword.schema'
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/types'
+import { ResultMessage } from '@src/shared/contracts/types'
 import { CreateKeywordDto } from '../../dtos'
+import { Types } from 'mongoose'
 
 describe('🏠PrivateKeywordController | Controller Layer', () => {
   let privateKeywordController: PrivateKeywordController
@@ -56,7 +57,7 @@ describe('🏠PrivateKeywordController | Controller Layer', () => {
 
   describe('updateKeyword method', () => {
     it('should update a keyword successfully', async () => {
-      const keywordId = '1'
+      const keywordId = new Types.ObjectId()
       const updateKeywordDto: CreateKeywordDto = { name: 'Updated Keyword' }
       const updatedKeyword: Keyword = Object.assign(updateKeywordDto)
 
@@ -71,7 +72,7 @@ describe('🏠PrivateKeywordController | Controller Layer', () => {
 
   describe('deleteKeyword method', () => {
     it('should delete a keyword successfully', async () => {
-      const keywordId = '1'
+      const keywordId = new Types.ObjectId()
       const deleteResult: ResultMessage = { message: '' }
 
       ;(keywordService.deleteKeyword as jest.Mock).mockResolvedValueOnce(deleteResult)
