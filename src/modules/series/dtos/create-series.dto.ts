@@ -7,6 +7,8 @@ export class CreateSeriesDto {
   @IsNotEmpty()
   title: string
 
+  slug?: string
+
   @Type(() => String)
   @IsString()
   @IsNotEmpty()
