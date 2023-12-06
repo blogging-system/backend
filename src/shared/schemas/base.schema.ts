@@ -1,3 +1,8 @@
+import { Prop, Schema } from '@nestjs/mongoose'
+import { SchemaTypes, Types } from 'mongoose'
+
+@Schema()
 export class BaseSchema {
-  _id: string
+  @Prop({ type: SchemaTypes.ObjectId })
+  _id: Types.ObjectId
 }
