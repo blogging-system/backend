@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { LoginAttemptService } from './login-attempt.service'
-import { SessionService } from '../../session/services'
-import { UserService } from '@src/modules/user/services'
-import { HashUtil, TokenUtil } from '@src/shared/utils'
 import { ResultMessage } from '@src/shared/contracts/types'
+import { UserService } from '@src/modules/user/services'
+import { SessionService } from '../../session/services'
+import { HashUtil, TokenUtil } from '@src/shared/utils'
 import { LoginResponse } from '../types'
 import { MESSAGES } from '../constants'
 import { LoginDto } from '../dtos'
@@ -38,12 +38,12 @@ export class AuthService {
     const tokenPayload = {
       _id: user._id,
     }
-    console.log({ tokenPayload })
+
     const accessToken = await TokenUtil.generateAccessToken(tokenPayload)
     const refreshToken = await TokenUtil.generateRefreshToken(tokenPayload)
 
     await this.sessionService.createSession({ accessToken, refreshToken, ipAddress, device })
-    console.log({ accessToken, refreshToken })
+
     return {
       accessToken,
       refreshToken,
@@ -53,6 +53,6 @@ export class AuthService {
   public async logOut(accessToken: string): Promise<ResultMessage> {
     const { _id } = await this.sessionService.getSession({ accessToken })
 
-    return await this.sessionService.deleteSession(_id)
+    return await this.sessionService.revokeSession(_id)
   }
 }

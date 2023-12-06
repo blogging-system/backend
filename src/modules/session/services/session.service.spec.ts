@@ -20,9 +20,9 @@ describe('🏠SessionService | Service Layer', () => {
     sessionRepository = {
       createOne: jest.fn(),
       deleteOne: jest.fn(),
-      deleteMany: jest.fn(),
+      delete: jest.fn(),
       findOne: jest.fn(),
-      findMany: jest.fn(),
+      find: jest.fn(),
     }
 
     userService = {
@@ -128,7 +128,7 @@ describe('🏠SessionService | Service Layer', () => {
 
       jest.spyOn(sessionRepository, 'deleteOne').mockResolvedValueOnce({ deletedCount: 1 })
 
-      const result = await sessionService.deleteSession(sessionId)
+      const result = await sessionService.revokeSession(sessionId)
 
       expect(result).toEqual(mockResult)
       expect(sessionRepository.deleteOne).toHaveBeenCalledWith(sessionId)
@@ -137,9 +137,9 @@ describe('🏠SessionService | Service Layer', () => {
     it('should throw InternalServerErrorException if session deletion fails', async () => {
       const sessionId = 'someSessionId'
 
-      jest.spyOn(sessionRepository, 'deleteOne').mockResolvedValueOnce({ deletedCount: 0 })
+      jest.spyOn(sessionRepository, 'deleteOne').mockResolvedValueOnce({} as Partial<Session>)
 
-      await expect(sessionService.deleteSession(sessionId)).rejects.toThrow(InternalServerErrorException)
+      await expect(sessionService.revokeSession(sessionId)).rejects.toThrow(InternalServerErrorException)
       expect(sessionRepository.deleteOne).toHaveBeenCalledWith(sessionId)
     })
   })
@@ -151,12 +151,12 @@ describe('🏠SessionService | Service Layer', () => {
         /* provide expected result data */
       }
 
-      jest.spyOn(sessionRepository, 'deleteMany').mockResolvedValueOnce(mockResult)
+      jest.spyOn(sessionRepository, 'delete').mockResolvedValueOnce(mockResult)
 
       const result = await sessionService.revokeAllSessions(excludedAccessToken)
 
       expect(result).toEqual(mockResult)
-      expect(sessionRepository.deleteMany).toHaveBeenCalledWith(excludedAccessToken)
+      expect(sessionRepository.delete).toHaveBeenCalledWith(excludedAccessToken)
     })
   })
 
@@ -187,12 +187,12 @@ describe('🏠SessionService | Service Layer', () => {
     it('should get all sessions successfully', async () => {
       const mockSessions: Partial<Session>[] = [{}, {}]
 
-      jest.spyOn(sessionRepository, 'findMany').mockResolvedValueOnce(mockSessions as Session[])
+      jest.spyOn(sessionRepository, 'find').mockResolvedValueOnce(mockSessions as Session[])
 
       const result = await sessionService.getAllSessions()
 
       expect(result).toEqual(mockSessions as Session[])
-      expect(sessionRepository.findMany).toHaveBeenCalled()
+      expect(sessionRepository.find).toHaveBeenCalled()
     })
   })
 })
