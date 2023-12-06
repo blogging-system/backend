@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common'
-import { PostService } from '@src/modules/post/services'
 import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
+import { PostService } from '@src/modules/post/services'
 import { TagRepository } from '../repositories'
 import { MESSAGES } from '../constants'
 import { CreateTagDto } from '../dtos'
@@ -18,20 +18,19 @@ export class TagService {
   }
 
   public async updateTag(tagId: DocumentIdType, payload: CreateTagDto): Promise<Tag> {
-    await this.getTag(tagId)
-
     return await this.tagRepo.updateOne(tagId, payload)
   }
 
   public async deleteTag(tagId: DocumentIdType): Promise<ResultMessage> {
-    await this.getTag(tagId)
     await this.isTagAssociatedToPosts(tagId)
 
-    return await this.tagRepo.deleteOne(tagId)
+    await this.tagRepo.deleteOne(tagId)
+
+    return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
   public async getTag(tagId: DocumentIdType): Promise<Tag> {
-    return await this.tagRepo.findOneById(tagId)
+    return await this.tagRepo.findOne({ _id: tagId })
   }
 
   public async isTagAssociatedToPosts(tagId: DocumentIdType): Promise<void> {
@@ -40,19 +39,21 @@ export class TagService {
     if (isTagAssociated) throw new BadRequestException(MESSAGES.POST_ASSOCIATED_TO_POST)
   }
 
+  private async isTagAvailable(tagId: DocumentIdType): Promise<boolean> {
+    return await this.tagRepo.isFound({ _id: tagId })
+  }
+
   public async areTagsAvailable(tagIds: DocumentIdType[]): Promise<void> {
-    const array = await Promise.all(tagIds.map((id) => this.getTag(id)))
+    const areAvailable = await Promise.all(tagIds.map((id) => this.isTagAvailable(id)))
 
-    const areTagsAvailable = array.every((available) => available)
-
-    if (!areTagsAvailable) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
+    if (areAvailable.includes(false)) throw new NotFoundException(MESSAGES.NOT_AVAILABLE)
   }
 
   public async getAllTags(): Promise<Tag[]> {
-    return await this.tagRepo.findMany()
+    return await this.tagRepo.find({})
   }
 
   public async getAllTagsCount(): Promise<ResultMessage> {
-    return await this.tagRepo.countDocuments()
+    return await this.tagRepo.countDocuments({})
   }
 }
