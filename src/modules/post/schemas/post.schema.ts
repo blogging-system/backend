@@ -4,9 +4,9 @@ import { BaseSchema } from '@src/shared/schemas'
 import { Keyword } from '../../keyword/schemas'
 import { Series } from '../../series/schemas'
 import { Tag } from '../../tag/schemas'
+import { DocumentIdType } from '@src/shared/contracts/types'
 
 export type PostDocument = HydratedDocument<Post>
-
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Post extends BaseSchema {
@@ -26,13 +26,13 @@ export class Post extends BaseSchema {
   imageUrl: string
 
   @Prop({ type: [Types.ObjectId], ref: Tag.name })
-  tags: Tag[]
+  tags: DocumentIdType[]
 
   @Prop({ type: [Types.ObjectId], ref: Keyword.name })
-  keywords: Keyword[]
+  keywords: DocumentIdType[]
 
   @Prop({ type: [Types.ObjectId], ref: Series.name })
-  series: Series[]
+  series: DocumentIdType[]
 
   @Prop({ index: true, default: 0 })
   views: number

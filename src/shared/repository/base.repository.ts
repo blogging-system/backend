@@ -37,6 +37,15 @@ export abstract class BaseRepository<TDocument extends BaseSchema> {
     return deletedDocument
   }
 
+  async delete(filterQuery: FilterQuery<TDocument>): Promise<ResultMessage> {
+    const result = await this.model.deleteMany(filterQuery)
+
+    if (result.deletedCount === 0)
+      throw new NotFoundException(`The ${this.model.modelName.toLowerCase()}s are not found!`)
+
+    return { message: `All ${this.model.modelName.toLowerCase()}s are deleted successfully!` }
+  }
+
   public async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
     const document = await this.model.findOne(filterQuery).lean<TDocument>(true)
 
@@ -81,7 +90,7 @@ export abstract class BaseRepository<TDocument extends BaseSchema> {
     return { count }
   }
 
-  async aggregateWithPopulation(pipeline: PipelineStage[]): Promise<TDocument[]> {
+  async aggregate(pipeline: PipelineStage[]): Promise<TDocument[]> {
     const foundDocuments = await this.model.aggregate(pipeline)
 
     if (foundDocuments.length === 0)

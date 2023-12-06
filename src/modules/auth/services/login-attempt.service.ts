@@ -1,5 +1,5 @@
-import { LoginAttemptRepository } from '../repositories/login-attempt.repository'
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { LoginAttemptRepository } from '../repositories'
 import { LoginAttempt } from '../schemas'
 import { MESSAGES } from '../constants'
 
@@ -27,7 +27,7 @@ export class LoginAttemptService {
     if (!isLoginAttemptFound) return false
 
     const loginAttempt = await this.loginAttemptRepo.findOne({})
-    
+
     if (loginAttempt && loginAttempt.attemptsCount >= 5)
       throw new HttpException(MESSAGES.TOO_MANY_REQUESTS, HttpStatus.TOO_MANY_REQUESTS)
 
