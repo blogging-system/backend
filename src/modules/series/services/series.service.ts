@@ -1,6 +1,5 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common'
 import { CreateSeriesDto, DeleteSeriesDto, GetAllSeriesDto, GetSeriesBySlug } from '../dtos'
-import { SortFieldOptions, SortValueOptions } from '@src/shared/contracts/enums'
 import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { PostService } from '@src/modules/post/services'
 import { SeriesRepository } from '../repositories'
@@ -90,58 +89,58 @@ export class SeriesService {
     return Object.assign(isSeriesFound, { views: isSeriesFound.views + 1 })
   }
 
-  public async getAllSeries({ pagination, isPublished, sortValue }: GetAllSeriesDto): Promise<Series[]> {
-    return await this.seriesRepo.find({
-      pagination,
-      isPublished,
-      sortCondition: sortValue == 1 ? `${SortFieldOptions.PUBLISHED_AT}` : `-${SortFieldOptions.PUBLISHED_AT}`,
-    })
-  }
+  // public async getAllSeries({ pagination, isPublished, sortValue }: GetAllSeriesDto): Promise<Series[]> {
+  //   return await this.seriesRepo.find({
+  //     pagination,
+  //     isPublished,
+  //     sortCondition: sortValue == 1 ? `${SortFieldOptions.PUBLISHED_AT}` : `-${SortFieldOptions.PUBLISHED_AT}`,
+  //   })
+  // }
 
-  public async getLatestSeries({ pagination, isPublished }: GetAllSeriesDto): Promise<Series[]> {
-    return await this.seriesRepo.find({
-      pagination,
-      isPublished,
-      sortCondition: `-${SortFieldOptions.CREATED_AT}`,
-    })
-  }
+  // public async getLatestSeries({ pagination, isPublished }: GetAllSeriesDto): Promise<Series[]> {
+  //   return await this.seriesRepo.find({
+  //     pagination,
+  //     isPublished,
+  //     sortCondition: `-${SortFieldOptions.CREATED_AT}`,
+  //   })
+  // }
 
-  public async getPublishedSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
-    return await this.seriesRepo.find({
-      pagination,
-      isPublished: true,
-      sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
-    })
-  }
+  // public async getPublishedSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+  //   return await this.seriesRepo.find({
+  //     pagination,
+  //     isPublished: true,
+  //     sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
+  //   })
+  // }
 
-  public async getUnPublishedSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
-    return await this.seriesRepo.find({
-      pagination,
-      isPublished: false,
-      sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
-    })
-  }
+  // public async getUnPublishedSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+  //   return await this.seriesRepo.find({
+  //     pagination,
+  //     isPublished: false,
+  //     sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
+  //   })
+  // }
 
-  public async getPopularSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
-    return await this.seriesRepo.find({
-      pagination,
-      sortCondition: `-${SortFieldOptions.VIEWS}`,
-    })
-  }
+  // public async getPopularSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+  //   return await this.seriesRepo.find({
+  //     pagination,
+  //     sortCondition: `-${SortFieldOptions.VIEWS}`,
+  //   })
+  // }
 
-  public async getUnPopularSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
-    return await this.seriesRepo.find({
-      pagination,
-      sortCondition: `+${SortFieldOptions.VIEWS}`,
-    })
-  }
+  // public async getUnPopularSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+  //   return await this.seriesRepo.find({
+  //     pagination,
+  //     sortCondition: `+${SortFieldOptions.VIEWS}`,
+  //   })
+  // }
 
-  public async getTrendingSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
-    return await this.seriesRepo.find({
-      pagination,
-      sortCondition: { [SortFieldOptions.PUBLISHED_AT]: SortValueOptions.DESC, views: SortValueOptions.DESC },
-    })
-  }
+  // public async getTrendingSeries({ pagination }: GetAllSeriesDto): Promise<Series[]> {
+  //   return await this.seriesRepo.find({
+  //     pagination,
+  //     sortCondition: { [SortFieldOptions.PUBLISHED_AT]: SortValueOptions.DESC, views: SortValueOptions.DESC },
+  //   })
+  // }
 
   public async getAllSeriesCount(): Promise<ResultMessage> {
     return await this.seriesRepo.countDocuments({})

@@ -36,43 +36,43 @@ export class PrivateSeriesCoreController {
     return this.seriesService.unPublishSeries(seriesId)
   }
 
-  @Get('/latest')
-  public getLatestSeries(@Query() pagination: Pagination): Promise<Series[]> {
-    return this.seriesService.getLatestSeries({ pagination, isPublished: true })
-  }
+  // @Get('/latest')
+  // public getLatestSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  //   return this.seriesService.getLatestSeries({ pagination, isPublished: true })
+  // }
 
-  @Get('/published')
-  public getPublishedSeries(@Query() pagination: Pagination): Promise<Series[]> {
-    return this.seriesService.getPublishedSeries({ pagination })
-  }
+  // @Get('/published')
+  // public getPublishedSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  //   return this.seriesService.getPublishedSeries({ pagination })
+  // }
 
-  @Get('/unpublished')
-  public getUnPublishedSeries(@Query() pagination: Pagination): Promise<Series[]> {
-    return this.seriesService.getUnPublishedSeries({ pagination })
-  }
+  // @Get('/unpublished')
+  // public getUnPublishedSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  //   return this.seriesService.getUnPublishedSeries({ pagination })
+  // }
 
-  @Get('/popular')
-  public getPopularSeries(@Query() pagination: Pagination): Promise<Series[]> {
-    return this.seriesService.getPopularSeries({ pagination })
-  }
+  // @Get('/popular')
+  // public getPopularSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  //   return this.seriesService.getPopularSeries({ pagination })
+  // }
 
-  @Get('/unpopular')
-  public getUnPopularSeries(@Query() pagination: Pagination): Promise<Series[]> {
-    return this.seriesService.getUnPopularSeries({ pagination })
-  }
+  // @Get('/unpopular')
+  // public getUnPopularSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  //   return this.seriesService.getUnPopularSeries({ pagination })
+  // }
 
-  @Get('/trending')
-  public getTrendingSeries(@Query() pagination: Pagination): Promise<Series[]> {
-    return this.seriesService.getTrendingSeries({ pagination })
-  }
+  // @Get('/trending')
+  // public getTrendingSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  //   return this.seriesService.getTrendingSeries({ pagination })
+  // }
 
-  @Get(':slug')
-  public getSeriesBySlug(@Param('slug') slug: string): Promise<Series> {
-    return this.seriesService.getSeriesBySlug({ slug })
-  }
+  // @Get(':slug')
+  // public getSeriesBySlug(@Param('slug') slug: string): Promise<Series> {
+  //   return this.seriesService.getSeriesBySlug({ slug })
+  // }
 
-  @Get()
-  public getAllSeries(@Query() pagination: Pagination): Promise<Series[]> {
-    return this.seriesService.getAllSeries({ pagination, sortValue: pagination.sort })
-  }
+  // @Get()
+  // public getAllSeries(@Query() pagination: Pagination): Promise<Series[]> {
+  //   return this.seriesService.getAllSeries({ pagination, sortValue: pagination.sort })
+  // }
 }

@@ -1,8 +1,9 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
-import { GetPostBySlug, PostsFilter } from '../../interfaces'
+import { GetPostBySlug } from '../../interfaces'
 import { Pagination } from '@src/shared/contracts/dtos'
 import { PostService } from '../../services'
 import { Post } from '../../schemas'
+import { FilterPostDto } from '../../dtos'
 
 @Controller('posts')
 export class PublicPostController {
@@ -14,9 +15,7 @@ export class PublicPostController {
   }
 
   @Get()
-  public getAllPosts(@Query() { tagId, seriesId, ...pagination }: Pagination): Promise<Post[]> {
-    const filter = { tagId, seriesId } as PostsFilter
-
-    return this.postService.getAllPosts({ filter, pagination, isPublished: true })
+  public getAllPosts(@Query() { tagId, seriesId, ...pagination }: Pagination & FilterPostDto): Promise<Post[]> {
+    return this.postService.getAllPosts({ pagination, seriesId, tagId, isPublished: true })
   }
 }

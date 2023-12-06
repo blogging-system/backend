@@ -1,4 +1,4 @@
-import { IsIn, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsPositive, Max, Min } from 'class-validator'
+import { IsIn, IsNumber, IsPositive, Max, Min } from 'class-validator'
 import { Type } from 'class-transformer'
 
 export class Pagination {
@@ -6,6 +6,7 @@ export class Pagination {
   @IsNumber()
   @IsPositive()
   @Min(1)
+  @Max(10000)
   pageNumber?: number = 1
 
   @Type(() => Number)
@@ -18,22 +19,4 @@ export class Pagination {
   @IsNumber()
   @IsIn([1, -1], { message: 'Sort value must be 1 or -1.' })
   sort?: number = 1
-
-  @IsOptional()
-  @Type(() => String)
-  @IsNotEmpty({ each: true })
-  @IsMongoId({ each: true })
-  tagId?: string
-
-  @IsOptional()
-  @Type(() => String)
-  @IsNotEmpty({ each: true })
-  @IsMongoId({ each: true })
-  seriesId?: string
-
-  @IsOptional()
-  @Type(() => String)
-  @IsNotEmpty({ each: true })
-  @IsMongoId({ each: true })
-  keywordId?: string
 }

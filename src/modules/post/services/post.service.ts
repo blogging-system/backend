@@ -1,12 +1,12 @@
 import { Injectable, BadRequestException, NotFoundException, Inject, forwardRef } from '@nestjs/common'
-import { SortFieldOptions, SortValueOptions } from '@src/shared/contracts/enums'
+import { SortOptions } from '@src/shared/contracts/enums'
 import { KeywordService } from '../../keyword/services'
 import { CreatePostDto, DeletePostDto } from '../dtos'
 import { SeriesService } from '../../series/services'
 import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { PostRepository } from '../repositories'
 import { TagService } from '../../tag/services'
-import { GetAllPostsDto } from '../interfaces'
+import { GetAllPostsDto, GetAllPostsQuery } from '../interfaces'
 import { MESSAGES } from '../constants'
 import { Post } from '../schemas'
 import {
@@ -107,57 +107,82 @@ export class PostService {
     return await this.postRepo.isFound({ _id: postId })
   }
 
-  public async getAllPosts({ filter, pagination, isPublished, sortValue }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.find({
-      filter,
-      pagination,
-      isPublished,
-      sortCondition: sortValue == 1 ? `${SortFieldOptions.PUBLISHED_AT}` : `-${SortFieldOptions.PUBLISHED_AT}`,
+  public async getAllPosts({
+    pagination: { pageSize, pageNumber, sort },
+    isPublished,
+    seriesId,
+    tagId,
+  }: GetAllPostsDto): Promise<Post[]> {
+    const query: GetAllPostsQuery = {}
+
+    if (isPublished) query.isPublished = isPublished
+    if (seriesId) query.series = seriesId
+    if (tagId) query.tags = tagId
+
+    return await this.postRepo.find(query, {
+      limit: pageSize,
+      skip: (pageNumber - 1) * pageSize,
+      sort: { [SortOptions.CREATED_AT]: sort == 1 ? SortOptions.ASC : SortOptions.DESC },
     })
   }
 
-  public async getLatestPosts({ pagination, isPublished }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.find({
-      pagination,
-      isPublished,
-      sortCondition: `-${SortFieldOptions.CREATED_AT}`,
-    })
+  public async getLatestPosts({ pagination: { pageSize, pageNumber } }: GetAllPostsDto): Promise<Post[]> {
+    return await this.postRepo.find(
+      {
+        isPublished: false,
+      },
+      {
+        sort: { [SortOptions.CREATED_AT]: -1, [SortOptions.UPDATED_AT]: -1 },
+        limit: pageSize,
+        skip: (pageNumber - 1) * pageSize,
+      },
+    )
   }
 
-  public async getPublishedPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.find({
-      pagination,
-      isPublished: true,
-      sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
-    })
+  public async getPublishedPosts({ pagination: { pageSize, pageNumber } }: GetAllPostsDto): Promise<Post[]> {
+    return await this.postRepo.find(
+      {
+        isPublished: true,
+      },
+      {
+        sort: { [SortOptions.PUBLISHED_AT]: -1, [SortOptions.UPDATED_AT]: -1 },
+        limit: pageSize,
+        skip: (pageNumber - 1) * pageSize,
+      },
+    )
   }
 
-  public async getUnPublishedPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.find({
-      pagination,
-      isPublished: false,
-      sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
-    })
+  public async getUnPublishedPosts({ pagination: { pageNumber, pageSize } }: GetAllPostsDto): Promise<Post[]> {
+    return await this.postRepo.find(
+      {
+        isPublished: false,
+      },
+      {
+        sort: { [SortOptions.PUBLISHED_AT]: -1, [SortOptions.UPDATED_AT]: -1 },
+        limit: pageSize,
+        skip: (pageNumber - 1) * pageSize,
+      },
+    )
   }
 
   public async getPopularPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.find({
       pagination,
-      sortCondition: `-${SortFieldOptions.VIEWS}`,
+      sortCondition: `-${SortOptions.VIEWS}`,
     })
   }
 
   public async getUnPopularPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.find({
       pagination,
-      sortCondition: `+${SortFieldOptions.VIEWS}`,
+      sortCondition: `+${SortOptions.VIEWS}`,
     })
   }
 
   public async getTrendingPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
     return await this.postRepo.find({
       pagination,
-      sortCondition: { [SortFieldOptions.PUBLISHED_AT]: SortValueOptions.DESC, views: SortValueOptions.DESC },
+      sortCondition: { [SortOptions.PUBLISHED_AT]: SortOptions.DESC, views: SortOptions.DESC },
     })
   }
 

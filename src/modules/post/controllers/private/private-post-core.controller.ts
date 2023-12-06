@@ -1,9 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
 import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { CreatePostDto, DeletePostDto } from '../../dtos'
+import { CreatePostDto, DeletePostDto, FilterPostDto } from '../../dtos'
 import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
 import { Post as BlogPost } from '../../schemas'
-import { PostsFilter } from '../../interfaces'
 import { Pagination } from '@src/shared/contracts/dtos'
 import { PostService } from '../../services'
 
@@ -38,18 +37,18 @@ export class PrivatePostCoreController {
   }
 
   @Get('/latest')
-  public getLatestPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
-    return this.postService.getLatestPosts({ pagination, sortValue: -1 })
+  public getLatestPosts(@Query() { pageSize, pageNumber }: Pagination): Promise<BlogPost[]> {
+    return this.postService.getLatestPosts({ pagination: { pageNumber, pageSize } })
   }
 
   @Get('/published')
-  public getPublishedPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
-    return this.postService.getPublishedPosts({ pagination })
+  public getPublishedPosts(@Query() { pageSize, pageNumber }: Pagination): Promise<BlogPost[]> {
+    return this.postService.getPublishedPosts({ pagination: { pageNumber, pageSize } })
   }
 
   @Get('/unpublished')
-  public getUnPublishedPosts(@Query() pagination: Pagination): Promise<BlogPost[]> {
-    return this.postService.getUnPublishedPosts({ pagination })
+  public getUnPublishedPosts(@Query() { pageSize, pageNumber }: Pagination): Promise<BlogPost[]> {
+    return this.postService.getUnPublishedPosts({ pagination: { pageNumber, pageSize } })
   }
 
   @Get('/popular')
@@ -73,9 +72,7 @@ export class PrivatePostCoreController {
   }
 
   @Get()
-  public getAllPosts(@Query() { tagId, seriesId, ...pagination }: Pagination): Promise<BlogPost[]> {
-    const filter = { tagId, seriesId } as PostsFilter
-
-    return this.postService.getAllPosts({ filter, pagination, sortValue: pagination.sort })
+  public getAllPosts(@Query() { tagId, seriesId, ...pagination }: Pagination & FilterPostDto): Promise<BlogPost[]> {
+    return this.postService.getAllPosts({ pagination, seriesId, tagId })
   }
 }
