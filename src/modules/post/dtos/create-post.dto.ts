@@ -20,6 +20,8 @@ export class CreatePostDto {
   @MaxLength(300, { message: 'title cannot be longer than 300 characters' })
   title: string
 
+  slug?: string
+
   @Type(() => String)
   @IsString()
   @IsNotEmpty()

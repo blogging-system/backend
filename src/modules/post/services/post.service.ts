@@ -14,6 +14,7 @@ import {
   ArePostsAvailableForGivenEntitiesIds,
   ArePostsAvailableForGivenEntitiesIdsQuery,
 } from '../interfaces'
+import slugify from 'slugify'
 
 @Injectable()
 export class PostService {
@@ -29,7 +30,7 @@ export class PostService {
     await this.keywordService.areKeywordsAvailable(data.keywords)
     await this.seriesService.areSeriesAvailable(data.series)
 
-    return await this.postRepo.createOne(data)
+    return await this.postRepo.createOne({ ...data, slug: slugify(data.title, { lower: true }) })
   }
 
   public async updatePost(postId: DocumentIdType, payload: CreatePostDto): Promise<Post> {
@@ -39,17 +40,19 @@ export class PostService {
     await this.keywordService.areKeywordsAvailable(payload.keywords)
     await this.seriesService.areSeriesAvailable(payload.series)
 
-    return await this.postRepo.updateOne(postId, payload)
+    return await this.postRepo.updateOne(postId, { ...payload, slug: slugify(payload.title, { lower: true }) })
   }
 
   public async deletePost(data: DeletePostDto): Promise<ResultMessage> {
     await this.isPostAvailable(data.postId)
 
-    return await this.postRepo.deleteOne(data)
+    await this.postRepo.deleteOne(data)
+
+    return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
   public async publishPost(postId: DocumentIdType): Promise<Post> {
-    const foundPost = await this.isPostAvailable(postId)
+    const foundPost = await this.postRepo.findOne({ _id: postId })
 
     if (foundPost.isPublished) throw new BadRequestException(MESSAGES.ALREADY_PUBLISHED)
 
@@ -60,7 +63,7 @@ export class PostService {
   }
 
   public async unPublishPost(postId: DocumentIdType): Promise<Post> {
-    const foundPost = await this.isPostAvailable(postId)
+    const foundPost = await this.postRepo.findOne({ _id: postId })
 
     if (!foundPost.isPublished) throw new BadRequestException(MESSAGES.ALREADY_UNPUBLISHED)
 
@@ -95,19 +98,17 @@ export class PostService {
 
     const isPostFound = await this.postRepo.findOne(query)
 
-    if (!isPostFound) throw new NotFoundException(MESSAGES.POST_NOT_FOUND)
-
     await this.postRepo.updateOne(isPostFound._id, { views: isPostFound.views + 1 })
 
     return Object.assign(isPostFound, { views: isPostFound.views + 1 })
   }
 
-  public async isPostAvailable(postId: DocumentIdType): Promise<Post> {
-    return await this.postRepo.findOneById(postId)
+  public async isPostAvailable(postId: DocumentIdType): Promise<boolean> {
+    return await this.postRepo.isFound({ _id: postId })
   }
 
   public async getAllPosts({ filter, pagination, isPublished, sortValue }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.findMany({
+    return await this.postRepo.find({
       filter,
       pagination,
       isPublished,
@@ -116,7 +117,7 @@ export class PostService {
   }
 
   public async getLatestPosts({ pagination, isPublished }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.findMany({
+    return await this.postRepo.find({
       pagination,
       isPublished,
       sortCondition: `-${SortFieldOptions.CREATED_AT}`,
@@ -124,7 +125,7 @@ export class PostService {
   }
 
   public async getPublishedPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.findMany({
+    return await this.postRepo.find({
       pagination,
       isPublished: true,
       sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
@@ -132,7 +133,7 @@ export class PostService {
   }
 
   public async getUnPublishedPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.findMany({
+    return await this.postRepo.find({
       pagination,
       isPublished: false,
       sortCondition: `-${SortFieldOptions.PUBLISHED_AT}`,
@@ -140,21 +141,21 @@ export class PostService {
   }
 
   public async getPopularPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.findMany({
+    return await this.postRepo.find({
       pagination,
       sortCondition: `-${SortFieldOptions.VIEWS}`,
     })
   }
 
   public async getUnPopularPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.findMany({
+    return await this.postRepo.find({
       pagination,
       sortCondition: `+${SortFieldOptions.VIEWS}`,
     })
   }
 
   public async getTrendingPosts({ pagination }: GetAllPostsDto): Promise<Post[]> {
-    return await this.postRepo.findMany({
+    return await this.postRepo.find({
       pagination,
       sortCondition: { [SortFieldOptions.PUBLISHED_AT]: SortValueOptions.DESC, views: SortValueOptions.DESC },
     })
