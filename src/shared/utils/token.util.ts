@@ -1,5 +1,5 @@
-import { appConfig } from '../config'
 import * as jwt from 'jsonwebtoken'
+import { appConfig } from '../config'
 
 /**
  * A util class for generating and managing tokens.

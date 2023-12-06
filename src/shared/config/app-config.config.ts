@@ -1,5 +1,5 @@
-import { EnvironmentType, ExpiryDuration } from '../enums'
-import { AppConfig } from '../interfaces'
+import { EnvironmentType, ExpiryDuration } from '@src/shared/enums'
+import { AppConfig } from '@src/shared/interfaces'
 import * as dotenv from 'dotenv'
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` })

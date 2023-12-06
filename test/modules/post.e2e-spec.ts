@@ -1,11 +1,11 @@
 import { HttpStatus, INestApplication } from '@nestjs/common'
-import { CreateKeywordDto } from '@src/modules/keyword/dtos'
-import { CreateSeriesDto } from '@src/modules/series/dtos'
-import { CreatePostDto } from '@src/modules/post/dtos'
+import { CreateKeywordDto } from '@src/domain/modules/keyword/dtos'
+import { CreateSeriesDto } from '@src/domain/modules/series/dtos'
+import { CreatePostDto } from '@src/domain/modules/post/dtos'
 import { Test, TestingModule } from '@nestjs/testing'
-import { CreateTagDto } from '@src/modules/tag/dtos'
+import { CreateTagDto } from '@src/domain/modules/tag/dtos'
 import { appConfig } from '@src/shared/config'
-import { AppModule } from '@src/app.module'
+import { AppModule } from '@src/core/app.module'
 import * as request from 'supertest'
 
 describe('🏠 Keyword Module (E2E Tests)', () => {

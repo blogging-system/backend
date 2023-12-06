@@ -1,7 +1,7 @@
 import { HttpStatus, INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { appConfig } from '@src/shared/config'
-import { AppModule } from '@src/app.module'
+import { AppModule } from '@src/core/app.module'
 import * as request from 'supertest'
 
 describe('🏠 Auth Module (E2E Tests)', () => {
