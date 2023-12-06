@@ -19,41 +19,33 @@ export class SessionService {
     return await this.sessionRepo.createOne(data)
   }
 
-  public async regenerateSession(refreshToken: string): Promise<Session> {
-    const { _id: sessionId, device, ipAddress } = await this.getSession({ refreshToken })
-
-    await this.revokeSession(sessionId)
-
-    const { _id } = await this.userService.findRootUser()
-
-    const payload = {
-      device,
-      ipAddress,
-      accessToken: await TokenUtil.generateAccessToken({ _id }),
-      refreshToken: await TokenUtil.generateRefreshToken({ _id }),
-    }
-
-    return await this.sessionRepo.createOne(payload)
+  public async regenerateSession(refreshToken: string): Promise<Session | any> {
+    // const { _id: sessionId, device, ipAddress } = await this.getSession({ refreshToken })
+    // await this.revokeSession(sessionId)
+    // const { _id } = await this.userService.findRootUser()
+    // const payload = {
+    //   device,
+    //   ipAddress,
+    //   accessToken: await TokenUtil.generateAccessToken({ _id }),
+    //   refreshToken: await TokenUtil.generateRefreshToken({ _id }),
+    // }
+    // return await this.sessionRepo.createOne(payload)
   }
 
-  public async revokeSession(sessionId: DocumentIdType): Promise<ResultMessage> {
-    const isSessionRevoked = await this.sessionRepo.deleteOne(sessionId)
-
-    if (isSessionRevoked.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
-
-    return { message: MESSAGES.REVOKED_SUCCESSFULLY }
+  public async revokeSession(sessionId: DocumentIdType): Promise<ResultMessage | any> {
+    // const isSessionRevoked = await this.sessionRepo.deleteOne(sessionId)
+    // if (isSessionRevoked.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
+    // return { message: MESSAGES.REVOKED_SUCCESSFULLY }
   }
 
-  public async deleteSession(sessionId: DocumentIdType): Promise<ResultMessage> {
-    const isSessionDeleted = await this.sessionRepo.deleteOne(sessionId)
-
-    if (isSessionDeleted.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
-
-    return { message: AUTH_MESSAGES.LOGGED_OUT_SUCCESSFULLY }
+  public async deleteSession(sessionId: DocumentIdType): Promise<ResultMessage | any> {
+    // const isSessionDeleted = await this.sessionRepo.deleteOne(sessionId)
+    // if (isSessionDeleted.deletedCount === 0) throw new InternalServerErrorException(MESSAGES.DELETE_FAILED)
+    // return { message: AUTH_MESSAGES.LOGGED_OUT_SUCCESSFULLY }
   }
 
-  public async revokeAllSessions(excludedAccessToken: string): Promise<ResultMessage> {
-    return await this.sessionRepo.deleteMany(excludedAccessToken)
+  public async revokeAllSessions(excludedAccessToken: string): Promise<ResultMessage | any> {
+    // return await this.sessionRepo.deleteMany(excludedAccessToken)
   }
 
   public async getSession({ sessionId, accessToken, refreshToken }: GetSessionDto): Promise<Session> {
@@ -70,7 +62,7 @@ export class SessionService {
     return isSessionFound
   }
 
-  public async getAllSessions(): Promise<Session[]> {
-    return await this.sessionRepo.findMany()
+  public async getAllSessions(): Promise<Session[] | any> {
+    // return await this.sessionRepo.findMany()
   }
 }

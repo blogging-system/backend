@@ -1,35 +1,12 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common'
+import { BaseRepository } from '@src/shared/repository'
 import { InjectModel } from '@nestjs/mongoose'
+import { Injectable } from '@nestjs/common'
 import { LoginAttempt } from '../schemas'
-import { MESSAGES } from '../constants'
-import { Model, ObjectId, Types } from 'mongoose'
+import { Model } from 'mongoose'
 
 Injectable()
-export class LoginAttemptRepository {
-  constructor(@InjectModel(LoginAttempt.name) private LoginAttemptModel: Model<LoginAttempt>) {}
-
-  public async createOne(): Promise<LoginAttempt> {
-    const isLoginAttemptCreated = await this.LoginAttemptModel.create({})
-
-    if (!isLoginAttemptCreated) throw new InternalServerErrorException(MESSAGES.CREATION_FAILED)
-
-    return isLoginAttemptCreated
-  }
-
-  public async updateOne(id: Types.ObjectId): Promise<LoginAttempt> {
-    const isLoginAttemptUpdated = await this.LoginAttemptModel.findByIdAndUpdate(
-      id,
-      { $inc: { attemptsCount: 1 } },
-      { new: true },
-    )
-
-    if (!isLoginAttemptUpdated) throw new InternalServerErrorException(MESSAGES.UPDATE_FAILED)
-
-    return isLoginAttemptUpdated
-  }
-
-  public async findOne(): Promise<LoginAttempt> {
-    const allDocs = await this.LoginAttemptModel.find().lean()
-    return allDocs[0]
+export class LoginAttemptRepository extends BaseRepository<LoginAttempt> {
+  constructor(@InjectModel(LoginAttempt.name) loginAttemptModel: Model<LoginAttempt>) {
+    super(loginAttemptModel)
   }
 }

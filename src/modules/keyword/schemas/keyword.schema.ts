@@ -4,6 +4,8 @@ import { HydratedDocument } from 'mongoose'
 
 export type KeywordDocument = HydratedDocument<Keyword>
 
+
+
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Keyword extends BaseSchema {
   @Prop({ index: true, unique: true })

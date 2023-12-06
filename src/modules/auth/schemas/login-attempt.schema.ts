@@ -4,6 +4,7 @@ import { BaseSchema } from '@src/shared/schemas'
 import { HydratedDocument } from 'mongoose'
 
 export type LoginAttemptDocument = HydratedDocument<LoginAttempt>
+
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class LoginAttempt extends BaseSchema {
   @Prop({ default: 1 })

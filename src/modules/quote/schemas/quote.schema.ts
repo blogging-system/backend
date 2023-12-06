@@ -4,6 +4,7 @@ import { HydratedDocument } from 'mongoose'
 
 export type QuoteDocument = HydratedDocument<Quote>
 
+
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Quote extends BaseSchema {
   @Prop({ unique: true })

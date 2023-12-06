@@ -3,6 +3,7 @@ import { BaseSchema } from '@src/shared/schemas'
 import { HydratedDocument } from 'mongoose'
 
 export type UserDocument = HydratedDocument<User>
+
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class User extends BaseSchema {
   @Prop()
