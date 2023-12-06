@@ -1,8 +1,9 @@
 import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
-import { QuoteRepository } from '../repositories'
 import { Pagination } from '@src/shared/contracts/dtos'
+import { QuoteRepository } from '../repositories'
 import { Injectable } from '@nestjs/common'
 import { CreateQuoteDto } from '../dtos'
+import { MESSAGES } from '../constants'
 import { Quote } from '../schemas'
 
 @Injectable()
@@ -14,26 +15,26 @@ export class QuoteService {
   }
 
   public async updateQuote(quoteId: DocumentIdType, payload: CreateQuoteDto): Promise<Quote> {
-    await this.getQuote(quoteId)
-
     return await this.quoteRepo.updateOne(quoteId, payload)
   }
 
   public async deleteQuote(quoteId: DocumentIdType): Promise<ResultMessage> {
-    await this.getQuote(quoteId)
+    await this.quoteRepo.deleteOne(quoteId)
 
-    return await this.quoteRepo.deleteOne(quoteId)
+    return { message: MESSAGES.DELETED_SUCCESSFULLY }
   }
 
-  private async getQuote(quoteId: DocumentIdType): Promise<Quote> {
-    return await this.quoteRepo.findOneById(quoteId)
-  }
+  public async getAllQuotes({ pageSize, pageNumber, sort }: Pagination): Promise<Quote[]> {
+    const options = {
+      limit: pageSize,
+      skip: (pageNumber - 1) * pageSize,
+      sort: { createdAt: sort === 1 ? 1 : -1 },
+    }
 
-  public async getAllQuotes(pagination: Pagination): Promise<Quote[]> {
-    return await this.quoteRepo.findMany(pagination)
+    return await this.quoteRepo.find({}, options)
   }
 
   public async getRandomQuotes(): Promise<Quote[]> {
-    return await this.quoteRepo.aggregate()
+    return await this.quoteRepo.aggregate([{ $sample: { size: 10 } }])
   }
 }

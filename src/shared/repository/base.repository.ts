@@ -90,7 +90,7 @@ export abstract class BaseRepository<TDocument extends BaseSchema> {
     return { count }
   }
 
-  async aggregateWithPopulation(pipeline: PipelineStage[]): Promise<TDocument[]> {
+  async aggregate(pipeline: PipelineStage[]): Promise<TDocument[]> {
     const foundDocuments = await this.model.aggregate(pipeline)
 
     if (foundDocuments.length === 0)
