@@ -1,14 +1,14 @@
-import { Type } from 'class-transformer'
+import { Type } from "class-transformer";
 
 export class GetSessionDto {
   @Type(() => String)
-  sessionId?: string
+  sessionId?: string;
 
   @Type(() => String)
-  accessToken?: string
+  accessToken?: string;
 
   @Type(() => String)
-  refreshToken?: string
+  refreshToken?: string;
 }
 
 export class GetSessionQuery extends GetSessionDto {}

@@ -1,1 +1,1 @@
-export * from './login-attempt.repository'
+export * from "./login-attempt.repository";

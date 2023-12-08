@@ -1,39 +1,39 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common'
-import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { CreateSeriesDto, DeleteSeriesDto } from '../../dtos'
-import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
-import { SeriesService } from '../../services'
-import { Pagination } from '@src/shared/contracts/dtos'
-import { Series } from '../../schemas'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from "@nestjs/common";
+import { ProtectResourceInterceptor } from "@src/shared/interceptors";
+import { CreateSeriesDto, DeleteSeriesDto } from "../../dtos";
+import { DocumentIdType, ResultMessage } from "@src/shared/contracts/types";
+import { SeriesService } from "../../services";
+import { Pagination } from "@src/shared/contracts/dtos";
+import { Series } from "../../schemas";
 
-@Controller('/admin/series')
+@Controller("/admin/series")
 @UseInterceptors(ProtectResourceInterceptor)
 export class PrivateSeriesCoreController {
   constructor(private seriesService: SeriesService) {}
 
   @Post()
   public createSeries(@Body() data: CreateSeriesDto): Promise<Series> {
-    return this.seriesService.createSeries(data)
+    return this.seriesService.createSeries(data);
   }
 
-  @Patch(':seriesId')
-  public updateSeries(@Param('seriesId') seriesId: DocumentIdType, @Body() payload: CreateSeriesDto): Promise<Series> {
-    return this.seriesService.updateSeries(seriesId, payload)
+  @Patch(":seriesId")
+  public updateSeries(@Param("seriesId") seriesId: DocumentIdType, @Body() payload: CreateSeriesDto): Promise<Series> {
+    return this.seriesService.updateSeries(seriesId, payload);
   }
 
-  @Delete(':seriesId')
+  @Delete(":seriesId")
   public deleteSeries(@Param() data: DeleteSeriesDto): Promise<ResultMessage> {
-    return this.seriesService.deleteSeries(data)
+    return this.seriesService.deleteSeries(data);
   }
 
-  @Post('/publish/:seriesId')
-  public publishSeries(@Param('seriesId') seriesId: DocumentIdType): Promise<ResultMessage> {
-    return this.seriesService.publishSeries(seriesId)
+  @Post("/publish/:seriesId")
+  public publishSeries(@Param("seriesId") seriesId: DocumentIdType): Promise<ResultMessage> {
+    return this.seriesService.publishSeries(seriesId);
   }
 
-  @Post('/unpublish/:seriesId')
-  public unPublishSeries(@Param('seriesId') seriesId: DocumentIdType): Promise<ResultMessage> {
-    return this.seriesService.unPublishSeries(seriesId)
+  @Post("/unpublish/:seriesId")
+  public unPublishSeries(@Param("seriesId") seriesId: DocumentIdType): Promise<ResultMessage> {
+    return this.seriesService.unPublishSeries(seriesId);
   }
 
   // @Get('/latest')

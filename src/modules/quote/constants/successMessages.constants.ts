@@ -1,3 +1,3 @@
 export const successMessages = {
-  DELETED_SUCCESSFULLY: 'The quote is deleted successfully!',
-}
+  DELETED_SUCCESSFULLY: "The quote is deleted successfully!",
+};

@@ -9,39 +9,39 @@ import {
   Patch,
   Post,
   UseInterceptors,
-} from '@nestjs/common'
-import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { DocumentIdType, ResultMessage } from '@src/shared/contracts/types'
-import { KeywordService } from '../../services'
-import { CreateKeywordDto } from '../../dtos'
-import { Keyword } from '../../schemas'
+} from "@nestjs/common";
+import { ProtectResourceInterceptor } from "@src/shared/interceptors";
+import { DocumentIdType, ResultMessage } from "@src/shared/contracts/types";
+import { KeywordService } from "../../services";
+import { CreateKeywordDto } from "../../dtos";
+import { Keyword } from "../../schemas";
 
-@Controller('/admin/keywords')
+@Controller("/admin/keywords")
 @UseInterceptors(ProtectResourceInterceptor)
 export class PrivateKeywordController {
   constructor(private keywordService: KeywordService) {}
 
   @Post()
   public createKeyword(@Body() data: CreateKeywordDto): Promise<Keyword> {
-    return this.keywordService.createKeyword(data)
+    return this.keywordService.createKeyword(data);
   }
 
-  @Patch(':keywordId')
+  @Patch(":keywordId")
   public updateKeyword(
-    @Param('keywordId') keywordId: DocumentIdType,
+    @Param("keywordId") keywordId: DocumentIdType,
     @Body() data: CreateKeywordDto,
   ): Promise<Keyword> {
-    return this.keywordService.updateKeyword(keywordId, data)
+    return this.keywordService.updateKeyword(keywordId, data);
   }
 
-  @Delete(':keywordId')
+  @Delete(":keywordId")
   @HttpCode(HttpStatus.OK)
-  public deleteKeyword(@Param('keywordId') keywordId: DocumentIdType): Promise<ResultMessage> {
-    return this.keywordService.deleteKeyword(keywordId)
+  public deleteKeyword(@Param("keywordId") keywordId: DocumentIdType): Promise<ResultMessage> {
+    return this.keywordService.deleteKeyword(keywordId);
   }
 
-  @Get('/count')
+  @Get("/count")
   public getAllKeywordsCount(): Promise<ResultMessage> {
-    return this.keywordService.getAllKeywordsCount()
+    return this.keywordService.getAllKeywordsCount();
   }
 }

@@ -1,2 +1,2 @@
-export * from './protect-resource.interceptor'
-export * from './serialize.interceptor'
+export * from "./protect-resource.interceptor";
+export * from "./serialize.interceptor";

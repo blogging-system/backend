@@ -1,3 +1,3 @@
-import { Types } from 'mongoose'
+import { Types } from "mongoose";
 
-export type DocumentIdType = Types.ObjectId
+export type DocumentIdType = Types.ObjectId;

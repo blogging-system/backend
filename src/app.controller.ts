@@ -1,18 +1,18 @@
-import { AppService, WelcomeResponse } from './app.service'
-import { ResultMessage } from '@src/shared/contracts/types'
-import { Controller, Get } from '@nestjs/common'
+import { AppService, WelcomeResponse } from "./app.service";
+import { ResultMessage } from "@src/shared/contracts/types";
+import { Controller, Get } from "@nestjs/common";
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('/ping')
+  @Get("/ping")
   ping(): ResultMessage {
-    return this.appService.ping()
+    return this.appService.ping();
   }
 
   @Get()
   getHello(): WelcomeResponse {
-    return this.appService.getHello()
+    return this.appService.getHello();
   }
 }

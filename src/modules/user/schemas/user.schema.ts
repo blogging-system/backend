@@ -1,22 +1,22 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { BaseSchema } from '@src/shared/schemas'
-import { HydratedDocument } from 'mongoose'
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { BaseSchema } from "@src/shared/schemas";
+import { HydratedDocument } from "mongoose";
 
-export type UserDocument = HydratedDocument<User>
+export type UserDocument = HydratedDocument<User>;
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class User extends BaseSchema {
   @Prop()
-  firstName: string
+  firstName: string;
 
   @Prop()
-  lastName: string
+  lastName: string;
 
   @Prop({ index: true, unique: true })
-  email: string
+  email: string;
 
   @Prop()
-  password: string
+  password: string;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User)
+export const UserSchema = SchemaFactory.createForClass(User);

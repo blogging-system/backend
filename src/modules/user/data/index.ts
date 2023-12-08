@@ -1,1 +1,1 @@
-export * from './adminUser.data'
+export * from "./adminUser.data";

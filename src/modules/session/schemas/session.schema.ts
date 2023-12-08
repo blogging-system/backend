@@ -1,31 +1,30 @@
-import { HydratedDocument, SchemaTypes, Types } from 'mongoose'
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { ExpiryDuration } from '@src/shared/contracts/enums'
-import { BaseSchema } from '@src/shared/schemas'
+import { HydratedDocument, SchemaTypes, Types } from "mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { ExpiryDuration } from "@src/shared/contracts/enums";
+import { BaseSchema } from "@src/shared/schemas";
 
-export type SessionDocument = HydratedDocument<Session>
-
+export type SessionDocument = HydratedDocument<Session>;
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Session extends BaseSchema {
   @Prop()
-  accessToken: string
+  accessToken: string;
 
   @Prop()
-  refreshToken: string
+  refreshToken: string;
 
   @Prop()
-  ipAddress: string
+  ipAddress: string;
 
   @Prop({ type: Map, of: SchemaTypes.Mixed })
-  device: Record<string, unknown>
+  device: Record<string, unknown>;
 
   @Prop({
     default: Date.now(),
     index: true,
     expires: ExpiryDuration.TWENTY_FOUR_HOURS,
   })
-  createdAt: Date
+  createdAt: Date;
 }
 
-export const SessionSchema = SchemaFactory.createForClass(Session)
+export const SessionSchema = SchemaFactory.createForClass(Session);

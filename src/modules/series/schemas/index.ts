@@ -1,1 +1,1 @@
-export * from './series.schema'
+export * from "./series.schema";

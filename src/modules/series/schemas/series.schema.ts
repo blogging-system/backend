@@ -1,35 +1,34 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { BaseSchema } from '@src/shared/schemas'
-import { HydratedDocument } from 'mongoose'
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { BaseSchema } from "@src/shared/schemas";
+import { HydratedDocument } from "mongoose";
 
-export type SeriesDocument = HydratedDocument<Series>
-
+export type SeriesDocument = HydratedDocument<Series>;
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Series extends BaseSchema {
   @Prop({ unique: true })
-  title: string
+  title: string;
 
   @Prop({ index: true })
-  slug: string
+  slug: string;
 
   @Prop({})
-  description: string
+  description: string;
 
   @Prop({})
-  imageUrl: string
+  imageUrl: string;
 
   @Prop({ index: true, default: 0 })
-  views: number
+  views: number;
 
   @Prop({ default: false })
-  isPublished: boolean
+  isPublished: boolean;
 
   @Prop({})
-  publishedAt: Date
+  publishedAt: Date;
 
   @Prop({})
-  unPublishedAt: Date
+  unPublishedAt: Date;
 }
 
-export const SeriesSchema = SchemaFactory.createForClass(Series)
+export const SeriesSchema = SchemaFactory.createForClass(Series);

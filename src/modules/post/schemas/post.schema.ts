@@ -1,50 +1,50 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { HydratedDocument, Types } from 'mongoose'
-import { BaseSchema } from '@src/shared/schemas'
-import { Keyword } from '../../keyword/schemas'
-import { Series } from '../../series/schemas'
-import { Tag } from '../../tag/schemas'
-import { DocumentIdType } from '@src/shared/contracts/types'
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { HydratedDocument, Types } from "mongoose";
+import { BaseSchema } from "@src/shared/schemas";
+import { Keyword } from "../../keyword/schemas";
+import { Series } from "../../series/schemas";
+import { Tag } from "../../tag/schemas";
+import { DocumentIdType } from "@src/shared/contracts/types";
 
-export type PostDocument = HydratedDocument<Post>
+export type PostDocument = HydratedDocument<Post>;
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Post extends BaseSchema {
   @Prop({ index: true, unique: true })
-  title: string
+  title: string;
 
   @Prop({ index: true })
-  slug: string
+  slug: string;
 
   @Prop({})
-  description: string
+  description: string;
 
   @Prop({})
-  content: string
+  content: string;
 
   @Prop({})
-  imageUrl: string
+  imageUrl: string;
 
   @Prop({ type: [Types.ObjectId], ref: Tag.name })
-  tags: DocumentIdType[]
+  tags: DocumentIdType[];
 
   @Prop({ type: [Types.ObjectId], ref: Keyword.name })
-  keywords: DocumentIdType[]
+  keywords: DocumentIdType[];
 
   @Prop({ type: [Types.ObjectId], ref: Series.name })
-  series: DocumentIdType[]
+  series: DocumentIdType[];
 
   @Prop({ index: true, default: 0 })
-  views: number
+  views: number;
 
   @Prop({ default: false })
-  isPublished: boolean
+  isPublished: boolean;
 
   @Prop({})
-  publishedAt: Date
+  publishedAt: Date;
 
   @Prop({})
-  unPublishedAt: Date
+  unPublishedAt: Date;
 }
 
-export const PostSchema = SchemaFactory.createForClass(Post)
+export const PostSchema = SchemaFactory.createForClass(Post);

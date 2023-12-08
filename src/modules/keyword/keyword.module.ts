@@ -1,11 +1,11 @@
-import { PublicKeywordController, PrivateKeywordController } from './controllers'
-import { SessionModule } from '../session/session.module'
-import { Module, forwardRef } from '@nestjs/common'
-import { KeywordRepository } from './repositories'
-import { Keyword, KeywordSchema } from './schemas'
-import { MongooseModule } from '@nestjs/mongoose'
-import { PostModule } from '../post/post.module'
-import { KeywordService } from './services'
+import { PublicKeywordController, PrivateKeywordController } from "./controllers";
+import { SessionModule } from "../session/session.module";
+import { Module, forwardRef } from "@nestjs/common";
+import { KeywordRepository } from "./repositories";
+import { Keyword, KeywordSchema } from "./schemas";
+import { MongooseModule } from "@nestjs/mongoose";
+import { PostModule } from "../post/post.module";
+import { KeywordService } from "./services";
 
 @Module({
   imports: [
