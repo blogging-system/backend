@@ -1,20 +1,20 @@
-import { FilterQuery, Model, PipelineStage, PopulateOptions, Query, Types, UpdateQuery } from 'mongoose'
-import { InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { ResultMessage } from '@src/shared/contracts/types'
-import { BaseSchema } from '../schemas'
+import { FilterQuery, Model, PipelineStage, PopulateOptions, Query, Types, UpdateQuery } from "mongoose";
+import { InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { ResultMessage } from "@src/shared/contracts/types";
+import { BaseSchema } from "../schemas";
 
 export abstract class BaseRepository<TDocument extends BaseSchema> {
   constructor(protected readonly model: Model<TDocument>) {}
 
-  public async createOne(payload: Omit<Partial<TDocument>, '_id'>): Promise<TDocument> {
-    const createdDocument: TDocument = await this.model.create(payload)
+  public async createOne(payload: Omit<Partial<TDocument>, "_id">): Promise<TDocument> {
+    const createdDocument: TDocument = await this.model.create(payload);
 
     if (!createdDocument)
       throw new InternalServerErrorException(
         `The process of creating a new ${this.model.modelName.toLowerCase()} has failed!`,
-      )
+      );
 
-    return createdDocument
+    return createdDocument;
   }
 
   public async updateOne(filterQuery: FilterQuery<TDocument>, update: UpdateQuery<TDocument>): Promise<TDocument> {
@@ -22,80 +22,80 @@ export abstract class BaseRepository<TDocument extends BaseSchema> {
       .findOneAndUpdate(filterQuery, update, {
         new: true,
       })
-      .lean<TDocument>(true)
+      .lean<TDocument>(true);
 
-    if (!updatedDocument) throw new NotFoundException(`The ${this.model.modelName.toLowerCase()} is not found!`)
+    if (!updatedDocument) throw new NotFoundException(`The ${this.model.modelName.toLowerCase()} is not found!`);
 
-    return updatedDocument
+    return updatedDocument;
   }
 
   public async deleteOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
-    const deletedDocument = await this.model.findOneAndDelete(filterQuery).lean<TDocument>(true)
+    const deletedDocument = await this.model.findOneAndDelete(filterQuery).lean<TDocument>(true);
 
-    if (!deletedDocument) throw new NotFoundException(`The ${this.model.modelName.toLowerCase()} is not found!`)
+    if (!deletedDocument) throw new NotFoundException(`The ${this.model.modelName.toLowerCase()} is not found!`);
 
-    return deletedDocument
+    return deletedDocument;
   }
 
   async delete(filterQuery: FilterQuery<TDocument>): Promise<ResultMessage> {
-    const result = await this.model.deleteMany(filterQuery)
+    const result = await this.model.deleteMany(filterQuery);
 
     if (result.deletedCount === 0)
-      throw new NotFoundException(`The ${this.model.modelName.toLowerCase()}s are not found!`)
+      throw new NotFoundException(`The ${this.model.modelName.toLowerCase()}s are not found!`);
 
-    return { message: `All ${this.model.modelName.toLowerCase()}s are deleted successfully!` }
+    return { message: `All ${this.model.modelName.toLowerCase()}s are deleted successfully!` };
   }
 
   public async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
-    const document = await this.model.findOne(filterQuery).lean<TDocument>(true)
+    const document = await this.model.findOne(filterQuery).lean<TDocument>(true);
 
-    if (!document) throw new NotFoundException(`The ${this.model.modelName.toLowerCase()} is not found!`)
+    if (!document) throw new NotFoundException(`The ${this.model.modelName.toLowerCase()} is not found!`);
 
-    return document
+    return document;
   }
 
   public async isFound(filterQuery: FilterQuery<TDocument>): Promise<boolean> {
-    return !!(await this.model.findOne(filterQuery).lean<TDocument>(true))
+    return !!(await this.model.findOne(filterQuery).lean<TDocument>(true));
   }
 
   public async find(
     filterQuery: FilterQuery<TDocument>,
     options?: {
-      sort?: Record<string, any>
-      skip?: number
-      limit?: number
-      populate?: PopulateOptions | (string | PopulateOptions)[]
+      sort?: Record<string, any>;
+      skip?: number;
+      limit?: number;
+      populate?: PopulateOptions | (string | PopulateOptions)[];
     },
   ): Promise<TDocument[]> {
-    let query: Query<TDocument[], TDocument> = this.model.find(filterQuery)
+    let query: Query<TDocument[], TDocument> = this.model.find(filterQuery);
 
     if (options) {
-      if (options.sort) query = query.sort(options.sort)
-      if (options.skip) query = query.skip(options.skip)
-      if (options.limit) query = query.limit(options.limit)
-      if (options.populate) query = query.populate(options.populate)
+      if (options.sort) query = query.sort(options.sort);
+      if (options.skip) query = query.skip(options.skip);
+      if (options.limit) query = query.limit(options.limit);
+      if (options.populate) query = query.populate(options.populate);
     }
 
-    const foundDocuments = await query.lean<TDocument[]>(true)
+    const foundDocuments = await query.lean<TDocument[]>(true);
 
     if (foundDocuments.length === 0)
-      throw new NotFoundException(`The ${this.model.modelName.toLowerCase()}s are not found!`)
+      throw new NotFoundException(`The ${this.model.modelName.toLowerCase()}s are not found!`);
 
-    return foundDocuments
+    return foundDocuments;
   }
 
   async countDocuments(filterQuery: FilterQuery<TDocument>): Promise<ResultMessage> {
-    const count = await this.model.countDocuments(filterQuery)
+    const count = await this.model.countDocuments(filterQuery);
 
-    return { count }
+    return { count };
   }
 
   async aggregate(pipeline: PipelineStage[]): Promise<TDocument[]> {
-    const foundDocuments = await this.model.aggregate(pipeline)
+    const foundDocuments = await this.model.aggregate(pipeline);
 
     if (foundDocuments.length === 0)
-      throw new NotFoundException(`The ${this.model.modelName.toLowerCase()}s are not found!`)
+      throw new NotFoundException(`The ${this.model.modelName.toLowerCase()}s are not found!`);
 
-    return foundDocuments
+    return foundDocuments;
   }
 }

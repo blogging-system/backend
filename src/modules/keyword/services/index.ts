@@ -1,1 +1,1 @@
-export * from './keyword.service'
+export * from "./keyword.service";

@@ -1,15 +1,15 @@
-import { PrivateKeywordController } from './private-keyword.controller'
-import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { KeywordService } from '../../services/keyword.service'
-import { Keyword } from '../../schemas/keyword.schema'
-import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/contracts/types'
-import { CreateKeywordDto } from '../../dtos'
-import { Types } from 'mongoose'
+import { PrivateKeywordController } from "./private-keyword.controller";
+import { ProtectResourceInterceptor } from "@src/shared/interceptors";
+import { KeywordService } from "../../services/keyword.service";
+import { Keyword } from "../../schemas/keyword.schema";
+import { Test, TestingModule } from "@nestjs/testing";
+import { ResultMessage } from "@src/shared/contracts/types";
+import { CreateKeywordDto } from "../../dtos";
+import { Types } from "mongoose";
 
-describe('🏠PrivateKeywordController | Controller Layer', () => {
-  let privateKeywordController: PrivateKeywordController
-  let keywordService: Partial<KeywordService>
+describe("🏠PrivateKeywordController | Controller Layer", () => {
+  let privateKeywordController: PrivateKeywordController;
+  let keywordService: Partial<KeywordService>;
 
   beforeEach(async () => {
     keywordService = {
@@ -17,7 +17,7 @@ describe('🏠PrivateKeywordController | Controller Layer', () => {
       updateKeyword: jest.fn(),
       deleteKeyword: jest.fn(),
       getAllKeywordsCount: jest.fn(),
-    }
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PrivateKeywordController],
@@ -32,68 +32,68 @@ describe('🏠PrivateKeywordController | Controller Layer', () => {
       .useValue({
         intercept: jest.fn().mockImplementation((_, next) => next.handle()),
       })
-      .compile()
+      .compile();
 
-    privateKeywordController = module.get<PrivateKeywordController>(PrivateKeywordController)
-  })
+    privateKeywordController = module.get<PrivateKeywordController>(PrivateKeywordController);
+  });
 
   afterEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 
-  describe('createKeyword method', () => {
-    it('should create a keyword successfully', async () => {
-      const createKeywordDto: CreateKeywordDto = { name: 'Test Keyword' }
-      const createdKeyword: Keyword = Object.assign(createKeywordDto)
+  describe("createKeyword method", () => {
+    it("should create a keyword successfully", async () => {
+      const createKeywordDto: CreateKeywordDto = { name: "Test Keyword" };
+      const createdKeyword: Keyword = Object.assign(createKeywordDto);
 
-      ;(keywordService.createKeyword as jest.Mock).mockResolvedValueOnce(createdKeyword)
+      (keywordService.createKeyword as jest.Mock).mockResolvedValueOnce(createdKeyword);
 
-      const result = await privateKeywordController.createKeyword(createKeywordDto)
+      const result = await privateKeywordController.createKeyword(createKeywordDto);
 
-      expect(keywordService.createKeyword).toHaveBeenCalledWith(createKeywordDto)
-      expect(result).toEqual(createdKeyword)
-    })
-  })
+      expect(keywordService.createKeyword).toHaveBeenCalledWith(createKeywordDto);
+      expect(result).toEqual(createdKeyword);
+    });
+  });
 
-  describe('updateKeyword method', () => {
-    it('should update a keyword successfully', async () => {
-      const keywordId = new Types.ObjectId()
-      const updateKeywordDto: CreateKeywordDto = { name: 'Updated Keyword' }
-      const updatedKeyword: Keyword = Object.assign(updateKeywordDto)
+  describe("updateKeyword method", () => {
+    it("should update a keyword successfully", async () => {
+      const keywordId = new Types.ObjectId();
+      const updateKeywordDto: CreateKeywordDto = { name: "Updated Keyword" };
+      const updatedKeyword: Keyword = Object.assign(updateKeywordDto);
 
-      ;(keywordService.updateKeyword as jest.Mock).mockResolvedValueOnce(updatedKeyword)
+      (keywordService.updateKeyword as jest.Mock).mockResolvedValueOnce(updatedKeyword);
 
-      const result = await privateKeywordController.updateKeyword(keywordId, updateKeywordDto)
+      const result = await privateKeywordController.updateKeyword(keywordId, updateKeywordDto);
 
-      expect(keywordService.updateKeyword).toHaveBeenCalledWith(keywordId, updateKeywordDto)
-      expect(result).toEqual(updatedKeyword)
-    })
-  })
+      expect(keywordService.updateKeyword).toHaveBeenCalledWith(keywordId, updateKeywordDto);
+      expect(result).toEqual(updatedKeyword);
+    });
+  });
 
-  describe('deleteKeyword method', () => {
-    it('should delete a keyword successfully', async () => {
-      const keywordId = new Types.ObjectId()
-      const deleteResult: ResultMessage = { message: '' }
+  describe("deleteKeyword method", () => {
+    it("should delete a keyword successfully", async () => {
+      const keywordId = new Types.ObjectId();
+      const deleteResult: ResultMessage = { message: "" };
 
-      ;(keywordService.deleteKeyword as jest.Mock).mockResolvedValueOnce(deleteResult)
+      (keywordService.deleteKeyword as jest.Mock).mockResolvedValueOnce(deleteResult);
 
-      const result = await privateKeywordController.deleteKeyword(keywordId)
+      const result = await privateKeywordController.deleteKeyword(keywordId);
 
-      expect(keywordService.deleteKeyword).toHaveBeenCalledWith(keywordId)
-      expect(result).toEqual(deleteResult)
-    })
-  })
+      expect(keywordService.deleteKeyword).toHaveBeenCalledWith(keywordId);
+      expect(result).toEqual(deleteResult);
+    });
+  });
 
-  describe('getAllKeywordsCount method', () => {
-    it('should get the count of all keywords successfully', async () => {
-      const keywordCountResult: ResultMessage = { message: '' }
+  describe("getAllKeywordsCount method", () => {
+    it("should get the count of all keywords successfully", async () => {
+      const keywordCountResult: ResultMessage = { message: "" };
 
-      ;(keywordService.getAllKeywordsCount as jest.Mock).mockResolvedValueOnce(keywordCountResult)
+      (keywordService.getAllKeywordsCount as jest.Mock).mockResolvedValueOnce(keywordCountResult);
 
-      const result = await privateKeywordController.getAllKeywordsCount()
+      const result = await privateKeywordController.getAllKeywordsCount();
 
-      expect(keywordService.getAllKeywordsCount).toHaveBeenCalled()
-      expect(result).toEqual(keywordCountResult)
-    })
-  })
-})
+      expect(keywordService.getAllKeywordsCount).toHaveBeenCalled();
+      expect(result).toEqual(keywordCountResult);
+    });
+  });
+});

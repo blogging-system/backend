@@ -1,1 +1,1 @@
-export * from './login-attempt.schema'
+export * from "./login-attempt.schema";

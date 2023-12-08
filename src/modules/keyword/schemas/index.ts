@@ -1,1 +1,1 @@
-export * from './keyword.schema'
+export * from "./keyword.schema";

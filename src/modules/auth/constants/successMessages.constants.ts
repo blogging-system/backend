@@ -1,3 +1,3 @@
 export const successMessages = {
-  LOGGED_OUT_SUCCESSFULLY: 'You logged out successfully!',
-}
+  LOGGED_OUT_SUCCESSFULLY: "You logged out successfully!",
+};

@@ -1,1 +1,1 @@
-export const successMessages = {}
+export const successMessages = {};

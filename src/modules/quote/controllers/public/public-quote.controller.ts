@@ -1,13 +1,13 @@
-import { Controller, Get } from '@nestjs/common'
-import { QuoteService } from '../../services'
-import { Quote } from '../../schemas'
+import { Controller, Get } from "@nestjs/common";
+import { QuoteService } from "../../services";
+import { Quote } from "../../schemas";
 
-@Controller('quotes')
+@Controller("quotes")
 export class PublicQuoteController {
   constructor(private readonly quoteService: QuoteService) {}
 
-  @Get('random')
+  @Get("random")
   public getRandomQuotes(): Promise<Quote[]> {
-    return this.quoteService.getRandomQuotes()
+    return this.quoteService.getRandomQuotes();
   }
 }

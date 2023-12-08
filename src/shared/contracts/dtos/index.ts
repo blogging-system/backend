@@ -1,2 +1,2 @@
-export * from './count-document.dto'
-export * from './pagination.dto'
+export * from "./count-document.dto";
+export * from "./pagination.dto";

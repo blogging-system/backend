@@ -1,17 +1,16 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { BaseSchema } from '@src/shared/schemas'
-import { HydratedDocument } from 'mongoose'
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { BaseSchema } from "@src/shared/schemas";
+import { HydratedDocument } from "mongoose";
 
-export type QuoteDocument = HydratedDocument<Quote>
-
+export type QuoteDocument = HydratedDocument<Quote>;
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class Quote extends BaseSchema {
   @Prop({ unique: true })
-  text: string
+  text: string;
 
   @Prop()
-  author: string
+  author: string;
 }
 
-export const QuoteSchema = SchemaFactory.createForClass(Quote)
+export const QuoteSchema = SchemaFactory.createForClass(Quote);

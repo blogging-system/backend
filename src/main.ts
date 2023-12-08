@@ -1,14 +1,14 @@
-import { NestApplication, NestFactory } from '@nestjs/core'
-import { configureCors } from '@src/shared/helpers'
-import { appConfig } from '@src/shared/config'
-import { AppModule } from './app.module'
+import { NestApplication, NestFactory } from "@nestjs/core";
+import { configureCors } from "@src/shared/helpers";
+import { appConfig } from "@src/shared/config";
+import { AppModule } from "./app.module";
 
 async function bootstrap() {
-  const app: NestApplication = await NestFactory.create(AppModule)
+  const app: NestApplication = await NestFactory.create(AppModule);
 
-  configureCors(app)
+  configureCors(app);
 
-  await app.listen(appConfig.server.port)
+  await app.listen(appConfig.server.port);
 }
 
-bootstrap()
+bootstrap();

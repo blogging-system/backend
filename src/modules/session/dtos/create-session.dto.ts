@@ -1,20 +1,20 @@
-import { IsNotEmpty } from 'class-validator'
-import { Type } from 'class-transformer'
+import { IsNotEmpty } from "class-validator";
+import { Type } from "class-transformer";
 
 export class CreateSessionDto {
   @Type(() => String)
   @IsNotEmpty()
-  accessToken: string
+  accessToken: string;
 
   @Type(() => String)
   @IsNotEmpty()
-  refreshToken: string
+  refreshToken: string;
 
   @Type(() => String)
   @IsNotEmpty()
-  ipAddress: string
+  ipAddress: string;
 
   @Type(() => Object)
   @IsNotEmpty()
-  device: Record<string, unknown>
+  device: Record<string, unknown>;
 }

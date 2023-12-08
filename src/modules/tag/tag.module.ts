@@ -1,11 +1,11 @@
-import { PublicTagController, PrivateTagController } from './controllers'
-import { SessionModule } from '../session/session.module'
-import { Module, forwardRef } from '@nestjs/common'
-import { MongooseModule } from '@nestjs/mongoose'
-import { PostModule } from '../post/post.module'
-import { TagRepository } from './repositories'
-import { Tag, TagSchema } from './schemas'
-import { TagService } from './services'
+import { PublicTagController, PrivateTagController } from "./controllers";
+import { SessionModule } from "../session/session.module";
+import { Module, forwardRef } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { PostModule } from "../post/post.module";
+import { TagRepository } from "./repositories";
+import { Tag, TagSchema } from "./schemas";
+import { TagService } from "./services";
 
 @Module({
   imports: [

@@ -1,5 +1,5 @@
-import { appConfig } from '@src/shared/config'
-import * as jwt from 'jsonwebtoken'
+import { appConfig } from "@src/shared/config";
+import * as jwt from "jsonwebtoken";
 
 /**
  * A util class for generating and managing tokens.
@@ -16,7 +16,7 @@ export class TokenUtil {
       payload,
       appConfig.tokenSecrets.accessToken.secret,
       appConfig.tokenSecrets.accessToken.expiresIn,
-    )
+    );
   }
 
   /**
@@ -26,7 +26,7 @@ export class TokenUtil {
    * @returns {any} - The verified token payload.
    */
   public static verifyAccessToken(token: string): any {
-    return this.verifyToken(token, appConfig.tokenSecrets.accessToken.secret)
+    return this.verifyToken(token, appConfig.tokenSecrets.accessToken.secret);
   }
 
   /**
@@ -40,7 +40,7 @@ export class TokenUtil {
       payload,
       appConfig.tokenSecrets.refreshToken.secret,
       appConfig.tokenSecrets.refreshToken.expiresIn,
-    )
+    );
   }
 
   /**
@@ -50,7 +50,7 @@ export class TokenUtil {
    * @returns {any} - The verified token payload.
    */
   public static verifyRefreshToken(token: string): any {
-    return this.verifyToken(token, appConfig.tokenSecrets.refreshToken.secret)
+    return this.verifyToken(token, appConfig.tokenSecrets.refreshToken.secret);
   }
 
   /**
@@ -62,7 +62,7 @@ export class TokenUtil {
    * @returns The generated token.
    */
   private static generateToken(payload: any, secret: string, expiresIn: string): string {
-    return jwt.sign(payload, secret, { expiresIn })
+    return jwt.sign(payload, secret, { expiresIn });
   }
 
   /**
@@ -74,6 +74,6 @@ export class TokenUtil {
    */
 
   private static verifyToken(token, secret) {
-    return jwt.verify(token, secret)
+    return jwt.verify(token, secret);
   }
 }

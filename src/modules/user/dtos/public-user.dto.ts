@@ -1,16 +1,16 @@
-import { Expose, Transform } from 'class-transformer'
+import { Expose, Transform } from "class-transformer";
 
 export class PublicUserDto {
   @Expose()
   @Transform(({ key, obj }) => obj[key])
-  _id: string
+  _id: string;
 
   @Expose()
-  email: string
+  email: string;
 
   @Expose()
-  firstName: string
+  firstName: string;
 
   @Expose()
-  lastName: string
+  lastName: string;
 }

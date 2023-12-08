@@ -1,8 +1,8 @@
-import { EnvironmentType, ExpiryDuration } from '@src/shared/contracts/enums'
-import { AppConfig } from '@src/shared/contracts/interfaces'
-import * as dotenv from 'dotenv'
+import { EnvironmentType, ExpiryDuration } from "@src/shared/contracts/enums";
+import { AppConfig } from "@src/shared/contracts/interfaces";
+import * as dotenv from "dotenv";
 
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 export const appConfig: AppConfig = {
   environment: {
@@ -11,13 +11,13 @@ export const appConfig: AppConfig = {
       (process.env.NODE_ENV as EnvironmentType.TEST) ||
       (process.env.NODE_ENV as EnvironmentType.PRODUCTION),
   },
-  server: { host: 'http://localhost', port: 3000 },
+  server: { host: "http://localhost", port: 3000 },
   storage: {
     database: {
       mongodb: { uri: process.env.MONGO_URI },
     },
   },
-  allowedOrigins: ['https://www.ahmedelgaidi.com', 'https://blog.ahmedelgaidi.com', 'https://admin.ahmedelgaidi.com'],
+  allowedOrigins: ["https://www.ahmedelgaidi.com", "https://blog.ahmedelgaidi.com", "https://admin.ahmedelgaidi.com"],
   encryptionKeys: { otp: process.env.OTP_ENCRYPTION_KEY },
   tokenSecrets: {
     accessToken: {
@@ -31,10 +31,10 @@ export const appConfig: AppConfig = {
   },
   seeders: {
     rootUser: {
-      firstName: 'Ahmed',
-      lastName: 'Elgaidi',
-      email: 'test@gmail.com',
+      firstName: "Ahmed",
+      lastName: "Elgaidi",
+      email: "test@gmail.com",
       password: process.env.ROOT_USER_PASSWORD,
     },
   },
-}
+};

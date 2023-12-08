@@ -1,14 +1,14 @@
-import { PrivateSessionController } from './private-session.controller'
-import { ProtectResourceInterceptor } from '@src/shared/interceptors'
-import { Test, TestingModule } from '@nestjs/testing'
-import { ResultMessage } from '@src/shared/contracts/types'
-import { SessionService } from '../../services'
-import { Session } from '../../schemas'
-import { Types } from 'mongoose'
+import { PrivateSessionController } from "./private-session.controller";
+import { ProtectResourceInterceptor } from "@src/shared/interceptors";
+import { Test, TestingModule } from "@nestjs/testing";
+import { ResultMessage } from "@src/shared/contracts/types";
+import { SessionService } from "../../services";
+import { Session } from "../../schemas";
+import { Types } from "mongoose";
 
-describe('🏠PrivateSessionController | Controller Layer', () => {
-  let privateSessionController: PrivateSessionController
-  let sessionService: SessionService
+describe("🏠PrivateSessionController | Controller Layer", () => {
+  let privateSessionController: PrivateSessionController;
+  let sessionService: SessionService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -28,59 +28,59 @@ describe('🏠PrivateSessionController | Controller Layer', () => {
       .useValue({
         intercept: jest.fn().mockImplementation((_, next) => next.handle()),
       })
-      .compile()
+      .compile();
 
-    privateSessionController = module.get<PrivateSessionController>(PrivateSessionController)
-    sessionService = module.get<SessionService>(SessionService)
-  })
+    privateSessionController = module.get<PrivateSessionController>(PrivateSessionController);
+    sessionService = module.get<SessionService>(SessionService);
+  });
 
   afterEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 
-  describe('revokeSession method', () => {
-    it('should revoke a session by sessionId', async () => {
-      const sessionId = new Types.ObjectId()
-      const expectedResult: ResultMessage = { message: 'Session revoked successfully' }
+  describe("revokeSession method", () => {
+    it("should revoke a session by sessionId", async () => {
+      const sessionId = new Types.ObjectId();
+      const expectedResult: ResultMessage = { message: "Session revoked successfully" };
 
-      ;(sessionService.revokeSession as jest.Mock).mockResolvedValueOnce(expectedResult)
+      (sessionService.revokeSession as jest.Mock).mockResolvedValueOnce(expectedResult);
 
-      const result = await privateSessionController.revokeSession(sessionId)
+      const result = await privateSessionController.revokeSession(sessionId);
 
-      expect(sessionService.revokeSession).toHaveBeenCalledWith(sessionId)
-      expect(result).toEqual(expectedResult)
-    })
-  })
+      expect(sessionService.revokeSession).toHaveBeenCalledWith(sessionId);
+      expect(result).toEqual(expectedResult);
+    });
+  });
 
-  describe('revokeAllSession method', () => {
-    it('should revoke all sessions for the user', async () => {
+  describe("revokeAllSession method", () => {
+    it("should revoke all sessions for the user", async () => {
       const fakeRequest = {
-        session: { accessToken: 'myAccessToken' },
-      }
-      const expectedResult: ResultMessage = { message: 'All sessions revoked successfully' }
+        session: { accessToken: "myAccessToken" },
+      };
+      const expectedResult: ResultMessage = { message: "All sessions revoked successfully" };
 
-      ;(sessionService.revokeAllSessions as jest.Mock).mockResolvedValueOnce(expectedResult)
+      (sessionService.revokeAllSessions as jest.Mock).mockResolvedValueOnce(expectedResult);
 
-      const result = await privateSessionController.revokeAllSession(fakeRequest as any)
+      const result = await privateSessionController.revokeAllSession(fakeRequest as any);
 
-      expect(sessionService.revokeAllSessions).toHaveBeenCalledWith(fakeRequest.session.accessToken)
-      expect(result).toEqual(expectedResult)
-    })
-  })
+      expect(sessionService.revokeAllSessions).toHaveBeenCalledWith(fakeRequest.session.accessToken);
+      expect(result).toEqual(expectedResult);
+    });
+  });
 
-  describe('getAllSessions method', () => {
-    it('should return all sessions', async () => {
+  describe("getAllSessions method", () => {
+    it("should return all sessions", async () => {
       const expectedSessions: Partial<Session>[] = [
         { _id: new Types.ObjectId(), createdAt: new Date() },
         { _id: new Types.ObjectId(), createdAt: new Date() },
-      ]
+      ];
 
-      ;(sessionService.getAllSessions as jest.Mock).mockResolvedValueOnce(expectedSessions)
+      (sessionService.getAllSessions as jest.Mock).mockResolvedValueOnce(expectedSessions);
 
-      const result = await privateSessionController.getAllSessions()
+      const result = await privateSessionController.getAllSessions();
 
-      expect(sessionService.getAllSessions).toHaveBeenCalled()
-      expect(result).toEqual(expectedSessions)
-    })
-  })
-})
+      expect(sessionService.getAllSessions).toHaveBeenCalled();
+      expect(result).toEqual(expectedSessions);
+    });
+  });
+});

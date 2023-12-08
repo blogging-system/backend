@@ -1,1 +1,1 @@
-export * from './tag.schema'
+export * from "./tag.schema";
