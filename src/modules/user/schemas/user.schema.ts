@@ -6,17 +6,23 @@ export type UserDocument = HydratedDocument<User>;
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class User extends BaseSchema {
-  @Prop()
+  @Prop({ type: String })
   firstName: string;
 
-  @Prop()
+  @Prop({ type: String })
   lastName: string;
 
-  @Prop({ index: true, unique: true })
+  @Prop({ Type: String, unique: true, index: true })
+  userName: string;
+
+  @Prop({ Type: String, unique: true, index: true })
   email: string;
 
-  @Prop()
+  @Prop({ Type: String })
   password: string;
+
+  @Prop({ type: [String] })
+  roles: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
