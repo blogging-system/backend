@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { LoginAttemptRepository } from "../repositories";
 import { LoginAttempt } from "../schemas";
 import { MESSAGES } from "../constants";
+import { TooManyRequestsException } from "@src/shared/exceptions";
 
 @Injectable()
 export class LoginAttemptService {
@@ -28,8 +29,7 @@ export class LoginAttemptService {
 
     const loginAttempt = await this.loginAttemptRepo.findOne({ email });
 
-    if (loginAttempt && loginAttempt.attemptsCount >= 5)
-      throw new HttpException(MESSAGES.TOO_MANY_REQUESTS, HttpStatus.TOO_MANY_REQUESTS);
+    if (loginAttempt && loginAttempt.attemptsCount >= 5) throw new TooManyRequestsException();
 
     return false;
   }

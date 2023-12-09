@@ -6,6 +6,5 @@ export const failureMessages = {
   Refresh_TOKEN_NOT_FOUND: "The refresh token is not found!",
   INVOKED_TOKEN: "The token might be invoked!",
   INVALID_TOKEN: "The token is invalid!",
-  TOO_MANY_REQUESTS: "Too many requests!",
   INVALID_VERIFICATION_TOKEN: "The verification token is invalid!",
 };
