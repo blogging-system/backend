@@ -1,3 +1,4 @@
+import { ROLES } from "@src/modules/user/enums";
 import { EnvironmentType } from "../enums";
 
 export interface AppConfig {
@@ -5,6 +6,7 @@ export interface AppConfig {
     env: EnvironmentType.DEVELOPMENT | EnvironmentType.TEST | EnvironmentType.PRODUCTION;
   };
   server: { host: string; port: number };
+  client: { baseUrl: string; port: number };
   storage: {
     database: {
       mongodb: { uri: string };
@@ -13,6 +15,10 @@ export interface AppConfig {
   allowedOrigins: string[];
   encryptionKeys: { otp: string };
   tokenSecrets: {
+    verificationToken: {
+      secret: string;
+      expiresIn: string;
+    };
     accessToken: {
       secret: string;
       expiresIn: string;
@@ -26,8 +32,10 @@ export interface AppConfig {
     rootUser: {
       firstName: string;
       lastName: string;
+      userName: string;
       email: string;
       password: string;
+      roles: ROLES[];
     };
   };
 }
