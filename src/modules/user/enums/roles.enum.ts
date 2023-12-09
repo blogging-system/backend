@@ -19,5 +19,5 @@ export enum ROLES {
   TECH_SUPPORT = "TechSupport", // Users designated to provide technical support to other users.
   EVENT_COORDINATOR = "EventCoordinator", // Users responsible for organizing and promoting events related to the blogging platform.
   SYSTEM_ADMINISTRATOR = "SystemAdministrator", // Users with full control over the blogging system, including user management and system configuration.
-  ROOT = "Root", // Highest level of access, typically reserved for system owners or developers.
+  SYSTEM_OWNER = "SystemOwner", // Highest level of access, typically reserved for system owners or developers.
 }

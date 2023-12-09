@@ -1,5 +1,6 @@
 import { EnvironmentType, ExpiryDuration } from "@src/shared/contracts/enums";
 import { AppConfig } from "@src/shared/contracts/interfaces";
+import { ROLES } from "@src/modules/user/enums";
 import * as dotenv from "dotenv";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
@@ -33,8 +34,10 @@ export const appConfig: AppConfig = {
     rootUser: {
       firstName: "Ahmed",
       lastName: "Elgaidi",
+      userName: "elbotanist",
       email: "test@gmail.com",
       password: process.env.ROOT_USER_PASSWORD,
+      roles: [ROLES.SYSTEM_OWNER],
     },
   },
 };

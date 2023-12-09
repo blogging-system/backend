@@ -1,4 +1,4 @@
-import { FilterQuery, Model, PipelineStage, PopulateOptions, Query, Types, UpdateQuery } from "mongoose";
+import { FilterQuery, Model, PipelineStage, PopulateOptions, Query, UpdateQuery } from "mongoose";
 import { InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { ResultMessage } from "@src/shared/contracts/types";
 import { BaseSchema } from "../schemas";

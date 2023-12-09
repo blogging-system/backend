@@ -7,7 +7,7 @@ export class UserSeederService {
   constructor(private readonly userService: UserService) {}
 
   public async seedRootUser(data: CreateUserDto): Promise<void> {
-    const isUserFound = await this.userService.isUserFound(data.email);
+    const isUserFound = await this.userService.isUserFound({ email: data.email });
 
     if (isUserFound) return;
 

@@ -1,9 +1,9 @@
 import { UserRepository } from "../repositories";
+import { HashUtil } from "@src/shared/utils";
 import { Injectable } from "@nestjs/common";
 import { CreateUserDto } from "../dtos";
 import { User } from "../schemas";
 import { Types } from "mongoose";
-import { HashUtil } from "@src/shared/utils";
 
 @Injectable()
 export class UserService {
@@ -25,7 +25,7 @@ export class UserService {
     return await this.userRepo.findOne({});
   }
 
-  public async isUserFound(email: string): Promise<boolean> {
-    return await this.userRepo.isFound({ email });
+  public async isUserFound(data: Partial<User>): Promise<boolean> {
+    return await this.userRepo.isFound({ ...data });
   }
 }
