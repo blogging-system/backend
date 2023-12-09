@@ -59,12 +59,12 @@ export class AuthService {
   }
 
   public async login(data: LoginDto, ipAddress: string, device: Record<string, unknown>): Promise<LoginResponse> {
-    await this.loginAttemptService.isFailedLoginAttemptsExceeded();
+    await this.loginAttemptService.isFailedLoginAttemptsExceeded(data.email);
 
     const user = await this.userService.findUserByEmail(data.email);
 
     if (!user) {
-      await this.loginAttemptService.incrementFailedLoginAttemptsCount();
+      await this.loginAttemptService.incrementFailedLoginAttemptsCount(data.email);
 
       throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD);
     }
@@ -72,13 +72,13 @@ export class AuthService {
     const isPasswordMatch = await HashUtil.verifyHash(data.password, user.password);
 
     if (!isPasswordMatch) {
-      await this.loginAttemptService.incrementFailedLoginAttemptsCount();
+      await this.loginAttemptService.incrementFailedLoginAttemptsCount(data.email);
 
       throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD);
     }
 
     const tokenPayload = {
-      _id: user._id,
+      userId: user._id,
     };
 
     const accessToken = await TokenUtil.generateAccessToken(tokenPayload);

@@ -7,26 +7,26 @@ import { MESSAGES } from "../constants";
 export class LoginAttemptService {
   constructor(private readonly loginAttemptRepo: LoginAttemptRepository) {}
 
-  public async createLoginAttempt(): Promise<LoginAttempt> {
-    return await this.loginAttemptRepo.createOne({});
+  public async createLoginAttempt(email: string): Promise<LoginAttempt> {
+    return await this.loginAttemptRepo.createOne({ email });
   }
 
-  public async incrementFailedLoginAttemptsCount(): Promise<LoginAttempt> {
-    const isLoginAttemptFound = await this.loginAttemptRepo.isFound({});
+  public async incrementFailedLoginAttemptsCount(email: string): Promise<LoginAttempt> {
+    const isLoginAttemptFound = await this.loginAttemptRepo.isFound({ email });
 
     if (!isLoginAttemptFound) {
-      return await this.createLoginAttempt();
+      return await this.createLoginAttempt(email);
     }
 
-    return await this.loginAttemptRepo.updateOne({}, { $inc: { attemptsCount: 1 } });
+    return await this.loginAttemptRepo.updateOne({ email }, { $inc: { attemptsCount: 1 } });
   }
 
-  public async isFailedLoginAttemptsExceeded(): Promise<boolean> {
-    const isLoginAttemptFound = await this.loginAttemptRepo.isFound({});
+  public async isFailedLoginAttemptsExceeded(email): Promise<boolean> {
+    const isLoginAttemptFound = await this.loginAttemptRepo.isFound({ email });
 
     if (!isLoginAttemptFound) return false;
 
-    const loginAttempt = await this.loginAttemptRepo.findOne({});
+    const loginAttempt = await this.loginAttemptRepo.findOne({ email });
 
     if (loginAttempt && loginAttempt.attemptsCount >= 5)
       throw new HttpException(MESSAGES.TOO_MANY_REQUESTS, HttpStatus.TOO_MANY_REQUESTS);

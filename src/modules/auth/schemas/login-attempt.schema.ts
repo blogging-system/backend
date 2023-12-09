@@ -7,6 +7,9 @@ export type LoginAttemptDocument = HydratedDocument<LoginAttempt>;
 
 @Schema({ timestamps: true, versionKey: false, autoCreate: true })
 export class LoginAttempt extends BaseSchema {
+  @Prop({ type: String, index: true })
+  email: string;
+
   @Prop({ default: 1 })
   attemptsCount: number;
 

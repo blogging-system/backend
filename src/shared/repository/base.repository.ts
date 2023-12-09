@@ -47,11 +47,21 @@ export abstract class BaseRepository<TDocument extends BaseSchema> {
   }
 
   public async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
+    return await this.model.findOne(filterQuery).lean<TDocument>(true);
+  }
+
+  public async findOneWithPopulate(
+    filterQuery: FilterQuery<TDocument>,
+    paths: string[],
+    models: string[],
+  ): Promise<TDocument | null> {
     const document = await this.model.findOne(filterQuery).lean<TDocument>(true);
 
-    if (!document) throw new NotFoundException(`The ${this.model.modelName.toLowerCase()} is not found!`);
+    if (!document) return null;
 
-    return document;
+    const populatedDocument = await this.populate([document], paths, models);
+
+    return populatedDocument[0];
   }
 
   public async isFound(filterQuery: FilterQuery<TDocument>): Promise<boolean> {
@@ -97,5 +107,14 @@ export abstract class BaseRepository<TDocument extends BaseSchema> {
       throw new NotFoundException(`The ${this.model.modelName.toLowerCase()}s are not found!`);
 
     return foundDocuments;
+  }
+
+  async populate(documentsToBePopulated: TDocument[], paths: string[], models: string[]): Promise<TDocument[]> {
+    const populateOptions: PopulateOptions | Array<PopulateOptions> | string = paths.map((path, index) => ({
+      path,
+      model: models[index],
+    }));
+
+    return await this.model.populate(documentsToBePopulated, populateOptions);
   }
 }
