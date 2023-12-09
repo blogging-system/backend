@@ -3,7 +3,7 @@ import { HashUtil } from "@src/shared/utils";
 import { Injectable } from "@nestjs/common";
 import { CreateUserDto } from "../dtos";
 import { User } from "../schemas";
-import { Types, UpdateQuery } from "mongoose";
+import { FilterQuery, Types, UpdateQuery } from "mongoose";
 import { DocumentIdType } from "@src/shared/contracts/types";
 
 @Injectable()
@@ -14,8 +14,8 @@ export class UserService {
     return await this.userRepo.createOne({ ...data, password: await HashUtil.generateHash(data.password) });
   }
 
-  public async updateUser(userId: DocumentIdType, payload: UpdateQuery<User>): Promise<User> {
-    return await this.userRepo.updateOne({ _id: userId }, payload);
+  public async updateUser(filter: FilterQuery<User>, payload: UpdateQuery<User>): Promise<User> {
+    return await this.userRepo.updateOne(filter, payload);
   }
 
   public async findUserByEmail(email: string): Promise<User> {

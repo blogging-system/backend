@@ -22,7 +22,7 @@ export class User extends BaseSchema {
   @Prop({ Type: String })
   password: string;
 
-  @Prop({ type: [String], enum: Object.values(ROLES), default: [ROLES.VISITOR], index: true })
+  @Prop({ type: [String], enum: Object.values(ROLES), default: [ROLES.GUEST], index: true })
   roles: string[];
 
   @Prop({ Type: String })

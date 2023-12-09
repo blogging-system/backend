@@ -42,7 +42,7 @@ export const appConfig: AppConfig = {
       userName: "elbotanist",
       email: "test@gmail.com",
       password: process.env.ROOT_USER_PASSWORD,
-      roles: [ROLES.SYSTEM_OWNER],
+      roles: [ROLES.OWNER],
     },
   },
 };
