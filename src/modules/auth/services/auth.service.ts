@@ -71,7 +71,7 @@ export class AuthService {
       throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD);
     }
 
-    return await this.sessionService.createSession({ userId: user._id, roles: user.roles, device, ipAddress });
+    return await this.sessionService.createSession({ _id: user._id, roles: user.roles, device, ipAddress });
   }
 
   public async logOut(accessToken: string): Promise<ResultMessage> {
