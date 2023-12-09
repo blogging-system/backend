@@ -6,6 +6,30 @@ import * as jwt from "jsonwebtoken";
  */
 export class TokenUtil {
   /**
+   * Generates a verification token using the provided payload.
+   *
+   * @param {any} payload - The data to include in the token payload.
+   * @returns {string} - The generated verification token.
+   */
+  public static generateVerificationToken(payload: any): string {
+    return this.generateToken(
+      payload,
+      appConfig.tokenSecrets.verificationToken.secret,
+      appConfig.tokenSecrets.verificationToken.expiresIn,
+    );
+  }
+
+  /**
+   * Verifies a verification token using the verification token secret.
+   *
+   * @param {string} token - The verification token to verify.
+   * @returns {any} - The verified token payload.
+   */
+  public static verifyVerificationToken(token: string): any {
+    return this.verifyToken(token, appConfig.tokenSecrets.verificationToken.secret);
+  }
+
+  /**
    * Generates an access token using the provided payload.
    *
    * @param {any} payload - The data to include in the token payload.

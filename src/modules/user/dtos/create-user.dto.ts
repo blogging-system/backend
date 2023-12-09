@@ -40,4 +40,10 @@ export class CreateUserDto {
   password: string;
 
   roles: ROLES[];
+
+  verificationToken: string;
+
+  isVerified: boolean;
+
+  verifiedAt: Date;
 }

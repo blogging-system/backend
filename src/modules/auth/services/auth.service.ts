@@ -1,14 +1,19 @@
-import { EmailAlreadyTakenException, UserNameAlreadyTakenException } from "@src/shared/exceptions";
+import {
+  EmailAlreadyTakenException,
+  InvalidTokenException,
+  UserNameAlreadyTakenException,
+} from "@src/shared/exceptions";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { LoginAttemptService } from "./login-attempt.service";
-import { ResultMessage } from "@src/shared/contracts/types";
+import { DocumentIdType, ResultMessage } from "@src/shared/contracts/types";
 import { UserService } from "@src/modules/user/services";
 import { SessionService } from "../../session/services";
 import { HashUtil, TokenUtil } from "@src/shared/utils";
 import { CreateUserDto } from "@src/modules/user/dtos";
 import { LoginResponse } from "../types";
 import { MESSAGES } from "../constants";
-import { LoginDto } from "../dtos";
+import { LoginDto, VerifyEmailDto } from "../dtos";
+import { appConfig } from "@src/shared/config";
 
 @Injectable()
 export class AuthService {
@@ -27,9 +32,33 @@ export class AuthService {
 
     if (isUserNameAlreadyTaken) throw new UserNameAlreadyTakenException();
 
-    await this.userService.createUser(data);
+    const createdUser = await this.userService.createUser({
+      ...data,
+    });
+
+    const verificationToken = await TokenUtil.generateVerificationToken({ userId: createdUser._id });
+
+    await this.userService.updateUser(createdUser._id, { verificationToken });
+
+    const verificationLink = `${appConfig.client.baseUrl}:${appConfig.client.port}/auth/verify-email/${verificationToken}`;
+
+    // TODO: Should Send verification Email to user mailbox!
+    console.log({ verificationLink });
 
     return { message: MESSAGES.SIGNED_UP_SUCCESSFULLY };
+  }
+
+  public async verifyEmail(data: VerifyEmailDto): Promise<ResultMessage> {
+    const { userId } = await this.verifyVerificationToken(data.verificationToken);
+
+    await this.userService.updateUser(userId, {
+      $set: { isVerified: true, verifiedAt: new Date() },
+      $unset: {
+        verificationToken: 1,
+      },
+    });
+
+    return { message: MESSAGES.EMAIL_VERIFIED_SUCCESSFULLY };
   }
 
   public async login(data: LoginDto, ipAddress: string, device: Record<string, unknown>): Promise<LoginResponse> {
@@ -70,5 +99,13 @@ export class AuthService {
     const { _id } = await this.sessionService.getSession({ accessToken });
 
     return await this.sessionService.revokeSession(_id);
+  }
+
+  private async verifyVerificationToken(verificationToken: string): Promise<{ userId: DocumentIdType }> {
+    try {
+      return await TokenUtil.verifyVerificationToken(verificationToken);
+    } catch (error) {
+      throw new InvalidTokenException(MESSAGES.INVALID_VERIFICATION_TOKEN);
+    }
   }
 }

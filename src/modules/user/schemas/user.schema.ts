@@ -24,6 +24,15 @@ export class User extends BaseSchema {
 
   @Prop({ type: [String], enum: Object.values(ROLES), default: [ROLES.VISITOR], index: true })
   roles: string[];
+
+  @Prop({ Type: String })
+  verificationToken: string;
+
+  @Prop({ type: Boolean, default: false })
+  isVerified: boolean;
+
+  @Prop({ type: Date })
+  verifiedAt: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

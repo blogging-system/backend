@@ -13,6 +13,7 @@ export const appConfig: AppConfig = {
       (process.env.NODE_ENV as EnvironmentType.PRODUCTION),
   },
   server: { host: "http://localhost", port: 3000 },
+  client: { baseUrl: "http://localhost", port: 3001 },
   storage: {
     database: {
       mongodb: { uri: process.env.MONGO_URI },
@@ -21,6 +22,10 @@ export const appConfig: AppConfig = {
   allowedOrigins: ["https://www.ahmedelgaidi.com", "https://blog.ahmedelgaidi.com", "https://admin.ahmedelgaidi.com"],
   encryptionKeys: { otp: process.env.OTP_ENCRYPTION_KEY },
   tokenSecrets: {
+    verificationToken: {
+      secret: process.env.VERIFICATION_TOKEN_SECRET,
+      expiresIn: ExpiryDuration.EIGHT_HOURS,
+    },
     accessToken: {
       secret: process.env.ACCESS_TOKEN_SECRET,
       expiresIn: ExpiryDuration.TWELVE_HOURS,

@@ -6,6 +6,7 @@ export interface AppConfig {
     env: EnvironmentType.DEVELOPMENT | EnvironmentType.TEST | EnvironmentType.PRODUCTION;
   };
   server: { host: string; port: number };
+  client: { baseUrl: string; port: number };
   storage: {
     database: {
       mongodb: { uri: string };
@@ -14,6 +15,10 @@ export interface AppConfig {
   allowedOrigins: string[];
   encryptionKeys: { otp: string };
   tokenSecrets: {
+    verificationToken: {
+      secret: string;
+      expiresIn: string;
+    };
     accessToken: {
       secret: string;
       expiresIn: string;

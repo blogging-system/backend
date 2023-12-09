@@ -3,7 +3,7 @@ import { PublicSessionDto } from "@src/modules/session/dtos";
 import { AuthService } from "../../services/auth.service";
 import { Body, Controller, Post } from "@nestjs/common";
 import { LoginResponse } from "../../types";
-import { LoginDto } from "../../dtos";
+import { LoginDto, VerifyEmailDto } from "../../dtos";
 import { CreateUserDto } from "@src/modules/user/dtos";
 import { ResultMessage } from "@src/shared/contracts/types";
 
@@ -14,6 +14,11 @@ export class PublicAuthController {
   @Post("/signup")
   public singUp(@Body() data: CreateUserDto): Promise<ResultMessage> {
     return this.authService.signUp(data);
+  }
+
+  @Post("/verify-email")
+  public verifyEmail(@Body() data: VerifyEmailDto): Promise<ResultMessage> {
+    return this.authService.verifyEmail(data);
   }
 
   @Post("/login")
