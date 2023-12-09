@@ -4,12 +4,12 @@ import {
   UserNameAlreadyTakenException,
 } from "@src/shared/exceptions";
 import { MESSAGES } from "../constants";
-import { LoginResponse } from "../types";
 import { appConfig } from "@src/shared/config";
 import { LoginDto, VerifyEmailDto } from "../dtos";
 import { CreateUserDto } from "@src/modules/user/dtos";
 import { HashUtil, TokenUtil } from "@src/shared/utils";
 import { SessionService } from "../../session/services";
+import { AuthTokens } from "@src/modules/session/types";
 import { UserService } from "@src/modules/user/services";
 import { LoginAttemptService } from "./login-attempt.service";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
@@ -58,38 +58,20 @@ export class AuthService {
     return { message: MESSAGES.EMAIL_VERIFIED_SUCCESSFULLY };
   }
 
-  public async login(data: LoginDto, ipAddress: string, device: Record<string, unknown>): Promise<LoginResponse> {
-    await this.loginAttemptService.isFailedLoginAttemptsExceeded(data.email);
-
+  public async login(data: LoginDto, ipAddress: string, device: Record<string, unknown>): Promise<AuthTokens> {
     const user = await this.userService.findUserByEmail(data.email);
 
-    if (!user) {
-      await this.loginAttemptService.incrementFailedLoginAttemptsCount(data.email);
-
-      throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD);
-    }
+    if (!user) throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD);
 
     const isPasswordMatch = await HashUtil.verifyHash(data.password, user.password);
 
     if (!isPasswordMatch) {
-      await this.loginAttemptService.incrementFailedLoginAttemptsCount(data.email);
+      await this.loginAttemptService.incrementFailedLoginAttemptsCount(user._id);
 
       throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD);
     }
 
-    const tokenPayload = {
-      userId: user._id,
-    };
-
-    const accessToken = await TokenUtil.generateAccessToken(tokenPayload);
-    const refreshToken = await TokenUtil.generateRefreshToken(tokenPayload);
-
-    await this.sessionService.createSession({ accessToken, refreshToken, ipAddress, device });
-
-    return {
-      accessToken,
-      refreshToken,
-    };
+    return await this.sessionService.createSession({ userId: user._id, roles: user.roles, device, ipAddress });
   }
 
   public async logOut(accessToken: string): Promise<ResultMessage> {

@@ -23,7 +23,7 @@ export class User extends BaseSchema {
   password: string;
 
   @Prop({ type: [String], enum: Object.values(ROLES), default: [ROLES.GUEST], index: true })
-  roles: string[];
+  roles: ROLES[];
 
   @Prop({ Type: String })
   verificationToken: string;

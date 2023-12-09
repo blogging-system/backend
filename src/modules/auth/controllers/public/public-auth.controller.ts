@@ -1,11 +1,11 @@
 import { DeviceInfo, IpAddress, Serialize } from "@src/shared/decorators";
 import { PublicSessionDto } from "@src/modules/session/dtos";
+import { ResultMessage } from "@src/shared/contracts/types";
 import { AuthService } from "../../services/auth.service";
 import { Body, Controller, Post } from "@nestjs/common";
-import { LoginResponse } from "../../types";
-import { LoginDto, VerifyEmailDto } from "../../dtos";
+import { AuthTokens } from "@src/modules/session/types";
 import { CreateUserDto } from "@src/modules/user/dtos";
-import { ResultMessage } from "@src/shared/contracts/types";
+import { LoginDto, VerifyEmailDto } from "../../dtos";
 
 @Controller("auth")
 export class PublicAuthController {
@@ -23,11 +23,7 @@ export class PublicAuthController {
 
   @Post("/login")
   @Serialize(PublicSessionDto)
-  public login(
-    @Body() data: LoginDto,
-    @IpAddress() ipAddress: string,
-    @DeviceInfo() device: any,
-  ): Promise<LoginResponse> {
+  public login(@Body() data: LoginDto, @IpAddress() ipAddress: string, @DeviceInfo() device: any): Promise<AuthTokens> {
     return this.authService.login(data, ipAddress, device);
   }
 }

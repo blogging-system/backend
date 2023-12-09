@@ -1,10 +1,12 @@
 import { DocumentIdType, ResultMessage } from "@src/shared/contracts/types";
-import { CreateSessionDto, GetSessionDto, GetSessionQuery } from "../dtos";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { MESSAGES as AUTH_MESSAGES } from "../../auth/constants";
+import { GetSessionDto, GetSessionQuery } from "../dtos";
 import { SessionRepository } from "../repositories";
 import { UserService } from "../../user/services";
 import { TokenUtil } from "@src/shared/utils";
+import { CreateSession } from "../interfaces";
+import { AuthTokens } from "../types";
 import { Session } from "../schemas";
 
 @Injectable()
@@ -14,8 +16,16 @@ export class SessionService {
     private readonly userService: UserService,
   ) {}
 
-  public async createSession(data: CreateSessionDto): Promise<Session> {
-    return await this.sessionRepo.createOne(data);
+  public async createSession({ userId, roles, device, ipAddress }: CreateSession): Promise<AuthTokens> {
+    const accessToken = await TokenUtil.generateAccessToken({ userId, roles });
+    const refreshToken = await TokenUtil.generateRefreshToken({ userId, roles });
+
+    await this.sessionRepo.createOne({ accessToken, refreshToken, ipAddress, device });
+
+    return {
+      accessToken,
+      refreshToken,
+    };
   }
 
   public async regenerateSession(refreshToken: string): Promise<Session> {
