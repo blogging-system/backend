@@ -15,9 +15,9 @@ export class SessionService {
     private readonly userService: UserService,
   ) {}
 
-  public async createSession({ _id, roles, device, ipAddress }: CreateSession): Promise<Session> {
-    const accessToken = await TokenUtil.generateAccessToken({ _id, roles });
-    const refreshToken = await TokenUtil.generateRefreshToken({ _id, roles });
+  public async createSession({ _id, type, device, ipAddress }: CreateSession): Promise<Session> {
+    const accessToken = await TokenUtil.generateAccessToken({ _id, type });
+    const refreshToken = await TokenUtil.generateRefreshToken({ _id, type });
 
     return await this.sessionRepo.createOne({ accessToken, refreshToken, ipAddress, device });
   }

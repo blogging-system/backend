@@ -1,10 +1,9 @@
+import { FilterQuery, Types, UpdateQuery } from "mongoose";
 import { UserRepository } from "../repositories";
 import { HashUtil } from "@src/shared/utils";
 import { Injectable } from "@nestjs/common";
 import { CreateUserDto } from "../dtos";
 import { User } from "../schemas";
-import { FilterQuery, Types, UpdateQuery } from "mongoose";
-import { DocumentIdType } from "@src/shared/contracts/types";
 
 @Injectable()
 export class UserService {

@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
 import { Type } from "class-transformer";
-import { ROLES } from "../enums";
+import { UserTypes } from "../enums";
 
 export class CreateUserDto {
   @Type(() => String)
@@ -39,7 +39,7 @@ export class CreateUserDto {
   @MaxLength(30, { message: "Password cannot be longer than 30 characters" })
   password: string;
 
-  roles: ROLES[];
+  type: UserTypes;
 
   verificationToken: string;
 

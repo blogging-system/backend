@@ -7,7 +7,7 @@ export const rootUserPayload: Partial<CreateUserDto> = {
   userName: appConfig.seeders.rootUser.userName,
   email: appConfig.seeders.rootUser.email,
   password: appConfig.seeders.rootUser.password,
-  roles: appConfig.seeders.rootUser.roles,
+  type: appConfig.seeders.rootUser.type,
   isVerified: true,
   verifiedAt: new Date(),
 };

@@ -1,5 +1,5 @@
-export enum UserRoles {
+export enum UserTypes {
   MEMBER = "Member",
   ADMINISTRATOR = "Administrator",
-  OWNER = "Owner",
+  ROOT = "Root",
 }

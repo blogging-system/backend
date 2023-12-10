@@ -1,5 +1,6 @@
 import { appConfig } from "@src/shared/config";
 import * as jwt from "jsonwebtoken";
+import { TokenTypes } from "../enums";
 
 /**
  * A util class for generating and managing tokens.
@@ -13,7 +14,7 @@ export class TokenUtil {
    */
   public static generateVerificationToken(payload: any): string {
     return this.generateToken(
-      payload,
+      { ...payload, token: TokenTypes.VERIFICATION_TOKEN },
       appConfig.tokenSecrets.verificationToken.secret,
       appConfig.tokenSecrets.verificationToken.expiresIn,
     );
@@ -37,7 +38,7 @@ export class TokenUtil {
    */
   public static generateAccessToken(payload: any): string {
     return this.generateToken(
-      payload,
+      { ...payload, token: TokenTypes.ACCESS_TOKEN },
       appConfig.tokenSecrets.accessToken.secret,
       appConfig.tokenSecrets.accessToken.expiresIn,
     );
@@ -61,7 +62,7 @@ export class TokenUtil {
    */
   public static generateRefreshToken(payload: any): string {
     return this.generateToken(
-      payload,
+      { ...payload, token: TokenTypes.ACCESS_TOKEN },
       appConfig.tokenSecrets.refreshToken.secret,
       appConfig.tokenSecrets.refreshToken.expiresIn,
     );
