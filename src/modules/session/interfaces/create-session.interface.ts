@@ -1,5 +1,5 @@
 import { DocumentIdType } from "@src/shared/contracts/types";
-import { ROLES } from "@src/modules/user/enums";
+import { ROLES } from "@src/modules/auth/enums";
 
 export interface CreateSession {
   _id: DocumentIdType;

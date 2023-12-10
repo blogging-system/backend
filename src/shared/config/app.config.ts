@@ -1,6 +1,6 @@
 import { EnvironmentType, ExpiryDuration } from "@src/shared/contracts/enums";
 import { AppConfig } from "@src/shared/contracts/interfaces";
-import { ROLES } from "@src/modules/user/enums";
+import { ROLES } from "@src/modules/auth/enums";
 import * as dotenv from "dotenv";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });

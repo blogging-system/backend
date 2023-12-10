@@ -1,4 +1,4 @@
-import { ROLES } from "@src/modules/user/enums";
+import { ROLES } from "@src/modules/auth/enums";
 import { EnvironmentType } from "../enums";
 
 export interface AppConfig {

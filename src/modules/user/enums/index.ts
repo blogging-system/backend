@@ -1,1 +1,1 @@
-export * from "./roles.enum";
+export * from "./user-roles.enum";
