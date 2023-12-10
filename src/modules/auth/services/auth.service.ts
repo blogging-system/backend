@@ -9,11 +9,11 @@ import { LoginDto, VerifyEmailDto } from "../dtos";
 import { CreateUserDto } from "@src/modules/user/dtos";
 import { HashUtil, TokenUtil } from "@src/shared/utils";
 import { SessionService } from "../../session/services";
-import { AuthTokens } from "@src/modules/session/types";
 import { UserService } from "@src/modules/user/services";
 import { LoginAttemptService } from "./login-attempt.service";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { DocumentIdType, ResultMessage } from "@src/shared/contracts/types";
+import { Session } from "@src/modules/session/schemas";
 
 @Injectable()
 export class AuthService {
@@ -58,7 +58,7 @@ export class AuthService {
     return { message: MESSAGES.EMAIL_VERIFIED_SUCCESSFULLY };
   }
 
-  public async login(data: LoginDto, ipAddress: string, device: Record<string, unknown>): Promise<AuthTokens> {
+  public async login(data: LoginDto, ipAddress: string, device: Record<string, unknown>): Promise<Session> {
     const user = await this.userService.findUserByEmail(data.email);
 
     if (!user) throw new UnauthorizedException(MESSAGES.WRONG_EMAIL_OR_PASSWORD);
