@@ -4,7 +4,6 @@ import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
 import { KeywordModule } from "./modules/keyword/keyword.module";
 import { SessionModule } from "./modules/session/session.module";
 import { SeriesModule } from "./modules/series/series.module";
-import { QuoteModule } from "./modules/quote/quote.module";
 import { PostModule } from "./modules/post/post.module";
 import { UserModule } from "./modules/user/user.module";
 import { AuthModule } from "./modules/auth/auth.module";
@@ -28,7 +27,6 @@ import * as hpp from "hpp";
     SeriesModule,
     AuthModule,
     SessionModule,
-    QuoteModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,

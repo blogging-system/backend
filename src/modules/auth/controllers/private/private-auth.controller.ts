@@ -8,9 +8,10 @@ import { Serialize } from "@src/shared/decorators";
 import { ResultMessage } from "@src/shared/contracts/types";
 import { AuthService } from "../../services";
 import { CustomRequest } from "express";
+import { AccountVerificationInterceptor } from "@src/shared/interceptors/is-verified.interceptor";
 
 @Controller("/admin/auth")
-@UseInterceptors(ProtectResourceInterceptor)
+@UseInterceptors(ProtectResourceInterceptor, AccountVerificationInterceptor)
 export class PrivateAuthController {
   constructor(
     private readonly userService: UserService,
