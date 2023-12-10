@@ -14,7 +14,7 @@ export class TokenUtil {
    */
   public static generateVerificationToken(payload: any): string {
     return this.generateToken(
-      { ...payload, token: TokenTypes.VERIFICATION_TOKEN },
+      { ...payload, type: TokenTypes.VERIFICATION_TOKEN },
       appConfig.tokenSecrets.verificationToken.secret,
       appConfig.tokenSecrets.verificationToken.expiresIn,
     );
@@ -38,7 +38,7 @@ export class TokenUtil {
    */
   public static generateAccessToken(payload: any): string {
     return this.generateToken(
-      { ...payload, token: TokenTypes.ACCESS_TOKEN },
+      { ...payload, type: TokenTypes.ACCESS_TOKEN },
       appConfig.tokenSecrets.accessToken.secret,
       appConfig.tokenSecrets.accessToken.expiresIn,
     );
@@ -62,7 +62,7 @@ export class TokenUtil {
    */
   public static generateRefreshToken(payload: any): string {
     return this.generateToken(
-      { ...payload, token: TokenTypes.ACCESS_TOKEN },
+      { ...payload, type: TokenTypes.ACCESS_TOKEN },
       appConfig.tokenSecrets.refreshToken.secret,
       appConfig.tokenSecrets.refreshToken.expiresIn,
     );

@@ -10,6 +10,8 @@ import { Observable } from "rxjs";
 import { TokenUtil } from "@src/shared/utils";
 import { MESSAGES } from "@src/modules/auth/constants";
 import { SessionService } from "@src/modules/session/services";
+import { TokenTypes } from "../enums";
+import { InvalidTokenTypeException } from "../exceptions";
 
 @Injectable()
 export class ProtectResourceInterceptor implements NestInterceptor {
@@ -23,7 +25,9 @@ export class ProtectResourceInterceptor implements NestInterceptor {
 
       if (!accessToken) throw new NotFoundException(MESSAGES.ACCESS_TOKEN_NOT_FOUND);
 
-      const { _id } = await TokenUtil.verifyAccessToken(accessToken);
+      const { _id, type } = await TokenUtil.verifyAccessToken(accessToken);
+
+      if (type !== TokenTypes.ACCESS_TOKEN) throw new InvalidTokenTypeException();
 
       req.currentUser = { _id };
       req.session = { accessToken };

@@ -1,5 +1,5 @@
 export enum TokenTypes {
-        ACCESS_TOKEN = 'AccessToken',
-        REFRESH_TOKEN ='RefreshToken',
-        VERIFICATION_TOKEN = 'VerificationToken'
+  ACCESS_TOKEN = "accessToken",
+  REFRESH_TOKEN = "refreshToken",
+  VERIFICATION_TOKEN = "verificationToken",
 }
