@@ -1,12 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from "@nestjs/common";
-import { ProtectResourceInterceptor } from "@src/shared/interceptors";
+import { AccountVerificationInterceptor } from "@src/shared/interceptors/is-verified.interceptor";
 import { DocumentIdType, ResultMessage } from "@src/shared/contracts/types";
+import { ProtectResourceInterceptor } from "@src/shared/interceptors";
 import { TagService } from "../../services";
 import { CreateTagDto } from "../../dtos";
 import { Tag } from "../../schemas";
 
 @Controller("/admin/tags")
-@UseInterceptors(ProtectResourceInterceptor)
+@UseInterceptors(ProtectResourceInterceptor, AccountVerificationInterceptor)
 export class PrivateTagController {
   constructor(private tagService: TagService) {}
 

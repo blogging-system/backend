@@ -1,12 +1,13 @@
+import { AccountVerificationInterceptor } from "@src/shared/interceptors/is-verified.interceptor";
 import { Controller, Delete, Get, Param, Req, UseInterceptors } from "@nestjs/common";
-import { ProtectResourceInterceptor } from "@src/shared/interceptors";
 import { DocumentIdType, ResultMessage } from "@src/shared/contracts/types";
+import { ProtectResourceInterceptor } from "@src/shared/interceptors";
 import { SessionService } from "../../services";
 import { CustomRequest } from "express";
 import { Session } from "../../schemas";
 
 @Controller("/admin/sessions")
-@UseInterceptors(ProtectResourceInterceptor)
+@UseInterceptors(ProtectResourceInterceptor, AccountVerificationInterceptor)
 export class PrivateSessionController {
   constructor(private readonly sessionService: SessionService) {}
 

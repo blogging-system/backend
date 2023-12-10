@@ -7,8 +7,9 @@ export class AccountVerificationInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const req = context.switchToHttp().getRequest();
 
-    const isAccountVerified = req.currentUser?.isVerified;
+    // TODO: solve the verification intercepr for the login endpoint!
 
+    const isAccountVerified = req.currentUser?.isVerified;
     if (!isAccountVerified) throw new NotVerifiedException();
 
     return next.handle();

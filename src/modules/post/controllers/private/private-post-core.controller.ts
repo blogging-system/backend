@@ -1,13 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from "@nestjs/common";
-import { ProtectResourceInterceptor } from "@src/shared/interceptors";
-import { CreatePostDto, DeletePostDto, FilterPostDto } from "../../dtos";
+import { AccountVerificationInterceptor } from "@src/shared/interceptors/is-verified.interceptor";
 import { DocumentIdType, ResultMessage } from "@src/shared/contracts/types";
-import { Post as BlogPost } from "../../schemas";
+import { CreatePostDto, DeletePostDto, FilterPostDto } from "../../dtos";
+import { ProtectResourceInterceptor } from "@src/shared/interceptors";
 import { Pagination } from "@src/shared/contracts/dtos";
+import { Post as BlogPost } from "../../schemas";
 import { PostService } from "../../services";
 
 @Controller("/admin/posts")
-@UseInterceptors(ProtectResourceInterceptor)
+@UseInterceptors(ProtectResourceInterceptor, AccountVerificationInterceptor)
 export class PrivatePostCoreController {
   constructor(private postService: PostService) {}
 
