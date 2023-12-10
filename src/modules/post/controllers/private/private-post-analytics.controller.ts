@@ -1,10 +1,11 @@
+import { AccountVerificationInterceptor } from "@src/shared/interceptors/is-verified.interceptor";
 import { Controller, Get, Param, UseInterceptors } from "@nestjs/common";
 import { ProtectResourceInterceptor } from "@src/shared/interceptors";
 import { ResultMessage } from "@src/shared/contracts/types";
 import { PostService } from "../../services";
 
 @Controller("/admin/posts/analytics")
-@UseInterceptors(ProtectResourceInterceptor)
+@UseInterceptors(ProtectResourceInterceptor, AccountVerificationInterceptor)
 export class PrivateAnalyticsPostController {
   constructor(private postService: PostService) {}
 

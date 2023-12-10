@@ -6,7 +6,6 @@ import { SessionRepository } from "../repositories";
 import { UserService } from "../../user/services";
 import { TokenUtil } from "@src/shared/utils";
 import { CreateSession } from "../interfaces";
-import { AuthTokens } from "../types";
 import { Session } from "../schemas";
 
 @Injectable()
@@ -16,16 +15,11 @@ export class SessionService {
     private readonly userService: UserService,
   ) {}
 
-  public async createSession({ _id, roles, device, ipAddress }: CreateSession): Promise<AuthTokens> {
-    const accessToken = await TokenUtil.generateAccessToken({ _id, roles });
-    const refreshToken = await TokenUtil.generateRefreshToken({ _id, roles });
+  public async createSession({ _id, type, device, ipAddress }: CreateSession): Promise<Session> {
+    const accessToken = await TokenUtil.generateAccessToken({ _id, type });
+    const refreshToken = await TokenUtil.generateRefreshToken({ _id, type });
 
-    await this.sessionRepo.createOne({ accessToken, refreshToken, ipAddress, device });
-
-    return {
-      accessToken,
-      refreshToken,
-    };
+    return await this.sessionRepo.createOne({ accessToken, refreshToken, ipAddress, device });
   }
 
   public async regenerateSession(refreshToken: string): Promise<Session> {

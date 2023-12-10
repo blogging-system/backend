@@ -7,13 +7,19 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { Observable } from "rxjs";
+import { TokenTypes } from "../enums";
 import { TokenUtil } from "@src/shared/utils";
 import { MESSAGES } from "@src/modules/auth/constants";
+import { UserService } from "@src/modules/user/services";
+import { InvalidTokenTypeException } from "../exceptions";
 import { SessionService } from "@src/modules/session/services";
 
 @Injectable()
 export class ProtectResourceInterceptor implements NestInterceptor {
-  constructor(private readonly sessionService: SessionService) {}
+  constructor(
+    private readonly sessionService: SessionService,
+    private readonly userService: UserService,
+  ) {}
 
   async intercept(context: ExecutionContext, next: CallHandler<any>): Promise<Observable<any>> {
     const req = context.switchToHttp().getRequest();
@@ -23,9 +29,11 @@ export class ProtectResourceInterceptor implements NestInterceptor {
 
       if (!accessToken) throw new NotFoundException(MESSAGES.ACCESS_TOKEN_NOT_FOUND);
 
-      const { _id } = await TokenUtil.verifyAccessToken(accessToken);
+      const { _id, type } = await TokenUtil.verifyAccessToken(accessToken);
 
-      req.currentUser = { _id };
+      if (type !== TokenTypes.ACCESS_TOKEN) throw new InvalidTokenTypeException();
+
+      req.currentUser = await this.userService.findUserById(_id);
       req.session = { accessToken };
 
       await this.sessionService.getSession({ accessToken });

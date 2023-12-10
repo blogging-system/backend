@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { BaseSchema } from "@src/shared/schemas";
 import { HydratedDocument } from "mongoose";
-import { ROLES } from "../enums";
+import { UserTypes } from "../enums";
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -22,8 +22,9 @@ export class User extends BaseSchema {
   @Prop({ Type: String })
   password: string;
 
-  @Prop({ type: [String], enum: Object.values(ROLES), default: [ROLES.GUEST], index: true })
-  roles: ROLES[];
+  @Prop({ type: String, enum: Object.values(UserTypes), default: UserTypes.MEMBER, index: true })
+  type: UserTypes;
+  
 
   @Prop({ Type: String })
   verificationToken: string;

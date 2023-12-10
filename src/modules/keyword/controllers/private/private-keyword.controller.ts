@@ -1,23 +1,24 @@
 import {
-  Body,
-  Controller,
-  Delete,
   Get,
-  HttpCode,
-  HttpStatus,
+  Body,
+  Post,
   Param,
   Patch,
-  Post,
+  Delete,
+  HttpCode,
+  HttpStatus,
+  Controller,
   UseInterceptors,
 } from "@nestjs/common";
+import { Keyword } from "../../schemas";
+import { CreateKeywordDto } from "../../dtos";
+import { KeywordService } from "../../services";
 import { ProtectResourceInterceptor } from "@src/shared/interceptors";
 import { DocumentIdType, ResultMessage } from "@src/shared/contracts/types";
-import { KeywordService } from "../../services";
-import { CreateKeywordDto } from "../../dtos";
-import { Keyword } from "../../schemas";
+import { AccountVerificationInterceptor } from "@src/shared/interceptors/is-verified.interceptor";
 
 @Controller("/admin/keywords")
-@UseInterceptors(ProtectResourceInterceptor)
+@UseInterceptors(ProtectResourceInterceptor, AccountVerificationInterceptor)
 export class PrivateKeywordController {
   constructor(private keywordService: KeywordService) {}
 

@@ -1,4 +1,4 @@
-import { ROLES } from "@src/modules/user/enums";
+import { UserTypes } from "@src/modules/user/enums";
 import { EnvironmentType } from "../enums";
 
 export interface AppConfig {
@@ -35,7 +35,8 @@ export interface AppConfig {
       userName: string;
       email: string;
       password: string;
-      roles: ROLES[];
+      type: UserTypes;
     };
   };
 }
+

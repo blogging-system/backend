@@ -1,13 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from "@nestjs/common";
+import { AccountVerificationInterceptor } from "@src/shared/interceptors/is-verified.interceptor";
+import { Body, Controller, Delete, Param, Patch, Post, UseInterceptors } from "@nestjs/common";
+import { DocumentIdType, ResultMessage } from "@src/shared/contracts/types";
 import { ProtectResourceInterceptor } from "@src/shared/interceptors";
 import { CreateSeriesDto, DeleteSeriesDto } from "../../dtos";
-import { DocumentIdType, ResultMessage } from "@src/shared/contracts/types";
 import { SeriesService } from "../../services";
-import { Pagination } from "@src/shared/contracts/dtos";
 import { Series } from "../../schemas";
 
 @Controller("/admin/series")
-@UseInterceptors(ProtectResourceInterceptor)
+@UseInterceptors(ProtectResourceInterceptor, AccountVerificationInterceptor)
 export class PrivateSeriesCoreController {
   constructor(private seriesService: SeriesService) {}
 

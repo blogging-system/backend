@@ -8,6 +8,7 @@ import { PostRepository } from "./repositories";
 import { TagModule } from "../tag/tag.module";
 import { Post, PostSchema } from "./schemas";
 import { PostService } from "./services";
+import { UserModule } from "../user/user.module";
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { PostService } from "./services";
     forwardRef(() => SeriesModule),
     forwardRef(() => TagModule),
     SessionModule,
+    UserModule
   ],
   exports: [PostService, PostRepository],
   controllers: [PublicPostController, PrivatePostCoreController, PrivateAnalyticsPostController],

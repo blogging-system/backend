@@ -18,7 +18,7 @@ export class PublicUserDto {
   email: string;
 
   @Expose()
-  roles: string;
+  type: string;
 
   @Expose()
   isVerified: boolean;
